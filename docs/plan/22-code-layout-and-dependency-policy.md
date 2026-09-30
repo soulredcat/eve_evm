@@ -45,11 +45,13 @@ Do not introduce an ORM, SQL database, Kubernetes, message broker or paid extern
 
 ## L03 — Shared contracts to define in B0/B1
 
-`StateView`: immutable reads at one committed height/root for accounts, code, storage and system records.
+`StateView`: immutable reads at one locally verified, finalized and applied height/root for accounts, code, storage and system records. A RAM-applied view does not imply local durability; callers receive the relevant watermarks and follow the readiness/lag policy.
 
 `ExecutionEngine`: ordered transactions + deterministic block environment + parent view -> outcome containing journals, gas, receipts, logs and commitments. No live networking or clock dependency.
 
-`StateStore`/`BlockStore`: atomic apply, durable markers, consistent snapshots, recovery and retention through checked domain types.
+`StateStore`/`BlockStore`: atomic durable apply, sync-confirmed durable markers, consistent checkpoints/snapshots, recovery and retention through checked domain types. An explicit public recovery store may combine synced blocks and authentication/protocol/configuration/profile/validator history with periodic checkpoints; its replayable recovery watermark is distinct from checkpoint height and full state-store durable height. Enqueue completion and durable completion are distinct outcomes; incomplete replay coverage is not durable.
+
+`StorageWorker`: bounded ordered immutable finalized batches -> local durable commit acknowledgment or explicit failure. One writer owns a local namespace; payload identity, parent/target heights and resource limits are frozen through B0/B1 compile-tested consumers. This is a public runtime/storage boundary, not an external broker or a dependency on master implementation.
 
 `FinalityVerifier`: trusted genesis/checkpoint + headers/set transitions + consensus objects -> verified anchors and explicit authenticated heights. Returning a `VerifiedAnchor` must require the actual cryptographic checks, not a public constructor accepting raw hashes.
 
@@ -57,7 +59,7 @@ Do not introduce an ORM, SQL database, Kubernetes, message broker or paid extern
 
 `ConsensusAdapter`: drives proposal/validation/commit lifecycle, preserves engine safety semantics, and returns finalized ordered inputs with authenticated metadata.
 
-`Signer`: engine-compatible canonical sign bytes + signing context -> signature under durable anti-equivocation/fencing rules.
+`Signer`: engine-compatible canonical sign bytes + signing context -> signature under durable anti-equivocation/fencing rules. Persist necessary sign-state before releasing the signature; asynchronous public storage cannot replace this synchronous obligation.
 
 `SystemModule`: metered/journaled user operations and deterministic block/epoch transitions with supply accounting.
 
@@ -65,7 +67,11 @@ The actual Rust signatures and serialization schemas are written alongside compi
 
 ## L04 — Ownership and concurrency
 
-One canonical application commit owner per local database namespace. Workers receive immutable views/versioned overlays and return journals; they do not mutate the committed global state concurrently. Track read/write versions and deterministic retries. Avoid locks held across network waits, fsync, callbacks or unbounded simulation.
+One canonical state-publication owner and one durable commit owner per local database namespace. Execution workers receive immutable views/versioned overlays and return journals; they do not mutate committed global state concurrently. Public hot execution/query state is RAM-first by default, with finalized blocks and recoverable checkpoints persisted through an isolated asynchronous storage worker consuming ordered immutable batches. Reserve bounded handoff capacity before RAM application. Track read/write versions and deterministic retries. No execution/query state lock is held across disk writes, fsync, network waits, callbacks or unbounded simulation.
+
+Bound storage queue bytes/count/oldest age and the lifetime of retained immutable buffers. Budget worker CPU, database/page cache, snapshots and compaction alongside execution/RPC work. B0 freezes versioned measured limits and readiness/lag policies; tests saturate declared limits and stall/fail sync. Apply backpressure before budgets are threatened. Storage isolation still consumes shared resources and carries no zero-overhead guarantee. Public may expose verified RAM-applied state within that policy while reporting distinct finalized/applied/durable/authenticated state heights under plan 12's H/H+1 binding; durable markers/acknowledgments require successful atomic sync and complete recovery coverage.
+
+Recover a lost queued tail from authenticated durable peers after the last complete local commit. Never prune the sole recoverable finalized copy or require a master acknowledgment for transaction finality. Master NVMe persistence remains follower work; a RAM-only public mode is an explicit development/ephemeral alternative. See [plan 32](32-regional-masters-and-public-persistence.md) for the role and topology policy; these contracts are not implemented yet.
 
 Bound every channel, cache and subscription. Cancellation must release resources without rolling back a committed height or losing signer safety. Shutdown stops new work, safely handles in-flight operations, flushes required durable state and records the last recoverable height.
 

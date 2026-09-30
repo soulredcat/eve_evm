@@ -1,5 +1,13 @@
 # Documentation change record
 
+## 2026-09-30 — Regional masters and public persistence
+
+- Added plan 32 and decisions D29–D33 for operational zones, one preferred eligible nearby sync endpoint, master-independent live P2P, and the intended 1→2→10 independently verified master topology.
+- Made RAM-first public working state plus durable recovery blocks/checkpoints the default; separated applied/durable/authenticated watermarks and bounded asynchronous storage from validator signing safety.
+- Specified source failover, storage isolation/backpressure, master-offline public crash recovery, and two-master verified partition/catch-up acceptance as T-N09–T-N12 with B4/B6/B8 ownership.
+- Aligned role/state/network/recovery/layout/backlog/test guidance and runtime READMEs in English. Retained every existing safety/security/interoperability/structure and 1M workload gate.
+- Updated status/evidence/handoff as documentation-only work; no runtime, passing implementation gate, deployment, or GitHub push is claimed.
+
 ## 2026-09-30 — Local test isolation and English collaboration
 
 - Created ignored root `local-tests/` for machine-local exploratory tests and raw output; its contents must never be committed or pushed.

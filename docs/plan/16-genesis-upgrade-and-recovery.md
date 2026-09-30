@@ -42,15 +42,23 @@ Read last durable execution and authenticated-state heights, fetch missing heade
 
 ### Validator crash
 
-Restore consensus WAL, sign-state and application state consistently. Reconcile decided/applied heights through engine-supported replay. Refuse signing if last-sign safety cannot be established. Fence the old signer before activating any replacement; key rotation is a protocol operation, not deleting a file to get past an error.
+Restore consensus WAL, sign-state and application state consistently. Reconcile decided/applied heights through engine-supported replay. Refuse signing if last-sign safety cannot be established. Persist the necessary anti-double-sign state before releasing each signature; the asynchronous public storage worker grants no exception. Fence the old signer before activating any replacement; key rotation is a protocol operation, not deleting a file to get past an error.
 
 ### Validator quorum lost
 
 Keep serving clearly labelled last-finalized data where possible. Do not lower the threshold, appoint master as emergency leader, or accept a minority fork. Restore enough legitimate validators and retained data. An owner-directed disaster restart with a new genesis is a different network event, never a transparent continuation.
 
-### Public RAM replica lost
+### Public working RAM lost
 
-Remove readiness, load a trusted checkpoint/snapshot, verify validator history and roots, catch up, then re-enable RPC readiness. Do not return empty balances while rebuilding.
+Default `PUBLIC` retains finalized blocks and recoverable checkpoints on local durable storage while keeping hot execution/query state in RAM. Remove readiness, recover the last complete local durable history/checkpoint, validate its network and authenticated roots, then reconstruct working state. In a recovery-store profile, replay the complete locally synced block sequence from `checkpoint_height` through `durable_height`, checking exact execution roots/receipts and protocol/configuration/profile/validator history. Fetch any lost queued tail from authenticated durable peers, verify validator history/commitments and replay or import under plan 15 before restoring readiness. If the tail is unavailable, report the exact missing range and keep readiness false (`NOT_READY`). Explicitly labelled historical reads may remain available under the declared policy; they do not imply current-head readiness. Do not expose empty balances or an unflushed height as durable.
+
+An explicitly RAM-only development/ephemeral public replica instead bootstraps from a trusted checkpoint/snapshot and durable peers. Source identity alone is never a trust anchor. Neither public mode may depend on a sole stale master copy or prune the only recoverable finalized history.
+
+### Public storage worker stalled or crashed
+
+Keep finalized, RAM-applied, durable and authenticated heights distinct. Fence the old writer before restarting the single durable commit owner for the namespace; reconcile the database WAL, segments and last complete marker before requeueing ordered immutable batches. Enqueued or OS-cached bytes never advance durable acknowledgment. A valid RAM view may remain queryable only within the declared readiness/lag policy.
+
+Enforce versioned queue byte/count/age and CPU/cache/snapshot/compaction budgets frozen through B0 measurements. Apply backpressure before limits are threatened, remove readiness or stop local ingestion as required, and recover missing finalized batches from authenticated durable peers. Do not grow queues without bound, hold execution/query state locks during disk/fsync, or discard the sole recoverable copy. Measure the shared-resource overhead; worker isolation does not promise zero interference. See [plan 32](32-regional-masters-and-public-persistence.md).
 
 ### Region lost or partitioned
 
@@ -62,7 +70,7 @@ Stop affected signing safely, identify the last agreed height, preserve evidence
 
 ## G06 — Operating watermarks
 
-Expose consensus_finalized_height, execution_applied_height, durable_height, authenticated_snapshot_height, oldest_retained_height and signer_last_height/round/step where safe. Operators must know whether a lag is execution, storage, sync, validation or public indexing. Do not reveal private sign bytes or keys through health endpoints.
+Expose consensus_finalized_height, execution_applied_height, durable_height, authenticated_state_height, checkpoint_height, authenticated_snapshot_height, oldest_retained_height and signer_last_height/round/step where safe. Report full state-store durable height separately when it differs from the public recovery watermark. Include storage queue bytes/count/oldest age, apply-to-durable lag and worker/sync failures. Operators must know whether a lag is execution, storage, sync, validation or public indexing. A durable marker advances atomically only after actual required sync and complete recovery coverage; a RAM-applied view does not advance it. Preserve plan 12's H/H+1 authentication distinction. Do not reveal private sign bytes or keys through health endpoints.
 
 ## Acceptance
 

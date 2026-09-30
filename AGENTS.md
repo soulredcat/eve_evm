@@ -2,7 +2,7 @@
 
 ## Read first
 
-Read `goal.md`, `docs/plan/README.md`, `docs/plan/24-decision-register.md`, `docs/plan/25-folder-hierarchy-and-file-function-policy.md`, `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, and `docs/execution/STATUS.md`. Before changing a component, read its linked specifications and directory README. Read `docs/execution/HANDOFF.md` on every resumed session. Do not depend on the original chat being available.
+Read `goal.md`, `docs/plan/README.md`, `docs/plan/24-decision-register.md`, `docs/plan/25-folder-hierarchy-and-file-function-policy.md`, `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, `docs/plan/32-regional-masters-and-public-persistence.md`, and `docs/execution/STATUS.md`. Before changing a component, read its linked specifications and directory README. Read `docs/execution/HANDOFF.md` on every resumed session. Do not depend on the original chat being available.
 
 ## Execute, do not merely plan
 
@@ -18,6 +18,7 @@ Use the strongest reasoning available for protocol, security, concurrency and re
 - Public-node count does not grant voting power. A root matching a received delta does not prove correct execution without an authenticated commitment or replay.
 - Preserve declared EVM semantics, atomicity and deterministic ordering. No floating-point consensus arithmetic, wall-clock reward scoring, randomized hash-map iteration, or network calls during execution.
 - RAM optimizations must not remove the only recoverable copy of finalized data.
+- Default public nodes keep working state in RAM and finalized recovery data durable through an isolated bounded storage path. Distinguish applied, durable, and authenticated heights; never claim zero storage overhead or relax validator signing durability. Zone IDs and nearby sync endpoints do not grant finality or shard ownership. Follow plan 32.
 - Preserve the user's 40/30/30 fee policy and the 1M aggregate finalized TPS goal. Do not change acceptance tests to manufacture success.
 
 ## Majority, quantum and bridge security

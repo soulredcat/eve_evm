@@ -6,6 +6,8 @@ Turn this documentation-only repository into a working, tested EVM-compatible ne
 
 User decisions are authoritative: validators make consensus decisions; developer-operated masters synchronize and persist finalized results; public nodes are permissionless; runtime sources are separate; fees split 40% burn, 30% node rewards and 30% validator rewards; useful work and availability determine reward eligibility. Organize implementation in meaningful recursively nested folders, with one primary function per behavioral file and the 200/400/600 physical-line policy in plan 25.
 
+Follow plan 32 for the regional topology and public persistence: start with one master, one public node and the existing validator devnet baseline; prepare independently verified two-master replication and a planned ten-master regional layout. Public nodes use a preferred nearby eligible sync endpoint without private master inventory, retain fallback P2P sources, and continue without master acknowledgements. Default public working state is RAM-first with finalized blocks/recoverable checkpoints persisted by a separate bounded worker; resource interference must be measured, not declared zero. Zone IDs are routing metadata, not sharding or finality authority.
+
 The owner additionally requires majority-attack resilience, post-quantum security and a secure bridge. Implement the explicit fault models, authenticated security profiles, local bridge fixture and acceptance gates in plans 26–29. Do not claim unlimited 51% immunity or end-to-end quantum security from the existing classical baseline.
 
 EVE must also be bridge-friendly to Ethereum, Solana and other chains through the adapter architecture in plan 30. Ethereum and Solana are mandatory named two-way integration targets, not optional examples. Preserve an EVM core while implementing separate EVM-contract and Solana-program endpoints, typed assets/addresses, source verification, SDK/transaction builders and resumable transfers. The two-EVE bridge fixture is only the first step. Other routes are extensible, not automatically supported or approved.
@@ -17,7 +19,7 @@ Follow plan 31. Liquidity provision, a production DEX, reserve-funded trading an
 ## Authority and reading order
 
 1. Current explicit user instructions and repository safety boundaries.
-2. `docs/plan/24-decision-register.md` and `docs/plan/31-mainnet-target-and-module-boundaries.md`: current architectural decisions, release target, scope and superseded assumptions.
+2. `docs/plan/24-decision-register.md`, `docs/plan/31-mainnet-target-and-module-boundaries.md`, and `docs/plan/32-regional-masters-and-public-persistence.md`: current architectural decisions, release target, scope, regional topology/public persistence, and superseded assumptions.
 3. Specifications 12–22, policies 25–28, and plan 30, with their acceptance tests. Plans 26–28 refine the older classical development baseline; they do not retroactively make it secure.
 4. `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, and plan 30's INT0–INT3 queue: mandatory core, security and interoperability work.
 5. Overviews 00–11, which summarize rather than override those specifications.
@@ -50,6 +52,7 @@ The implementation must provide:
 - A pinned, reproducible Rust workspace and executable development workflow.
 - Deterministic REVM execution, signed transaction validation, real gas accounting, receipts, logs and authenticated state roots.
 - Persistent state, crash recovery and restart-safe validator signing records.
+- RAM-first public state with durable finalized blocks/checkpoints, isolated storage workers, bounded resource/lag budgets, distinct applied/durable/authenticated heights, and verified restart recovery with masters offline.
 - Public Ethereum-style JSON-RPC and P2P ingestion with bounded queues, rate limits and documented compatibility differences.
 - Four-validator development consensus, proposer rotation, independently verified proposals, quorum finality, validator-set transitions and no master override.
 - A protected master follower that can stop, return and catch up without deciding finality or being acknowledged on the transaction hot path.
@@ -58,6 +61,7 @@ The implementation must provide:
 - Separate public/validator packages that build without master code; signed release verification and operator-controlled rolling updates.
 - Deterministic parallel execution proven equivalent to the serial oracle, including hot-pool contention and atomic multi-contract transactions.
 - Master replication/failover, partition tests, multi-region single-chain deployment and an explicit experimental path for state partitioning.
+- Preferred eligible regional sync endpoints with bounded discovery/failover, independent authenticated master-to-master replication, and zone IDs that do not change network identity or consensus authority.
 - Reproducible workload generators, telemetry, fault injection, capacity reports and measured release-candidate evidence for the 1M target.
 - Function-focused, recursively nested implementation modules, passing structural checks and no expired size exceptions.
 - Majority-adversary tests and honest fault-assumption reporting, without automatic quorum reduction or master takeover.
@@ -88,7 +92,7 @@ This checkpoint neither approves live routes nor certifies Ethereum/Solana as po
 
 ### SCALE_TARGET_VERIFIED
 
-B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–31. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
+B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–32. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
 
 For mainnet readiness, evidence must cover the release candidate and production-representative configuration/topology. Do not describe a prelaunch capacity benchmark as an already-observed live-mainnet load. Future 100M/1B goals require separate measured evidence; preserve extensibility without claiming those capacities or expanding the first-launch threshold beyond 1M.
 
@@ -112,4 +116,4 @@ Session/tool limits must produce a resumable checkpoint, not a promise of unatte
 
 ## First actions
 
-Inspect the checkout and toolchain. Read the plans, latest scope in plan 31, and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.
+Inspect the checkout and toolchain. Read the plans, latest scope in plan 31, regional/public-persistence contracts in plan 32, and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, freeze measured storage/source-selection/readiness budgets and typed watermarks, register T-N09–T-N12, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.

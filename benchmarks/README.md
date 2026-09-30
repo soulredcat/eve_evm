@@ -2,8 +2,14 @@
 
 Planning only. No EVE TPS or latency result exists yet.
 
-Implement W0–W6 profiles, generators, manifests and reports from plans [08](../docs/plan/08-benchmark-and-acceptance.md), [20](../docs/plan/20-test-vectors-and-acceptance.md) and [21](../docs/plan/21-capacity-and-regional-scaling.md).
+Implement W0–W6 profiles, generators, manifests and reports from plans [08](../docs/plan/08-benchmark-and-acceptance.md), [20](../docs/plan/20-test-vectors-and-acceptance.md), [21](../docs/plan/21-capacity-and-regional-scaling.md) and [32](../docs/plan/32-regional-masters-and-public-persistence.md).
 
 Count unique valid finalized user transactions. Report reverts, failures, retries, replication and local emulation separately. Preserve workload seeds/configs, hardware/topology, raw measurements, state/IO/network growth, queue slopes and post-run recovery evidence. A smaller or easier changed workload is a different result, not an improved score on the original test.
 
-Do not commit huge traces or databases; store checksummed manifests/references. Hardware limitations are explicit blockers, not permission to fabricate a 1M-TPS result.
+B0 records a bounded dependency/storage spike and freezes public persistence budgets without requiring the future integrated runtime. B4/B6 establish correctness/resource gates; B10 measures RAM application concurrently with ordered durable storage, checkpoint export, compaction and source failover. Fix queue byte/item/age limits, lag/readiness thresholds, checkpoint memory and CPU/IO budgets before measuring.
+
+Report service RTT and transfer throughput alongside verified-source freshness; finalized/applied/durable/authenticated-state/checkpoint watermarks; durable bytes/s, fsync latency, write amplification, queue slope/age, disk headroom and storage interference with execution/RPC latency. Compare identical workloads/configurations, account for every durable full-replica stream and distinguish one/two real masters from a ten-master projection. Private gateway routing and more replicas are not multiplied chain TPS.
+
+Run master-offline recovery and storage-stall scenarios alongside T-N09–T-N12 in shared tests. Asynchronous persistence still consumes CPU, memory, IO and network resources; never promise zero interference, durable queued RAM or complete power-loss recovery when verified retained copies are missing.
+
+Keep raw benchmark output in ignored `artifacts/` or `local-tests/`; publish only compact reviewed summaries, manifests/checksums and reproduction references under `docs/execution/`. Required benchmark generators and sanitized fixtures stay versioned. Hardware limitations are explicit blockers, not permission to fabricate a 1M-TPS result.

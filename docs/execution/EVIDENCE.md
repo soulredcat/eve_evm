@@ -20,6 +20,19 @@ Scope: repository hygiene and English collaboration only. This record belongs to
 - Changed first-party prose was reviewed in English. No automated language or secret-scanner certification is claimed. Ignore rules are bypassable; the index and every outgoing commit still require review.
 - Runtime/build/security/capacity tests: `NOT_RUN`. `cargo xtask check-structure`: `NOT_IMPLEMENTED`. No runtime processes, keys, funds, or GitHub push were used.
 
+## DOC-20260930-02 — Regional masters and public persistence
+
+Scope: English documentation and acceptance registration only, based on clean branch `main` at `f02719ecd6e3e1a0ab6bd6d953e6161d7d8c8ca9`. The commit containing this record adds plan 32 and aligns the existing specifications; it does not implement a runtime or complete an implementation bulk.
+
+- Recorded decisions D29–D33: default public RAM working state with durable recovery blocks/checkpoints and isolated bounded storage workers; eligible nearby logical sync endpoints and operational zones; intended one/two/ten independent master topology.
+- Preserved validator finality, synchronous anti-double-sign persistence, exact EVM/fee semantics, authenticated H/H+1 state binding, last-copy retention, and the secured 1M mixed-workload release gate.
+- Registered T-N09/T-N10 in B4, T-N11 in B6, and T-N12 in B8; B6/B8/B9 include the relevant integrated reruns. These four runtime tests are `NOT_IMPLEMENTED` / `NOT_RUN`.
+- `powershell -NoProfile -File local-tests/validate-documentation.ps1`: exit code 0. Checked 54 repository Markdown files, 139 relative links/anchors, all T-N01–T-N12 definitions, four explicit new-case trace documents, and the B4/B6/B8 gate mapping. No missing local links, anchors or case mappings; maximum complete physical line count was 158, below the 200-line target. This local documentation audit is not `cargo xtask check-structure` or runtime acceptance.
+- `git diff --check`, `git diff --cached --check`, `git ls-files -- local-tests/ artifacts/ coverage/`, and `git check-ignore -v --no-index -- local-tests/regional-public-docs-validation.json local-tests/validate-documentation.ps1`: exit code 0. No prohibited local paths were tracked; the report/checker are ignored. Shared tests/fixtures remain versioned.
+- Local-only report `local-tests/regional-public-docs-validation.json` SHA-256: `45cd348c55858f568420ee2bc1cc1ee73be6ea4518751aa99759813a7f01d873`. Local checker SHA-256: `f541dde4b919ed95165a3b3efa5927ef9aa49d5240b69609afdd3f5265064a18`. The report records the exact reproduction command, base revision and SHA-256 identities of 25 changed documents; this evidence file is excluded from the identity bundle to avoid self-reference, but its links and line count are checked. These local artifacts are unavailable from GitHub.
+- Protocol/reviewer and correctness/security agents reviewed the integrated contracts. Clarifications preserve valid older replay history, explicit `NOT_READY` on an unavailable recovery tail, and the distinct full `StateStore` versus public checkpoint/replay durability contracts. English first-party prose was reviewed; no automatic language/security certification or independent audit is claimed.
+- Runtime/build/security/capacity tests: `NOT_RUN`; `cargo xtask check-structure`: `NOT_IMPLEMENTED`. No production deployment, background runtime process, funds, keys, or push are part of this documentation task.
+
 ## Record format for future runs
 
 Each actual run record must include:

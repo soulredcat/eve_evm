@@ -49,21 +49,29 @@ Version snapshots, deltas, database schema and protocol separately. Hash uncompr
 
 ## S06 — Atomic persistence
 
-Baseline persistent storage uses one logical RocksDB transaction/write batch boundary for EVM changes, system changes, roots, receipts/indices and durable execution-height metadata. Large immutable block segments may be stored separately only with an ordered protocol:
+An atomic RAM-applied view and a durable storage commit are distinct publications. Default public execution/query working state is RAM-first, with local durable finalized blocks and recoverable checkpoints. Reserve bounded handoff capacity before RAM application. An isolated asynchronous storage worker consumes immutable finalized batches in canonical height order; one durable commit owner controls each local namespace. Each batch binds network, parent/target heights, block identity, the selected storage payload and commitment metadata through B0's compile-tested schema. Execution/query state locks are never held across disk I/O or fsync.
+
+Baseline full `StateStore` durable storage uses one logical RocksDB transaction/write batch boundary for EVM changes, system changes, roots, receipts/indices and durable execution-height metadata. Large immutable block segments may be stored separately only with an ordered protocol:
 
 1. Write the segment payload and checksum; ensure required durability.
 2. Atomically commit state and references plus the durable height marker using the database WAL/sync policy.
-3. Publish the new durable/read-visible snapshot only after success.
+3. Publish the new durable storage view/height and acknowledgment only after the required sync succeeds.
 
-A crash before step 2 may leave an orphan segment, not a visible partially applied height. A crash after step 2 must recover the committed references. If a consensus block was finalized but application commit did not complete, replay the persisted block through the deterministic transition. Reward/evidence IDs prevent duplicate effects.
+A crash before the durable boundary may leave an orphan segment, but no partially committed durable height may be advertised. After an acknowledged durable commit, recovery must restore its complete references. A batch in RAM or the OS page cache is not durable. Reconcile a lost queued tail after the last complete local commit from authenticated durable peers and replay finalized blocks through the deterministic transition; reward/evidence IDs prevent duplicate effects. Never prune the only recoverable copy of finalized data.
+
+An explicit public recovery-store profile may store finalized block payloads, authentication, protocol/configuration, security-profile and validator-set history with periodic consistent checkpoints rather than full hot-state changes at every height. Publish its recovery `durable_height` only after required payloads, references and metadata are atomically synced and a complete recoverable replay sequence exists from a verified checkpoint through that height. Report `checkpoint_height` and full state-store durable height separately where applicable. Recovery replays and verifies exact roots/receipts; this profile does not relax the full `StateStore` atomic commit contract above or treat an incomplete replay sequence as durable.
+
+Bound queued bytes, batch count and oldest-item age, including retained immutable buffers. Budget worker CPU, database/page cache, snapshots and compaction independently of execution/RPC work. B0 freezes versioned measured limits; saturation tests exercise those limits and slow/failed sync. Apply backpressure and remove readiness when the declared lag policy is exceeded. Isolation reduces contention but does not guarantee zero CPU, memory-bandwidth or I/O overhead. See [plan 32](32-regional-masters-and-public-persistence.md).
+
+Validator anti-double-sign persistence before releasing a signature remains a synchronous safety obligation. The public worker model does not defer signer durability or weaken the selected consensus engine's commit/recovery contract. Master NVMe followers remain outside the mandatory transaction path.
 
 Do not invent a second general-purpose WAL unless tests prove why the database WAL and consensus block log are insufficient. [RocksDB WAL reference](https://github.com/facebook/rocksdb/wiki/Write-Ahead-Log-%28WAL%29). Pin actual options and verify their power-loss behavior on the target platform.
 
 ## S07 — Read isolation and pruning
 
-RPC reads capture one committed height/root. An `eth_call` must not read half of one block and half of another. Snapshot export similarly uses one consistent database view and excludes speculative overlays. Publish a manifest only after every referenced chunk is complete.
+RPC reads capture one locally verified, finalized and applied height/root. Within an explicit readiness/lag policy, public RPC may serve that immutable RAM view before local durable storage catches up; expose the separate watermarks rather than claiming the unflushed tail durable. An `eth_call` must not read half of one block and half of another. Durable checkpoint export captures one consistent finalized state view, persists its complete checkpoint content and excludes speculative overlays. A full state-store export uses a consistent durable database view. Publish a usable checkpoint manifest only after every referenced chunk meets the required durability policy and S04 authentication is verified.
 
-Retain recent consensus data, validator-set history, signing safety and recovery material independently of archive pruning. Keep explicit watermarks for finalized, applied, durable, snapshot-authenticated and prunable heights. Deletion must never cross the recovery/availability limits in plan 15. Database compaction cannot bypass these logical limits.
+Retain recent consensus data, validator-set history, signing safety and recovery material independently of archive pruning. Keep explicit watermarks for finalized, applied, durable, authenticated state, checkpoint, snapshot-authenticated and prunable heights. Do not equate finalized H with an authenticated post-state H: S04 and plan 12 retain the H/H+1 binding and replay alternative. Deletion must never cross the recovery/availability limits in plan 15. Database compaction cannot bypass these logical limits.
 
 ## Acceptance
 

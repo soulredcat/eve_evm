@@ -21,17 +21,19 @@ Use deterministic seeds for property tests and save any minimized counterexample
 | R01 validator finality | T-C01 through T-C10; T-G08 |
 | R02 separated runtimes | T-Q04; independent build/package smoke tests |
 | R03 EVM/developer semantics | T-E01 through T-E06; T-S01/T-S02; T-A01 through T-A06 |
-| R04 durability/signing safety | T-S05 through T-S07; T-C06; T-G04/T-G05 |
-| R05 authenticated sync | T-N01 through T-N05; T-S04/T-S08; T-C08/T-C09 |
-| R06 public/P2P resource safety | T-N06/T-N08; T-A04/T-A05; T-Q03 |
+| R04 durability/signing safety | T-S05 through T-S07; T-C06; T-G04/T-G05; T-N09/T-N10 |
+| R05 authenticated sync | T-N01 through T-N05; T-S04/T-S08; T-C08/T-C09; T-N10/T-N11 |
+| R06 public/P2P resource safety | T-N06/T-N08/T-N09/T-N11; T-A04/T-A05; T-Q03 |
 | R07 economics | T-V01 through T-V10; T-E04 |
 | R08 parallel correctness | Serial/parallel differential suite across all execution fixtures and hot-state workloads |
-| R09 regional/recovery | T-C03; T-N05/T-N07; T-G06 |
+| R09 regional/recovery | T-C03; T-N05/T-N07/T-N10/T-N12; T-G06 |
 | R10 release/security | T-Q01 through T-Q08; T-G07 |
 | R11 executable evidence | All task-runner gates, manifest validation and clean-checkout reproduction |
 | R12 capacity | W0–W6 profiles, sustained/soak reports, backlog and post-run recovery verification |
 
 Specs 12–19 define the referenced test IDs. B0 converts this table into an executable gate manifest and keeps identifiers stable. Every test must actually assert its property; a command that exits zero without running the requested test is a harness failure.
+
+Plan [15](15-network-and-sync-protocol.md) defines T-N09–T-N12 under the public-persistence and regional-master contract in [plan 32](32-regional-masters-and-public-persistence.md). Trace T-N09 storage isolation/bounded stalls and T-N10 master-offline public crash/tail recovery to B4; T-N11 authenticated nearest-endpoint/fallback behavior to B6; T-N12 two-master partition/catch-up without master authority to B8. B9 reruns all four. Existing mandatory tests remain required; neither local-only experiments nor a single happy path closes these IDs.
 
 ## T04 — Commands the implementation must provide
 
@@ -63,11 +65,15 @@ Run four distinct validator processes with independent keys, two public RPC node
 
 Test real signed transactions through public RPC. Verify exact hashes, roots, fees, balances and receipts on every role. Kill one validator, then two; partition 2+2; inject delayed/duplicated/corrupt messages; stop master for a retained-data window; rebuild public state; restart validators around sign/commit boundaries; and replay final history from a clean database.
 
+Extend recovery fixtures with T-N09–T-N12: slow/full public storage and checkpoints under concurrent RAM reads; all masters offline while public durable progress continues; public loss with queued unsynced blocks and recovery from authenticated durable peers; stale/invalid fast endpoints and fallback; and two independent masters recovering the same finalized history after partition. Model unsynced write loss explicitly rather than calling process termination a real hardware power-loss test. Include missing/corrupt last-copy cases whose correct outcome is NOT_READY, not fabricated recovery.
+
+Fix readiness/durable-lag thresholds and resource budgets before execution. Assert byte/item queue caps, worker/checkpoint memory, durable-marker ordering, bounded service interference, complete-height activation and duplicate-free replay against the serial oracle. Record finalized/applied/durable/authenticated-state/checkpoint watermarks with correct H/H+1 binding and prove no global RAM lock spans fsync or compaction. A gateway can conceal internal routing without granting source authority; measure private-topology exposure separately from proof correctness.
+
 Simulate network conditions with task-owned proxies or authorized network namespaces. Do not change host networking or require privileged commands silently. If the environment cannot support a test, preserve an executable repro and mark the gate blocked.
 
 ## T06 — Evidence artifacts
 
-Each run produces `artifacts/<run-id>/manifest.json` with schema version, timestamp, source commit, dirty-diff digest if applicable, configuration/genesis hashes, dependency pins, host resources, topology, workload/seed, command, exit code, test counts and result summary. Save sanitized stdout/stderr, machine-readable metrics, fixture references and checksums of large outputs. No keys or tokens appear in evidence.
+Each run produces `artifacts/<run-id>/manifest.json` with schema version, timestamp, source commit, dirty-diff digest if applicable, configuration/genesis hashes, dependency pins, host resources, topology, workload/seed, command, exit code, test counts and result summary. Record persistence/readiness budgets, watermarks, endpoint ranking inputs, fault schedule, actual retained recovery sources and simulated-versus-real power-loss scope where applicable. Save sanitized stdout/stderr, machine-readable metrics, fixture references and checksums of large outputs. No keys or tokens appear in evidence.
 
 Commit compact summaries and artifact manifests/references where appropriate; do not put multi-gigabyte traces or live databases into Git. If artifacts are local-only, say so and include exact paths/reproduction commands. Unavailable URLs or fabricated CI run IDs are forbidden.
 

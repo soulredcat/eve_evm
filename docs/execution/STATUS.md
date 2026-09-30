@@ -1,11 +1,12 @@
 # Implementation status
 
-Updated: 2026-09-30. This revision adds Ethereum/Solana interoperability requirements and INT0–INT3 to the existing core/security queues. **No runtime implementation or execution gate has passed yet.**
+Updated: 2026-09-30. The current specifications include Ethereum/Solana interoperability and regional masters/RAM-first public persistence. **No runtime implementation or execution gate has passed yet.**
 
 ## Overall
 
-- Documentation/goal package: prepared for implementation, including plans 00–31.
+- Documentation/goal package: prepared for implementation, including plans 00–32.
 - Collaboration policy: English shared prose and clean GitHub publication rules recorded; ignored `local-tests/` workspace established. Publication checks are recorded in [PUB-20260930-01](EVIDENCE.md#pub-20260930-01--local-test-isolation-and-publication-policy); no implementation bulk or runtime gate is completed by this hygiene task.
+- Regional/public persistence contract: [plan 32](../plan/32-regional-masters-and-public-persistence.md) records 1→2→10 independent master followers, preferred eligible nearby sync endpoints, operational zone IDs, RAM working state with isolated bounded durable recovery storage, and T-N09–T-N12. Documentation verification is recorded in [DOC-20260930-02](EVIDENCE.md#doc-20260930-02--regional-masters-and-public-persistence); all four new runtime cases are `NOT_IMPLEMENTED` / `NOT_RUN`.
 - Runtime code: not started.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
@@ -27,11 +28,11 @@ Updated: 2026-09-30. This revision adds Ethereum/Solana interoperability require
 | B1 | NOT_STARTED | State/store/master harness and crash recovery | None |
 | B2 | NOT_STARTED | Real serial EVM/fees/RPC/developer fixture | None |
 | B3 | NOT_STARTED | Four-validator classical baseline consensus and signing safety; not a PQ claim | None |
-| B4 | NOT_STARTED | Verified follower/snapshot/delta/retention | None |
+| B4 | NOT_STARTED | Verified follower/snapshot/delta/retention; isolated public persistence and master-offline restart T-N09/T-N10 | None |
 | B5 | NOT_STARTED | Staking/work/rewards/slashing invariants | None |
-| B6 | NOT_STARTED | P2P and independent public/validator packages | None |
+| B6 | NOT_STARTED | P2P/independent public/validator packages; eligible nearby endpoint discovery/failover T-N11 | None |
 | B7 | NOT_STARTED | Serial/parallel equivalence and profiling | None |
-| B8 | NOT_STARTED | HA, upgrades, security and operations | None |
+| B8 | NOT_STARTED | HA/upgrades/security/operations; independent two-master partition/catch-up T-N12 | None |
 | B9 | NOT_STARTED | Integrated/regional devnet acceptance with declared security profile | None |
 | B10 | NOT_STARTED | Sustained capacity program; secure-profile evidence required for secured target | None |
 | B11 | NOT_STARTED | Scaling experiments and verified secured 1M target | None |

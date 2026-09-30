@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity and the latest liquidity deferral. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity, liquidity deferral, English publication, and regional/RAM-first public persistence. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -34,6 +34,11 @@ Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge secur
 | D26 | The USD-100M/100M-base-token backing proposal, possible later collateral and multiple-admin unlock requirement remain separately recorded in plan 31. No actual funding, mint, fixed market price, unilateral master release or automatic trading is authorized. |
 | D27 | Root `local-tests/` is machine-local storage for exploratory tests, debugging and raw output. Never stage, commit, force-add or push it. Required reproducible tests and sanitized fixtures remain versioned for collaborators. |
 | D28 | GitHub must contain clean, reviewed source and documentation in English. Apply the publication/index/outgoing-history checks in `CONTRIBUTING.md`; exclude local artifacts, secrets and personal configuration. This policy does not itself authorize a push. |
+| D29 | Default public nodes keep working state in RAM and finalized block/recovery checkpoints durable. An isolated ordered storage worker uses bounded queues/resource budgets; durable acknowledgement requires actual successful sync, not enqueue or OS page cache. Storage overhead must be measured. |
+| D30 | Public restart with masters offline recovers the complete local durable prefix and authenticates any missing tail from durable peers. Validators retain independent recovery data and durably record anti-double-sign state before releasing votes. Never prune the last recovery copy. |
+| D31 | One master can serve multiple public nodes through regional endpoints/relays. Start development with one master/one public and the existing validator baseline; prepare two independently verified master replicas and a planned ten-master regional topology, subject to existing production approval gates. |
+| D32 | Public uses one preferred nearby eligible sync endpoint without requiring private master inventory. Proof/network/profile eligibility and verified freshness precede service-latency ranking; fallback discovery and independent transaction P2P remain available. Hidden topology is not a security guarantee. |
+| D33 | `zone_id` is operational routing/placement metadata distinct from network/genesis, chain ID and voting power. It does not establish shard ownership, authorize conflicting state writes or multiply finalized TPS. Actual partitioning follows plan 21. |
 
 ## Superseded assumptions
 
@@ -41,6 +46,7 @@ Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge secur
 - Public RPC count is not validator voting power, and additional full validators do not automatically multiply TPS.
 - A matching delta/root or master signature is not a validity proof.
 - Validator working state may be memory-heavy; validator signing safety may not be RAM-only.
+- Default public RAM working state does not imply RAM-only finalized history. Asynchronous storage cannot promise zero interference, unbounded buffering, or durability before sync.
 - Country IDs and random pool identities do not resolve conflicting shared-state writes.
 - Bulk synchronization amortizes messages, not all data bytes or WAN finality latency.
 - MASTER_ONLY is a development composition, not an alternate production trust mode.
@@ -55,7 +61,7 @@ Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge secur
 
 ## Selected development baseline
 
-These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–31 explicitly extend or narrow this classical starting point.
+These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–32 explicitly extend or narrow this classical starting point.
 
 | Area | Baseline | Change rule |
 |---|---|---|
@@ -64,6 +70,8 @@ These defaults permit incremental implementation. They are not binding mainnet a
 | Consensus | CometBFT ABCI++ adapter, four local equal-power validators | Classical starting point; actual hybrid enforcement/engine integration under plans 26–27 |
 | State | Ethereum-compatible EVM trie plus authenticated system trie | Preserve commitments or schedule migration; analyze quantum strength before whole-chain claims |
 | Storage | RocksDB/WAL behind traits | Benchmark and recovery comparison before replacement |
+| Public persistence | RAM working state plus durable finalized recovery blocks/checkpoints through bounded worker | Plan 32; separate applied/durable/authenticated watermarks and test storage interference/restart |
+| Regional masters | One development master, verified two-replica evolution, planned ten-master layout | Each master follows validator finality; nearby eligible endpoint selection/failover; no launch authorization |
 | Dev identity | EVM chain ID 31337; `eve-local-v1`; immutable genesis hash | Separate genesis for another network |
 | Resource limits | 30M gas/block, 4 MiB full consensus block, 128 KiB raw tx | Versioned config; include actual PQ/proof byte and CPU costs |
 | Pricing | EIP-1559-style pricing, initial dev base fee 1 gwei, floor 1 base unit | Explicit config/compatibility tests |
@@ -91,6 +99,8 @@ Genesis hash is the immutable network/spec digest. Runtime configuration digests
 Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25.
 
 Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. Include INT0 from plan 30: Ethereum/Solana references/toolchains, typed asset/route/address interfaces, actual verifier feasibility and T-I01–T-I12 registration. Read plan 31 before selecting work: do not create a liquidity/stabilization track or reserve-spending hooks. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+
+Include plan 32's source-selection/readiness/storage budgets, typed watermarks, recovery contracts and T-N09–T-N12 registration. B0 performs bounded compile-tested/interface spikes; distributed runtime acceptance belongs to B4/B6/B8, not a fabricated B0 pass.
 
 When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative or reviewed extension through an ADR. Do not invent a new security model or certify an unsupported property simply to make a demo run.
 

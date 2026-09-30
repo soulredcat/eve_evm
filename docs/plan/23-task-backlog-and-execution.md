@@ -30,14 +30,14 @@ B5 also requires the shared system interfaces from B1/B2. Research spikes may st
 Tasks B0.1–B0.7:
 
 1. Inspect checkout/toolchain/permissions; preserve user changes; create task-owned directories and a baseline report.
-2. Select and pin compatible Rust/REVM/Ethereum types, RocksDB, CometBFT/ABCI binding, TypeScript client and Solidity compiler. Smoke-test execution, storage commit and the actual ABCI lifecycle. Record official source revisions/digests and rejected alternatives.
+2. Select and pin compatible Rust/REVM/Ethereum types, RocksDB, CometBFT/ABCI binding, TypeScript client and Solidity compiler. Smoke-test execution, storage commit and the actual ABCI lifecycle. Run a bounded storage spike measuring batch/sync/checkpoint bytes, latency and resource use; freeze queue/lag/readiness and measurement contracts from plan 32 without requiring the later public runtime. Record official source revisions/digests and rejected alternatives.
 3. Freeze compile-tested domain types, genesis/hash rules, system ABI/record encodings, native gas schedule, EVM environment and consensus/app-hash height mapping. Add worked vectors rather than unresolved TODOs.
 4. Create workspace, task runner, gate manifest, CI baseline and dependency/test-corpus pins. The runner must fail if a requested test is absent.
-5. Map R01–R12 to implementation tasks/tests and initialize real evidence tracking.
+5. Map R01–R12 to implementation tasks/tests and initialize real evidence tracking. Register T-N09/T-N10 for B4, T-N11 for B6 and T-N12 for B8 with concrete resource/crash/source/partition fixtures; later runtime tests remain NOT_RUN until implemented.
 6. Implement `cargo xtask check-structure` with language-aware function-file classification, physical-line thresholds, reviewed exact-path exception/expiry handling and explicit generated/vendor exclusions. Add T-L01–T-L06, including 200/201/400/401/600/601 boundary fixtures and modules deeper than three levels. Wire the checker into CI and every bulk gate; it must check its own handwritten implementation and record warning rationales and exceptions.
 7. Execute SEC0: inventory crypto/commitment/control paths; pin and test actual PQ implementations/integration surfaces; register T-M/T-P/T-BR tests and security gates; define two local EVE bridge identities. Do not pretend the initial Ed25519/secp256k1 engine is already PQ-secure.
 
-Gate: actual build and interface smoke tests; byte vectors and development-config validation; no guessed APIs or mutable dependency tags; passing structure-checker tests and an actual structure report; SEC0 outputs. `verify --bulk B0` is executable and runs `check-structure`. An absent/stubbed checker fails B0. Missing permissions/tools are documented blockers with exact alternatives, not fabricated success.
+Gate: actual build and interface smoke tests; byte vectors and development-config validation; bounded storage-spike evidence and versioned public persistence/readiness budgets; no guessed APIs or mutable dependency tags; passing structure-checker tests and an actual structure report; SEC0 outputs. `verify --bulk B0` is executable and runs `check-structure`. An absent/stubbed checker fails B0. Missing permissions/tools are documented blockers with exact alternatives, not fabricated success.
 
 ## B1 — Shared state and durable master harness
 
@@ -59,9 +59,9 @@ Gate: T-C01–T-C10 with fixed genesis and separate keys, except later lifecycle
 
 ## B4 — Master follower and verified sync
 
-Tasks: MASTER_SYNC_ONLY imports finalized data; source-independent header/validator verification; snapshot/delta export/import; resume/corruption handling; retained finalized data on validators; public rebuild; storage/backlog metrics.
+Tasks: MASTER_SYNC_ONLY imports finalized data; source-independent header/validator verification; snapshot/delta export/import; resume/corruption handling; retained finalized data on validators; public RAM working state with local durable blocks/checkpoints; isolated ordered immutable storage batches and bounded resource/backlog controls; master-offline public recovery including authenticated missing-tail retrieval. Follow plan 32 without holding global RAM locks across IO or treating queued blocks as durable.
 
-Gate: T-N01–T-N07, T-S04–T-S08, T-G04/T-G06 and master-offline catch-up. Delete public replica state and reconstruct it. Stop master while validators continue; restart and verify exact history without asking master to decide blocks. Preserve authenticated profile/key-set history for later PQ and bridge clients.
+Gate: T-N01–T-N07, T-N09/T-N10, T-S04–T-S08, T-G04/T-G06 and master-offline catch-up. Delete public replica state and reconstruct it. Stop all masters while validators/public peers continue, inject public storage stalls and loss of unsynced RAM, then restart from complete local records and authenticated durable peer data. Assert configured queue/resource/lag limits, truthful durability/readiness and exact roots/receipts without asking master to decide blocks. Missing last-copy recovery data fails not-ready. Preserve authenticated profile/key-set history for later PQ and bridge clients.
 
 ## B5 — Staking, node work and fee-funded rewards
 
@@ -71,9 +71,9 @@ Gate: all T-V01–T-V10 plus real user-facing TypeScript staking/claim fixture. 
 
 ## B6 — Public network and distribution
 
-Tasks: multi-peer transaction/data propagation; handshake/versioning; peer scoring/quotas; readiness and RPC history/proof behavior; public/validator package allowlists and reproducible source-package manifests; independent build without master implementation.
+Tasks: multi-peer transaction/data propagation; handshake/versioning; peer scoring/quotas; readiness and RPC history/proof behavior; eligible logical sync endpoints hiding internal master inventory; health/authenticated-freshness then service-RTT/throughput selection, bounded probes, hysteresis and fallback discovery/peers; public/validator package allowlists and reproducible source-package manifests; independent build without master implementation.
 
-Gate: T-N08, all T-A cases, T-Q04 and network/RPC overload tests. Increasing public nodes does not require a new privileged master connection for each. A clean extracted package can build and join the devnet. Activated profiles may not be silently downgraded during handshake or sync.
+Gate: T-N08/T-N11, integrated T-N09/T-N10 under public network load, all T-A cases, T-Q04 and network/RPC overload tests. Ping or advertised height never grants trust to an invalid source or fresh-head eligibility to a lagging one. Valid older authenticated history remains usable for replay under its applicable height/profile. Increasing public nodes does not require a new privileged master connection for each; zone routing never changes voting authority. A clean extracted package can build and join the devnet. Activated profiles may not be silently downgraded during handshake or sync.
 
 ## B7 — Deterministic parallel execution
 
@@ -83,9 +83,9 @@ Gate: every supported serial fixture and randomized workload yields identical st
 
 ## B8 — HA, upgrades, release safety and operations
 
-Tasks: independent master followers/local storage fencing where applicable; verified failover/recovery runbooks; protocol activation and schema migration; signed manifest staging/verification; voting-power-aware rolling upgrades; dependency/secret checks, fuzzing, metrics and diagnostic docs.
+Tasks: two independent master followers with private logical gateway routing and local storage fencing where applicable; verified failover/partition/catch-up runbooks and a capacity plan for ten replicas, without claiming ten deployed masters; protocol activation and schema migration; signed manifest staging/verification; voting-power-aware rolling upgrades; dependency/secret checks, fuzzing, metrics and diagnostic docs.
 
-Gate: all T-Q cases and T-G01–T-G08; injected bad releases/migrations/keys fail safely; master failover cannot sign; signer rollback cannot double-sign. Independent master storage copies need not run a second consensus protocol. SEC3 adds integrated secure-profile migration, control-key and bridge incident drills.
+Gate: T-N12, integrated T-N10/T-N11 during master outages, all T-Q cases and T-G01–T-G08; injected bad releases/migrations/keys fail safely; master failover cannot sign; signer rollback cannot double-sign. Partition and recover two master stores, verifying identical authenticated history/roots at the same height. Independent master storage copies need not run a second consensus protocol. SEC3 adds integrated secure-profile migration, control-key and bridge incident drills.
 
 ## B9 — Regional behavior and DEVNET_ACCEPTED
 
@@ -95,9 +95,9 @@ Gate: B0–B8 mandatory checks, including structure gates, remain green in the i
 
 ## B10 — Capacity program
 
-Tasks: pinned W0–W6 generator profiles; real finalized-throughput instrumentation; sustained runs with state/IO/network accounting; profiling and bottleneck reports; incremental optimization in complete reviewed batches; deployment package for real multi-host/WAN testing.
+Tasks: pinned W0–W6 generator profiles; real finalized-throughput instrumentation; sustained runs with state/IO/network accounting; concurrent public RAM application and durable storage-worker/checkpoint measurements; endpoint failover and per-master full-stream bandwidth/storage/catch-up accounting for one/two/estimated-ten layouts; profiling and bottleneck reports; incremental optimization in complete reviewed batches; deployment package for real multi-host/WAN testing.
 
-Gate: reproducible baseline and each achieved target step with required evidence. Continue 10k/50k/100k/250k/500k/1M attempts only within available/authorized resources. A failed target remains TARGET_UNMET; absent suitable machines are BLOCKED_INFRA. Do not lower the workload, fake finalized results or purchase resources automatically. Classical measurements are diagnostic; secured target acceptance requires SEC3 and all active authentication/proof costs included.
+Gate: reproducible baseline and each achieved target step with required evidence, predeclared persistence/queue/lag/readiness budgets, storage interference and post-run recovery results. Report actual durable bytes/s, queue slopes/age, fsync/compaction stalls, checkpoint memory/IO and per-copy replication costs; asynchronous storage is not zero overhead or proof of power-loss recovery. Continue 10k/50k/100k/250k/500k/1M attempts only within available/authorized resources. A failed target remains TARGET_UNMET; absent suitable machines are BLOCKED_INFRA. Do not lower the workload, fake finalized results or purchase resources automatically. Classical measurements are diagnostic; secured target acceptance requires SEC3 and all active authentication/proof costs included.
 
 ## B11 — Scaling validation and remaining target work
 
