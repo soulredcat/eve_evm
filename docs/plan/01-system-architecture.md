@@ -1,77 +1,31 @@
-# 01 — System Architecture
+# 01 — System architecture
 
-## Logical roles
+## Authority map
 
-### Public Node
+| Role | Owns | Must not own |
+|---|---|---|
+| Public | RPC, local mempool policy, peer propagation, verified state queries | Production votes without validator registration; master credentials |
+| Validator | Proposal validation, execution, consensus votes, finality, recent durable recovery data | Unilateral finality; master administration |
+| Master | Verified finalized-state persistence, snapshots, archive, recovery distribution | Mandatory transaction sequencing, production proposer key, override of quorum |
+| Shared crates | Deterministic formats, EVM adapter, roots, verification, storage contracts | Hidden role authority or cross-runtime globals |
 
-Responsibilities:
+One operator may co-locate public and validator processes. Source separation remains mandatory. A master host may run a separate local development validator, but that does not make the master role a voter.
 
-- public JSON-RPC and WebSocket endpoints;
-- transaction ingress and basic stateless validation;
-- current-state RAM replica/cache;
-- validator participation where configured;
-- verification of canonical block/state commitments;
-- rate limiting and abuse isolation.
+## Required flow
 
-Must not have direct filesystem/database access to master storage.
+```text
+transaction -> public/P2P -> validator proposer -> validator checks and quorum
+            -> finalized data -> peers and master followers
+```
 
-### Master / Canonical Node
+Validators do not wait for master acknowledgements in ordinary consensus. They must retain sufficient durable blocks/state to recover while masters lag. Masters may use fast authenticated state import or slower replay auditing; those are follower verification choices, not authority.
 
-Responsibilities:
+## Boundaries
 
-- canonical state persistence;
-- sequencing/block construction in the initial architecture;
-- state-transition coordination;
-- snapshot/WAL management;
-- state-delta publication;
-- protected internal API only.
+Use separate traffic budgets for public RPC, consensus, block availability, bulk snapshot/delta transfer, and management. Sharing a physical host does not justify shared unrestricted credentials or unbounded queues. Consensus and management are not routed through a single mandatory master gateway.
 
-The logical canonical role may later use active/standby or replicated infrastructure. Physical high availability must not accidentally create two independent canonical histories.
+## Baseline and evolution
 
-### Execution Workers
+The first devnet uses one logical ordered EVM state and a reviewed BFT adapter. Region IDs affect routing and operations, not independent write authority. Parallel execution must match serial results. Actual state sharding is a later experimental protocol change with its own atomicity and security gates.
 
-Responsibilities:
-
-- execute deterministic EVM workloads;
-- operate on declared/scheduled state domains;
-- return deterministic execution results;
-- expose no public administrative surface.
-
-### Validator
-
-Responsibilities:
-
-- independently validate proposed blocks/state transitions;
-- participate in finality according to the selected consensus protocol;
-- produce signatures/votes that can be verified by public nodes.
-
-### Archive / Indexer
-
-Responsibilities:
-
-- historical blocks, receipts and logs;
-- explorer/search/analytics queries;
-- optional long-term state history.
-
-Not part of canonical transaction execution.
-
-## Traffic separation
-
-Keep at least four logical lanes independent:
-
-1. public RPC traffic;
-2. consensus/finality traffic;
-3. execution/state-delta traffic;
-4. administrative/management traffic.
-
-State synchronization must never be able to starve finality traffic merely because both share a large bulk stream.
-
-## Open decisions
-
-- initial consensus algorithm;
-- proposer rotation rules;
-- canonical master failover semantics;
-- execution worker ownership;
-- deterministic scheduler design;
-- global vs regional block construction;
-- finality guarantees when validator availability drops below quorum.
+The selected implementation baseline and dependency policy are in [22](22-code-layout-and-dependency-policy.md). Consensus and failure behavior are normative in [12](12-consensus-spec.md). All role APIs use versioned protocol data rather than direct database access.

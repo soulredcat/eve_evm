@@ -1,80 +1,61 @@
 # EVE EVM
 
-EVE EVM is a research and engineering project for a high-throughput EVM-compatible blockchain with separated public access, validator consensus, execution, persistence, and regional synchronization layers.
+A documentation-first engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-> Status: **Planning / pre-implementation**. No production implementation exists yet. Performance targets are engineering goals until demonstrated by reproducible end-to-end benchmarks.
+**Status: specification and implementation plan only. No runtime, passing test suite, deployed chain, or measured TPS is claimed.**
 
-## Core goals
+## Main objective
 
-- Preserve a familiar EVM developer experience: Solidity, standard transaction semantics, Ethereum-style JSON-RPC, and common tooling.
-- Keep Internet-facing infrastructure separate from protected durable storage.
-- Make validators responsible for consensus decisions and finality.
-- Keep the Master focused on synchronized finalized state, persistence, recovery, snapshots, and archive duties.
-- Keep hot/current state in memory where useful while maintaining durable recovery state on fast NVMe storage.
-- Support permissionless Public Nodes and separately managed Validator Nodes.
-- Support staking, measurable uptime/work accounting, and protocol-level fee distribution.
-- Support regional execution and bulk state synchronization without placing WAN latency on every user transaction.
-- Design for horizontal scaling and parallel execution rather than assuming a single machine can reach the long-term throughput target.
-- Treat the **1,000,000 TPS** objective as an aggregate engineering target that must be proven under explicitly defined workloads.
+Build a correct, recoverable, independently verifiable network and pursue **1,000,000 aggregate finalized transactions per second**, using explicitly declared workloads and hardware. This target is not achieved by receiving requests, adding replicas, or publishing state hashes alone.
 
-## Architecture direction
+## Production authority
+
+> Validators decide. Master remembers.
 
 ```text
 Users / dApps
-      |
-Edge / Load Balancer
-      |
-Public Nodes (RPC + P2P + RAM state)
-      |
-Validator Nodes (execution + proposal + vote + finality)
-      |
-FINALIZED blocks / state transitions
-      |
-Master Layer (sync + durable state + snapshots + archive)
-      |
-RAM hot state + durable NVMe storage
+       |
+Public nodes: RPC, transaction ingress, P2P, verified state
+       |
+Validator network: execute, propose, validate, vote, finalize
+       |
+Finalized blocks + authenticated state commitments
+       +----------------------+
+       |                      |
+Public / validator peers      Master replicas
+recent durable data           sync, durable state, snapshots, recovery
 ```
 
-The Master does not decide production finality. Validators decide; the Master persists and redistributes finalized state.
+Master acknowledgements are not required for ordinary transaction finality. Public nodes are permissionless, with no fixed protocol-wide count; active validator membership and voting power follow staking rules. Master infrastructure is operated by developers, but its signatures do not create consensus authority.
 
-During early development, a `MASTER_ONLY` prototype may temporarily include local execution/block production so the storage and EVM core can be built and tested before distributed consensus exists. That prototype authority is not the intended production trust model.
+A validator needs durable signing-safety and recovery records even when its working state is in RAM. Losing validator quorum stops new finality; there is no automatic master takeover.
 
-## Repository direction
+## Source layout
+
+- `master/`: protected synchronization and storage runtime.
+- `public/`: independently distributable public RPC/P2P runtime.
+- `validator/`: validator runtime; it may be co-located with a public node.
+- `crates/`: shared protocol, execution, commitments, storage interfaces and cryptography.
+- `docs/plan/`: normative development specifications and dependency-ordered work.
+- `docs/agents/`: role-specific execution responsibilities.
+- `docs/execution/`: persistent progress, evidence and resumption state.
+
+Directories currently contain planning material, not implemented binaries. Rust + REVM and a CometBFT consensus adapter are the proposed executable devnet baseline; dependency versions must be pinned and verified in bulk B0. They are not a promise of 1M TPS. The baseline preserves a declared Shanghai EVM execution surface; subsequent fork support is an explicit upgrade.
+
+## Economics
+
+Collected transaction fees: **40% burn / 30% node rewards / 30% validator rewards**. Integer rounding, uptime, verified work, staking, escrow and slashing are specified in the plan. No additional inflation or real-value genesis allocation is authorized by these documents. Fee redistribution differs from Ethereum's base-fee burn policy and must be advertised as an EVE difference.
+
+## Start implementation
+
+Read [AGENTS.md](AGENTS.md), [goal.md](goal.md), the [planning index](docs/plan/README.md), and [execution status](docs/execution/STATUS.md).
 
 ```text
-master/      # protected durable sync/storage runtime
-public/      # permissionless RPC/P2P/state replica runtime
-validator/   # consensus/execution/finality runtime
-crates/      # shared protocol, primitives, EVM, crypto, networking
-docs/        # architecture and implementation plans
+/goal Implement goal.md end to end. Follow AGENTS.md and docs/plan/23-task-backlog-and-execution.md. Work in dependency-aware bulks, implement and test real functionality, maintain evidence and handoff files, and continue through all unblocked work. Never mark a target passed without its required evidence.
 ```
 
-## Economic direction
+The goal file defines exactly what DONE, BLOCKED and TARGET_UNMET mean. Completing the documentation or a local prototype is not completing the whole project.
 
-Initial fee-allocation proposal:
+## Scope boundaries
 
-- 40% burn
-- 30% node reward pool
-- 30% validator reward pool
-
-Reward eligibility must depend on protocol-verifiable work and availability rather than self-reported activity. Final economics are not frozen.
-
-## Design principles
-
-1. **Correctness before throughput.**
-2. **Validators decide; Master remembers.**
-3. **Canonical durable state must survive loss of Public Nodes.**
-4. **RAM is an acceleration layer, not the only durable copy.**
-5. **Public/Validator nodes must not have direct database/filesystem access to Master storage.**
-6. **Consensus/finality, execution, state replication, persistence, and public RPC are separate responsibilities.**
-7. **Regional latency should affect finality/synchronization, not every local transaction where avoidable.**
-8. **No TPS claim is accepted without a published workload, hardware profile, sustained duration, state-growth measurement, and correctness checks.**
-9. **EVM compatibility is a contract with developers and must be versioned/tested explicitly.**
-
-## Planning documents
-
-Implementation work is organized under [docs/plan](docs/plan/README.md).
-
-## Current phase
-
-The repository is intentionally documentation-first. The next step is to lock protocol invariants, failure semantics, state format, block format, validator finality rules, and benchmark methodology before writing the production runtime.
+The first implementation is an independent devnet. Alephium bridging, settlement proofs, production keys, public mainnet launch, token issuance to real users, and paid infrastructure require separate explicit approval. No Alephium-inherited security is claimed. A public repository does not hide master source or secrets; source-distribution licensing and any private repository split are separate owner decisions.

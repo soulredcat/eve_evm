@@ -1,54 +1,19 @@
-# 00 — Vision and Non-Goals
+# 00 — Vision and non-goals
 
-## Vision
+## User objectives
 
-Build an EVM-compatible chain optimized around:
+Build an EVM-compatible network with separate public, validator and master runtimes. Public nodes may be operated by anyone; master infrastructure is developer-operated and protected. Validators decide consensus; masters synchronize and retain finalized data. Working state should be RAM-friendly, durable data compact and recoverable, and regional traffic handled in batches where semantics allow.
 
-- low-latency regional transaction ingress;
-- parallel execution where state dependencies permit it;
-- memory-resident hot/current state;
-- durable canonical recovery state;
-- public validator/RPC nodes separated from protected canonical infrastructure;
-- bulk state synchronization across regions;
-- protocol-verifiable validator/node rewards;
-- developer compatibility with the Ethereum ecosystem.
+Retain the long-term objective of 1,000,000 aggregate finalized TPS. Success also requires deterministic execution, bounded queues, retained data, correct gas, atomic contracts, verifiable state and realistic operating costs. More public nodes, higher NVMe bandwidth or smaller commitment messages alone do not establish capacity.
 
-## Long-term throughput target
+## First accepted network
 
-The project may target **1,000,000 aggregate transactions per second**, but that number is not a requirement for the first production release and must never be presented without workload definition.
+A four-validator devnet must independently execute Solidity transactions, finalize blocks, survive one validator failure, preserve data while master is unavailable, restore master/public nodes, and stop finality when quorum is lost. It must expose usable Ethereum-style RPC and demonstrate correct staking/fee accounting.
 
-Separate benchmark classes will be required for:
+Master-only development is allowed through explicit co-located test roles. It is not the production finality model.
 
-- native/simple value transfers;
-- ERC-20-like transfers;
-- independent contract writes;
-- AMM swaps;
-- multi-pool/multi-contract transactions;
-- adversarial high-contention state;
-- mixed realistic workload.
+## Not authorized by this plan
 
-## Non-goals for the first implementation
+No mainnet launch, live token allocation, paid infrastructure, real key ceremony, Alephium bridge or settlement contract, or claim of inherited L1 security. These require separate approval and evidence. No change to standard EVM synchronous atomic calls merely to improve a benchmark. No promise that one hot pool can process the same rate as many independent accounts.
 
-- immediate 1M TPS production deployment;
-- custom Solidity language;
-- breaking EVM behavior merely to improve benchmark numbers;
-- storing canonical state only in RAM;
-- exposing master/canonical state nodes publicly;
-- solving multi-region sharding before a correct single-region chain exists;
-- optimizing explorer/analytics databases before core protocol correctness.
-
-## First proof
-
-The first useful proof of architecture is:
-
-```text
-signed transaction
-→ deterministic EVM execution
-→ block construction
-→ validator verification
-→ durable state commit
-→ restart
-→ identical canonical state
-```
-
-Anything beyond this depends on this path being correct.
+Read [goal.md](../../goal.md) for completion levels and [24](24-decision-register.md) for fixed decisions and bounded development defaults.

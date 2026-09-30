@@ -1,68 +1,15 @@
-# 04 — Master and Public Node Security
+# 04 — Runtime trust boundaries
 
-## Security objective
+The threat model assumes an attacker may control a public node, a minority validator, a bootstrap peer, a snapshot source, or a master host. Network isolation reduces exposure; it does not make the master unreachable through every exploit chain or make authenticated payloads safe.
 
-A compromise of a public node must not imply direct compromise of canonical master storage or administrative control.
+Master administration and databases have no public endpoints. Prefer master-initiated synchronization to allowlisted relays, separate management access, least privilege and independent credentials. Public and validator nodes use versioned object APIs, never filesystem mounts or database credentials.
 
-## Trust zones
+A master must verify consensus provenance and commitment binding before publishing finalized data. A public node must verify the same provenance when downloading from master or peers. The source's identity is not sufficient proof that a state transition was valid. A master compromise cannot authorize arbitrary balances under an uncompromised validator quorum and correctly implemented verification.
 
-```text
-Internet
-  ↓
-Edge / DDoS / Load Balancer
-  ↓
-Public RPC Nodes
-  ↓
-Authenticated Internal Gateway
-  ↓
-Execution / Consensus Network
-  ↓
-Canonical Master Network
-  ↓
-Replication / Backup Network
-```
+Validator RPC, consensus signing and operating-system administration have separate privilege boundaries. Consensus signing must survive restart safely and prevent concurrent use of a key on multiple hosts. Public RPC workload must not starve signing or commit durability.
 
-## Master node rules
+Bound message sizes before decoding, decompression and allocation. Apply connection quotas, request deadlines, replay protection, per-lane queue limits and overload shedding. Fuzz untrusted encodings and run fault injection in the task-owned devnet only.
 
-The canonical master should:
+Source publishing is not key management: no seeds, credentials, recovery secrets or private signing material belong in this repository. Code in this public repository is not made private by putting it in `master/`.
 
-- have no public RPC endpoint;
-- have no directly reachable public IP service;
-- reject arbitrary inbound protocols;
-- accept only strict versioned internal messages;
-- use mutual authentication between node identities;
-- use independent management access;
-- keep signing keys outside the general application process where practical;
-- treat all messages from public nodes as untrusted input.
-
-## Public node compromise model
-
-Assume an attacker can fully control one public node.
-
-The attacker must still be unable to:
-
-- write canonical state directly;
-- access canonical database files;
-- invoke unrestricted master administrative APIs;
-- forge validator quorum/finality certificates;
-- push malformed state deltas past protocol validation;
-- pivot through shared credentials.
-
-## Input hardening
-
-All internal protocol inputs need:
-
-- strict maximum sizes;
-- bounded decoding;
-- version checks;
-- replay protection where appropriate;
-- signature/authentication validation;
-- rate limits;
-- checksums/hashes;
-- fuzz testing.
-
-## Master availability
-
-If all public nodes fail, canonical durable state should remain recoverable.
-
-Whether the chain is allowed to continue *finalizing* new blocks without validator quorum is a separate consensus policy and must be explicit. Availability must not silently redefine finality.
+See [19](19-security-and-release-engineering.md) for attacks, defenses, key separation, signed releases and adversarial acceptance checks.

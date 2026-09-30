@@ -1,94 +1,27 @@
-# 02 — State and Storage
+# 02 — State and storage
 
-## Objective
+## Storage is an implementation detail; commitments are protocol rules
 
-Keep active state fast while ensuring crash-safe deterministic recovery.
+Use a bounded RAM cache/working overlay over durable state. The development baseline is RocksDB behind `StateStore` and `BlockStore` interfaces; benchmark MDBX later using identical workloads before replacing it. No engine is declared smallest or fastest without measurements. NVMe Gen5 is an operator hardware preference, not a protocol requirement.
 
-## Proposed tiers
+Preserve EVM account balances, nonces, bytecode, arbitrary contract storage and system accounting. An AMM-specific fixed struct may be an index/cache, never a replacement for arbitrary Solidity storage semantics.
 
-### Tier 0 — RAM
+## Durability contract
 
-Use for:
+At each application commit, atomically persist state changes, block/receipt references, protocol metadata and a durable height marker. Use the database's WAL with the required sync policy; do not add a second custom WAL without a documented ordering/recovery need. An append-only block log can serve a different replay/availability purpose.
 
-- hot/current account state;
-- active contract storage cache;
-- pool state;
-- nonce/balance cache;
-- execution working sets.
+Do not expose a state as durably stored because it reached RAM or the OS page cache. Test process termination and simulated power-loss/torn-write conditions. If a finalized consensus block was received before application persistence completed, recovery must replay it exactly once, not invent a new canonical result.
 
-RAM is never the only durable source of canonical state.
+## Role-specific retention
 
-### Tier 1 — Durable current-state store
+- Master: durable current state, authenticated history, snapshots, archive policy and checksummed recovery records.
+- Validator: durable consensus WAL, anti-double-sign records, current state or recoverable checkpoints, and recent finalized block data independent of masters.
+- Non-voting public replica: RAM-heavy or disk-backed mode; an ephemeral replica must fully reverify after loss and cannot provide validator signing safety.
 
-Candidate technologies should be benchmarked rather than selected by preference alone.
+## Space controls
 
-Candidates:
+Use immutable history segments, measured compression and explicit indexes. Prune by finalized retention watermarks only after the recovery policy is satisfied. Snapshots are consistent views at one verified height, published atomically with manifests. Keep resource budgets for compaction, cache, RPC history and concurrent snapshots.
 
-- MDBX;
-- RocksDB;
-- Pebble-equivalent architecture if language choice permits;
-- a purpose-built storage layer only after evidence that mature engines are insufficient.
+Track logical state bytes, physical database bytes, history bytes, write amplification, snapshot bandwidth, compaction stalls and recovery time separately. A smaller file after unsafe pruning is not an optimization.
 
-Evaluate:
-
-- random read latency;
-- sequential and random writes;
-- write amplification;
-- compaction stalls;
-- snapshot behavior;
-- crash recovery;
-- storage overhead;
-- state-root integration.
-
-### Tier 2 — WAL
-
-Append-only write-ahead log records enough information to recover committed state transitions.
-
-Required properties:
-
-- checksum;
-- sequence number;
-- block/batch identity;
-- deterministic replay;
-- truncation/rotation policy;
-- corruption detection.
-
-### Tier 3 — Snapshots
-
-Periodic immutable snapshots allow fast bootstrap without replaying chain history from genesis.
-
-### Tier 4 — Block/history segments
-
-Prefer large immutable binary segment files over millions of tiny filesystem files.
-
-Potential layout:
-
-```text
-blocks-00000000-00099999.seg
-blocks-00100000-00199999.seg
-...
-```
-
-Compression can be applied to immutable history after profiling.
-
-## State model requirements
-
-Every committed transition must map:
-
-```text
-previous_state_root
-+ ordered transaction batch
-→ deterministic new_state_root
-```
-
-State delta synchronization must allow a replica to verify that applying a delta to the expected base root produces the announced new root.
-
-## Recovery acceptance criteria
-
-After abrupt process termination:
-
-1. load latest valid snapshot/current-state database;
-2. replay only valid committed WAL records;
-3. reject partial/corrupted tail records;
-4. reproduce the exact canonical state root;
-5. resume without balance, nonce, or contract-storage divergence.
+Detailed encodings/commit protocol: [14](14-block-and-state-commitment-spec.md). Availability/retention: [15](15-network-and-sync-protocol.md). Crash tests: [20](20-test-vectors-and-acceptance.md).

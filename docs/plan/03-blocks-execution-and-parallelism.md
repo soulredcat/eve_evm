@@ -1,73 +1,21 @@
-# 03 — Blocks, Execution and Parallelism
+# 03 — Blocks, execution and parallelism
 
-## Block production
+## Block lifecycle
 
-Blocks are produced by the chain protocol; they are not mined unless a PoW design is explicitly selected.
+The selected validator proposer constructs an ordered candidate from available transactions. Validators validate the proposal and its execution under the selected consensus adapter. Quorum commits the ordered block; the application persists deterministic results. Master followers import finalized data afterwards.
 
-Initial conceptual flow:
+A transaction can be admitted, proposed, consensus-committed, locally applied/durable, and remotely persisted at different times. These statuses must not be collapsed into one RPC success response. Consensus header hashes, EVM-facing block hashes and post-state commitments are separate typed objects; see [12](12-consensus-spec.md) and [14](14-block-and-state-commitment-spec.md).
 
-```text
-mempool
-→ proposer/sequencer
-→ deterministic ordering
-→ EVM execution
-→ receipts/logs
-→ state root
-→ candidate block
-→ validator verification
-→ finality
-→ durable commit
-```
+## Reference execution
 
-## Minimum block header fields
+Implement a serial reference first. Given identical parent state, block environment and ordered transactions, every correct implementation must produce identical balances, nonces, storage, gas, logs, receipts and commitments. A reverting EVM transaction may still be valid and consume gas. An invalid transaction envelope must not be silently converted to an included successful transaction.
 
-To be finalized during protocol design:
+## Parallel path
 
-- chain ID / protocol version;
-- block height;
-- parent block hash;
-- timestamp/slot;
-- proposer identity;
-- transaction commitment/root;
-- receipt commitment/root;
-- state root;
-- optional regional/batch commitments;
-- finality certificate reference.
+An optimistic scheduler may execute transactions against versioned overlays, detect read/write conflicts, and deterministically re-execute before ordered commit. It must track accounts, balances, nonce, bytecode, storage, creation/deletion, logs, refunds and system calls, not merely pool IDs. Access lists are hints, not complete declarations of all dynamic EVM accesses.
 
-## Parallel execution
+Different pool addresses or signatures do not prove independence. Shared token balances, allowance contracts, routers and atomic multi-pool calls create dependencies. A transaction that touches several pools commits all allowed effects or reverts its transaction effects according to EVM rules.
 
-Transactions may execute concurrently only when correctness is equivalent to the canonical deterministic ordering.
+Do not distribute conflicting global-state writes to independent regional masters and merge roots later. No state merge is valid without a defined ordering/conflict protocol.
 
-Potential techniques to evaluate:
-
-- access-list/read-write-set scheduling;
-- optimistic parallel execution plus conflict detection/re-execution;
-- deterministic state partitioning;
-- actor/object-style ownership for native optimized paths;
-- dependency graph scheduling.
-
-## Pool identity
-
-Pools/contracts may have deterministic unique state identities. A unique identity helps partition state but **does not by itself make transactions independent**.
-
-A transaction touching:
-
-```text
-Pool A → Pool B → Pool C
-```
-
-creates a dependency across all three state domains and must remain atomic according to EVM semantics.
-
-## High-contention requirement
-
-Benchmarks must include many transactions writing the same contract/pool. Aggregate parallel throughput from independent accounts is not sufficient evidence for DEX throughput.
-
-## Batch vs block
-
-A regional execution batch and a canonical/global block may be different objects. The protocol must specify:
-
-- what is final;
-- what may be reorganized;
-- what a wallet can call confirmed;
-- what a validator signs;
-- what public nodes expose through Ethereum-compatible RPC.
+Required evidence: differential serial/parallel fixtures, hot-pool workloads, nonce conflicts, contract creation, reentrancy and failures under shuffled worker scheduling. Plans [20](20-test-vectors-and-acceptance.md) and [21](21-capacity-and-regional-scaling.md) define the gates.

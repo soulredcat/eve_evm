@@ -1,106 +1,24 @@
-# 09 — Delivery Roadmap
+# 09 — Delivery roadmap
 
-## Phase 0 — Protocol specification
+The executable backlog and all gates are in [23](23-task-backlog-and-execution.md). This overview must not introduce an alternative stage numbering.
 
-Deliverables:
+| Bulk | Deliverable |
+|---|---|
+| B0 | Dependency pins, protocol fixtures, build/task runner, evidence framework |
+| B1 | Shared state/storage and master-only recovery harness |
+| B2 | Serial EVM, signed transactions, real gas/fees, public RPC |
+| B3 | Validator consensus, quorum, durable signing safety |
+| B4 | Master follower, snapshot/delta sync, availability and recovery |
+| B5 | Staking, work accounting, rewards and penalties |
+| B6 | Public P2P, independent packages, bounded resource use |
+| B7 | Deterministic parallel executor and differential tests |
+| B8 | Master HA, upgrades, releases, security and operations |
+| B9 | Multi-region single-chain behavior and accepted devnet |
+| B10 | Sustained benchmark/capacity program and optimizations |
+| B11 | Scaling experiments, gated partitioning and final target verification |
 
-- block/header schema;
-- transaction envelope;
-- state commitment rules;
-- fork/version rules;
-- finality semantics;
-- validator identity/signature rules;
-- crash consistency model;
-- threat model.
+B0–B9 establish DEVNET_ACCEPTED; they do not establish 1M TPS or mainnet readiness. B10–B11 must keep the user's target explicit and measured. Complete every ready task; record genuine external blockers with exact resume instructions instead of stopping at the first unavailable resource.
 
-Exit criterion: two independent implementations could read the spec and agree on the same block/state result for test vectors.
+The master-only harness builds shared components first, then production validators consume them. Never write a master consensus implementation that must later be copied into validators.
 
-## Phase 1 — Single-node deterministic EVM
-
-Deliverables:
-
-- EVM engine integration;
-- transaction decoding/signature validation;
-- deterministic state transition;
-- block builder;
-- state root;
-- receipt/log generation;
-- durable state + WAL;
-- restart recovery;
-- minimal JSON-RPC.
-
-Exit criterion: deterministic replay produces identical blocks and roots.
-
-## Phase 2 — Public node + validator
-
-Deliverables:
-
-- public RPC node;
-- authenticated internal transport;
-- validator runtime;
-- block/state verification;
-- state-delta replication;
-- snapshot bootstrap;
-- validator catch-up.
-
-Exit criterion: public node can be destroyed, rebuilt from snapshot+deltas, and independently reach the canonical root.
-
-## Phase 3 — Consensus, staking and rewards
-
-Deliverables:
-
-- validator-set lifecycle;
-- consensus/finality implementation;
-- staking/delegation;
-- uptime/work measurement;
-- fee accounting;
-- 40/30/30 configurable basis-point split;
-- penalty/jail/slashing rules.
-
-Exit criterion: deterministic epoch accounting and adversarial consensus tests pass.
-
-## Phase 4 — Parallel execution
-
-Deliverables:
-
-- dependency/conflict model;
-- scheduler;
-- re-execution path;
-- deterministic merge/commit;
-- high-contention tests;
-- multi-worker benchmark.
-
-Exit criterion: parallel execution produces exactly the same canonical result as reference serial execution.
-
-## Phase 5 — Multi-region
-
-Deliverables:
-
-- regional ingress;
-- regional batch format;
-- bulk state-delta transport;
-- global finality integration;
-- failover/fencing;
-- cross-region state ownership;
-- cross-domain transaction semantics.
-
-Exit criterion: loss of one region does not corrupt canonical state; documented failover succeeds.
-
-## Phase 6 — Scale validation
-
-Deliverables:
-
-- reproducible benchmark harness;
-- multi-node deployment automation;
-- load generators;
-- telemetry;
-- capacity model;
-- bottleneck reports.
-
-Scale in measured steps:
-
-```text
-10k → 50k → 100k → 250k → 500k → 1M aggregate finalized TPS
-```
-
-No phase advances solely because an ingress/load generator reports the target request rate.
+Production launch is a separate owner-approved gate. Implementation, testing, documentation and release artifacts can be prepared without launching a chain with real value.
