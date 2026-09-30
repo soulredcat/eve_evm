@@ -52,6 +52,16 @@ Run relevant unit/property/integration tests, then the bulk gate. Missing test i
 
 Create a local coherent commit after a verified bulk. Push only when the current user authorization includes it. Start/stop only development processes created by this task. Never restart the user's trading bots or other services.
 
+## Absolute GitHub publication and language rules
+
+Follow `CONTRIBUTING.md`. GitHub must contain clean, reviewed source and documentation in English. Use English for first-party documentation, code comments, API/operator text, configuration explanations, test descriptions, commit messages, pull requests, and issue text. Preserve canonical protocol identifiers, fixture bytes, proper names, and attributed upstream material.
+
+Use root `local-tests/` for machine-local exploratory tests, debugging scripts, disposable data, and raw test output. The entire directory is ignored and must never be staged, committed, force-added, or pushed. Keep required reproducible unit/regression/security/acceptance tests and sanitized fixtures in tracked test modules or `tests/`; do not hide mandatory coverage in local storage.
+
+Never publish raw logs, generated build/dependency output, temporary databases, credentials, private keys, personal environment files, or machine-specific runtime configuration. Keep compact reviewed evidence summaries and reproduction instructions in `docs/execution/`, with local-only artifact references labelled explicitly.
+
+Before a commit or authorized push, inspect the Git index and all outgoing commits for prohibited files, secrets, and non-English first-party prose. `.gitignore` is not a security boundary and never permits `git add -f` or overlooking already tracked material. Stop publication if a prohibited file is found; preserve user work and report it. Leave the task-owned checkout/worktree clean after committing. Preserve and report unrelated edits; never stage or revert them merely to obtain a clean status, and use an isolated checkout when needed. Do not weaken test gates to obtain a clean repository.
+
 ## Boundaries and continuity
 
 No real funds, mainnet launch, paid provisioning, production signing/custody, repository-visibility change, license grant, or irreversible genesis decision without explicit owner approval. Continue unrelated unblocked development when one boundary is reached.

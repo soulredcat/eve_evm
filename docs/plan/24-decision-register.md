@@ -32,6 +32,8 @@ Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge secur
 | D24 | Production liquidity/DEX, automated pool-price stabilization and reserve-funded trading are deferred to a separately developed future module. Do not build them in the current core goal or make core completion depend on them. |
 | D25 | Retain an evidence-driven architectural path toward future 100M and potentially 1B finalized TPS as technology advances. These are not proven capacities or additional first-launch gates. |
 | D26 | The USD-100M/100M-base-token backing proposal, possible later collateral and multiple-admin unlock requirement remain separately recorded in plan 31. No actual funding, mint, fixed market price, unilateral master release or automatic trading is authorized. |
+| D27 | Root `local-tests/` is machine-local storage for exploratory tests, debugging and raw output. Never stage, commit, force-add or push it. Required reproducible tests and sanitized fixtures remain versioned for collaborators. |
+| D28 | GitHub must contain clean, reviewed source and documentation in English. Apply the publication/index/outgoing-history checks in `CONTRIBUTING.md`; exclude local artifacts, secrets and personal configuration. This policy does not itself authorize a push. |
 
 ## Superseded assumptions
 

@@ -1,5 +1,13 @@
 # Documentation change record
 
+## 2026-09-30 — Local test isolation and English collaboration
+
+- Created ignored root `local-tests/` for machine-local exploratory tests and raw output; its contents must never be committed or pushed.
+- Added `.gitignore` for local tests, raw artifacts, coverage, generated output, and personal environment files while retaining sanitized environment examples.
+- Added `CONTRIBUTING.md` and absolute publication/language rules in `AGENTS.md`, the goal and decision register.
+- Preserved shared reproducible tests and sanitized fixtures in tracked test areas for collaborators.
+- Updated status and handoff without marking any implementation bulk or runtime gate complete. No GitHub push is authorized or performed by this task.
+
 ## 2026-09-30 — Goal-driven implementation package
 
 Starting from documentation baseline `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`:

@@ -39,6 +39,8 @@ A validator needs durable signing-safety and recovery records even when its work
 - `docs/plan/`: normative development specifications and dependency-ordered work.
 - `docs/agents/`: role-specific execution responsibilities.
 - `docs/execution/`: persistent progress, evidence and resumption state.
+- `tests/`: reviewed reproducible test source and sanitized regression fixtures.
+- `local-tests/`: ignored machine-local experiments and test output; never published.
 
 Directories currently contain planning material, not implemented binaries. Rust + REVM and a CometBFT consensus adapter are the proposed executable devnet baseline; dependency versions must be pinned and verified in bulk B0. They are not a promise of 1M TPS. The baseline preserves a declared Shanghai EVM execution surface; subsequent fork support is an explicit upgrade.
 
@@ -55,6 +57,12 @@ Read [AGENTS.md](AGENTS.md), [goal.md](goal.md), the [planning index](docs/plan/
 ```
 
 The goal file defines exactly what DONE, BLOCKED and TARGET_UNMET mean. Completing the documentation or a local prototype is not completing the whole project.
+
+## Collaboration and publication
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Shared source comments, documentation, configuration explanations, test descriptions, commit messages, and GitHub discussions must use English.
+
+Keep GitHub clean: `local-tests/`, raw artifacts, build output, temporary databases, secrets, and personal configuration must never be committed or pushed. Required reproducible tests remain versioned so every collaborator can verify the implementation. Inspect the index and all outgoing commits before an authorized push; never force-add ignored local files.
 
 ## Scope boundaries
 

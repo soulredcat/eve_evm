@@ -4,7 +4,8 @@ Updated: 2026-09-30. This revision adds Ethereum/Solana interoperability require
 
 ## Overall
 
-- Documentation/goal package: prepared for implementation, including plans 00–30.
+- Documentation/goal package: prepared for implementation, including plans 00–31.
+- Collaboration policy: English shared prose and clean GitHub publication rules recorded; ignored `local-tests/` workspace established. Publication checks are recorded in [PUB-20260930-01](EVIDENCE.md#pub-20260930-01--local-test-isolation-and-publication-policy); no implementation bulk or runtime gate is completed by this hygiene task.
 - Runtime code: not started.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.

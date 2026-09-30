@@ -1,0 +1,21 @@
+# Machine-local experiments and test output must never be published.
+/local-tests/
+
+# Raw run artifacts are local; publish reviewed summaries in docs/execution/.
+/artifacts/
+/coverage/
+
+# Generated dependency and build output.
+**/target/
+**/node_modules/
+
+# Local environment files; sanitized examples remain shareable.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Operating-system metadata.
+.DS_Store
+Thumbs.db
+desktop.ini

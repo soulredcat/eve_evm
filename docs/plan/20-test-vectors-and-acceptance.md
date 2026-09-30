@@ -71,6 +71,8 @@ Each run produces `artifacts/<run-id>/manifest.json` with schema version, timest
 
 Commit compact summaries and artifact manifests/references where appropriate; do not put multi-gigabyte traces or live databases into Git. If artifacts are local-only, say so and include exact paths/reproduction commands. Unavailable URLs or fabricated CI run IDs are forbidden.
 
+Root `local-tests/`, `artifacts/`, and `coverage/` are ignored local storage and must never be committed or pushed. Keep reviewed summaries, compact manifests, checksums, and reproduction references in tracked `docs/execution/` files. Required reproducible test source and sanitized fixtures remain versioned in the shared test areas. Follow `CONTRIBUTING.md`; write maintained evidence and test documentation in English.
+
 `docs/execution/EVIDENCE.md` indexes real runs. `STATUS.md` links passing evidence. `HANDOFF.md` records the exact next uncompleted action. Initially all runtime tests are NOT_RUN.
 
 ## T07 — Long-running target checks

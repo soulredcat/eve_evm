@@ -33,6 +33,8 @@ Use five specialist responsibilities when supported: lead/orchestrator; protocol
 
 Each bulk must leave a usable repository state. Run its gates, repair failures, save evidence, update status, create a coherent local commit, and proceed. For a genuine external blocker, record the failed command, cause, required resource and resume action, and work on other ready tasks. Lack of certainty is a reason for a test or source check, not for inventing a guarantee.
 
+Follow the absolute publication policy in `CONTRIBUTING.md` and `AGENTS.md`: shared first-party prose and GitHub collaboration use English; root `local-tests/` and raw local artifacts must never be committed or pushed. Required reproducible tests and sanitized fixtures remain versioned. Inspect the index and every outgoing commit before an authorized push, and leave the task-owned checkout/worktree clean after each coherent commit while preserving unrelated user edits.
+
 ## Mandatory code organization
 
 Use `runtime-or-crate/src/domain/capability/sub-capability/operation/.../function_name.rs`. Nest as deeply as the actual responsibility requires; neither stop at three levels nor create empty directories merely for depth. One production behavioral file owns one primary function. Extract other operations/helpers into correctly named files; keep types, facades and thin delegation adapters in the explicit categories of plan 25.

@@ -4,7 +4,7 @@ Status: mandatory security work, added 2026-09-30. The current classical devnet 
 
 ## P01 — Scope and claims
 
-Interpret the owner's “pos quantum” requirement as post-quantum cryptographic security, distinct from proof-of-stake consensus. Protect the actual authorization paths: validator proposals/votes, account operations, staking/control keys, checkpoints/light clients, bridge custody, upgrades/releases and recovery. Inventory transport authentication and key exchange separately.
+The owner's post-quantum requirement concerns cryptographic security, distinct from proof-of-stake consensus. Protect the actual authorization paths: validator proposals/votes, account operations, staking/control keys, checkpoints/light clients, bridge custody, upgrades/releases and recovery. Inventory transport authentication and key exchange separately.
 
 An ML-DSA library, encrypted NVMe, TLS, more validators, a random pool ID or a post-hoc signature on a root does not by itself secure the chain. Every trust path and bypass must be checked. Post-quantum signatures also do not solve malicious-majority consensus behavior from plan 26.
 
