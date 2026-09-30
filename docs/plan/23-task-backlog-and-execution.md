@@ -8,6 +8,8 @@ The lead reads current Git state, STATUS and HANDOFF, chooses the ready bulk wit
 
 Bulk states: NOT_STARTED, IN_PROGRESS, DONE, FAIL, BLOCKED_ENV, BLOCKED_INFRA, BLOCKED_OWNER, TARGET_UNMET. DONE requires all mandatory tasks and evidence. PASS/FAIL/NOT_RUN are test results, not interchangeable with project completion.
 
+Every bulk also follows [plan 25](25-folder-hierarchy-and-file-function-policy.md): recursive domain/capability folders without a fixed depth limit, one primary function per behavioral file, and the 200/400/600 physical-line policy. Structure violations in affected code are repaired with the functional work rather than deferred to a final cleanup stage.
+
 ## Dependency map
 
 ```text
@@ -25,15 +27,16 @@ B5 also requires the shared system interfaces from B1/B2. Research spikes may st
 
 ## B0 — Pin the implementation contract
 
-Tasks B0.1–B0.5:
+Tasks B0.1–B0.6:
 
 1. Inspect checkout/toolchain/permissions; preserve user changes; create task-owned directories and a baseline report.
 2. Select and pin compatible Rust/REVM/Ethereum types, RocksDB, CometBFT/ABCI binding, TypeScript client and Solidity compiler. Smoke-test execution, storage commit and the actual ABCI lifecycle. Record official source revisions/digests and rejected alternatives.
 3. Freeze compile-tested domain types, genesis/hash rules, system ABI/record encodings, native gas schedule, EVM environment and consensus/app-hash height mapping. Add worked vectors rather than unresolved TODOs.
 4. Create workspace, task runner, gate manifest, CI baseline and dependency/test-corpus pins. The runner must fail if a requested test is absent.
 5. Map R01–R12 to implementation tasks/tests and initialize real evidence tracking.
+6. Implement `cargo xtask check-structure` with language-aware function-file classification, physical-line thresholds, reviewed exact-path exception/expiry handling and explicit generated/vendor exclusions. Add T-L01–T-L06, including 200/201/400/401/600/601 boundary fixtures and modules deeper than three levels. Wire the checker into CI and every bulk gate; it must check its own handwritten implementation and record warning rationales and exceptions.
 
-Gate: actual build and interface smoke tests; byte vectors and development-config validation; no guessed APIs or mutable dependency tags. `verify --bulk B0` is executable. Missing permissions/tools are documented blockers with exact alternatives, not fabricated success.
+Gate: actual build and interface smoke tests; byte vectors and development-config validation; no guessed APIs or mutable dependency tags; passing structure-checker tests and an actual structure report. `verify --bulk B0` is executable and runs `check-structure`. An absent/stubbed checker fails B0. Missing permissions/tools are documented blockers with exact alternatives, not fabricated success.
 
 ## B1 — Shared state and durable master harness
 
@@ -87,7 +90,7 @@ Gate: all T-Q cases and T-G01–T-G08; injected bad releases/migrations/keys fai
 
 Tasks: reproducible multi-role devnet deployment; simulated region delay/loss/partition scenarios; full developer/staking flows after outages; fresh-checkout packaging/build/run; requirement-to-evidence review and consolidated runbooks.
 
-Gate: B0–B8 mandatory checks remain green in the integrated revision; functional regional tests explicitly labelled simulated when local. All R01–R11 software gates pass. Publish a DEVNET_ACCEPTED report with limitations. This checkpoint does not satisfy R12 or authorize mainnet.
+Gate: B0–B8 mandatory checks, including structure gates, remain green in the integrated revision; functional regional tests explicitly labelled simulated when local. All R01–R11 software gates pass. Publish a DEVNET_ACCEPTED report with limitations. This checkpoint does not satisfy R12 or authorize mainnet.
 
 ## B10 — Capacity program
 
@@ -103,7 +106,9 @@ Gate: SCALE_TARGET_VERIFIED only after declared mixed-EVM sustained 1M target, s
 
 ## Bulk integration protocol
 
-Before closing a bulk: inspect the full diff; run format/lint/unit and relevant integration gates; review unsafe/concurrency/authentication/recovery code; check documentation links and status accuracy; record evidence at the integrated revision; make a coherent local commit; update HANDOFF and proceed.
+Before closing a bulk: inspect the full diff; run format/lint/unit, `cargo xtask check-structure` and relevant integration gates; review unsafe/concurrency/authentication/recovery code; check documentation links and status accuracy; record evidence at the integrated revision; make a coherent local commit; update HANDOFF and proceed.
+
+Record structural warnings with decomposition rationale, active reviewed exceptions and their split tasks. A handwritten file over 600 lines, expired exception, unrelated operations in a behavioral file or an absent mandatory checker blocks integration. No bulk may disable these checks to meet a functional or throughput target.
 
 Do not force-push, overwrite unrelated edits, deploy production, restart unrelated services or bypass required approvals. Remote publishing follows current user authorization. Normal coding/build failures are work to fix, not reasons to ask the user to choose routine implementation details.
 

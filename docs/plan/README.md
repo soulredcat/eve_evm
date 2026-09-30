@@ -2,7 +2,7 @@
 
 Status: **specification ready for implementation; runtime work not started**. These documents describe requirements, not evidence of execution.
 
-Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [bulk backlog](23-task-backlog-and-execution.md), and [actual status](../execution/STATUS.md).
+Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [bulk backlog](23-task-backlog-and-execution.md), and [actual status](../execution/STATUS.md).
 
 ## Design overviews
 
@@ -38,6 +38,7 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 | [22](22-code-layout-and-dependency-policy.md) | Modules, interfaces and dependency choices |
 | [23](23-task-backlog-and-execution.md) | B0–B11 executable dependency-aware bulks |
 | [24](24-decision-register.md) | Accepted direction, dev defaults and owner gates |
+| [25](25-folder-hierarchy-and-file-function-policy.md) | Recursive folders, one-function files, 200/400/600 limits and structure gates |
 
 ## Execution support
 
@@ -45,4 +46,4 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 - [Status](../execution/STATUS.md), [evidence index](../execution/EVIDENCE.md), [handoff](../execution/HANDOFF.md).
 - [Primary references](../references.md) and [documentation change record](../CHANGELOG.md).
 
-Specs 12–24 resolve earlier exploratory suggestions. A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, or claimed linear TPS scaling from additional replicas.
+Specs 12–25 resolve earlier exploratory suggestions. A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, claimed linear TPS scaling from additional replicas, or monolithic implementation files that bypass plan 25.

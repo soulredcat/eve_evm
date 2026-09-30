@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-09-30, including the owner's recursive folder/function-file requirement. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -18,6 +18,9 @@ Revision: 2026-09-30. This register resolves contradictory exploratory suggestio
 | D10 | Build incrementally from a local all-in-one/master-first harness to separated production roles. |
 | D11 | State synchronization and signed/operator-controlled software update are separate systems. |
 | D12 | Codex implements dependency-aware bulks with tests/review/evidence and continues all unblocked work. |
+| D13 | Source follows clear domain/capability/operation subfolders recursively; there is no fixed three-level or other arbitrary depth cap. Create meaningful modules, not empty decorative layers. |
+| D14 | One production behavioral file owns one primary function/operation. Other behavioral helpers get separate files; non-behavioral and minimal trait-adapter categories are explicit in plan 25. |
+| D15 | File-size policy is target 200 physical lines, decomposition review for 201–400, reviewed temporary exception for 401–600, and hard failure above 600 for handwritten files. B0 implements the checker; every bulk enforces it. |
 
 ## Superseded assumptions
 
@@ -29,6 +32,7 @@ Revision: 2026-09-30. This register resolves contradictory exploratory suggestio
 - Bulk synchronization amortizes messages, not all data bytes or WAN finality latency.
 - MASTER_ONLY is a development composition, not an alternate production trust mode.
 - The database engine/NVMe generation alone is not evidence of compactness or throughput.
+- A short file or a small prototype is not permission to bundle multiple production operations or bypass the recursive folder policy.
 
 ## Selected development baseline
 
@@ -54,12 +58,13 @@ These defaults allow implementation to proceed without repeated design questions
 | Retention | At least 10k blocks or 24h, preserving more; no unsafe last-copy pruning | Cover evidence/recovery limits |
 | Releases | Two-of-three development release signatures, operator policy | Owner-controlled production trust roots |
 | Platform | Linux reference; WSL documented where applicable | Other support requires evidence |
+| Code organization | Plan 25 recursive capability folders and one-function behavioral files | Structural tests and reviewed bounded exceptions; no bypass of D13–D15 |
 
 Genesis hash is the immutable network/spec digest. Runtime configuration digests and upgrade versions may change only through their declared rules; they must not be substituted for network identity during verification. Header extraData uses the immutable genesis-domain digest defined by plan 14, not an unannounced local config hash.
 
 ## B0 must finalize through executable spikes
 
-Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and the task-runner commands. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and the task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
 
 When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative through an ADR. Do not invent a new security model simply to make a demo run.
 

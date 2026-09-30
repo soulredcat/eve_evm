@@ -2,7 +2,7 @@
 
 ## Read first
 
-Read `goal.md`, `docs/plan/README.md`, `docs/plan/24-decision-register.md`, `docs/plan/23-task-backlog-and-execution.md`, and `docs/execution/STATUS.md`. Before changing a component, read its linked specifications and directory README. Read `docs/execution/HANDOFF.md` on every resumed session. Do not depend on the original chat being available.
+Read `goal.md`, `docs/plan/README.md`, `docs/plan/24-decision-register.md`, `docs/plan/25-folder-hierarchy-and-file-function-policy.md`, `docs/plan/23-task-backlog-and-execution.md`, and `docs/execution/STATUS.md`. Before changing a component, read its linked specifications and directory README. Read `docs/execution/HANDOFF.md` on every resumed session. Do not depend on the original chat being available.
 
 ## Execute, do not merely plan
 
@@ -19,6 +19,16 @@ Use the strongest reasoning available for protocol, security, concurrency and re
 - Preserve declared EVM semantics, atomicity and deterministic ordering. No floating-point consensus arithmetic, wall-clock reward scoring, randomized hash-map iteration, or network calls during execution.
 - RAM optimizations must not remove the only recoverable copy of finalized data.
 - Preserve the user's 40/30/30 fee policy and the 1M aggregate finalized TPS goal. Do not change acceptance tests to manufacture success.
+
+## Mandatory folder and function-file policy
+
+Follow plan 25 in every bulk. Use `runtime-or-crate/src/domain/capability/sub-capability/operation/.../function_name.rs`; add meaningful subfolders recursively without a fixed depth limit. Do not flatten distinct responsibilities or create empty layers merely for depth.
+
+One handwritten production behavior file owns one primary function/operation. Separate other behavioral helpers into named files. Types, facades, tests and minimal external-trait delegation adapters use only the explicit categories in plan 25; no hidden multi-operation services or generic utils/shared dumping grounds.
+
+Count complete formatted physical lines: target at most 200; 201–400 requires decomposition review and a recorded rationale; 401–600 requires a reviewed exact-path temporary exception and split task; above 600 fails. No minification, blanket source exclusions or raised limits to pass a gate.
+
+B0 must implement `cargo xtask check-structure` and T-L01–T-L06, then connect the checker to CI and every bulk gate. Until implemented, label this command NOT_IMPLEMENTED, not PASS. Refactor violations in the affected bulk, preserve behavior, record structure evidence and reject integration when a mandatory structure gate fails.
 
 ## Working rules
 

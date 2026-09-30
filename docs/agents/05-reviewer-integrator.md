@@ -14,6 +14,14 @@ Run format/lint/build and relevant unit/property/integration/fault gates on the 
 
 Review public/validator package independence and operator instructions. Check markdown links, status/evidence references and migration/version consistency. A successful test on an earlier agent branch is not enough after integration changes.
 
+## Mandatory structure review
+
+Read plan 25 and enforce it in every bulk. B0 must implement `cargo xtask check-structure`; run it on the integrated revision thereafter. An absent checker is NOT_IMPLEMENTED and cannot satisfy B0. Verify meaningful nested folders without a fixed depth ceiling, one primary function per behavioral file, thin facades and no catch-all or numbered-part splits.
+
+Target at most 200 formatted physical lines. Review and record the rationale for retained 201–400-line files. Reject 401–600-line files without an exact-path reviewed exception and a split task expiring no later than the next bulk. Reject every handwritten file above 600 lines. Reject expired exceptions, fabricated generated-file exclusions, minification and hidden logic in adapters/macros.
+
+Review single responsibility semantically as well as using the parser. Explicitly classify type/trait, facade, entry, function-focused test and minimal trait-delegation files under plan 25. A short file with several unrelated operations still fails. Ensure layout refactors retain deterministic results, safe visibility, public package independence and relevant regression gates. Save the structure report and outstanding split tasks with the bulk evidence.
+
 ## Close a bulk
 
 Record exact commands, exit codes, tested revision/config and artifacts. Update STATUS/EVIDENCE/HANDOFF with the lead. Create a coherent local commit describing the completed vertical slice. Push only under the user's current authorization; never force-push or rewrite history.
