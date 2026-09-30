@@ -11,6 +11,11 @@ clang-19, Perl and GNU Make. CI pins its build container separately. Host build
 tools/libc affect generated binary identities; source-build receipts do not claim
 identical OpenSSL bytes across different paths/toolchains or a certified module.
 
+Go source-build recipe version 2 disables enclosing-repository VCS stamping while
+retaining the pinned upstream source/linker identity, readonly modules and exact
+receipt checks. Older recipe receipts deliberately fail reuse; preserve historical
+artifacts and provision a fresh task-owned namespace before using the new recipe.
+
 ```sh
 cargo xtask provision-tools --root . --pins config/tool-pins.toml \
   --output local-tests/toolchain-b0 --jobs 2

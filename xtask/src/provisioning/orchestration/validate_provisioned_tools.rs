@@ -44,7 +44,7 @@ pub fn validate_provisioned_tools(
         "provision report source pins changed"
     );
     let comet_recipe = format!(
-        "go1.27.1-readonly-trimpath-CGO1-clang19-v1;{}",
+        "go1.27.1-readonly-trimpath-no-host-vcs-CGO1-clang19-v2;{}",
         pins.comet.source_identity
     );
     for (name, pin, recipe, args) in [

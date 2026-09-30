@@ -15,7 +15,7 @@ pub fn provision_comet(
     jobs: usize,
 ) -> Result<ProvisionedArtifact> {
     let recipe = format!(
-        "go1.27.1-readonly-trimpath-CGO1-clang19-v1;{}",
+        "go1.27.1-readonly-trimpath-no-host-vcs-CGO1-clang19-v2;{}",
         pin.source_identity
     );
     if let Some(receipt) = load_verified_receipt(output, "comet", pin, &recipe, &["version"])? {
@@ -34,17 +34,12 @@ pub fn provision_comet(
         "-ldflags=-X=github.com/cometbft/cometbft/version.TMGitCommitHash={}",
         pin.source_identity
     );
+    let mut build = Command::new(&go.executable);
+    super::configure_go_source_build(&mut build, jobs);
     run_checked_command(
-        Command::new(&go.executable)
+        build
             .current_dir(&source)
-            .args([
-                "build",
-                "-mod=readonly",
-                "-trimpath",
-                &format!("-p={jobs}"),
-                &linker,
-                "-o",
-            ])
+            .args([&linker, "-o"])
             .arg(target)
             .arg("./cmd/cometbft")
             .env("GOTOOLCHAIN", "local")

@@ -20,6 +20,14 @@ The exact Go archive exposes locale-dependent tar quoting, and a fresh checkout
 exposes the normalized checksum-manifest digest. Both are repaired with scoped
 tests and strict checks; the next hosted result remains separately observable.
 
+## CI-20261001-source-build — Enclosing-repository provenance
+
+[Source-build repair](CI-20261001-source-build.md): the second hosted attempt
+passed extraction but failed build. A reproduced Git-metadata failure and an
+observed incorrect host stamp motivate explicit upstream-source provenance.
+88 scoped xtask cases and 13 actual-engine cases pass; hosted acceptance remains
+separate. The foundation catalog contains 207 cases after both regressions.
+
 ## PUB-20260930-01 — Local test isolation and publication policy
 
 Scope: repository hygiene and English collaboration only. This record belongs to the local policy commit based on clean branch `main` at `027ef9dc5779098f1192c56308cf7eb6c21bd13e`; it does not close B0, SEC0, INT0, or any runtime gate.

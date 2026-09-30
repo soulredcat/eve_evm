@@ -2,6 +2,7 @@ version = 1
 package = "xtask"
 requirements = ["B0.4","B0.5","B0.6","T-L01","T-L02","T-L03","T-L04","T-L05","T-L06"]
 tests = [
+    "provisioning::tests::go_source_build::extracted_source_build_does_not_require_or_embed_enclosing_git_metadata",
     "provisioning::tests::archive::preserves_pinned_unicode_names_under_a_c_locale_without_allowing_controls",
     "artifacts::artifact_creation_requires_git_ignore_and_records_failed_future_gate",
     "catalog::complete_core_mapping_keeps_every_runtime_requirement_unachieved_by_foundations",
