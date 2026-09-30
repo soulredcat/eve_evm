@@ -2,6 +2,7 @@ version = 1
 package = "eve-consensus-comet"
 requirements = ["B0.2","B0.3","SEC0-native-hybrid-incompatibility"]
 tests = [
+    "loopback_rpc_decodes_real_chunked_http_body_and_rejects_http_errors",
     "accepts_ignored_local_artifacts_and_rejects_role_source_location",
     "activated_hybrid_requirement_fails_closed_for_native_engine",
     "actual_pinned_engine_lifecycle_and_next_height_commitment",

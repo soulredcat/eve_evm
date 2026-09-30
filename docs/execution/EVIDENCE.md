@@ -28,6 +28,13 @@ observed incorrect host stamp motivate explicit upstream-source provenance.
 88 scoped xtask cases and 13 actual-engine cases pass; hosted acceptance remains
 separate. The foundation catalog contains 207 cases after both regressions.
 
+## CI-20261001-http — Lifecycle transport and compact failure categories
+
+[HTTP/diagnostic repair](CI-20261001-http.md): fourth hosted run reaches the
+consensus suite and fails; a concrete chunk-framing bug is reproduced/repaired.
+Scoped 89 tooling and 14 actual-engine cases pass, with strict checks and fixed
+diagnostic categories. Full catalog has 209 cases; hosted result remains separate.
+
 ## PUB-20260930-01 — Local test isolation and publication policy
 
 Scope: repository hygiene and English collaboration only. This record belongs to the local policy commit based on clean branch `main` at `027ef9dc5779098f1192c56308cf7eb6c21bd13e`; it does not close B0, SEC0, INT0, or any runtime gate.

@@ -29,3 +29,22 @@ fn missing_command_preserves_attempted_arguments_and_error_evidence() {
     );
     assert_eq!(command.stderr_sha256.len(), 64);
 }
+
+#[test]
+fn compact_failure_categories_never_echo_raw_keys_paths_or_untrusted_text() {
+    use xtask::verification::commands::summarize_command_failure::summarize_command_failure;
+    let raw =
+        "Error: CometBFT exited before API smoke completed; private-key=do-not-echo /personal/path";
+    assert_eq!(
+        summarize_command_failure(raw, ""),
+        "ENGINE_EXITED_DURING_LIFECYCLE"
+    );
+    assert_eq!(
+        summarize_command_failure("untrusted arbitrary bytes", "private-key=do-not-echo"),
+        "UNCLASSIFIED_FAILURE; inspect ignored command evidence"
+    );
+    assert_eq!(
+        summarize_command_failure("", "Connection refused; assertion failed"),
+        "CONNECTION_REFUSED, ASSERTION_FAILED"
+    );
+}
