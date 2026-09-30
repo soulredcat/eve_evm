@@ -1,0 +1,15 @@
+# Validator authentication component
+
+Canonical owner: validator authentication. This package implements bounded
+ML-DSA-65 encoding/signing/verification and strict paired Ed25519 AND ML-DSA
+authorization over one bound identity/message. It is experimental integration,
+not consensus, authenticated enrollment, FIPS validation or a verified PQ profile.
+
+Required official verification fixtures and notices live inside `tests/fixtures/`
+so packaging does not depend on a repository-external test directory. Reusable
+source included in public/master distributions must be generated reproducibly
+from this canonical component; no divergent handwritten implementation is allowed.
+
+The default shared workspace currently supplies build metadata. Complete role
+distributions still need standalone manifests/lockfiles and isolated copy/build/run
+verification; their runtime/package acceptance is not yet implemented.

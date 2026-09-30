@@ -101,7 +101,7 @@ Report source-finality wait, proof production/verification, destination fees/com
 Create real modules when their tasks start; these are planned paths, not existing implementations:
 
 ```text
-crates/bridge/src/
+validator/components/bridge/src/
   routes/capabilities/validation/validate_route_capabilities.rs
   assets/origin/mapping/resolve_asset_representation.rs
   assets/amounts/conversion/convert_exact_amount.rs

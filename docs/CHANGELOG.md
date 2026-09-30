@@ -1,5 +1,12 @@
 # Documentation change record
 
+## 2026-09-30 — Role-owned Rust foundation checkpoint
+
+- Added exact Rust/dependency pins, Cargo.lock, role-owned recovery-storage/authentication/Shanghai execution foundations and an initial executable structure checker.
+- Removed the root shared-code directory; canonical components now live under public/validator ownership. Added absolute standalone copy/build/run requirements and preserved master-host role separation.
+- Added meaningful component tests, official NIST verification fixtures/notices and strict format/lint checks. Full node, checker boundary/CI, B0/SEC0 and standalone distribution acceptance remain open.
+- Prepared the explicitly authorized GitHub checkpoint with English source/docs and ignored local artifacts; retained dependency maintenance warnings without suppressing them.
+
 ## 2026-09-30 — Regional masters and public persistence
 
 - Added plan 32 and decisions D29–D33 for operational zones, one preferred eligible nearby sync endpoint, master-independent live P2P, and the intended 1→2→10 independently verified master topology.

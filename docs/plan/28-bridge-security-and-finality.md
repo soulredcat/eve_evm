@@ -78,7 +78,7 @@ Any ZK/proof-compression substitution needs a reviewed quantum threat model for 
 Create these domains when implementation reaches them; they are not existing binaries:
 
 ```text
-crates/bridge/src/
+validator/components/bridge/src/
   routes/registry/validation/validate_route_profile.rs
   clients/finality/verification/verify_source_finality.rs
   proofs/receipts/inclusion/verify_custody_event.rs

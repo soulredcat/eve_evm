@@ -2,6 +2,8 @@
 
 Planning only; the runtime is not implemented yet.
 
+Role ownership and standalone distribution are absolute requirements. Public-specific entry points and orchestration stay here; `components/recovery-store/` owns the implemented bounded record-storage foundation. The completed copy-ready public directory must include every required dependency, lockfile/toolchain, sanitized configuration and notices, and pass build/run after copying only this directory to an unrelated location. No private master implementation or unresolved parent-directory path is permitted. The current record-store foundation is not yet a complete public node or passing standalone distribution.
+
 Permissionless RPC/P2P node with bounded transaction ingestion, verified state queries, snapshot/delta bootstrap, peer data distribution and explicit readiness. It has no voting power unless a separately registered validator runtime is co-located.
 
 A public package must build without master implementation or secrets. Default `PUBLIC` keeps hot execution/query state in RAM while storing finalized blocks and recoverable checkpoints on local durable storage. RAM-only operation is an explicit development/ephemeral alternative, not the default. State sources may be peers or master, but source identity is not a trust anchor.

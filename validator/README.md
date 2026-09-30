@@ -2,6 +2,8 @@
 
 Planning only; the runtime is not implemented yet.
 
+Role ownership and standalone distribution are absolute requirements. `components/execution/` owns deterministic EVM execution; `components/authentication/` owns the authentication foundation. Validator-specific signing/consensus wiring stays here. The completed copy-ready validator directory must include required dependencies, lockfile/toolchain, sanitized configuration and notices, and pass build/run after copying only this directory into an unrelated location. No private master implementation or unresolved parent-directory dependency is permitted. Implemented component source does not yet prove a running validator or standalone distribution.
+
 Owns transaction execution/replay, proposal validation, consensus participation, finality and validator lifecycle integration. Uses shared EVM/protocol/state modules and a reviewed BFT adapter; no private master database dependency.
 
 Mandatory durable data: consensus WAL, anti-double-sign height/round/step and sign-byte history, key-fencing state, recent finalized block data and recoverable application state. Hot RAM does not replace these records.

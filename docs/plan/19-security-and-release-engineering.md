@@ -39,6 +39,8 @@ Build public and validator source/binary packages from an explicit allowlist of 
 
 Workspace manifests/lockfiles for the package must be generated reproducibly and tested; merely running `cargo build -p eve-public` in a complete private tree is not proof of independent distribution. Preserve applicable third-party notices. Do not choose a binding project license or change repository visibility without owner approval.
 
+The owner requires copying the complete public or validator role directory alone to an unrelated clean location and building/running it there. Include all required local dependency sources/artifacts, lockfile/toolchain, sanitized examples and notices; no path may escape to the original repository or sibling roots. A master-host bundle may explicitly compose all roles with separate credentials/authority. Reusable component copies must match one canonical owner; do not maintain divergent consensus-critical implementations. T-Q04/T-L06 and clean-copy smoke tests must exercise actual role behavior, not just a compiling empty entry point.
+
 The current repository is public. Putting code under `master/` does not make it private. The source-publication boundary is a packaging goal, not secrecy already achieved.
 
 ## Q05 — Authenticated releases

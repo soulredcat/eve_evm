@@ -1,0 +1,2 @@
+# Keep source and pinned textual fixtures identical across supported hosts.
+* text=auto eol=lf

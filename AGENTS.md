@@ -31,6 +31,26 @@ Bridge value moves only after authenticated source finality/inclusion, replay an
 
 Implement SEC0 with B0 and register T-M/T-P/T-BR gates. A classical benchmark, working devnet or wrapper library does not satisfy SECURITY_PROFILE_ACCEPTED. Keep missing mandatory coverage and stronger unmet fault-model requirements visible.
 
+## Absolute role ownership and file placement
+
+The owner makes role clarity an absolute integration rule ("level 1000"). Every first-party file must have an identifiable role/domain, responsibility and permitted dependency direction. Passing compilation or a performance test never excuses misplaced or mixed-role code.
+
+- `public/` owns public RPC/P2P entry points, admission, verified RAM views, public bootstrap/readiness and public persistence orchestration.
+- `master/` owns private master follower/archive entry points, master replication and protected snapshot/storage orchestration; it never owns validator finality.
+- `validator/` owns validator entry points, proposal/execution-validation wiring, voting/signing orchestration and validator lifecycle.
+- Do not create a root `crates/`, `create/`, or generic shared-code dumping directory. Place reusable components under their owning role's `components/<named-domain>/`, with a README identifying the responsibility and canonical source. Current ownership is `public/components/recovery-store/` for public recovery storage and `validator/components/execution/` / `validator/components/authentication/` for execution/authentication. Reusable storage does not imply access to private master implementation.
+- Runtime entry points stay thin. Do not copy consensus-critical logic between roles or place one runtime's private behavior under another runtime. Public/validator packages must build without master implementation, including transitive dependencies.
+- Name each behavioral file after its primary operation; keep meaningful recursive capability boundaries, narrow visibility and explicit ownership. Types, facades and reviewed thin trait adapters follow plan 25's categories.
+- Wrong-role files, mixed responsibilities, opaque numbered splits, hidden facade/adapter behavior and forbidden dependency edges fail review and the applicable structure/package gates. Repair them before integration; do not waive this rule to manufacture a pass. Record actual checker coverage and missing gates honestly.
+
+## Absolute standalone role distribution
+
+The master host/distribution may compose public, validator and master runtimes with separate role configuration, credentials and authority. `MASTER_SYNC_ONLY` never becomes a voter; development all-in-one production guards remain mandatory.
+
+The copy-ready `public/` and `validator/` distributions must each contain their entry point, dependency source/artifacts, Cargo manifest/lockfile, toolchain pin, sanitized configuration examples and required notices. Copy only that role directory into an unrelated clean location, then build and run without the original repository, sibling directories or private master code/configuration. A successful monorepo package build does not satisfy this rule.
+
+Do not hand-maintain duplicate consensus-critical implementations. Include reusable components by reproducible source packaging from one canonical owner, with exact source identities and content comparison; packaged copies are not independent forks and remain subject to applicable structure checks. No role's runnable distribution may contain an unresolved path dependency escaping its directory. T-Q04/T-L06 and the clean-copy build/run gate must reject a missing component or hidden parent-directory dependency. Until implemented and exercised, standalone distribution remains `NOT_IMPLEMENTED` / `NOT_RUN`.
+
 ## Mandatory folder and function-file policy
 
 Follow plan 25 in every bulk. Use `runtime-or-crate/src/domain/capability/sub-capability/operation/.../function_name.rs`; add meaningful subfolders recursively without a fixed depth limit. Do not flatten distinct responsibilities or create empty layers merely for depth.

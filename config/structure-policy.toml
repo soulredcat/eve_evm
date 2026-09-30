@@ -1,0 +1,35 @@
+version = 1
+current_bulk = 0
+
+[[exclusions]]
+path = "Cargo.lock"
+kind = "generated"
+source = "https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html"
+generator = "Cargo 1.97.1 generate-lockfile"
+reason = "Cargo resolves and records exact dependency identities and checksums."
+
+[[adapters]]
+path = "xtask/src/structure/syntax/syntax_inventory_adapter.rs"
+external_trait = "syn::visit::Visit"
+reason = "Each trait callback delegates to one separately named AST operation."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/components/execution/src/execution/serial/fees/handler/fee_handler_adapter.rs"
+external_trait = "revm::handler::Handler"
+reason = "One fee callback delegates to its named operation; default validation/gas/refund behavior is retained."
+reviewer = "integrator"
+
+[[exclusions]]
+path = "validator/components/authentication/tests/fixtures/nist-acvp/prompt.json"
+kind = "vendor"
+source = "https://github.com/usnistgov/ACVP-Server/blob/a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324/gen-val/json-files/ML-DSA-sigVer-FIPS204/prompt.json"
+sha256 = "e2cba4589389756fa0bea1a7e6837138bf0a81f9d14234c9ee8f6d33caa1654e"
+reason = "Unmodified official signature-verification input corpus; exact digest and NIST notice retained."
+
+[[exclusions]]
+path = "validator/components/authentication/tests/fixtures/nist-acvp/expectedResults.json"
+kind = "vendor"
+source = "https://github.com/usnistgov/ACVP-Server/blob/a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324/gen-val/json-files/ML-DSA-sigVer-FIPS204/expectedResults.json"
+sha256 = "e1d84ef1b2f35196278ab0b0ed6a46ec62cc03d2dfa92c564199e1999bfb8ea6"
+reason = "Unmodified official expected-result corpus, not first-party production code; exact digest and NIST notice retained."

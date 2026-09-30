@@ -2,7 +2,7 @@
 
 A documentation-first engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: specification and implementation plan only. No runtime, passing test suite, deployed chain, or measured TPS is claimed.**
+**Status: B0 foundation implementation is in progress. The pinned Rust workspace contains role-owned execution, authentication, recovery storage and an initial structure checker. Complete role runtimes, standalone distributions, devnet/security acceptance and measured TPS remain unachieved.**
 
 ## Main objective
 
@@ -39,14 +39,16 @@ One regional master can serve several public nodes through a preferred nearby el
 - `master/`: protected synchronization and storage runtime.
 - `public/`: independently distributable public RPC/P2P runtime.
 - `validator/`: validator runtime; it may be co-located with a public node.
-- `crates/`: shared protocol, execution, commitments, storage interfaces and cryptography.
+- `public/components/recovery-store/`: bounded durable recovery record storage owned by the public role.
+- `validator/components/execution/`: deterministic EVM execution owned by the validator role.
+- `validator/components/authentication/`: reviewed authentication integration owned by the validator role.
 - `docs/plan/`: normative development specifications and dependency-ordered work.
 - `docs/agents/`: role-specific execution responsibilities.
 - `docs/execution/`: persistent progress, evidence and resumption state.
 - `tests/`: reviewed reproducible test source and sanitized regression fixtures.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
-Directories currently contain planning material, not implemented binaries. Rust + REVM and a CometBFT consensus adapter are the proposed executable devnet baseline; dependency versions must be pinned and verified in bulk B0. They are not a promise of 1M TPS. The baseline preserves a declared Shanghai EVM execution surface; subsequent fork support is an explicit upgrade.
+Role-owned component source is implemented as an initial checkpoint; complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Rust, REVM, storage and primitive-authentication dependencies are pinned in the workspace, while the complete B0 consensus/client/interface and evidence contract remains open. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
 
 ## Economics
 

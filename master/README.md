@@ -6,6 +6,8 @@ Production role: verify finalized consensus provenance, import authenticated sta
 
 A local development all-in-one harness may compose shared execution and test-validator components. It must not leak that authority into MASTER_SYNC_ONLY.
 
+The master host/distribution may explicitly run master, public and validator components together. Keep their entry points, configuration, credentials and authority separate; composing a validator on the same host does not make the master role a voter. Public and validator distributions must each be independently copyable/buildable/runnable without this private master implementation. Reproducible packaging includes only the required canonical reusable components and never creates a second hand-maintained consensus implementation.
+
 Start with one master and one public runtime alongside the four-validator devnet baseline. One master can serve several public nodes through bounded object distribution or relays. A single-validator harness is local development only.
 
 Introduce `zone_id` as routing/operational metadata from the start, distinct from network name, immutable genesis hash and EVM chain ID. Zones do not grant voting power, state ownership or finality. Evolve toward two mutually synchronized independent finalized-history replicas, then a planned ten masters across regions; this is not deployment, hardware purchase or launch authorization.

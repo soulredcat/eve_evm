@@ -1,12 +1,14 @@
 # 25 — Recursive folder hierarchy, function files and size limits
 
-Status: mandatory implementation policy, added 2026-09-30. The structure checker described here is a B0 deliverable, not an already implemented or passing tool.
+Status: mandatory implementation policy, added 2026-09-30. An initial structure command is implemented and its current scan is verified; complete T-L01–T-L06 coverage, CI integration and B0 structure acceptance remain unfinished.
 
 ## F01 — Owner requirement
 
 Use clear folders, subfolders, further subfolders and leaf files for individual functions. There is no fixed maximum nesting depth and no rule limiting the project to three directory levels. Keep `master/`, `public/` and `validator/` separate, and share reusable behavior through the domain crates in plan 22.
 
 This policy refines plans 22 and 23 and applies to every implementation bulk. It does not change protocol semantics, consensus authority, fee allocation or throughput acceptance.
+
+The owner explicitly elevates role clarity and file placement to an absolute integration rule ("level 1000"). Every file must belong to a named role/domain and responsibility. Keep public/master/validator-specific orchestration in its runtime root; reusable domain behavior belongs in a specifically named crate. Forbidden role/dependency edges, mixed-role modules, opaque splits and hidden facade/adapter behavior block integration even when compilation or a benchmark succeeds. Semantic ownership review complements automated coverage; never claim an unimplemented package/structure check passed.
 
 ## F02 — Organize by domain, then narrow the responsibility
 
@@ -24,6 +26,8 @@ runtime or crate/
 ```
 
 Every level must narrow meaning or establish an ownership/API boundary. Group related function files under the smallest coherent parent. Add another subfolder when a domain develops distinct sub-responsibilities; do not flatten everything into one directory to avoid nesting. Conversely, do not manufacture empty layers, duplicate names or placeholder directories to reach a depth target. Depth follows real responsibility, not a number.
+
+Do not create a root `crates/` or `create/` directory. Reusable Rust packages remain named, responsibility-specific components under an explicit owning role. Copy-ready role distributions carry reproducibly packaged dependency components and standalone manifests/lockfiles; package copies must match canonical source and cannot introduce private-master dependencies or unresolved paths outside the copied directory.
 
 Use `snake_case` Rust module and function-file names. Keep established runtime/crate root names from plan 22. Prefer domain names for folders and verb-plus-object names for behavioral files. Do not create catch-all `utils.rs`, `helpers.rs`, `common.rs`, `manager.rs` or a generic `shared` crate for unrelated logic. Do not split a large file into `part1.rs`, `part2.rs` or `misc/`; split by actual function.
 
@@ -63,14 +67,15 @@ validator/
         precommit/
           signing/
             request_durable_precommit.rs
-crates/
-  state/
-    src/
-      commitments/
-        accounts/
-          proofs/
-            verification/
-              verify_account_proof.rs
+validator/
+  components/
+    state/
+      src/
+        commitments/
+          accounts/
+            proofs/
+              verification/
+                verify_account_proof.rs
 ```
 
 These files call the existing shared contracts. They must not duplicate an EVM engine, consensus algorithm or storage implementation in each runtime. Module declarations and narrow re-exports must make the nested paths buildable. Keep internal functions private or crate-visible unless an actual consumer needs a public API.
@@ -123,7 +128,7 @@ The lead assigns ownership at capability/subfolder level. The integrator owns sh
 
 ## F06 — Automated structure gate: implement in B0
 
-Create `cargo xtask check-structure` during B0 and wire it into every bulk verification command and CI. This is a required command to implement, not a claim it is available in the current documentation-only repository. B0 cannot pass while the checker is absent, stubbed or silently skipping supported sources.
+Complete `cargo xtask check-structure` during B0 and wire it into every bulk verification command and CI. The initial command is available; its repository scan alone does not close the boundary/regression tests, package checks or CI requirements below. B0 cannot pass while required checker coverage is absent, stubbed or silently skipped.
 
 The checker must:
 

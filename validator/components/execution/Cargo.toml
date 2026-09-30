@@ -1,0 +1,23 @@
+[package]
+name = "eve-evm"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+revm.workspace = true
+alloy-primitives.workspace = true
+alloy-consensus.workspace = true
+alloy-eips.workspace = true
+alloy-rlp.workspace = true
+alloy-trie.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+hex.workspace = true
+k256.workspace = true
+
+[lints]
+workspace = true

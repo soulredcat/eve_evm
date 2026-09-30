@@ -7,20 +7,12 @@ Create runtime roots only as their bulk requires them; current README files are 
 ```text
 master/                   eve-master follower runtime
 public/                   eve-public RPC/P2P runtime
+  components/
+    recovery-store/       public durable block/checkpoint recovery component
 validator/                eve-validator application/consensus runtime
-crates/
-  primitives/             domain-separated IDs, addresses, quantities
-  chain-spec/             validated genesis, parameters, fork schedules
-  protocol/               versioned messages and canonical encodings
-  evm/                    REVM adapter, serial reference, parallel executor
-  state/                  immutable views, journals, commitments
-  storage/                durable stores, snapshots, segments, retention
-  consensus-interface/    verified consensus/commitment contracts
-  consensus-comet/        baseline ABCI++ integration
-  p2p/                    public distribution, sync client/server
-  rpc/                    Ethereum-style RPC and simulation
-  system/                 staking, fees, work, rewards, evidence
-  observability/          bounded metrics, structured events
+  components/
+    execution/            validator-owned REVM adapter and serial reference
+    authentication/       validator-owned authentication integration
 xtask/                    build/devnet/gates/packaging/bench orchestration
 contracts/fixtures/       pinned Solidity development fixtures
 integration/              TypeScript and multi-process scenarios
@@ -29,9 +21,13 @@ benchmarks/               repeatable generators and profiles
 docs/                     specifications, runbooks and evidence summaries
 ```
 
-This is a root map, not a flat source layout. Inside each runtime/crate, use `src/domain/capability/sub-capability/operation/.../function_name.rs`. The number of meaningful subfolder levels is not capped at three. Each behavioral file owns one primary function; shared logic belongs in a named domain crate, not copied into runtime folders.
+This is a root map, not a flat source layout. Do not create a root `crates/` or `create/` directory. Inside each runtime or role-owned component, use `src/domain/capability/sub-capability/operation/.../function_name.rs`. The number of meaningful subfolder levels is not capped at three. Each behavioral file owns one primary function; each reusable component has one canonical owner and a documented narrow API. Add future protocol/state/network/system components only under an explicit role owner when the implementing bulk needs them.
 
 Keep entry points thin: configuration, dependency construction, role-specific startup/shutdown. Do not create a generic `shared` crate containing unrelated business logic. Related code may share a crate initially, but must retain nested capability boundaries and single-function behavioral files. A small prototype is not permission to combine unrelated functions into a monolithic file.
+
+Role ownership is an absolute integration requirement: `public/` owns public ingress/query/sync/persistence wiring; `master/` owns protected follower/archive/replication wiring; `validator/` owns execution-validation/voting/signing/lifecycle wiring. Named domain crates own reusable operations, never private role authority. Require narrow public APIs and review direct/transitive dependencies: public and validator cannot depend on private master code. Reject wrong-role/mixed modules before integration, regardless of compilation or performance results; the current implementation must report which automated ownership/package gates actually exist.
+
+Copy-ready public and validator distributions contain all required local components, manifests/lockfiles, toolchain pins, sanitized configuration and notices. Copy that role directory alone to an unrelated clean directory and build/run without the monorepo or sibling roots; reject every unresolved path escaping the distribution. Produce required reusable source copies reproducibly from their canonical owner and compare content identities, rather than maintaining divergent implementations. The master distribution may explicitly compose all three roles while preserving separate credentials/authority and production all-in-one guards. A monorepo-only build never proves this acceptance.
 
 ## L02 — Baseline dependencies
 

@@ -1,13 +1,15 @@
 # Implementation status
 
-Updated: 2026-09-30. The current specifications include Ethereum/Solana interoperability and regional masters/RAM-first public persistence. **No runtime implementation or execution gate has passed yet.**
+Updated: 2026-09-30. The current specifications include Ethereum/Solana interoperability, regional persistence and absolute role-owned standalone distribution. **No complete role runtime, devnet acceptance or full bulk gate has passed yet.**
 
 ## Overall
 
 - Documentation/goal package: prepared for implementation, including plans 00–32.
 - Collaboration policy: English shared prose and clean GitHub publication rules recorded; ignored `local-tests/` workspace established. Publication checks are recorded in [PUB-20260930-01](EVIDENCE.md#pub-20260930-01--local-test-isolation-and-publication-policy); no implementation bulk or runtime gate is completed by this hygiene task.
 - Regional/public persistence contract: [plan 32](../plan/32-regional-masters-and-public-persistence.md) records 1→2→10 independent master followers, preferred eligible nearby sync endpoints, operational zone IDs, RAM working state with isolated bounded durable recovery storage, and T-N09–T-N12. Documentation verification is recorded in [DOC-20260930-02](EVIDENCE.md#doc-20260930-02--regional-masters-and-public-persistence); all four new runtime cases are `NOT_IMPLEMENTED` / `NOT_RUN`.
-- Runtime code: not started.
+- Runtime foundations: role-owned execution/authentication/recovery-store source and an initial xtask structure checker have been written; complete role runtimes and standalone copy/build/run acceptance are not yet implemented. Root `crates/` has been removed by source-preserving relocation.
+- Current placement verification: Cargo metadata resolves all four workspace packages at their intended role/tool paths; `cargo check -p xtask --locked`, `cargo check -p eve-evm --locked` and the current structure scan pass. The scan covers 200 files with zero violations and three exact generated/vendor exclusions. T-L01–T-L06 boundary/regression coverage, CI, all role builds and independent copy/build/run remain unfinished; this does not close B0.
+- Publication checkpoint validation: 29 authentication, 8 EVM and 12 Linux recovery-store integration tests pass with zero failures/ignored cases. Formatting, strict Clippy and current structure checks pass on the selected components. Dependency audit reports zero known vulnerabilities and five unmaintained-package warnings, including dev-only PQClean cross-check wrappers; replacement/review remains open. This is not full B0/SEC0 acceptance or production crypto approval.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
 - PQ_PROFILE_VERIFIED: NOT_ACHIEVED.
@@ -18,13 +20,13 @@ Updated: 2026-09-30. The current specifications include Ethereum/Solana interope
 - 51_PERCENT_CONTINUITY: UNSATISFIED_BY_BASELINE; no unconditional majority-tolerance guarantee.
 - EXTERNAL_BRIDGE_ROUTES: DISABLED_NOT_APPROVED.
 - MAINNET_READY: NOT_AUTHORIZED / NOT_ASSESSED.
-- Runtime, structure, cryptographic, attack, interoperability and bridge tests/benchmarks: NOT_RUN.
+- Full runtime/structure-boundary/security-profile/majority/interop/bridge/capacity acceptance and benchmarks: NOT_RUN / NOT_ACHIEVED. Initial component/primitive test and repository-scan results are recorded separately in EVIDENCE.md.
 
 ## Core bulk ledger
 
 | Bulk | Status | Next acceptance requirement | Evidence |
 |---|---|---|---|
-| B0 | NOT_STARTED | Pin dependencies/interfaces; workspace/xtask/vectors/structure checker; SEC0 and INT0 inventories | None |
+| B0 | IN_PROGRESS | Verify role-owned component source, complete/test structure checker and gate runner, dependency/API/vectors and SEC0/INT0 integration evidence | Cargo metadata validated; full gate not run |
 | B1 | NOT_STARTED | State/store/master harness and crash recovery | None |
 | B2 | NOT_STARTED | Real serial EVM/fees/RPC/developer fixture | None |
 | B3 | NOT_STARTED | Four-validator classical baseline consensus and signing safety; not a PQ claim | None |
@@ -41,7 +43,7 @@ Updated: 2026-09-30. The current specifications include Ethereum/Solana interope
 
 | Bulk | Status | Next acceptance requirement | Evidence |
 |---|---|---|---|
-| SEC0 | NOT_STARTED | B0 crypto/commitment inventory, real integration spikes, attack/proof test registration | None |
+| SEC0 | IN_PROGRESS | Compile/verify authentication foundation and official fixtures; finish commitment inventory, consensus integration spike and attack/proof registry | Source present; integrated tests not run |
 | SEC1 | NOT_STARTED | Actual consensus/account/client/recovery hybrid enforcement, majority tests and migration | None |
 | SEC2 | NOT_STARTED | Two-EVE-devnet bridge, proofs, conserved backing, replay/incident and hybrid tests | None |
 | SEC3 | NOT_STARTED | Integrated security profile, recovery/release drills, secure capacity handoff | None |
