@@ -1,8 +1,8 @@
 # Planning index
 
-Status: **specification ready for implementation; runtime work not started**. These documents describe requirements, not evidence of execution.
+Status: **specifications and implementation queues prepared; runtime work not started**. These documents describe requirements, not evidence of execution or security certification.
 
-Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [bulk backlog](23-task-backlog-and-execution.md), and [actual status](../execution/STATUS.md).
+Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), and [actual status](../execution/STATUS.md).
 
 ## Design overviews
 
@@ -36,14 +36,20 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 | [20](20-test-vectors-and-acceptance.md) | Test matrix, gates and evidence |
 | [21](21-capacity-and-regional-scaling.md) | Capacity, WAN, parallelism and sharding gates |
 | [22](22-code-layout-and-dependency-policy.md) | Modules, interfaces and dependency choices |
-| [23](23-task-backlog-and-execution.md) | B0–B11 executable dependency-aware bulks |
+| [23](23-task-backlog-and-execution.md) | B0–B11 core dependency-aware bulks |
 | [24](24-decision-register.md) | Accepted direction, dev defaults and owner gates |
 | [25](25-folder-hierarchy-and-file-function-policy.md) | Recursive folders, one-function files, 200/400/600 limits and structure gates |
+| [26](26-consensus-adversary-and-majority-resilience.md) | Majority adversaries, actual BFT limits, safety/availability and incident tests |
+| [27](27-post-quantum-cryptography-and-migration.md) | Crypto inventory, hybrid/PQ authentication, accounts, commitments and migration |
+| [28](28-bridge-security-and-finality.md) | Route trust, source proofs, custody/backing, limits and local bridge acceptance |
+| [29](29-security-implementation-and-acceptance.md) | Mandatory SEC0–SEC3 queue, core dependencies and security completion levels |
 
 ## Execution support
 
 - [Specialist responsibilities](../agents/README.md).
 - [Status](../execution/STATUS.md), [evidence index](../execution/EVIDENCE.md), [handoff](../execution/HANDOFF.md).
-- [Primary references](../references.md) and [documentation change record](../CHANGELOG.md).
+- [Primary references](../references.md) and [documentation change record](../CHANGELOG.md). New security standards and primary links are included directly in plans 26–28.
 
-Specs 12–25 resolve earlier exploratory suggestions. A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, claimed linear TPS scaling from additional replicas, or monolithic implementation files that bypass plan 25.
+Specs 12–29 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune.
+
+A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, linear TPS claims from extra replicas, monolithic files, classical-only security-profile bypasses or unverified bridge minting. Real bridge deployment remains an owner gate.

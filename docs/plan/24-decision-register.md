@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30, including the owner's recursive folder/function-file requirement. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-09-30, including recursive folder/function-file policy and majority/PQ/bridge security requirements. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -21,6 +21,11 @@ Revision: 2026-09-30, including the owner's recursive folder/function-file requi
 | D13 | Source follows clear domain/capability/operation subfolders recursively; there is no fixed three-level or other arbitrary depth cap. Create meaningful modules, not empty decorative layers. |
 | D14 | One production behavioral file owns one primary function/operation. Other behavioral helpers get separate files; non-behavioral and minimal trait-adapter categories are explicit in plan 25. |
 | D15 | File-size policy is target 200 physical lines, decomposition review for 201–400, reviewed temporary exception for 401–600, and hard failure above 600 for handwritten files. B0 implements the checker; every bulk enforces it. |
+| D16 | Majority-attack resilience is mandatory and evaluated under explicit adversary assumptions. The existing BFT baseline does not guarantee safety/liveness at 51% Byzantine power; stronger unmet requirements remain visible rather than being renamed complete. |
+| D17 | Post-quantum security is a required implementation/migration track, not a label for the classical baseline. Enforce the named crypto profile throughout consensus, protected accounts, clients, control/recovery and releases. |
+| D18 | Bridge security requires authenticated source finality/inclusion, replay prevention, backing conservation, exposure controls and route-specific crypto/trust assessment. No relayer/master assertion authorizes value movement. |
+| D19 | Core B0–B11 plus security SEC0–SEC3 are mandatory. First bridge fixture uses two task-owned EVE devnets/fake assets; no live custody or external production route is authorized by this planning request. |
+| D20 | Secure-profile 1M TPS must be measured with required authentication enabled. A classical-only result is diagnostic, not secured-target completion. |
 
 ## Superseded assumptions
 
@@ -33,20 +38,23 @@ Revision: 2026-09-30, including the owner's recursive folder/function-file requi
 - MASTER_ONLY is a development composition, not an alternate production trust mode.
 - The database engine/NVMe generation alone is not evidence of compactness or throughput.
 - A short file or a small prototype is not permission to bundle multiple production operations or bypass the recursive folder policy.
+- A greater-than-two-thirds quorum is not unconditional 51%-attack immunity; stronger cryptography does not stop a malicious legitimate quorum.
+- Classical EVM accounts/consensus, a PQ library, TLS, or a PQ stamp ignored by consensus verification do not establish end-to-end quantum security.
+- A bridge cannot repair failed endpoint assumptions merely by adding more relayers, waiting a fixed delay or signing messages with PQ keys.
 
 ## Selected development baseline
 
-These defaults allow implementation to proceed without repeated design questions. They are not binding mainnet allocations or claims that this is the final 1M-TPS architecture.
+These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge security. Plans 26–29 explicitly extend this classical starting point.
 
 | Area | Baseline | Change rule |
 |---|---|---|
 | Core | Rust workspace | Evidence-backed ADR for material replacement |
-| EVM | REVM, Shanghai execution, protected legacy/types 1 and 2 | Explicit fork/version tests |
-| Consensus | CometBFT ABCI++ adapter, four local equal-power validators | Reviewed adapter, safety/binding tests |
-| State | Ethereum-compatible EVM trie plus authenticated system trie | Preserve commitments or schedule migration |
+| EVM | REVM, Shanghai execution, protected legacy/types 1 and 2 | Classical compatibility profile; protected PQ accounts require plan 27 |
+| Consensus | CometBFT ABCI++ adapter, four local equal-power validators | Classical starting point; actual hybrid enforcement/engine integration under plans 26–27 |
+| State | Ethereum-compatible EVM trie plus authenticated system trie | Preserve commitments or schedule migration; analyze quantum strength before whole-chain claims |
 | Storage | RocksDB/WAL behind traits | Benchmark and recovery comparison before replacement |
 | Dev identity | EVM chain ID 31337; `eve-local-v1`; immutable genesis hash | Separate genesis for another network |
-| Resource limits | 30M gas/block, 4 MiB full consensus block, 128 KiB raw tx | Versioned config and capacity evidence |
+| Resource limits | 30M gas/block, 4 MiB full consensus block, 128 KiB raw tx | Versioned config; include actual PQ/proof byte and CPU costs |
 | Pricing | EIP-1559-style pricing, initial dev base fee 1 gwei, floor 1 base unit | Explicit config/compatibility tests |
 | Fee allocation | 4000/3000/3000 basis points; validator pool gets block split dust | Owner direction preserved |
 | Epoch/set | 1000 blocks; up to 64 active; backed stake power | Deterministic activation with adapter delay |
@@ -54,23 +62,29 @@ These defaults allow implementation to proceed without repeated design questions
 | Commission | Default 10%, max 20%, delayed changes | Development parameters only |
 | Unbonding | At least 7 consensus-time days and 2000 blocks | Must cover evidence/trust windows |
 | Evidence | Engine age rules with dev limits 1000 blocks/24 hours | Pin exact engine behavior and vectors in B0 |
-| Checkpoint | Trusted anchor period 24 hours | Validate against unbond/evidence security assumptions |
+| Checkpoint | Trusted anchor period 24 hours | Validate against unbond/evidence security and crypto migration assumptions |
 | Retention | At least 10k blocks or 24h, preserving more; no unsafe last-copy pruning | Cover evidence/recovery limits |
-| Releases | Two-of-three development release signatures, operator policy | Owner-controlled production trust roots |
+| Releases | Two-of-three development release identities, operator policy | Each counted identity meets the active signature profile; production roots need owner approval |
 | Platform | Linux reference; WSL documented where applicable | Other support requires evidence |
 | Code organization | Plan 25 recursive capability folders and one-function behavioral files | Structural tests and reviewed bounded exceptions; no bypass of D13–D15 |
+| PQ experiments | Reviewed ML-DSA-65 integration; classical AND PQ for activated hybrid authority | SEC0 pins actual support/vectors; no unsupported production security claim |
+| Bridge fixture | Two EVE devnets with distinct identities and fake assets | Real consensus/proofs; external routes disabled until separately verified/approved |
 
 Genesis hash is the immutable network/spec digest. Runtime configuration digests and upgrade versions may change only through their declared rules; they must not be substituted for network identity during verification. Header extraData uses the immutable genesis-domain digest defined by plan 14, not an unannounced local config hash.
 
 ## B0 must finalize through executable spikes
 
-Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and the task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25.
 
-When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative through an ADR. Do not invent a new security model simply to make a demo run.
+Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+
+When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative or reviewed extension through an ADR. Do not invent a new security model or certify an unsupported property simply to make a demo run.
 
 ## Owner gates
 
-Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; external security audit; purchased infrastructure; mainnet launch; Alephium bridge/settlement or other custody integration. None is authorized by fake development tokens or example parameters.
+Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Alephium/other bridge or settlement deployment and route limits. Local bridge/security implementation uses fake assets only. Development parameters do not authorize production custody.
+
+Changes adding external trust, exceptional fork/social recovery or weaker crypto/fault guarantees require explicit disclosure and approval; they cannot masquerade as routine performance tuning.
 
 ## Decision change template
 
