@@ -2,7 +2,7 @@
 
 ## Objective
 
-Turn this documentation-only repository into a working, tested EVM-compatible network with separate `master/`, `public/` and `validator/` runtimes, then execute the capacity and regional-scaling program toward **1,000,000 aggregate finalized TPS**. Do not stop after producing another plan, scaffold, mocked RPC response, in-memory demo, or compiling workspace.
+Turn this documentation-only repository into a working, tested EVM-compatible network with separate `master/`, `public/` and `validator/` runtimes, then prove **1,000,000 aggregate finalized TPS as a mainnet release requirement**. Preserve a versioned, measured development path toward future 100M and potentially 1B TPS as technology advances; these future targets are not current capability claims. Do not stop after producing another plan, scaffold, mocked RPC response, in-memory demo, or compiling workspace.
 
 User decisions are authoritative: validators make consensus decisions; developer-operated masters synchronize and persist finalized results; public nodes are permissionless; runtime sources are separate; fees split 40% burn, 30% node rewards and 30% validator rewards; useful work and availability determine reward eligibility. Organize implementation in meaningful recursively nested folders, with one primary function per behavioral file and the 200/400/600 physical-line policy in plan 25.
 
@@ -10,16 +10,20 @@ The owner additionally requires majority-attack resilience, post-quantum securit
 
 EVE must also be bridge-friendly to Ethereum, Solana and other chains through the adapter architecture in plan 30. Ethereum and Solana are mandatory named two-way integration targets, not optional examples. Preserve an EVM core while implementing separate EVM-contract and Solana-program endpoints, typed assets/addresses, source verification, SDK/transaction builders and resumable transfers. The two-EVE bridge fixture is only the first step. Other routes are extensible, not automatically supported or approved.
 
+## Current scope boundary
+
+Follow plan 31. Liquidity provision, a production DEX, reserve-funded trading and automatic pool-price stabilization are deferred to a separate future module. Do not implement them in this goal or make core launch depend on that module. Keep ordinary Solidity/AMM test fixtures and swap workloads as EVM compatibility and performance tests; bridge custody/accounting remains mandatory. The previously discussed reserve/multi-admin lock proposal is recorded separately and does not authorize automatic trading, real issuance or reserve withdrawal.
+
 ## Authority and reading order
 
 1. Current explicit user instructions and repository safety boundaries.
-2. `docs/plan/24-decision-register.md`: current architectural decisions and superseded assumptions.
+2. `docs/plan/24-decision-register.md` and `docs/plan/31-mainnet-target-and-module-boundaries.md`: current architectural decisions, release target, scope and superseded assumptions.
 3. Specifications 12–22, policies 25–28, and plan 30, with their acceptance tests. Plans 26–28 refine the older classical development baseline; they do not retroactively make it secure.
 4. `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, and plan 30's INT0–INT3 queue: mandatory core, security and interoperability work.
 5. Overviews 00–11, which summarize rather than override those specifications.
 6. `docs/execution/STATUS.md`, `EVIDENCE.md`, and `HANDOFF.md`: actual progress.
 
-For an inconsistency, preserve safety and the latest architectural decision, add a decision record, repair affected documents/tests together, then continue. Do not silently broaden scope or reintroduce master-controlled finality.
+For an inconsistency, preserve safety and the latest architectural decision, add a decision record, repair affected documents/tests together, then continue. Do not silently broaden scope, reintroduce master-controlled finality or add the deferred liquidity module.
 
 ## Execution contract
 
@@ -52,7 +56,7 @@ The implementation must provide:
 - Separate public/validator packages that build without master code; signed release verification and operator-controlled rolling updates.
 - Deterministic parallel execution proven equivalent to the serial oracle, including hot-pool contention and atomic multi-contract transactions.
 - Master replication/failover, partition tests, multi-region single-chain deployment and an explicit experimental path for state partitioning.
-- Reproducible workload generators, telemetry, fault injection, capacity reports and a measured path to the throughput target.
+- Reproducible workload generators, telemetry, fault injection, capacity reports and measured release-candidate evidence for the 1M target.
 - Function-focused, recursively nested implementation modules, passing structural checks and no expired size exceptions.
 - Majority-adversary tests and honest fault-assumption reporting, without automatic quorum reduction or master takeover.
 - Actual mandatory hybrid/PQ authentication through consensus, protected accounts, clients, control/recovery and release paths; crypto/commitment inventory and tested migrations.
@@ -66,7 +70,7 @@ A master-only early prototype composes the same shared execution/storage compone
 
 ### DEVNET_ACCEPTED
 
-All B0–B9 mandatory acceptance checks pass. A clean checkout can build and start a local network, deploy a Solidity fixture, send native/ERC-20 transfers, execute successful and reverting swaps, read accurate receipts/logs, restart every role, lose one validator, lose the master, recover a public replica, settle rewards, and verify unchanged roots and balances. Packaging, structure, security, upgrade and chaos tests must also pass. Disclose whether this checkpoint is CLASSICAL_DEV or a stronger profile. It is not completion of security, external interoperability or throughput targets, and is not permission to launch mainnet.
+All B0–B9 mandatory acceptance checks pass. A clean checkout can build and start a local network, deploy a Solidity fixture, send native/ERC-20 transfers, execute successful and reverting swaps, read accurate receipts/logs, restart every role, lose one validator, lose the master, recover a public replica, settle rewards, and verify unchanged roots and balances. Packaging, structure, security, upgrade and chaos tests must also pass. Disclose whether this checkpoint is CLASSICAL_DEV or a stronger profile. It is not completion of security, external interoperability or throughput targets, and is not permission to launch mainnet. Test-fixture swaps do not require implementing the deferred production liquidity module.
 
 ### SECURITY_PROFILE_ACCEPTED
 
@@ -82,13 +86,15 @@ This checkpoint neither approves live routes nor certifies Ethereum/Solana as po
 
 ### SCALE_TARGET_VERIFIED
 
-B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–30. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
+B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–31. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
+
+For mainnet readiness, evidence must cover the release candidate and production-representative configuration/topology. Do not describe a prelaunch capacity benchmark as an already-observed live-mainnet load. Future 100M/1B goals require separate measured evidence; preserve extensibility without claiming those capacities or expanding the first-launch threshold beyond 1M.
 
 If software runs but measurements fall short, status is TARGET_UNMET and the next optimization remains work. If suitable hardware is unavailable, status is BLOCKED_INFRA for the affected experiment. Neither state may be renamed DONE. Continue all implementable work and produce the exact deploy/run package needed to resume.
 
 ### MAINNET_READY
 
-Requires explicit owner-approved genesis/economics/governance, independent security review, operational/key ceremony, licensed distribution decisions, production infrastructure and route-specific bridge approval. This goal does not authorize deployment or spending. Code completion does not certify economic security, PQ strength of every dependency, majority immunity or audit status.
+Requires SCALE_TARGET_VERIFIED at the 1M release threshold above, explicit owner-approved genesis/economics/governance, independent security review, operational/key ceremony, licensed distribution decisions, production infrastructure and route-specific bridge approval. This goal does not authorize deployment or spending. Code completion does not certify economic security, PQ strength of every dependency, majority immunity or audit status. The separately deferred liquidity/price-stabilization module is not a prerequisite for core mainnet readiness.
 
 ## Definition of done per requirement
 
@@ -98,10 +104,10 @@ A requirement is DONE only with real implementation, positive and negative tests
 
 ## Permission and resource boundaries
 
-Operate on this repository and task-created development resources. Use fake development tokens only. Do not access unrelated wallets, keys, databases or bots. Do not purchase infrastructure, change GitHub visibility, choose a binding source license, use real signing keys, issue real tokens or deploy mainnet/live custody. Keep paid review and external route validation requirements explicit. No added signer/provider trust or external production route is silently authorized by the request for bridge compatibility.
+Operate on this repository and task-created development resources. Use fake development tokens only. Do not access unrelated wallets, keys, databases or bots. Do not purchase infrastructure, change GitHub visibility, choose a binding source license, use real signing keys, issue real tokens or deploy mainnet/live custody. Keep paid review and external route validation requirements explicit. No added signer/provider trust or external production route is silently authorized by the request for bridge compatibility. Do not fund reserves, select real custody arrangements or add automatic reserve spending from the earlier economic proposal.
 
 Session/tool limits must produce a resumable checkpoint, not a promise of unattended future work. A goal file guides an available Codex session; it does not remove runtime, quota, permission or hardware limits.
 
 ## First actions
 
-Inspect the checkout and toolchain. Read the plans and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.
+Inspect the checkout and toolchain. Read the plans, latest scope in plan 31, and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.

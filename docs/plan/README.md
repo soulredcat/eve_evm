@@ -2,7 +2,7 @@
 
 Status: **specifications and implementation queues prepared; runtime work not started**. These documents describe requirements, not evidence of execution, route availability or security certification.
 
-Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), [interoperability queue](30-cross-chain-interoperability.md), and [actual status](../execution/STATUS.md).
+Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [mainnet target and module boundaries](31-mainnet-target-and-module-boundaries.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), [interoperability queue](30-cross-chain-interoperability.md), and [actual status](../execution/STATUS.md).
 
 ## Design overviews
 
@@ -44,6 +44,7 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 | [28](28-bridge-security-and-finality.md) | Route trust, source proofs, custody/backing, limits and local bridge acceptance |
 | [29](29-security-implementation-and-acceptance.md) | Mandatory SEC0–SEC3 queue, core dependencies and security completion levels |
 | [30](30-cross-chain-interoperability.md) | Ethereum/Solana two-way targets, extensible adapters, wallet/SDK, assets, INT0–INT3 and T-I gates |
+| [31](31-mainnet-target-and-module-boundaries.md) | Proven 1M mainnet target, future 100M/1B path, liquidity deferral and separate reserve/admin proposal |
 
 ## Execution support
 
@@ -51,6 +52,8 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 - [Status](../execution/STATUS.md), [evidence index](../execution/EVIDENCE.md), [handoff](../execution/HANDOFF.md).
 - [Primary references](../references.md) and [documentation change record](../CHANGELOG.md). Security and chain-adapter primary links are included directly in plans 26–28 and 30.
 
-Specs 12–30 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune. Plan 30 adds Ethereum and Solana as named implementation targets, not approved live routes; the two-EVE fixture alone cannot complete them.
+Specs 12–31 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune. Plan 30 adds Ethereum and Solana as named implementation targets, not approved live routes; the two-EVE fixture alone cannot complete them.
+
+Plan 31 records the latest scope: proven 1M finalized TPS is a mainnet release requirement; 100M/1B remain future evidence-driven goals. Production liquidity/DEX and price stabilization are a separate future module, not current core work. AMM/swap test fixtures remain mandatory where already specified, and the recorded reserve/multi-admin proposal does not authorize trading or funding.
 
 A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, linear TPS claims from extra replicas, monolithic files, classical-only security-profile bypasses, unverified bridge minting or automatic chain support from an RPC URL. Real bridge deployment remains an owner gate.

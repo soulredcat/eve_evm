@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30, including recursive folder/function-file policy, majority/PQ/bridge security and Ethereum/Solana interoperability. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity and the latest liquidity deferral. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -14,7 +14,7 @@ Revision: 2026-09-30, including recursive folder/function-file policy, majority/
 | D06 | Fees are 40% burn, 30% node pool and 30% validator pool; work/availability are authenticated, not self-reported. |
 | D07 | Bulk snapshot/delta synchronization; no direct public access to master databases. |
 | D08 | Regional ingress and later scaling retain deterministic global semantics and explicit finality. |
-| D09 | Main performance objective remains 1M aggregate finalized TPS, measured end to end rather than assumed. |
+| D09 | Mainnet release requires proven 1M aggregate finalized TPS with the active security profile and release-representative evidence, not just a long-term aspiration or ingress benchmark. |
 | D10 | Build incrementally from a local all-in-one/master-first harness to separated production roles. |
 | D11 | State synchronization and signed/operator-controlled software update are separate systems. |
 | D12 | Codex implements dependency-aware bulks with tests/review/evidence and continues all unblocked work. |
@@ -29,6 +29,9 @@ Revision: 2026-09-30, including recursive folder/function-file policy, majority/
 | D21 | EVE must be bridge-friendly to Ethereum, Solana and other chains. Ethereum <-> EVE and Solana <-> EVE are the first named external integration targets; other chains use separately verified adapters. |
 | D22 | Keep EVE as an EVM core. Solana has its own program/account/token/signing adapter, not forced EVM execution. Common bridge interfaces preserve per-chain finality, address/asset identity and explicit trust/PQ capabilities. |
 | D23 | Bridge SDK/quotes/status/retry and round-trip tests are required. Adding an RPC URL, passing two-EVE tests, or deploying an escrow alone cannot mark an external route supported or approved. |
+| D24 | Production liquidity/DEX, automated pool-price stabilization and reserve-funded trading are deferred to a separately developed future module. Do not build them in the current core goal or make core completion depend on them. |
+| D25 | Retain an evidence-driven architectural path toward future 100M and potentially 1B finalized TPS as technology advances. These are not proven capacities or additional first-launch gates. |
+| D26 | The USD-100M/100M-base-token backing proposal, possible later collateral and multiple-admin unlock requirement remain separately recorded in plan 31. No actual funding, mint, fixed market price, unilateral master release or automatic trading is authorized. |
 
 ## Superseded assumptions
 
@@ -45,10 +48,12 @@ Revision: 2026-09-30, including recursive folder/function-file policy, majority/
 - Classical EVM accounts/consensus, a PQ library, TLS, or a PQ stamp ignored by consensus verification do not establish end-to-end quantum security.
 - A bridge cannot repair failed endpoint assumptions merely by adding more relayers, waiting a fixed delay or signing messages with PQ keys.
 - EVM compatibility does not automatically integrate every EVM chain, execute Solana programs or supply external finality proofs. External dependencies do not become PQ-secure by connecting to EVE.
+- Earlier reserve/DEX stabilization suggestions are not authorization to add a liquidity controller to the core; the owner deferred that application. Existing AMM tests are not a production DEX requirement.
+- 1M TPS is not optional for the stated mainnet release target. Conversely, the future 100M/1B direction is not a capability already demonstrated by this documentation.
 
 ## Selected development baseline
 
-These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–30 explicitly extend this classical starting point.
+These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–31 explicitly extend or narrow this classical starting point.
 
 | Area | Baseline | Change rule |
 |---|---|---|
@@ -74,6 +79,8 @@ These defaults permit incremental implementation. They are not binding mainnet a
 | PQ experiments | Reviewed ML-DSA-65 integration; classical AND PQ for activated hybrid authority | SEC0 pins actual support/vectors; no unsupported production security claim |
 | Bridge foundation | Two EVE devnets with distinct identities and fake assets | Real consensus/proofs; does not complete Ethereum/Solana |
 | External integration targets | Ethereum and Solana adapters/endpoints plus versioned SDK under plan 30 | INT0–INT3 evidence per direction; live routes remain disabled until reviewed and owner-approved |
+| Application boundary | No production liquidity/DEX or automated stabilizer in this core goal | Future separate module under new scope; keep existing EVM/AMM fixtures |
+| Mainnet capacity | Proven 1M finalized TPS release gate | Active profile, production-representative evidence; no silent threshold reduction |
 
 Genesis hash is the immutable network/spec digest. Runtime configuration digests and upgrade versions may change only through their declared rules; they must not be substituted for network identity during verification. Header extraData uses the immutable genesis-domain digest defined by plan 14, not an unannounced local config hash.
 
@@ -81,13 +88,13 @@ Genesis hash is the immutable network/spec digest. Runtime configuration digests
 
 Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25.
 
-Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. Include INT0 from plan 30: Ethereum/Solana references/toolchains, typed asset/route/address interfaces, actual verifier feasibility and T-I01–T-I12 registration. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. Include INT0 from plan 30: Ethereum/Solana references/toolchains, typed asset/route/address interfaces, actual verifier feasibility and T-I01–T-I12 registration. Read plan 31 before selecting work: do not create a liquidity/stabilization track or reserve-spending hooks. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
 
 When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative or reviewed extension through an ADR. Do not invent a new security model or certify an unsupported property simply to make a demo run.
 
 ## Owner gates
 
-Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Ethereum/Solana/Alephium/other bridge or settlement deployment and route limits. Local bridge/security/adapter implementation uses fake assets only. Development parameters do not authorize production custody.
+Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Ethereum/Solana/Alephium/other bridge or settlement deployment and route limits. Local bridge/security/adapter implementation uses fake assets only. Development parameters do not authorize production custody. Reserve funding/custody, issuance, exact admin threshold and the future liquidity module require their own explicit specification and authorization.
 
 Changes adding external trust, exceptional fork/social recovery or weaker crypto/fault guarantees require explicit disclosure and approval; they cannot masquerade as routine performance tuning or bridge compatibility. No interoperability-provider partnership or issuer-native token support is presumed.
 
