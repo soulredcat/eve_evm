@@ -2,124 +2,95 @@
 
 ## Main Goal
 
-Build EVE EVM as a high-throughput, EVM-compatible blockchain architecture that keeps the developer experience familiar while using a custom execution, storage, synchronization, validation, and regional infrastructure model.
+Build EVE EVM as a high-throughput EVM-compatible blockchain whose responsibilities are deliberately separated across Public, Validator, and Master runtimes.
 
-The project must prioritize:
-
-1. correctness;
-2. deterministic state;
-3. recoverability;
-4. security isolation;
-5. horizontal scalability;
-6. permissionless Public Nodes;
-7. developer compatibility;
-8. measurable performance.
+The production architecture should preserve a familiar EVM developer experience while using custom execution, storage, validation, synchronization, and regional scaling mechanisms.
 
 The long-term performance objective is up to **1,000,000 aggregate finalized transactions per second**, but this remains an engineering target until proven by reproducible end-to-end benchmarks.
 
----
-
-## Core Architectural Goal
-
-The chain should separate responsibilities instead of forcing every node to do everything.
+## Primary Architecture
 
 ```text
-Developer / User
+Users / dApps
       ↓
-Public Node Layer
+Public Nodes
+RPC + P2P + transaction ingress
       ↓
-Validator / Verification Layer
+Validator Nodes
+execute + propose + verify + vote
       ↓
-Protected Master Layer
+FINALITY
       ↓
-EVM Execution
-      ↓
-Canonical State
-      ↓
-RAM + Durable NVMe Storage
+Master Nodes
+sync + durable state + snapshots + archive + recovery
 ```
 
-The first implementation starts simple with a single Master and grows incrementally.
+Primary rule:
 
----
+> **Validators decide. Master remembers.**
 
-## Goal 1 — Master Node as Protected Canonical Core
+## Goal 1 — Protected Master Layer
 
-The Master is the protected source of canonical state.
+Master is developer-controlled infrastructure, but not production consensus authority.
 
-Primary responsibilities:
+Master provides:
 
-- deterministic EVM execution;
-- canonical state;
-- block production;
-- state-root generation;
-- durable persistence;
-- WAL and recovery;
+- finalized-state synchronization;
+- durable canonical storage;
+- WAL/recovery;
 - snapshots;
-- state-delta generation;
-- internal protocol for Public Nodes.
+- archive/history;
+- verified distribution to rebuilding nodes;
+- protected internal protocols.
 
-Initial mode:
+Early `MASTER_ONLY` mode exists only so the EVM/storage/block core can be built before distributed validation exists.
 
-```text
-MASTER_ONLY
-```
+## Goal 2 — Permissionless Public Layer
 
-Later modes:
+Public Nodes:
 
-```text
-MASTER_WITH_PUBLIC
-PRIMARY + HOT_STANDBY
-MULTI_REGION
-```
+- are unlimited in protocol count;
+- expose JSON-RPC/WebSocket;
+- accept and relay transactions;
+- maintain current state replicas;
+- verify finalized data;
+- participate in P2P distribution;
+- remain replaceable.
 
-The Master must not depend on Public Nodes to preserve canonical state.
+Public Nodes do not automatically receive voting power.
 
----
+## Goal 3 — Dedicated Validator Layer
 
-## Goal 2 — Permissionless Public Nodes
+Validator Nodes have a dedicated runtime/source folder.
 
-Public Nodes are intended to be unlimited in count at the protocol level.
+Validators:
 
-Public Nodes should:
+- execute/replay transactions;
+- propose blocks;
+- verify state transitions;
+- vote/sign;
+- create finality certificates;
+- participate in staking;
+- earn rewards based on verifiable participation/work;
+- can be jailed/slashed for protocol violations.
 
-- provide RPC;
-- provide WebSocket;
-- accept transactions;
-- run validator duties;
-- independently verify blocks/state roots;
-- maintain current-state replicas;
-- participate in P2P propagation;
-- distribute snapshots/deltas.
+The production chain cannot declare new finality without the required validator quorum.
 
-Public Nodes are replaceable and should be recoverable from verified snapshots plus ordered deltas.
-
-The number of Public Nodes must not scale Master bandwidth linearly.
-
----
-
-## Goal 3 — Separate Master and Public Source Trees
-
-The repository should keep Master and Public Node implementations separated.
+## Goal 4 — Repository Separation
 
 ```text
 master/
 public/
+validator/
 crates/
 docs/
 ```
 
-Shared consensus-critical types and protocol rules belong in shared crates.
+Shared consensus-critical logic belongs in reusable crates, not duplicate implementations.
 
-The design should make it possible to distribute a Public Node source/binary independently from the Master implementation.
+## Goal 5 — EVM Developer Compatibility
 
----
-
-## Goal 4 — EVM Developer Compatibility
-
-Application developers should not need to understand EVE's internal architecture.
-
-Target developer experience:
+Developer surface:
 
 ```text
 Solidity
@@ -133,457 +104,270 @@ Ethereum-style JSON-RPC
 EVE Public Node
 ```
 
-The project should preserve standard EVM semantics unless a difference is explicitly versioned and documented.
+Internal storage/synchronization architecture must remain invisible to normal dApp developers.
 
----
-
-## Goal 5 — High-Performance State
-
-The storage model should minimize latency and unnecessary disk amplification.
-
-Target model:
+## Goal 6 — High-Performance State
 
 ```text
 RAM
-= hot/current state
+= hot/current working state
 
 NVMe
-= durable current state
+= durable finalized state
 = WAL
 = snapshots
-= immutable block/history segments
+= history segments
 ```
 
-The project should prefer compact binary representations internally where appropriate.
+Use compact binary formats where appropriate and avoid millions of tiny history files.
 
-History should avoid millions of tiny files.
+## Goal 7 — Deterministic Parallel Execution
 
----
+Parallel execution is allowed only if it produces the same canonical result as deterministic reference execution.
 
-## Goal 6 — Deterministic Parallel Execution
+Research areas:
 
-The long-term throughput target requires parallel execution.
-
-Parallelism must never change canonical results.
-
-Every parallel execution result must be equivalent to the deterministic reference ordering.
-
-Research and implementation areas:
-
-- transaction dependency detection;
 - read/write sets;
-- conflict detection;
+- dependency graphs;
 - optimistic execution;
+- conflict detection;
 - deterministic retry;
 - state partitioning;
-- pool/contract identity;
+- pool/contract identities;
 - execution domains.
-
-A unique pool ID helps with ownership and scheduling but does not automatically make cross-pool transactions independent.
-
----
-
-## Goal 7 — Fast Regional Transaction Ingress
-
-Users should normally connect to nearby Public/Regional infrastructure.
-
-WAN latency should not be inserted into every local transaction unnecessarily.
-
-Regional execution may produce batches:
-
-```text
-Region A → Batch A
-Region B → Batch B
-Region C → Batch C
-```
-
-The global/canonical layer then synchronizes and finalizes according to the final protocol.
-
-State synchronization should be bulk/delta based.
-
----
 
 ## Goal 8 — Bulk State Synchronization
 
-State replication should operate on state transitions, not remote database queries.
-
-Target:
-
 ```text
-Base Root A
-+ Delta Batch
-= New Root B
+Finalized Root A
++ verified delta batch
+= Finalized Root B
 ```
 
-A node must verify that the resulting root is correct before accepting the update.
+Snapshots bootstrap nodes; finalized deltas keep them current.
 
-Snapshots are used for bootstrap; deltas are used for continuous synchronization.
+## Goal 9 — Regional Scaling
 
----
+Regional infrastructure should reduce ingress latency without forcing WAN round trips into every transaction.
 
-## Goal 9 — Security Isolation
+Regional outputs may be batched, but global/final consensus semantics must remain explicit and deterministic.
 
-The Master must be structurally isolated from Internet-facing infrastructure.
+## Goal 10 — Security Isolation
 
-Required principles:
+A compromised Public or Validator Node must not gain direct Master storage/admin access.
 
-- no public Master admin API;
-- no public Master database;
-- no shared unrestricted credentials;
-- strict authenticated internal protocol;
-- mTLS or equivalent node authentication;
-- independent management network;
-- strict message size and decoding limits;
-- fuzzing of protocol decoders;
-- separate validator, release, Master, and admin keys.
+Use:
 
-Assume a Public Node can be fully compromised without granting direct canonical-storage access.
+- separate network zones;
+- strict protocol boundaries;
+- independent credentials;
+- bounded decoding;
+- node authentication;
+- fuzz testing;
+- key separation.
 
----
+## Goal 11 — Economics
 
-## Goal 10 — Validator and Staking Model
-
-Validators run on Public Nodes.
-
-Initial economic proposal:
+Initial fee proposal:
 
 ```text
-100% transaction fees
-├─ 40% burn
-├─ 30% node reward pool
-└─ 30% validator reward pool
+40% burn
+30% node reward pool
+30% validator reward pool
 ```
 
-Reward distribution should depend on measurable protocol work and availability.
+Rewards must depend on protocol-verifiable work and availability.
 
-Validator scoring may include:
+## Goal 12 — Failure Survival
 
-- stake;
-- uptime;
-- valid participation;
-- timely voting;
-- correct proposals;
-- slash/jail history.
-
-Node scoring must use verifiable work rather than self-reported usage.
-
----
-
-## Goal 11 — Chain Survival and Recovery
-
-The design must assume failures.
-
-Required recovery scenarios:
+Required failure cases include:
 
 - Public Node crash;
-- all Public Nodes unavailable;
-- Master process crash;
-- partial WAL write;
-- corrupted state tail;
+- Validator crash;
+- loss of validator quorum;
+- Master crash;
+- Master offline while validators continue;
+- corrupted WAL tail;
 - network partition;
-- validator lag;
-- software upgrade failure;
-- regional outage.
+- regional outage;
+- failed software upgrade.
 
-Canonical state must always have a deterministic recovery path.
-
----
-
-## Goal 12 — Software Update Model
-
-State synchronization and software updates are separate.
-
-State sync may be automatic.
-
-Software updates must use:
-
-- signed release metadata;
-- cryptographic hashes;
-- protocol compatibility checks;
-- rolling upgrades;
-- rollback plan.
-
-Public Nodes must never blindly execute binaries received from a Master process.
-
----
+No failure mode may silently redefine finality.
 
 # Project Planning
 
 ## Stage 0 — Planning and Specification
 
-No production code should start before the basic invariants are written.
+Define:
 
-Deliverables:
-
-- architecture documents;
-- block format;
 - transaction format;
-- state model;
-- storage model;
-- Master/Public protocol;
-- threat model;
-- validator model;
-- fee accounting;
-- benchmark methodology;
-- failure/recovery rules.
+- block format;
+- state commitment;
+- finality certificate;
+- validator identity;
+- validator quorum rules;
+- storage format;
+- Master sync protocol;
+- Public/Validator P2P protocol;
+- failure semantics;
+- economics;
+- benchmark methodology.
 
-### Exit criteria
+## Stage 1 — MASTER_ONLY Development Prototype
 
-All core responsibilities and trust boundaries are explicit.
-
----
-
-## Stage 1 — MASTER_ONLY Prototype
-
-Build the smallest complete chain.
-
-Target:
+Build:
 
 ```text
-transaction
-↓
-signature validation
-↓
-EVM execute
-↓
-state update
-↓
-block
-↓
-state root
-↓
-persist
-↓
-restart
-↓
-same state
+tx
+→ EVM
+→ state
+→ block
+→ root
+→ durable persist
+→ restart
+→ identical state
 ```
 
-Deliverables:
+This stage validates the core engine, not the final production trust model.
 
-- Master binary;
-- EVM integration;
-- state database;
-- WAL;
-- block builder;
-- receipts/logs;
-- state root;
-- minimal RPC;
-- restart recovery.
+## Stage 2 — Shared Protocol/Core
 
-### Exit criteria
+Extract consensus-critical reusable crates:
 
-A deterministic replay test always produces the same canonical state root.
+- primitives;
+- transaction types;
+- block types;
+- state commitments;
+- EVM interface;
+- crypto;
+- networking protocol;
+- snapshot/delta format.
 
----
+## Stage 3 — Public Node
 
-## Stage 2 — Public Node Coupling
+Build:
 
-Build one Public Node that synchronizes from the Master.
+- RPC;
+- WebSocket;
+- P2P;
+- mempool/relay;
+- RAM/current-state replica;
+- snapshot/delta bootstrap;
+- finalized block verification.
 
-Deliverables:
+## Stage 4 — Validator Node
 
-- snapshot bootstrap;
-- block stream;
-- delta stream;
-- root verification;
-- Public Node RAM state;
-- RPC separation;
-- transaction forwarding.
+Build dedicated validator runtime:
 
-### Exit criteria
-
-Delete the Public Node state, restart it, and rebuild it entirely from verified Master/network data.
-
----
-
-## Stage 3 — Validator Layer
-
-Add validator behavior to Public Nodes.
-
-Deliverables:
-
-- validator identity;
-- signing;
-- verification;
+- consensus keys;
 - validator registry;
-- participation accounting;
-- finality rules;
-- catch-up behavior.
+- EVM replay/execution;
+- proposer selection;
+- block proposal;
+- vote/sign;
+- finality certificate;
+- catch-up/rejoin.
 
-### Exit criteria
+## Stage 5 — Move Finality Authority to Validators
 
-A malformed or invalid candidate block is rejected consistently by independent validators.
+Production flow becomes:
 
----
+```text
+Public
+→ Validators
+→ FINAL
+→ Master sync/persist
+```
 
-## Stage 4 — Staking and Economics
+Acceptance:
+
+- Master cannot unilaterally finalize an invalid block;
+- forged Master state without validator certificate is rejected;
+- valid validator-finalized blocks are recoverable by Master.
+
+## Stage 6 — Staking and Economics
 
 Implement:
 
-- staking;
-- delegation;
+- stake/delegation;
 - epochs;
-- uptime accounting;
+- uptime;
 - work accounting;
-- fee split;
+- 40/30/30 fee allocation;
 - burn;
-- node rewards;
-- validator rewards;
-- slashing/jailing.
+- rewards;
+- jail/slashing.
 
-### Exit criteria
+## Stage 7 — Multi-Node P2P Network
 
-Epoch reward results are deterministic and independently reproducible.
+Scale Public and Validator nodes without proportional Master fan-out.
 
----
+## Stage 8 — Parallel EVM Execution
 
-## Stage 5 — Multi-Public Node Network
+Serial execution remains the correctness oracle.
 
-Scale to many Public Nodes.
-
-Deliverables:
-
-- P2P discovery;
-- seed nodes;
-- peer sync;
-- snapshot distribution;
-- delta propagation;
-- peer verification;
-- anti-abuse controls.
-
-### Exit criteria
-
-Adding Public Nodes does not require a proportional increase in Master direct connections.
-
----
-
-## Stage 6 — Parallel EVM Execution
-
-Implement parallel scheduling.
-
-Start with a serial engine as the reference implementation.
-
-Every optimized engine result must match the serial reference.
-
-Deliverables:
-
-- dependency model;
-- parallel scheduler;
-- conflict detection;
-- deterministic re-execution;
-- high-contention tests;
-- pool/contract partitioning experiments.
-
-### Exit criteria
-
-Parallel and serial executions produce identical:
+Parallel result must match serial result for:
 
 - balances;
 - nonces;
+- storage;
 - logs;
 - receipts;
-- state root;
-- block hash inputs.
+- state root.
 
----
+## Stage 9 — Master High Availability
 
-## Stage 7 — Master High Availability
+Add protected Primary/Standby persistence infrastructure without creating consensus authority or split-brain canonical storage.
 
-Introduce:
+## Stage 10 — Multi-Region
 
-```text
-Primary Master
-+
-Hot Standby
-```
+Add:
 
-Deliverables:
-
-- replication;
-- fencing;
-- failover;
-- split-brain prevention;
-- recovery tests.
-
-### Exit criteria
-
-Forced Primary loss promotes exactly one valid replacement without canonical-state divergence.
-
----
-
-## Stage 8 — Multi-Region Architecture
-
-Add geographically distributed execution and state synchronization.
-
-Deliverables:
-
-- regional IDs;
 - regional ingress;
-- bulk state delta sync;
-- state ownership;
+- regional execution domains;
+- bulk synchronization;
 - regional failover;
-- global finality model;
-- cross-region transaction semantics.
+- cross-region semantics;
+- global finality integration.
 
-### Exit criteria
-
-A regional outage does not corrupt canonical state and does not create two valid owners for the same state domain.
-
----
-
-## Stage 9 — Performance Scaling
-
-Performance targets must be reached incrementally.
+## Stage 11 — Performance Scaling
 
 ```text
-10k TPS
-↓
-50k TPS
-↓
-100k TPS
-↓
-250k TPS
-↓
-500k TPS
-↓
-1M aggregate finalized TPS
+10k
+→ 50k
+→ 100k
+→ 250k
+→ 500k
+→ 1M aggregate finalized TPS
 ```
 
-At every step measure:
+Measure finalized throughput, not only RPC ingress.
 
-- finalized TPS;
-- latency p50/p95/p99;
+Track:
+
+- p50/p95/p99 latency;
 - CPU;
 - RAM;
-- NVMe bandwidth;
+- NVMe;
 - state growth;
-- WAL growth;
 - network bandwidth;
 - validator lag;
+- consensus latency;
 - sync backlog;
 - conflict/retry rate.
 
-Do not proceed solely because RPC ingress reaches the target.
-
----
-
 # Definition of Success
 
-EVE EVM is successful only if it can simultaneously provide:
+EVE EVM succeeds only if it remains:
 
-- deterministic and recoverable canonical state;
-- EVM-compatible developer experience;
-- protected Master infrastructure;
-- unlimited permissionless Public Nodes;
-- independently verifiable block/state data;
-- validator and staking economics;
-- safe software upgrades;
-- scalable state synchronization;
-- parallel execution without correctness loss;
-- multi-region operation;
-- reproducible high-throughput benchmarks.
+- deterministic;
+- recoverable;
+- EVM-compatible;
+- validator-finalized;
+- Master-durable without Master consensus bottleneck;
+- permissionless at the Public Node layer;
+- secure across trust zones;
+- scalable across execution and networking;
+- reproducibly benchmarked.
 
-The project's primary objective is not merely to produce a high TPS number.
-
-The objective is to build a chain that remains **correct, recoverable, verifiable, secure, scalable, and usable by normal EVM developers while throughput increases**.
+The objective is not merely a high TPS number. The objective is a high-throughput chain whose correctness and finality remain independently verifiable.
