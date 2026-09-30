@@ -1,5 +1,11 @@
 version = 1
-current_bulk = 0
+current_bulk = 1
+
+[[adapters]]
+path = "public/components/recovery-store/src/state/snapshots/drop_state_snapshot_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates only the bounded snapshot lease release to its named operation."
+reviewer = "integrator"
 
 [[exclusions]]
 path = "xtask/tests/provisioning_client_fixture/package-lock.json"

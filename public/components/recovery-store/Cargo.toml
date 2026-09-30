@@ -10,6 +10,10 @@ rocksdb.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 anyhow.workspace = true
+eve-state = { path = "../../../validator/components/state" }
+alloy-primitives.workspace = true
+alloy-rlp.workspace = true
+sha2.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

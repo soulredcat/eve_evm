@@ -4,7 +4,13 @@
 //! store, consensus implementation, or authenticated snapshot importer.
 
 mod execution;
+mod state;
 mod transactions;
+
+pub use state::{
+    CompleteBlockOutcome, CompleteExecutionError, estimate_clone_reservation,
+    execute_complete_state, from_revm_state, to_revm_state,
+};
 
 pub use execution::serial::block::{
     BlockEnvironment, BlockExecutionError, BlockOutcome, FeePoolAddresses, TransactionOutcome,

@@ -1549,6 +1549,7 @@ dependencies = [
  "alloy-primitives",
  "alloy-rlp",
  "alloy-trie",
+ "eve-state",
  "hex",
  "k256",
  "revm",
@@ -1565,6 +1566,25 @@ dependencies = [
  "hex",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "eve-master"
+version = "0.1.0"
+dependencies = [
+ "alloy-eips",
+ "alloy-primitives",
+ "anyhow",
+ "clap",
+ "ed25519-dalek",
+ "eve-evm",
+ "eve-protocol-config",
+ "eve-state",
+ "eve-storage",
+ "hex",
+ "serde",
+ "serde_json",
+ "tempfile",
 ]
 
 [[package]]
@@ -1589,13 +1609,51 @@ dependencies = [
 ]
 
 [[package]]
+name = "eve-state"
+version = "0.1.0"
+dependencies = [
+ "alloy-consensus",
+ "alloy-eips",
+ "alloy-primitives",
+ "alloy-rlp",
+ "alloy-trie",
+ "eve-protocol-config",
+ "hex",
+ "serde_json",
+]
+
+[[package]]
+name = "eve-state-recovery-acceptance"
+version = "0.1.0"
+dependencies = [
+ "alloy-consensus",
+ "alloy-eips",
+ "alloy-primitives",
+ "alloy-rlp",
+ "ed25519-dalek",
+ "eve-evm",
+ "eve-protocol-config",
+ "eve-state",
+ "eve-storage",
+ "hex",
+ "k256",
+ "rocksdb",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "eve-storage"
 version = "0.1.0"
 dependencies = [
+ "alloy-primitives",
+ "alloy-rlp",
  "anyhow",
+ "eve-state",
  "rocksdb",
  "serde",
  "serde_json",
+ "sha2 0.11.0",
  "tempfile",
 ]
 

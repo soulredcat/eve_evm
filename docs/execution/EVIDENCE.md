@@ -2,6 +2,13 @@
 
 ## Current evidence
 
+## B1-20261001 — Complete-state and local durable recovery
+
+[Integrated B1 record](B1-20261001.md): 271 cases pass, none failed/ignored, with
+structure, format, strict lint and release build. Actual execution/journal/store/
+genesis/CLI, independent roots, corrupt data and process recovery are covered;
+finality, hardware power loss, network recovery and secured capacity remain open.
+
 Component code, dependency/build checks and bounded foundation fixtures have been executed; records below distinguish historical checkpoints from current integration. Complete role runtimes, distributed fault acceptance, mainnet deployment and throughput targets remain unachieved.
 
 The repository documentation is an implementation contract. Its existence is not evidence that consensus, EVM compatibility, storage recovery, tokenomics or 1M TPS works.

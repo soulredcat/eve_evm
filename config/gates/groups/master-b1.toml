@@ -1,0 +1,11 @@
+version = 1
+package = "eve-master"
+requirements = ["B1","G02-DEV_ALL_IN_ONE"]
+tests = [
+    "cli_initializes_reopens_exports_and_restores_real_local_state_without_finality",
+    "development_genesis_accepts_real_public_keys_and_refuses_production_or_key_fields",
+    "development_genesis_refuses_missing_funding_and_oversized_input",
+    "development_namespace_rejects_escape_and_nonignored_data_before_creation",
+    "development_namespace_rejects_symlink_escape",
+    "local_producer_requires_exact_development_mode_and_acknowledgement",
+]

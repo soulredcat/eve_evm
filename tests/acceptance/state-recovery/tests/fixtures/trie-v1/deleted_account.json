@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "name": "deleted_account",
+  "accounts": [],
+  "fee_ledger": [
+    "0",
+    "3",
+    "4"
+  ],
+  "evm_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+  "system_root": "0x962830df2723269a5cbc7b58614751ec2c9e96052b453f372899f1528a12b3d9",
+  "system_key": "0x6ef8fade91d4275f8a2cd985ce0e5b95993ad91e00d7e201fbb36e1eddfe5a92",
+  "system_record_rlp": "0xce018366656584706f6f6cc3800304"
+}

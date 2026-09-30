@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "name": "zero_slot_is_deleted",
+  "accounts": [
+    {
+      "address": "0x1111111111111111111111111111111111111111",
+      "nonce": "1",
+      "balance": "100",
+      "code": "0x606360005500",
+      "slots": [
+        [
+          "0",
+          "0"
+        ],
+        [
+          "1",
+          "11"
+        ]
+      ],
+      "storage_root": "0x72145a552e6577fac4d59b4647c9002f0b38189e4517a8cbadf6ef5a8c92847d",
+      "code_hash": "0x64b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427",
+      "account_rlp": "0xf8440164a072145a552e6577fac4d59b4647c9002f0b38189e4517a8cbadf6ef5a8c92847da064b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427"
+    }
+  ],
+  "fee_ledger": [
+    "0",
+    "3",
+    "4"
+  ],
+  "evm_root": "0xdb86df87243c91f1fc2e86a94ea22edcd904f71364c0c87df301bf328024b63c",
+  "system_root": "0x962830df2723269a5cbc7b58614751ec2c9e96052b453f372899f1528a12b3d9",
+  "system_key": "0x6ef8fade91d4275f8a2cd985ce0e5b95993ad91e00d7e201fbb36e1eddfe5a92",
+  "system_record_rlp": "0xce018366656584706f6f6cc3800304"
+}

@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "name": "execution_post",
+  "accounts": [
+    {
+      "address": "0x4a62316623ad457f02cdc5d997ded67a383ec569",
+      "nonce": "1",
+      "balance": "99999947988000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84d0189056bc72edf66474800a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x0000000000000000000000000000000000000042",
+      "nonce": "1",
+      "balance": "0",
+      "code": "0x606360005500",
+      "slots": [
+        [
+          "0",
+          "99"
+        ],
+        [
+          "1",
+          "11"
+        ]
+      ],
+      "storage_root": "0x572c6519343da34204e15d4c6bb79128ad8a8b05542cab91917fcc356da0ab68",
+      "code_hash": "0x64b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427",
+      "account_rlp": "0xf8440180a0572c6519343da34204e15d4c6bb79128ad8a8b05542cab91917fcc356da0ab68a064b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427"
+    },
+    {
+      "address": "0x000000000000000000000000000000000000f101",
+      "nonce": "0",
+      "balance": "15603600000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84a80860e30ff090400a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x000000000000000000000000000000000000f102",
+      "nonce": "0",
+      "balance": "15603600000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84a80860e30ff090400a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    }
+  ],
+  "fee_ledger": [
+    "20804800000000",
+    "15603600000000",
+    "15603600000000"
+  ],
+  "evm_root": "0x7b3551f5cf45d564fe0bc6950139ae2d73dd934f0ef78f32ab98422ed81722ee",
+  "system_root": "0xe8f50586098430b5a63f7a2c23d661dfe9e2d47d55b047d05e09a654df129237",
+  "system_key": "0x6ef8fade91d4275f8a2cd985ce0e5b95993ad91e00d7e201fbb36e1eddfe5a92",
+  "system_record_rlp": "0xe0018366656584706f6f6cd58612ebfeb6b000860e30ff090400860e30ff090400"
+}

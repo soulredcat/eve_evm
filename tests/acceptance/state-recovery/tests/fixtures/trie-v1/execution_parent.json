@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "name": "execution_parent",
+  "accounts": [
+    {
+      "address": "0x4a62316623ad457f02cdc5d997ded67a383ec569",
+      "nonce": "0",
+      "balance": "100000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84d8089056bc75e2d63100000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x0000000000000000000000000000000000000042",
+      "nonce": "1",
+      "balance": "0",
+      "code": "0x606360005500",
+      "slots": [
+        [
+          "0",
+          "7"
+        ],
+        [
+          "1",
+          "11"
+        ]
+      ],
+      "storage_root": "0x1f2c9cd09733bf204ea8259127b0fd69b2b994e8ec2b80eee945b565bebf8b41",
+      "code_hash": "0x64b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427",
+      "account_rlp": "0xf8440180a01f2c9cd09733bf204ea8259127b0fd69b2b994e8ec2b80eee945b565bebf8b41a064b512fb5ef6061ab79865e25ba249f218fd506ace73f4a2aa5054c038d9b427"
+    }
+  ],
+  "fee_ledger": [
+    "0",
+    "0",
+    "0"
+  ],
+  "evm_root": "0x619c87b5873f29b4132d5d53be59643144032aca42dcd33b59484c50693a9fea",
+  "system_root": "0x26f1c3e640502daf235611189e0d07f87580248bf8767b6cfda91f294c5e50d6",
+  "system_key": "0x6ef8fade91d4275f8a2cd985ce0e5b95993ad91e00d7e201fbb36e1eddfe5a92",
+  "system_record_rlp": "0xce018366656584706f6f6cc3808080"
+}

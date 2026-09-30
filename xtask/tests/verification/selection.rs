@@ -14,7 +14,7 @@ fn unsupported_gates_remain_pending_and_empty_groups_fail() {
         fixture.path().join("config/gates/registry.toml"),
     )
     .unwrap();
-    let (gates, pending) = load_gate_selection(fixture.path(), &["B1".into()], false).unwrap();
+    let (gates, pending) = load_gate_selection(fixture.path(), &["B2".into()], false).unwrap();
     assert!(gates.is_empty() && pending.len() == 1);
     assert!(load_gate_selection(fixture.path(), &["unknown".into()], false).is_err());
     assert!(load_gate_selection(fixture.path(), &[], false).is_err());

@@ -49,9 +49,9 @@ jobs:
             value=$(jq -er --arg key "$key" '.environment[$key]' "$receipt")
             printf '%s=%s\n' "$key" "$value" >> "$GITHUB_ENV"
           done
-      - name: Run complete B0 including registered SEC0 and INT0 foundations
+      - name: Run complete B1 retaining B0, SEC0 and INT0 foundations
         shell: bash
-        run: cargo xtask verify --bulk B0
+        run: cargo xtask verify --bulk B1
 
 # Raw logs, generated development keys and databases stay in ignored local-tests.
 # This workflow does not upload them or certify later devnet/security/capacity gates.

@@ -2,7 +2,7 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: B0 including SEC0/INT0 passed its complete local foundation gate (205 tests, structure, format, strict lint and release build). The pinned workspace contains role-owned component contracts and executable verification tooling. Complete role runtimes, standalone distributions, devnet/security acceptance and measured TPS remain unachieved.**
+**Status: B0 including SEC0/INT0 and B1 passed their complete local gates; latest B1 runs 271 tests, structure, format, strict lint and release build. Complete state, atomic persistent recovery and the development-only master harness are implemented. Complete network roles, standalone distributions, devnet/security acceptance and measured TPS remain unachieved.**
 
 ## Main objective
 
@@ -46,12 +46,14 @@ One regional master can serve several public nodes through a preferred nearby el
 - `validator/components/authentication/`: reviewed authentication integration owned by the validator role.
 - `validator/components/consensus-comet/`: pinned engine API, framing, height binding and unsupported hybrid guard.
 - `validator/components/protocol-config/`: development genesis, native ABI/gas and canonical record/header contracts.
+- `validator/components/state/`: complete logical state, canonical roots, journals and structural recovery commits.
 - `validator/components/bridge-protocol/`: restricted source-verification/custody capability interfaces; actual verifiers and custody remain pending.
 - `xtask/`: structure, verification, evidence and task-local tool provisioning.
 - `docs/plan/`: normative development specifications and dependency-ordered work.
 - `docs/agents/`: role-specific execution responsibilities.
 - `docs/execution/`: persistent progress, evidence and resumption state.
 - `tests/`: reviewed reproducible test source and sanitized regression fixtures.
+- `tests/acceptance/state-recovery/`: independent B1 root, execution, durable, corruption, snapshot and process-recovery acceptance.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
 Complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in [execution status](docs/execution/STATUS.md). Follow [verification instructions](docs/development/verification.md) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.

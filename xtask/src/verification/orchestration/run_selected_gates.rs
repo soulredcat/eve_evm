@@ -112,6 +112,15 @@ pub(super) fn run_selected_gates(
             "warnings",
         ],
     )?;
+    if report.requested.iter().any(|id| id == "B1") {
+        require_command_success(
+            root,
+            artifacts,
+            report,
+            cargo,
+            &["build", "--locked", "-p", "eve-master"],
+        )?;
+    }
     for path in groups {
         super::run_test_group::run_test_group(
             root,

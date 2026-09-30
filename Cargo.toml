@@ -10,6 +10,9 @@ members = [
     "validator/components/protocol-config",
     "public/components/node-policy",
     "validator/components/bridge-protocol",
+    "validator/components/state",
+    "tests/acceptance/state-recovery",
+    "master",
 ]
 
 [workspace.package]

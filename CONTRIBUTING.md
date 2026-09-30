@@ -1,6 +1,6 @@
 # Contributing to EVE EVM
 
-The repository contains specifications, an executable pinned Rust workspace and initial role-owned component/checker implementations. B0/SEC0 are in progress; complete node runtimes, standalone distributions and full acceptance gates remain unfinished. Start with `AGENTS.md`, `goal.md`, `docs/plan/README.md`, and `docs/execution/HANDOFF.md`.
+The repository contains specifications and a pinned Rust workspace with verified B0/SEC0/INT0 foundations and B1 complete-state, durable recovery and development composition. Complete node runtimes, standalone distributions and later acceptance gates remain unfinished. Start with `AGENTS.md`, `goal.md`, `docs/plan/README.md`, and `docs/execution/HANDOFF.md`.
 
 ## Required language
 
@@ -45,4 +45,4 @@ Passing a publication review does not grant push authorization. Push only when t
 
 Follow the dependency-aware B0–B11, SEC0–SEC3, and INT0–INT3 queues and the function-file policy in plan 25. Keep required tests with the changes they verify. Missing tests and unavailable gates remain visible; local experiments cannot replace shared acceptance evidence.
 
-`cargo xtask check-structure` is available and its current repository scan is verified. Required T-L01–T-L06 boundary/regression coverage, CI integration and the full B0 gate remain unfinished; do not equate a scan with complete structure acceptance. Documentation, ignore checks and a clean Git index do not satisfy a runtime, security or capacity gate.
+`cargo xtask check-structure` and required T-L01–T-L06 boundary/regression coverage are implemented. Complete local B0 and B1 gates pass; CI invokes the current B1 gate while hosted results are recorded separately in `docs/execution/`. Documentation, ignore checks and a clean Git index do not satisfy a runtime, security or capacity gate.

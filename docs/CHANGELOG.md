@@ -1,5 +1,12 @@
 # Documentation change record
 
+## 2026-10-01 — Verified B1 complete state and local recovery
+
+- Added canonical validator state/journal/commitment domain and complete-state execution adapters without duplicated root logic or hidden persistence.
+- Added public-owned atomic synced full-state repository, cache-first immutable reads, consistent sequence snapshots and staged new-namespace recovery.
+- Added explicit development master init/inspect/apply/snapshot/restore, refusing production authority and preserving finality separation.
+- Complete local B1 gate passes 271 cases, with independent root/transaction/fee fixtures, real process termination, corrupt-data and staged-import negatives. Hardware power loss, finality/network recovery, distributions and throughput remain open.
+
 ## 2026-10-01 — Verified B0, SEC0 and INT0 foundation
 
 - Completed the self-checking structure checker, exact gate/test catalogs, mandatory requirement/dependency registry, tool provisioning and pinned CI baseline.

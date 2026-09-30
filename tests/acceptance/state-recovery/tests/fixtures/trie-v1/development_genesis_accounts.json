@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "name": "development_genesis_accounts",
+  "accounts": [
+    {
+      "address": "0x0101010101010101010101010101010101010101",
+      "nonce": "0",
+      "balance": "90000000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84e808a130ee8e7179044400000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x0202020202020202020202020202020202020202",
+      "nonce": "0",
+      "balance": "90000000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84e808a130ee8e7179044400000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x0303030303030303030303030303030303030303",
+      "nonce": "0",
+      "balance": "90000000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84e808a130ee8e7179044400000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x0404040404040404040404040404040404040404",
+      "nonce": "0",
+      "balance": "90000000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84e808a130ee8e7179044400000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    },
+    {
+      "address": "0x000000000000000000000000000000000000f100",
+      "nonce": "0",
+      "balance": "40000000000000000000000",
+      "code": "0x",
+      "slots": [],
+      "storage_root": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
+      "code_hash": "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470",
+      "account_rlp": "0xf84e808a0878678326eac9000000a056e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421a0c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470"
+    }
+  ],
+  "evm_root": "0xe0e4f1952aeb3b60ca31bb44e540a88d736d52f7a25281d2e90d4e547f391489",
+  "total_funded_supply": "400000000000000000000000",
+  "scope": "EVM allocation root only; validator/parameter system records are not represented by this file"
+}

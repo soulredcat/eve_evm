@@ -1,6 +1,44 @@
 # Master runtime
 
-Planning only; the runtime is not implemented yet.
+The B1 development composition is implemented; the production master follower,
+network replication and authenticated source recovery remain later work.
+
+## Development composition
+
+The eve-master binary owns only local development orchestration. It reuses the
+canonical validator state/execution/protocol components and public recovery
+repository. Init, inspect, real EVM block application, snapshot export and restore
+all require explicit DEV_ALL_IN_ONE and unsafe-development acknowledgement. A
+production/master-sync-only mode cannot activate the local producer. No private
+key is supplied or embedded by this CLI; its genesis input accepts public keys,
+funded fake balances and bounded code. Unknown/private-signing fields fail.
+
+Data and snapshot paths must be dedicated ignored local-tests descendants;
+existing namespaces are reconciled, never overwritten by initialization/import.
+The configured complete-state baseline is 8 MiB with a 16 MiB clone reservation,
+16 MiB commit limit, bounded RocksDB allocations and limited snapshot leases.
+These bounds are development policy, not a mainnet capacity/RSS claim.
+
+```sh
+cargo run --locked -p eve-master -- init-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-dev --genesis local-tests/development.json
+cargo run --locked -p eve-master -- inspect-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-dev --genesis local-tests/development.json
+cargo run --locked -p eve-master -- apply-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-dev --genesis local-tests/development.json --block local-tests/block.json
+cargo run --locked -p eve-master -- snapshot-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-dev --genesis local-tests/development.json --output local-tests/master-snapshot
+cargo run --locked -p eve-master -- restore-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-restored --genesis local-tests/development.json --source local-tests/master-snapshot
+```
+
+The genesis JSON requires schema/protocol versions, eve-local-v1/31337 identity,
+initial agreed timestamp, CLASSICAL_DEV profile, accounts with address/funded
+balance/nonce/code, and four validators with owner/full lowercase public-key hex,
+self-bond and power. Economics use the frozen development contract; supply and
+escrow validation are canonical. Block JSON carries agreed timestamp and ordered
+signed transaction hex envelopes. Runtime keys/faucet tooling belongs to the
+development network fixture, not a built-in production configuration.
+
+Status explicitly reports LOCAL_DURABLE_ONLY_NO_VALIDATOR_FINALITY. Successful
+execution/storage/root matching does not create a consensus certificate. The
+full B1 gate verifies its root/replay/recovery/guard integration; complete public,
+validator and master production entry points and role distributions are later.
 
 Production role: verify finalized consensus provenance, import authenticated state transitions, maintain durable state/history, publish snapshots, support recovery and report replication lag. The master has no production voting/proposal authority and is not a mandatory transaction hop.
 

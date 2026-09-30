@@ -1,16 +1,17 @@
 # Implementation status
 
-Updated: 2026-10-01. **B0 including SEC0/INT0 passed its complete local foundation gate: 205 tests, format, strict lint, structure and release build.** Complete role runtimes, standalone distributions, devnet/security/bridge/capacity acceptance remain unachieved.
+Updated: 2026-10-01. **B0 including SEC0/INT0 and B1 passed their complete local gates; latest B1 executes 271 cases with format, strict lint, structure and release build.** Complete network roles, standalone distributions, devnet/security/bridge/capacity acceptance remain unachieved.
 
 ## Overall
 
 - Documentation/goal package: prepared for implementation, including plans 00–32.
 - Collaboration policy: English shared prose and clean GitHub publication rules recorded; ignored `local-tests/` workspace established. Publication checks are recorded in [PUB-20260930-01](EVIDENCE.md#pub-20260930-01--local-test-isolation-and-publication-policy); no implementation bulk or runtime gate is completed by this hygiene task.
 - Regional/public persistence contract: [plan 32](../plan/32-regional-masters-and-public-persistence.md) records 1→2→10 independent master followers, preferred eligible nearby sync endpoints, operational zone IDs, RAM working state with isolated bounded durable recovery storage, and T-N09–T-N12. Documentation verification is recorded in [DOC-20260930-02](EVIDENCE.md#doc-20260930-02--regional-masters-and-public-persistence); all four new runtime cases are `NOT_IMPLEMENTED` / `NOT_RUN`.
-- Runtime foundations: nine role/tool packages now cover execution, authentication, the exact consensus API, recovery storage, public resource/readiness/source policy, public interop metadata and validator protocol/bridge contracts. Root `crates/` is absent. Complete role runtimes and standalone copy/build/run acceptance remain unimplemented.
+- Runtime foundations: twelve role/tool/test packages include canonical state, complete persistent recovery, independent acceptance and a development-only master CLI alongside the B0 contracts. Root `crates/` is absent. Complete production/network roles and standalone copy/build/run acceptance remain unimplemented.
 - Integrated foundation gate: 205 cases pass, zero failed/ignored/filtered; format, strict workspace Clippy and release build pass. Structure covers 569 files, 15 exact exclusions, zero violations/warnings. T-L01–T-L06 have 64 cases; provisioning has 6 and verification 16. The complete 20-bulk registry, R01–R12 and 48 security/interop/public-persistence registrations preserve full requirements without claiming future runtime acceptance. [B0 evidence](B0-20261001.md) records source/config identities and reproduction.
+- Integrated B1 gate: 271 cases pass, zero failed/ignored/filtered; structure covers 790 files with zero warnings/violations, format, strict lint and release build pass. Real genesis/execution/journals/store/recovery/CLI and independent process/corruption/snapshot cases are verified. [B1 evidence](B1-20261001.md) separates local consistency/durability from finality, hardware faults and network/capacity acceptance.
 - Tool/API verification: fresh task-local pinned Go/Comet/OpenSSL/Solidity/Node and locked TypeScript/viem provisioning passed, including actual compiler/client probes and receipt reuse. The native engine's unsupported hybrid path fails closed. Patched OpenSSL replaces the retired PQClean cross-check wrappers; official NIST coverage is retained.
-- Dependency/publication review: current audit reports zero known vulnerabilities and two retained unmaintained warnings (derivative/paste). No existing locked package was upgraded. The first hosted CI run failed during locale-dependent archive inspection before its gate; [CI repair evidence](CI-20261001.md) records the reproduction, strict pin correction and 87 passing scoped cases. The additional regression raises the catalog to 206; a hosted/full-gate result is recorded only after it actually occurs.
+- Dependency/publication review: current audit reports zero known vulnerabilities and two retained unmaintained warnings (derivative/paste). No existing locked package was upgraded. The first hosted CI run failed during locale-dependent archive inspection before its gate; [CI repair evidence](CI-20261001.md) records the reproduction, strict pin correction and 87 passing scoped cases. Subsequent scoped repairs raised the baseline catalog to 209; B1 adds 62 cases for 271 total. Hosted consensus lifecycle remains failing at the latest observed run; no hosted PASS is claimed.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
 - PQ_PROFILE_VERIFIED: NOT_ACHIEVED.
@@ -28,7 +29,7 @@ Updated: 2026-10-01. **B0 including SEC0/INT0 passed its complete local foundati
 | Bulk | Status | Next acceptance requirement | Evidence |
 |---|---|---|---|
 | B0 | DONE | Complete local foundation gate passed; continue B1 | [205-case acceptance](B0-20261001.md) |
-| B1 | NOT_STARTED | State/store/master harness and crash recovery | None |
+| B1 | DONE | Atomic complete state, local durable recovery, immutable reads and development master harness verified; continue B2 | [271-case integrated acceptance](B1-20261001.md) |
 | B2 | NOT_STARTED | Real serial EVM/fees/RPC/developer fixture | None |
 | B3 | NOT_STARTED | Four-validator classical baseline consensus and signing safety; not a PQ claim | None |
 | B4 | NOT_STARTED | Verified follower/snapshot/delta/retention; isolated public persistence and master-offline restart T-N09/T-N10 | None |

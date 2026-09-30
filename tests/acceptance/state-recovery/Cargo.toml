@@ -1,0 +1,25 @@
+[package]
+name = "eve-state-recovery-acceptance"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dev-dependencies]
+eve-state = { path = "../../../validator/components/state" }
+eve-storage = { path = "../../../public/components/recovery-store" }
+eve-evm = { path = "../../../validator/components/execution" }
+eve-protocol-config = { path = "../../../validator/components/protocol-config" }
+alloy-primitives.workspace = true
+alloy-consensus.workspace = true
+alloy-eips.workspace = true
+alloy-rlp.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
+hex.workspace = true
+k256.workspace = true
+ed25519-dalek.workspace = true
+rocksdb.workspace = true
+
+[lints]
+workspace = true

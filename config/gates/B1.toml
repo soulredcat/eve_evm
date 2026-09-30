@@ -1,0 +1,25 @@
+version = 1
+id = "B1"
+profile = "LOCAL_ATOMIC_COMPLETE_STATE_DEV_ALL_IN_ONE_NOT_VALIDATOR_FINALITY"
+groups = [
+    "config/gates/groups/xtask.toml",
+    "config/gates/groups/authentication.toml",
+    "config/gates/groups/consensus.toml",
+    "config/gates/groups/bridge-protocol.toml",
+    "config/gates/groups/execution.toml",
+    "config/gates/groups/interop.toml",
+    "config/gates/groups/node-policy.toml",
+    "config/gates/groups/protocol-config.toml",
+    "config/gates/groups/master-b1.toml",
+    "config/gates/groups/state-b1.toml",
+    "config/gates/groups/storage-b1.toml",
+    "config/gates/groups/state-recovery-acceptance-b1.toml",
+]
+required_inputs = [
+    "Cargo.lock", "rust-toolchain.toml", "config/tool-pins.toml",
+    "config/structure-policy.toml", "config/gates/requirements/core.toml",
+    "validator/components/state/README.md", "master/README.md",
+    "public/components/recovery-store/README.md",
+    "tests/acceptance/state-recovery/README.md",
+    "tests/acceptance/state-recovery/tests/fixtures/trie-v1/README.md",
+]
