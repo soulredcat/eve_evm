@@ -8,12 +8,14 @@ User decisions are authoritative: validators make consensus decisions; developer
 
 The owner additionally requires majority-attack resilience, post-quantum security and a secure bridge. Implement the explicit fault models, authenticated security profiles, local bridge fixture and acceptance gates in plans 26–29. Do not claim unlimited 51% immunity or end-to-end quantum security from the existing classical baseline.
 
+EVE must also be bridge-friendly to Ethereum, Solana and other chains through the adapter architecture in plan 30. Ethereum and Solana are mandatory named two-way integration targets, not optional examples. Preserve an EVM core while implementing separate EVM-contract and Solana-program endpoints, typed assets/addresses, source verification, SDK/transaction builders and resumable transfers. The two-EVE bridge fixture is only the first step. Other routes are extensible, not automatically supported or approved.
+
 ## Authority and reading order
 
 1. Current explicit user instructions and repository safety boundaries.
 2. `docs/plan/24-decision-register.md`: current architectural decisions and superseded assumptions.
-3. Specifications 12–22, policies 25–28, and their acceptance tests. Plans 26–28 refine the older classical development baseline; they do not retroactively make it secure.
-4. `docs/plan/23-task-backlog-and-execution.md` and `docs/plan/29-security-implementation-and-acceptance.md`: mandatory core and security queues.
+3. Specifications 12–22, policies 25–28, and plan 30, with their acceptance tests. Plans 26–28 refine the older classical development baseline; they do not retroactively make it secure.
+4. `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, and plan 30's INT0–INT3 queue: mandatory core, security and interoperability work.
 5. Overviews 00–11, which summarize rather than override those specifications.
 6. `docs/execution/STATUS.md`, `EVIDENCE.md`, and `HANDOFF.md`: actual progress.
 
@@ -21,9 +23,9 @@ For an inconsistency, preserve safety and the latest architectural decision, add
 
 ## Execution contract
 
-Work autonomously through every ready core bulk B0–B11 and security bulk SEC0–SEC3 using `AGENTS.md`. SEC0 is part of B0; other dependencies are in plan 29. Plan by dependencies and implement complete vertical slices. Research an unfamiliar API using primary documentation, make a bounded spike, record the result, then implement. Do not spend the whole run repeatedly rewriting plans.
+Work autonomously through every ready core bulk B0–B11, security bulk SEC0–SEC3 and interoperability bulk INT0–INT3 using `AGENTS.md`. SEC0 and INT0 are included in B0; other dependencies are in plans 29/30. Plan by dependencies and implement complete vertical slices. Research an unfamiliar API using primary documentation, make a bounded spike, record the result, then implement. Do not spend the whole run repeatedly rewriting plans.
 
-Use five specialist responsibilities when supported: lead/orchestrator; protocol/EVM; state/network/performance; correctness/security; reviewer/integrator. Independent tasks may run in parallel; overlapping files and consensus interfaces require explicit ownership. Tests and review are part of each bulk, not a final cleanup stage.
+Use five specialist responsibilities when supported: lead/orchestrator; protocol/EVM; state/network/performance; correctness/security; reviewer/integrator. Independent tasks may run in parallel; overlapping files and consensus interfaces require explicit ownership. Tests and review are part of each bulk, not a final cleanup stage. Assign Ethereum and Solana adapter ownership separately after shared interface agreement; do not create duplicated custody/replay logic.
 
 Each bulk must leave a usable repository state. Run its gates, repair failures, save evidence, update status, create a coherent local commit, and proceed. For a genuine external blocker, record the failed command, cause, required resource and resume action, and work on other ready tasks. Lack of certainty is a reason for a test or source check, not for inventing a guarantee.
 
@@ -33,7 +35,7 @@ Use `runtime-or-crate/src/domain/capability/sub-capability/operation/.../functio
 
 Target at most 200 formatted physical lines per file; 201–400 requires decomposition review and a retained-size rationale; 401–600 requires a reviewed exact-path temporary exception with an expiring split task; more than 600 is a hard failure for handwritten files. Line counts include imports, comments, blank lines and tests. No minification, blanket exclusions or lowered acceptance criteria.
 
-B0 must implement and test `cargo xtask check-structure`, covering T-L01–T-L06, and wire it into CI and every bulk gate. Preserve deterministic behavior and package independence during refactors. Do not postpone folder/file cleanup until the project ends, and do not claim the structure checker exists before it is actually implemented.
+B0 must implement and test `cargo xtask check-structure`, covering T-L01–T-L06, and wire it into CI and every bulk gate. Preserve deterministic behavior and package independence during refactors. Do not postpone folder/file cleanup until the project ends, and do not claim the structure checker exists before it is actually implemented. Apply explicit language coverage to bridge Solidity, Solana Rust and TypeScript SDK code as those modules are added.
 
 ## Required software outcomes
 
@@ -55,6 +57,8 @@ The implementation must provide:
 - Majority-adversary tests and honest fault-assumption reporting, without automatic quorum reduction or master takeover.
 - Actual mandatory hybrid/PQ authentication through consensus, protected accounts, clients, control/recovery and release paths; crypto/commitment inventory and tested migrations.
 - A two-EVE-devnet bridge with fake assets, authenticated finality/inclusion, replay protection, conserved backing, bounded exposure and tested incident handling.
+- Ethereum/EVE and Solana/EVE adapters and real destination endpoints with two-way fake-asset acceptance, exact decimals/asset identity, wallet/SDK examples and per-direction verification evidence under plan 30.
+- An extensible route registry that exposes capabilities, trust/PQ coverage, unsupported-token reasons, fees, progress and approval state without pretending every chain is already integrated.
 
 A master-only early prototype composes the same shared execution/storage components with a local test producer. It must not become a second production consensus implementation. A production-mode master with all validators offline preserves data and reports stalled finality; it does not invent blocks.
 
@@ -62,7 +66,7 @@ A master-only early prototype composes the same shared execution/storage compone
 
 ### DEVNET_ACCEPTED
 
-All B0–B9 mandatory acceptance checks pass. A clean checkout can build and start a local network, deploy a Solidity fixture, send native/ERC-20 transfers, execute successful and reverting swaps, read accurate receipts/logs, restart every role, lose one validator, lose the master, recover a public replica, settle rewards, and verify unchanged roots and balances. Packaging, structure, security, upgrade and chaos tests must also pass. Disclose whether this checkpoint is CLASSICAL_DEV or a stronger profile. It is not completion of the new security requirements, the throughput target or permission to launch mainnet.
+All B0–B9 mandatory acceptance checks pass. A clean checkout can build and start a local network, deploy a Solidity fixture, send native/ERC-20 transfers, execute successful and reverting swaps, read accurate receipts/logs, restart every role, lose one validator, lose the master, recover a public replica, settle rewards, and verify unchanged roots and balances. Packaging, structure, security, upgrade and chaos tests must also pass. Disclose whether this checkpoint is CLASSICAL_DEV or a stronger profile. It is not completion of security, external interoperability or throughput targets, and is not permission to launch mainnet.
 
 ### SECURITY_PROFILE_ACCEPTED
 
@@ -70,9 +74,15 @@ SEC0–SEC3 and T-M/T-P/T-BR acceptance pass for the named fault model, protecte
 
 CometBFT's baseline does not guarantee safety/liveness under 51% Byzantine power. Any stronger continuity requirement remains `UNSATISFIED_BY_BASELINE` until a reviewed alternative with explicit assumptions meets it. Passing an attack test does not prove universal immunity. An external bridge route remains disabled until its own adapter and authorization gates pass.
 
+### INTEROP_DEV_ACCEPTED
+
+INT0–INT3 and T-I01–T-I12 in plan 30 pass for both named external targets and both directions under the declared local/test trust profile. Ethereum and Solana endpoint/application tests, authenticated source verification, exact accounting, SDK signing/fees/resume and incident tests must exist. A simulator-only contract test, fake verifier, or two-EVE result cannot close these targets. Record each direction and external dependency separately.
+
+This checkpoint neither approves live routes nor certifies Ethereum/Solana as post-quantum. Preserve secure EVE verification while clearly classifying external classical or added-trust dependencies. If a required verifier or approved trust model is unavailable, its target remains blocked/incomplete; continue the other implementable adapter and SDK work.
+
 ### SCALE_TARGET_VERIFIED
 
-B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–29. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target.
+B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–30. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
 
 If software runs but measurements fall short, status is TARGET_UNMET and the next optimization remains work. If suitable hardware is unavailable, status is BLOCKED_INFRA for the affected experiment. Neither state may be renamed DONE. Continue all implementable work and produce the exact deploy/run package needed to resume.
 
@@ -84,14 +94,14 @@ Requires explicit owner-approved genesis/economics/governance, independent secur
 
 A requirement is DONE only with real implementation, positive and negative tests, integration with adjacent modules, updated operator/developer documentation, passing relevant gates including structure checks, and recorded evidence at the reviewed commit. Stubs, TODO bodies, unconditional success, fake signatures, hard-coded roots, ignored recovery errors and disabled assertions do not qualify.
 
-`docs/execution/STATUS.md` tracks every core/security bulk and unmet stronger target. `docs/execution/EVIDENCE.md` links the actual reports. Large logs stay in an artifact directory with checksums rather than being dumped into Git. `docs/execution/HANDOFF.md` always identifies the next uncompleted action so a new session can continue without this conversation.
+`docs/execution/STATUS.md` tracks every core/security/interoperability bulk and unmet stronger target. `docs/execution/EVIDENCE.md` links the actual reports. Large logs stay in an artifact directory with checksums rather than being dumped into Git. `docs/execution/HANDOFF.md` always identifies the next uncompleted action so a new session can continue without this conversation.
 
 ## Permission and resource boundaries
 
-Operate on this repository and task-created development resources. Use fake development tokens only. Do not access unrelated wallets, keys, databases or bots. Do not purchase infrastructure, change GitHub visibility, choose a binding source license, use real signing keys, issue real tokens or deploy mainnet/live custody. Keep paid review and external route validation requirements explicit.
+Operate on this repository and task-created development resources. Use fake development tokens only. Do not access unrelated wallets, keys, databases or bots. Do not purchase infrastructure, change GitHub visibility, choose a binding source license, use real signing keys, issue real tokens or deploy mainnet/live custody. Keep paid review and external route validation requirements explicit. No added signer/provider trust or external production route is silently authorized by the request for bridge compatibility.
 
 Session/tool limits must produce a resumable checkpoint, not a promise of unattended future work. A goal file guides an available Codex session; it does not remove runtime, quota, permission or hardware limits.
 
 ## First actions
 
-Inspect the checkout and toolchain. Read the plans and status. Execute B0 including SEC0: pin and smoke-test dependency/consensus/crypto interfaces, finalize byte-level test fixtures and the security inventory, build the requirement-to-test matrix, create the task runner/security gates, and implement its structure checker with boundary tests. Then proceed through the next ready core/security bulks without asking for another planning round.
+Inspect the checkout and toolchain. Read the plans and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.

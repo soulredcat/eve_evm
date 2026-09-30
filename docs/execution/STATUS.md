@@ -1,27 +1,28 @@
 # Implementation status
 
-Updated: 2026-09-30. This revision adds majority-adversary, post-quantum and bridge specifications plus the mandatory security execution queue. **No runtime implementation or execution gate has passed yet.**
+Updated: 2026-09-30. This revision adds Ethereum/Solana interoperability requirements and INT0–INT3 to the existing core/security queues. **No runtime implementation or execution gate has passed yet.**
 
 ## Overall
 
-- Documentation/goal package: prepared for implementation, now including plans 26–29.
+- Documentation/goal package: prepared for implementation, including plans 00–30.
 - Runtime code: not started.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
 - PQ_PROFILE_VERIFIED: NOT_ACHIEVED.
 - BRIDGE_DEVNET_ACCEPTED: NOT_ACHIEVED.
 - SECURITY_PROFILE_ACCEPTED: NOT_ACHIEVED.
+- INTEROP_DEV_ACCEPTED: NOT_ACHIEVED.
 - SCALE_TARGET_VERIFIED: NOT_ACHIEVED.
 - 51_PERCENT_CONTINUITY: UNSATISFIED_BY_BASELINE; no unconditional majority-tolerance guarantee.
 - EXTERNAL_BRIDGE_ROUTES: DISABLED_NOT_APPROVED.
 - MAINNET_READY: NOT_AUTHORIZED / NOT_ASSESSED.
-- Runtime, structure, cryptographic, attack and bridge tests/benchmarks: NOT_RUN.
+- Runtime, structure, cryptographic, attack, interoperability and bridge tests/benchmarks: NOT_RUN.
 
 ## Core bulk ledger
 
 | Bulk | Status | Next acceptance requirement | Evidence |
 |---|---|---|---|
-| B0 | NOT_STARTED | Pin dependencies, smoke-test interfaces, create workspace/xtask/vectors/structure checker and SEC0 inventory | None |
+| B0 | NOT_STARTED | Pin dependencies/interfaces; workspace/xtask/vectors/structure checker; SEC0 and INT0 inventories | None |
 | B1 | NOT_STARTED | State/store/master harness and crash recovery | None |
 | B2 | NOT_STARTED | Real serial EVM/fees/RPC/developer fixture | None |
 | B3 | NOT_STARTED | Four-validator classical baseline consensus and signing safety; not a PQ claim | None |
@@ -43,14 +44,35 @@ Updated: 2026-09-30. This revision adds majority-adversary, post-quantum and bri
 | SEC2 | NOT_STARTED | Two-EVE-devnet bridge, proofs, conserved backing, replay/incident and hybrid tests | None |
 | SEC3 | NOT_STARTED | Integrated security profile, recovery/release drills, secure capacity handoff | None |
 
-Dependencies are in [plan 23](../plan/23-task-backlog-and-execution.md) and [plan 29](../plan/29-security-implementation-and-acceptance.md). B0 including SEC0 is first. Do not mark downstream work DONE because a directory, README, test name or crypto wrapper exists.
+## Interoperability bulk ledger
+
+| Bulk | Status | Next acceptance requirement | Evidence |
+|---|---|---|---|
+| INT0 | NOT_STARTED | B0 chain/asset/route interfaces; pinned Ethereum/Solana feasibility, fixtures and T-I gates | None |
+| INT1 | NOT_STARTED | Real Ethereum contracts/Solana program, chain adapters and SDK local fixtures | None |
+| INT2 | NOT_STARTED | Per-direction authenticated source and destination verification, negative tests and resource measurements | None |
+| INT3 | NOT_STARTED | Fresh-checkout two-way named integration acceptance, SDK/recovery and route matrix | None |
+
+## Named route targets
+
+| Direction | Implementation | Source/destination verification | Live approval |
+|---|---|---|---|
+| Ethereum -> EVE | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
+| EVE -> Ethereum | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
+| Solana -> EVE | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
+| EVE -> Solana | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
+| Additional chains, including Alephium | EXTENSIBLE_NOT_INTEGRATED | ROUTE_SPEC_REQUIRED | DISABLED_NOT_APPROVED |
+
+ETHEREUM_INTEROP_DEV and SOLANA_INTEROP_DEV are NOT_ACHIEVED. Actual route trust mode and crypto coverage are not yet established by implementation. No EVE PQ requirement certifies an external endpoint.
+
+Dependencies are in [plan 23](../plan/23-task-backlog-and-execution.md), [plan 29](../plan/29-security-implementation-and-acceptance.md), and [plan 30](../plan/30-cross-chain-interoperability.md). B0 including SEC0 and INT0 is first. Do not mark downstream work DONE because a directory, README, test name, adapter interface or crypto wrapper exists.
 
 ## Claim boundaries
 
-The starting CometBFT/Ed25519 and secp256k1 EVM profile is classical. Plans 26–29 add requirements, not completed protections. Under its stated fault model the baseline does not guarantee correct continued finality with 51% Byzantine power. Local bridge acceptance does not approve an external chain or real custody.
+The starting CometBFT/Ed25519 and secp256k1 EVM profile is classical. Plans 26–30 add requirements, not completed protections or integrations. Under its stated fault model the baseline does not guarantee correct continued finality with 51% Byzantine power. Local bridge acceptance does not approve an external chain or real custody. Two-EVE acceptance does not complete the named Ethereum/Solana integrations, and application simulator results do not prove source finality.
 
 ## Update rules
 
 Every DONE row must link reviewed implementation and passing evidence at the actual integrated revision. Keep failed/blocked targets and stronger unmet security requirements visible. Genuine blockers record category, cause, attempted alternatives and exact resume action; they do not prevent independent work.
 
-Use [EVIDENCE.md](EVIDENCE.md) for run records and [HANDOFF.md](HANDOFF.md) for resumption. Keep R01–R12, T-L and the added T-M/T-P/T-BR requirements traceable. Do not equate documentation completion, functional devnet acceptance, security-profile acceptance and mainnet readiness.
+Use [EVIDENCE.md](EVIDENCE.md) for run records and [HANDOFF.md](HANDOFF.md) for resumption. Keep R01–R12, T-L, T-M/T-P/T-BR and T-I01–T-I12 requirements traceable. Do not equate documentation completion, functional devnet acceptance, security-profile acceptance, interoperability acceptance and mainnet readiness.

@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30, including recursive folder/function-file policy and majority/PQ/bridge security requirements. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-09-30, including recursive folder/function-file policy, majority/PQ/bridge security and Ethereum/Solana interoperability. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -24,8 +24,11 @@ Revision: 2026-09-30, including recursive folder/function-file policy and majori
 | D16 | Majority-attack resilience is mandatory and evaluated under explicit adversary assumptions. The existing BFT baseline does not guarantee safety/liveness at 51% Byzantine power; stronger unmet requirements remain visible rather than being renamed complete. |
 | D17 | Post-quantum security is a required implementation/migration track, not a label for the classical baseline. Enforce the named crypto profile throughout consensus, protected accounts, clients, control/recovery and releases. |
 | D18 | Bridge security requires authenticated source finality/inclusion, replay prevention, backing conservation, exposure controls and route-specific crypto/trust assessment. No relayer/master assertion authorizes value movement. |
-| D19 | Core B0–B11 plus security SEC0–SEC3 are mandatory. First bridge fixture uses two task-owned EVE devnets/fake assets; no live custody or external production route is authorized by this planning request. |
+| D19 | Core B0–B11, security SEC0–SEC3 and interoperability INT0–INT3 are mandatory. The initial two-EVE/fake-asset bridge is a foundation, not completion of named external targets or authorization for live custody. |
 | D20 | Secure-profile 1M TPS must be measured with required authentication enabled. A classical-only result is diagnostic, not secured-target completion. |
+| D21 | EVE must be bridge-friendly to Ethereum, Solana and other chains. Ethereum <-> EVE and Solana <-> EVE are the first named external integration targets; other chains use separately verified adapters. |
+| D22 | Keep EVE as an EVM core. Solana has its own program/account/token/signing adapter, not forced EVM execution. Common bridge interfaces preserve per-chain finality, address/asset identity and explicit trust/PQ capabilities. |
+| D23 | Bridge SDK/quotes/status/retry and round-trip tests are required. Adding an RPC URL, passing two-EVE tests, or deploying an escrow alone cannot mark an external route supported or approved. |
 
 ## Superseded assumptions
 
@@ -41,10 +44,11 @@ Revision: 2026-09-30, including recursive folder/function-file policy and majori
 - A greater-than-two-thirds quorum is not unconditional 51%-attack immunity; stronger cryptography does not stop a malicious legitimate quorum.
 - Classical EVM accounts/consensus, a PQ library, TLS, or a PQ stamp ignored by consensus verification do not establish end-to-end quantum security.
 - A bridge cannot repair failed endpoint assumptions merely by adding more relayers, waiting a fixed delay or signing messages with PQ keys.
+- EVM compatibility does not automatically integrate every EVM chain, execute Solana programs or supply external finality proofs. External dependencies do not become PQ-secure by connecting to EVE.
 
 ## Selected development baseline
 
-These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge security. Plans 26–29 explicitly extend this classical starting point.
+These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–30 explicitly extend this classical starting point.
 
 | Area | Baseline | Change rule |
 |---|---|---|
@@ -68,7 +72,8 @@ These defaults permit incremental implementation. They are not binding mainnet a
 | Platform | Linux reference; WSL documented where applicable | Other support requires evidence |
 | Code organization | Plan 25 recursive capability folders and one-function behavioral files | Structural tests and reviewed bounded exceptions; no bypass of D13–D15 |
 | PQ experiments | Reviewed ML-DSA-65 integration; classical AND PQ for activated hybrid authority | SEC0 pins actual support/vectors; no unsupported production security claim |
-| Bridge fixture | Two EVE devnets with distinct identities and fake assets | Real consensus/proofs; external routes disabled until separately verified/approved |
+| Bridge foundation | Two EVE devnets with distinct identities and fake assets | Real consensus/proofs; does not complete Ethereum/Solana |
+| External integration targets | Ethereum and Solana adapters/endpoints plus versioned SDK under plan 30 | INT0–INT3 evidence per direction; live routes remain disabled until reviewed and owner-approved |
 
 Genesis hash is the immutable network/spec digest. Runtime configuration digests and upgrade versions may change only through their declared rules; they must not be substituted for network identity during verification. Header extraData uses the immutable genesis-domain digest defined by plan 14, not an unannounced local config hash.
 
@@ -76,15 +81,15 @@ Genesis hash is the immutable network/spec digest. Runtime configuration digests
 
 Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25.
 
-Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. Include INT0 from plan 30: Ethereum/Solana references/toolchains, typed asset/route/address interfaces, actual verifier feasibility and T-I01–T-I12 registration. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
 
 When a baseline library cannot satisfy a requirement, record the actual failing interface/test and select a compatible maintained alternative or reviewed extension through an ADR. Do not invent a new security model or certify an unsupported property simply to make a demo run.
 
 ## Owner gates
 
-Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Alephium/other bridge or settlement deployment and route limits. Local bridge/security implementation uses fake assets only. Development parameters do not authorize production custody.
+Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Ethereum/Solana/Alephium/other bridge or settlement deployment and route limits. Local bridge/security/adapter implementation uses fake assets only. Development parameters do not authorize production custody.
 
-Changes adding external trust, exceptional fork/social recovery or weaker crypto/fault guarantees require explicit disclosure and approval; they cannot masquerade as routine performance tuning.
+Changes adding external trust, exceptional fork/social recovery or weaker crypto/fault guarantees require explicit disclosure and approval; they cannot masquerade as routine performance tuning or bridge compatibility. No interoperability-provider partnership or issuer-native token support is presumed.
 
 ## Decision change template
 

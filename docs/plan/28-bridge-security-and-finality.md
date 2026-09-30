@@ -4,25 +4,27 @@ Status: mandatory design and local implementation/testing work, added 2026-09-30
 
 ## BRS01 — Scope and initial route
 
-Build reusable bridge verification/accounting components, not an unrestricted cross-chain mint endpoint. The first executable fixture connects two task-owned EVE devnets with different chain IDs/genesis hashes and fake native/ERC-20 test assets. This provides a concrete end-to-end target without inventing an external chain's API or claiming that every route already works.
+Build reusable bridge verification/accounting components, not an unrestricted cross-chain mint endpoint. The first executable fixture connects two task-owned EVE devnets with different chain IDs/genesis hashes and fake native/ERC-20 test assets. This provides a concrete end-to-end foundation without inventing an external chain's API or claiming that every route already works.
 
-Alephium and other external routes require separate researched adapters and route-specific approval. The owner's security requirement authorizes planning, local code, fixtures and tests; it does not authorize real funds, production keys or mainnet deployment. Keep unsupported routes disabled with a precise reason and resume task.
+Ethereum <-> EVE and Solana <-> EVE are the first mandatory named external integration targets under [plan 30](30-cross-chain-interoperability.md). The two-EVE fixture alone cannot complete them. Alephium and additional chains use separate researched adapters. Preserve each endpoint's own finality, asset/address semantics, wallet signing and verifier costs; an EVM-compatible endpoint does not make every chain equivalent.
+
+The owner's security/interoperability requirement authorizes planning, local code, fake-asset fixtures and tests; it does not authorize real funds, production keys or mainnet deployment. Keep unverified routes disabled with a precise reason and resume task, while continuing other implementable adapter/core work.
 
 ## BRS02 — Trust model per route
 
-For every direction, record source/destination genesis and chain identity, custody contract/module, token identifiers, verifier version/code hash, finality model, trust anchor freshness, validator-set updates, proof limits, upgrade policy and quantum profile. Token symbols or matching addresses on different networks are not asset identity.
+For every direction, record source/destination genesis and namespaced chain identity, custody contract/module/program, token identifiers, verifier version/code hash, finality model, trust anchor freshness, validator-set updates, proof limits, upgrade policy and quantum profile. Token symbols or matching addresses on different networks are not asset identity.
 
-Prefer authenticated light-client/header and inclusion verification where implementable. A quorum-signature bridge has an additional signer/custody trust assumption; label it honestly. A relayer is an untrusted transporter, never a source of chain truth. Several relayers/RPC endpoints do not create several independent consensus systems.
+Prefer authenticated light-client/header and inclusion verification where implementable. A quorum-signature bridge has an additional signer/custody trust assumption; label it honestly. A relayer is an untrusted transporter, never a source of chain truth. Several relayers/RPC endpoints do not create several independent consensus systems. Adding a signer/provider fallback requires explicit trust review and approval rather than silently bypassing a missing verifier.
 
 A bridge inherits the security assumptions of both endpoints and its verifier/custody/admin paths. Adding ML-DSA to relayers does not repair quantum-vulnerable source finality, user authority or destination custody. A proof of inclusion is not automatically proof of finality or solvency. Background: [Ethereum bridge security/trust models](https://ethereum.org/en/developers/docs/bridges/).
 
 ## BRS03 — Verification before value movement
 
-The destination verifies: authenticated source history and applicable validator set; correct finality/profile; the correct state/receipt root binding; inclusion of the expected successful custody event; route/asset/amount/recipient; replay protection; limits; and current pause status. Only then may it atomically consume the message and mint/unlock.
+The destination verifies: authenticated source history and applicable validator set; correct finality/profile; the correct state/receipt root binding; inclusion of the expected successful custody event; route/asset/amount/recipient; replay protection; limits; and current pause status. Only then may it atomically consume the message and mint/unlock. Source-specific state/instruction evidence may replace EVM receipt evidence only through its specified authenticated adapter, not an assumed equivalent structure.
 
 For the EVE CometBFT fixture, preserve plans 12/14's consensus-versus-execution height and H/H+1 application commitment distinction. Receipt/event inclusion must be bound through the execution header, application commitment and authenticated consensus anchor, or established by full verified replay. `certificate(H) + arbitrary_root(H)` is not enough.
 
-A source quorum loss stalls new proven transfers. A master outage does not waive source finality. Wrong-network proofs, stale trusted headers, unknown profiles and missing data fail closed. Unknown facts are not replaced with a relayer's success response.
+A source quorum loss stalls new proven transfers. A master outage does not waive source finality. Wrong-network proofs, stale trusted headers, unknown profiles and missing data fail closed. Unknown facts are not replaced with a relayer's success response. Ethereum/Solana RPC commitment labels alone are not destination-verifiable proofs; plan 30 defines the separate adapter obligations.
 
 ## BRS04 — Message identity and replay
 
@@ -30,26 +32,26 @@ Freeze canonical byte encodings in the implementation fixture. A message include
 
 ```text
 protocol/profile version
-source genesis + chain ID
-destination genesis + chain ID
+source namespace + genesis + native chain identifier
+destination namespace + genesis + native chain identifier
 route ID + source custody identifier
 destination custody identifier
-source height + block hash + transaction index + log/event index
-asset identifier + exact base-unit amount + recipient
-route sequence/nonce + any expiry/refund policy
+source height/slot + block hash + transaction and event/instruction locator
+origin asset identifier + exact base-unit amount + chain-scoped recipient
+source custody sequence + any expiry/refund policy
 ```
 
-The unique message ID commits to all fields using the reviewed hash/domain policy from plan 27. Bind the selected route/profile and destination deployment so replay across forks, testnets, contracts or security-profile versions fails. Compression/relayer encoding is not signed-message identity.
+The unique message ID commits to all fields using the reviewed hash/domain policy from plan 27. Bind the selected route/profile and destination deployment so replay across forks, testnets, contracts or security-profile versions fails. Compression/relayer encoding is not signed-message identity. Also deduplicate the authenticated economic transfer identity from plan 30: alternate proof locators, transport retries or re-signed transactions must not create another entitlement for one source custody sequence.
 
-Persist consumed IDs and accounting in the same atomic state transition as mint/unlock. Retries after crashes are idempotent. Events emitted by lookalike contracts, reverted transactions or a different asset route are rejected.
+Persist consumed IDs and accounting in the same atomic state transition as mint/unlock. Retries after crashes are idempotent. Events emitted by lookalike contracts/programs, failed transactions or a different asset route are rejected. Do not truncate non-EVM addresses or reuse an Ethereum log locator for a different chain without its defined encoding.
 
 ## BRS05 — Accounting and custody
 
 Use a simple allowlisted one-origin/one-destination lock-mint and burn-unlock model first. Wrapped supply is a liability backed by actual source custody, not expected transfer amounts. Explicitly account for finalized pending deposits, wrapped outstanding balances and proven burned-but-not-yet-released liabilities. No relayer or master can mint outside this ledger.
 
-Test value conservation per asset/direction with checked integer arithmetic and exact decimals. Initially reject fee-on-transfer, rebasing, callback-bearing or otherwise unsupported tokens rather than assuming their nominal transfer amount was received. Later support requires separate verified semantics.
+Test value conservation per asset/direction with checked integer arithmetic and exact decimals. Initially reject fee-on-transfer, rebasing, callback-bearing or otherwise unsupported tokens rather than assuming their nominal transfer amount was received. Later support requires separate verified semantics. Native ETH/SOL, ERC-20, SPL and Token-2022 capabilities are explicit under plan 30; never pledge the same backing to several routes or mislabel bridge-issued assets as issuer-native.
 
-Cover reentrancy, failed transfers, revert rollback, double claims, duplicate events, contract upgrades and unauthorized token mapping. Administrative recovery cannot sweep locked backing or change a pending recipient. No arbitrary-call bridge or general message execution is enabled until its separate threat model and tests pass.
+Cover reentrancy, failed transfers, revert rollback, double claims, duplicate events, contract/program upgrades and unauthorized token mapping. Administrative recovery cannot sweep locked backing or change a pending recipient. No arbitrary-call bridge or general message execution is enabled until its separate threat model and tests pass.
 
 A timeout alone does not prove the destination never minted. The initial bridge has no unilateral timeout refund. A later refund/cancellation protocol must prove mutual exclusion between mint and refund, including delayed messages and partitions.
 
@@ -65,9 +67,9 @@ No blanket “51% safe bridge” claim: plans 26 and 27 apply to all source-proo
 
 ## BRS07 — Post-quantum route profile
 
-Maintain a per-route matrix for source consensus signatures/commitments, user authorization, destination verification, custody/admin/recovery keys and release trust. A route is `PQ_END_TO_END_VERIFIED` only when every required path meets the named profile and tests. Otherwise use `CLASSICAL` or `MIXED_TRUST`, never an end-to-end PQ claim.
+Maintain a per-route matrix for source consensus signatures/commitments, user authorization, destination verification, custody/admin/recovery keys and release trust. A route is `PQ_END_TO_END_VERIFIED` only when every required path meets the named profile and tests. Otherwise use `CLASSICAL` or `MIXED_TRUST`, never an end-to-end PQ claim. Ethereum/Solana compatibility is not proof that either external endpoint meets EVE's required crypto profile.
 
-For a hybrid signer-based experiment, count only identities whose required classical AND PQ components verify over the same message and current key epoch. This still adds signer trust and does not strengthen the underlying chain. Do not assume the destination VM can afford PQ verification: benchmark byte limits, gas and worst-case malformed input before enabling the adapter.
+For a hybrid signer-based experiment, count only identities whose required classical AND PQ components verify over the same message and current key epoch. This still adds signer trust and does not strengthen the underlying chain. Do not assume the destination VM can afford PQ verification: benchmark byte limits, gas/compute and worst-case malformed input before enabling the adapter.
 
 Any ZK/proof-compression substitution needs a reviewed quantum threat model for the proof system and setup as well as its verifier; a proof is not automatically post-quantum. Do not use an unverified proof-compression claim to remove source authentication.
 
@@ -84,11 +86,15 @@ crates/bridge/src/
   accounting/backing/reconciliation/reconcile_asset_backing.rs
   limits/exposure/checks/check_release_limit.rs
   incidents/pausing/evidence/verify_pause_evidence.rs
-contracts/bridge/
+  adapters/ethereum/
+  adapters/solana/
+contracts/bridge/evm/
+programs/bridge/solana/
+sdk/bridge/
 integration/bridge/
 ```
 
-Share finality/crypto/state contracts instead of cloning validators. Master stores finalized data; it has no bridge signer authority. Follow plan 25: meaningful recursive subfolders, one behavioral function per file, target 200 lines, reviewed 400/600 thresholds. Keep transport/relayer logic separate from deterministic verification and custody effects.
+Share finality/crypto/state contracts instead of cloning validators. Master stores finalized data; it has no bridge signer authority. Follow plan 25: meaningful recursive subfolders, one behavioral function per file, target 200 lines, reviewed 400/600 thresholds. Keep transport/relayer logic separate from deterministic verification and custody effects. Plan 30 narrows adapter and SDK boundaries further.
 
 ## BRS09 — Acceptance
 
@@ -109,4 +115,4 @@ Share finality/crypto/state contracts instead of cloning validators. Master stor
 
 ## BRS10 — Completion
 
-`BRIDGE_DEVNET_ACCEPTED` requires T-BR01–T-BR12 for the declared fixture/profile. External route readiness requires a pinned real adapter, chain-specific positive/negative fixtures, independent review and explicit owner approval. No parameter change or README turns a two-EVE devnet result into an approved Alephium/Ethereum/mainnet bridge.
+`BRIDGE_DEVNET_ACCEPTED` requires T-BR01–T-BR12 for the declared two-EVE fixture/profile. Named Ethereum/Solana integration additionally requires INT0–INT3 and T-I01–T-I12 in plan 30; it cannot be closed by relabeling the same fixture. Live route readiness requires a pinned real adapter, chain-specific positive/negative evidence, independent review and explicit owner approval. No parameter change or README turns a local result into an approved Ethereum/Solana/Alephium/mainnet bridge.

@@ -1,8 +1,8 @@
 # Planning index
 
-Status: **specifications and implementation queues prepared; runtime work not started**. These documents describe requirements, not evidence of execution or security certification.
+Status: **specifications and implementation queues prepared; runtime work not started**. These documents describe requirements, not evidence of execution, route availability or security certification.
 
-Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), and [actual status](../execution/STATUS.md).
+Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), [interoperability queue](30-cross-chain-interoperability.md), and [actual status](../execution/STATUS.md).
 
 ## Design overviews
 
@@ -43,13 +43,14 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 | [27](27-post-quantum-cryptography-and-migration.md) | Crypto inventory, hybrid/PQ authentication, accounts, commitments and migration |
 | [28](28-bridge-security-and-finality.md) | Route trust, source proofs, custody/backing, limits and local bridge acceptance |
 | [29](29-security-implementation-and-acceptance.md) | Mandatory SEC0–SEC3 queue, core dependencies and security completion levels |
+| [30](30-cross-chain-interoperability.md) | Ethereum/Solana two-way targets, extensible adapters, wallet/SDK, assets, INT0–INT3 and T-I gates |
 
 ## Execution support
 
 - [Specialist responsibilities](../agents/README.md).
 - [Status](../execution/STATUS.md), [evidence index](../execution/EVIDENCE.md), [handoff](../execution/HANDOFF.md).
-- [Primary references](../references.md) and [documentation change record](../CHANGELOG.md). New security standards and primary links are included directly in plans 26–28.
+- [Primary references](../references.md) and [documentation change record](../CHANGELOG.md). Security and chain-adapter primary links are included directly in plans 26–28 and 30.
 
-Specs 12–29 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune.
+Specs 12–30 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune. Plan 30 adds Ethereum and Solana as named implementation targets, not approved live routes; the two-EVE fixture alone cannot complete them.
 
-A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, linear TPS claims from extra replicas, monolithic files, classical-only security-profile bypasses or unverified bridge minting. Real bridge deployment remains an owner gate.
+A changed decision requires updating affected specs, tests and this index in the same bulk. No file may silently restore master authority, mandatory master round trips, RAM-only validator signing, linear TPS claims from extra replicas, monolithic files, classical-only security-profile bypasses, unverified bridge minting or automatic chain support from an RPC URL. Real bridge deployment remains an owner gate.
