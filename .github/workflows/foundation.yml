@@ -20,6 +20,10 @@ jobs:
       CC: clang-19
       CXX: clang++-19
       LIBCLANG_PATH: /usr/lib/llvm-19/lib
+      # Trust only this reviewed checkout across runner/container UID boundaries.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: ${{ github.workspace }}
     steps:
       - name: Install bounded native build prerequisites
         shell: bash

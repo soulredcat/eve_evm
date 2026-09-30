@@ -42,3 +42,10 @@ must not be presented as this recipe's reproducible artifact.
 Raw logs and executable remain local-only under local-tests/consensus-b0-v2 and
 the isolated CI checkout; required regression source remains tracked. No source
 version, module checksum, security test or authentication requirement is lowered.
+
+The third hosted run confirms full provisioning succeeds, then exposes Git's
+runner/container ownership rejection before verification can inspect ignore
+rules. Checkout's temporary HOME configuration does not persist into that step.
+The job now supplies a command-scoped safe.directory setting for the exact
+github.workspace checkout only. No wildcard or user-machine Git setting changes.
+The following full hosted result must still be observed separately.
