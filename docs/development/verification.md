@@ -1,8 +1,10 @@
-# Foundation verification
+# Bulk verification
 
 `cargo xtask verify --bulk B0` runs the registered foundation, including SEC0 and
 INT0 subsets. A runnable gate is not a passed gate or a completed runtime.
 Security/bridge/interop/runtime/capacity acceptance remains separate from B0.
+`cargo xtask verify --bulk B1` retains those foundations and adds complete-state,
+durable recovery, development composition and independent acceptance coverage.
 
 The complete gate uses Linux x86_64, Rust 1.97.1, clang-19/libclang-19, GCC, make,
 Perl, Git and HTTPS download tools. CI pins its Rust/container/checkout identities
@@ -36,8 +38,8 @@ cargo xtask verify --bulk B1
 cargo xtask verify --all
 ```
 
-The last two commands intentionally return nonzero while later mandatory gates
-are unimplemented. `--all` cannot certify the project by selecting only completed
+The `--all` command returns nonzero while later mandatory gates remain
+unimplemented. `--all` cannot certify the project by selecting only completed
 subsets. Registered T-M/T-P/T-BR/T-I/T-N and R requirements retain their individual
 outcomes and owning dependencies; a primitive or metadata test does not close a
 complete runtime requirement.

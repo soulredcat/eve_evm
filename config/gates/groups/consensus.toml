@@ -6,6 +6,8 @@ tests = [
     "accepts_ignored_local_artifacts_and_rejects_role_source_location",
     "activated_hybrid_requirement_fails_closed_for_native_engine",
     "actual_pinned_engine_lifecycle_and_next_height_commitment",
+    "support::wait_for_fixture_commit::observed_height_does_not_replace_synced_application_checkpoint",
+    "support::wait_for_fixture_commit::waits_for_delayed_application_checkpoint_publication",
     "canonical_vote_bytes_match_pinned_upstream_vectors",
     "maps_post_state_and_validator_updates_at_distinct_heights",
     "matches_only_next_height_same_chain_exact_commitment",

@@ -42,6 +42,15 @@ consensus suite and fails; a concrete chunk-framing bug is reproduced/repaired.
 Scoped 89 tooling and 14 actual-engine cases pass, with strict checks and fixed
 diagnostic categories. Full catalog has 209 cases; hosted result remains separate.
 
+## CI-20261001-checkpoint — Separate RPC and application commit observation
+
+[Checkpoint repair](CI-20261001-checkpoint.md): an actual-engine delayed-Commit
+fixture reproduces RPC height 6 while the synced application marker remains 5.
+The repaired wait preserves the minimum recovery assertion and passes the same
+fault, with four unfiltered cases. The integrated B1 repair gate passes 273 cases,
+format, strict lint, structure and release build. Hosted results remain separate;
+raw artifacts remain local only.
+
 ## PUB-20260930-01 — Local test isolation and publication policy
 
 Scope: repository hygiene and English collaboration only. This record belongs to the local policy commit based on clean branch `main` at `027ef9dc5779098f1192c56308cf7eb6c21bd13e`; it does not close B0, SEC0, INT0, or any runtime gate.

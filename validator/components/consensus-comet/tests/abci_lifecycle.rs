@@ -13,7 +13,7 @@ use anyhow::{Context, Result, ensure};
 use sha2::{Digest, Sha256};
 use support::{
     API_TRANSACTION, FixtureState, assert_actual_header_mapping, load_fixture_state, rpc_json,
-    start_engine, start_fixture_server, validate_local_artifact_directory,
+    start_engine, start_fixture_server, validate_local_artifact_directory, wait_for_fixture_commit,
 };
 
 #[test]
@@ -97,6 +97,8 @@ fn actual_pinned_engine_lifecycle_and_next_height_commitment() -> Result<()> {
         "fixture FinalizeBlock failed"
     );
     wait_for_height(rpc, 6, &mut engine.0)?;
+    // Comet's block-store RPC height may advance before ABCI Commit is durable.
+    wait_for_fixture_commit(&state, 6, Duration::from_secs(40))?;
     let mut headers = Vec::new();
     for height in 2..=5 {
         let result = rpc_json(rpc, &format!("/block?height={height}"))?;
@@ -142,6 +144,7 @@ fn actual_pinned_engine_lifecycle_and_next_height_commitment() -> Result<()> {
         &artifacts.join("engine-restarted.log"),
     )?;
     wait_for_height(rpc, resumed_height, &mut engine.0)?;
+    wait_for_fixture_commit(&restarted_state, resumed_height, Duration::from_secs(40))?;
     let resumed = restarted_state.lock().unwrap().clone();
     ensure!(
         resumed.operations.contains("Info"),

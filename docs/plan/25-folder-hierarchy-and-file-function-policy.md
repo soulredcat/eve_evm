@@ -1,6 +1,6 @@
 # 25 — Recursive folder hierarchy, function files and size limits
 
-Status: mandatory implementation policy, added 2026-09-30. An initial structure command is implemented and its current scan is verified; complete T-L01–T-L06 coverage, CI integration and B0 structure acceptance remain unfinished.
+Status: mandatory implementation policy, added 2026-09-30. The structure command, T-L01–T-L06 coverage and CI integration are implemented and pass complete local B0/B1 gates. Hosted results remain separately recorded in the execution evidence; standalone package gates remain unfinished.
 
 ## F01 — Owner requirement
 

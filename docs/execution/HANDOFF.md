@@ -7,7 +7,7 @@ Inspect actual branch, HEAD, index and status; no background continuation is imp
 ## Verified position
 
 Read [STATUS](STATUS.md), [B1 evidence](B1-20261001.md), prior B0/CI records,
-AGENTS/goal and mandatory plans. Latest local B1 gate executes 271 cases with
+AGENTS/goal and mandatory plans. Latest local B1 repair gate executes 273 cases with
 zero failed/ignored/filtered, strict lint, format, structure and release build.
 Its input/source/config/tool/output identities are recorded in the reviewed B1
 record and ignored raw report. Post-run evidence/status gets final checks before
@@ -46,6 +46,11 @@ The latest observed hosted failure reaches consensus after crypto/bridge, while
 the local actual-engine fixture passes. HTTP chunk framing was repaired and
 fixed safe diagnostic categories added; inspect the current hosted run before
 claiming it passes. Raw logs/keys/databases are not uploaded or published.
+The checkpoint race is reproduced and repaired locally: RPC block-store height
+can precede synced ABCI application Commit. The lifecycle now waits for both;
+see CI-20261001-checkpoint.md and the ignored fault/control report. Preserve the
+minimum checkpoint and restart assertions. Its integrated 273-case B1 gate passes;
+a separately observed hosted result remains required before claiming hosted success.
 Never restart unrelated trading bots.
 
 ## Exact next step — B2

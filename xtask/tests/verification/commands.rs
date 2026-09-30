@@ -47,4 +47,8 @@ fn compact_failure_categories_never_echo_raw_keys_paths_or_untrusted_text() {
         summarize_command_failure("", "Connection refused; assertion failed"),
         "CONNECTION_REFUSED, ASSERTION_FAILED"
     );
+    assert_eq!(
+        summarize_command_failure("Error: API-test checkpoint did not persist", ""),
+        "CHECKPOINT_CONTEXT_PRESENT, APPLICATION_CHECKPOINT_BELOW_REQUIRED_HEIGHT"
+    );
 }

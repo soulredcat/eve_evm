@@ -24,6 +24,14 @@ pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
         ("not Git-ignored", "ARTIFACT_IGNORE_GUARD_FAILED"),
         ("must remain beneath", "ARTIFACT_CONTAINMENT_FAILED"),
         ("checkpoint", "CHECKPOINT_CONTEXT_PRESENT"),
+        (
+            "API-test checkpoint did not persist",
+            "APPLICATION_CHECKPOINT_BELOW_REQUIRED_HEIGHT",
+        ),
+        (
+            "application checkpoint did not reach required height",
+            "APPLICATION_CHECKPOINT_TIMED_OUT",
+        ),
         ("Connection refused", "CONNECTION_REFUSED"),
         ("Permission denied", "PERMISSION_DENIED"),
         ("assertion", "ASSERTION_FAILED"),
