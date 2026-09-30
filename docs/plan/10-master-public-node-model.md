@@ -1,522 +1,355 @@
-# 10 — Master and Public Node Operating Model
+# 10 — Master, Public and Validator Node Operating Model
 
 ## Purpose
 
-This document records the current agreed direction for the EVE EVM node model.
+This document records the current agreed node model for EVE EVM.
 
-The design intentionally separates the protected canonical infrastructure from permissionless public infrastructure.
+The design separates three responsibilities:
+
+```text
+Public Node
+= network-facing RPC/P2P/state replica
+
+Validator Node
+= execution + proposal + vote + finality
+
+Master Node
+= finalized-state sync + durable persistence + snapshots + archive + recovery
+```
+
+The production trust rule is:
+
+> **Validators decide. Master remembers.**
 
 ---
 
 ## 1. Master Node
 
-The Master Node is developer-controlled infrastructure.
+The Master Node is developer-controlled protected infrastructure.
 
-### Access model
+### Production responsibilities
 
-- Master Node source/runtime is controlled by the EVE developers.
-- Master Node is not intended to be permissionless.
-- Master Node must not expose public administrative access.
-- Master Node must not expose its canonical database directly to Public Nodes.
-- Master Node should not have a public-facing management surface.
+- receive finalized blocks/state transitions;
+- verify finality certificates;
+- persist finalized canonical state;
+- maintain WAL / crash recovery;
+- produce and store snapshots;
+- maintain archive/history;
+- publish verified snapshots/state deltas;
+- support recovery/bootstrap of network nodes;
+- expose only a strict versioned internal synchronization protocol.
 
-### Responsibilities
+### What Master must not do in production
 
-The Master Node is responsible for:
+The Master must not be the unilateral source of consensus truth.
 
-- canonical chain state;
-- deterministic EVM execution in the initial implementation;
-- block construction;
-- durable state persistence;
-- WAL / crash recovery;
-- snapshots;
-- canonical block history;
-- publishing block/state updates;
-- maintaining the authoritative state root;
-- coordinating state synchronization;
-- serving the private versioned protocol used by Public Nodes.
+It must not:
 
-### Storage model
+- finalize blocks by itself;
+- override validator quorum;
+- expose public admin/database access;
+- require every user transaction to pass through it;
+- become the hot-path bottleneck for execution.
 
-The Master Node uses:
+### Early development exception
+
+The first implementation may run in `MASTER_ONLY` prototype mode to prove:
 
 ```text
-RAM
-= hot/current execution state
-
-NVMe Gen5
-= durable canonical state
-= WAL
-= block data
-= snapshots
-= recovery data
+transaction
+→ EVM execution
+→ block
+→ state root
+→ durable commit
+→ restart/recovery
 ```
 
-RAM is an acceleration layer and must never be the only canonical copy.
+This is a development mode only. Once Validator Nodes exist, production finality authority moves to validators.
 
 ---
 
-## 2. Master Operating Modes
+## 2. Public Node
 
-The implementation should support staged deployment.
-
-### Mode A — MASTER_ONLY
-
-Used during early development.
-
-```text
-Master Node
-├─ EVM execution
-├─ canonical state
-├─ block builder
-├─ durable storage
-├─ local/private RPC
-└─ recovery
-```
-
-The chain must be able to operate and be tested without any Public Node.
-
-This is the first implementation target.
-
-### Mode B — MASTER_WITH_PUBLIC
-
-After the Master is stable:
-
-```text
-Master
-  ↓
-signed/versioned state + block protocol
-  ↓
-Public Nodes
-```
-
-The Master remains the canonical state source while Public Nodes synchronize from it.
-
-### Mode C — PRIMARY + HOT STANDBY
-
-Later availability mode:
-
-```text
-Primary Master
-      │
-      └── replication
-              ↓
-        Hot Standby
-```
-
-Only one logical canonical writer may exist at a time.
-
-Split-brain must be prevented using explicit fencing/lease rules.
-
----
-
-## 3. Public Nodes
-
-Public Nodes are permissionless.
-
-### Access model
-
-There is no protocol-level fixed maximum number of Public Nodes.
-
-```text
-Public Node #1
-Public Node #2
-Public Node #3
-...
-Public Node #N
-```
-
-Anyone may run a Public Node if they meet the protocol and resource requirements.
+Public Nodes are permissionless and unlimited in count at the protocol level.
 
 ### Responsibilities
-
-A Public Node may provide:
 
 - public JSON-RPC;
-- WebSocket subscriptions;
+- WebSocket;
 - transaction ingress;
-- current-state RAM replica;
-- block verification;
-- state-root verification;
-- validator duties;
-- peer-to-peer distribution;
-- state-delta propagation;
-- snapshot distribution;
-- health/status service.
+- P2P propagation;
+- current-state RAM replica/cache;
+- block/state verification;
+- snapshot/delta distribution;
+- routing transactions toward Validator Nodes;
+- health/status services.
 
-Public Nodes do not become canonical simply because they are publicly reachable.
+A Public Node has no voting power unless it also runs/attaches to a registered Validator runtime.
+
+Public Nodes are replaceable and may use RAM-heavy current-state storage.
+
+---
+
+## 3. Validator Node
+
+Validator Nodes have a dedicated source/runtime.
+
+### Responsibilities
+
+- receive ordered transaction candidates/mempool data;
+- execute/replay EVM state transitions;
+- propose blocks when selected;
+- verify candidate blocks;
+- compute/verify state roots;
+- vote/sign;
+- participate in finality;
+- maintain validator identity and consensus keys;
+- report protocol-verifiable uptime/participation;
+- participate in staking/slashing rules.
+
+### Consensus authority
+
+A finalized block must be backed by the required validator quorum/certificate.
+
+The Master persists finalized results but cannot manufacture finality.
 
 ---
 
 ## 4. Source Tree Separation
 
-Master and Public Node source trees must be separate.
-
-Proposed layout:
-
 ```text
 eve_evm/
 ├─ master/
 │  └─ src/
-│
 ├─ public/
 │  └─ src/
-│
+├─ validator/
+│  └─ src/
 ├─ crates/
 │  ├─ protocol/
 │  ├─ primitives/
 │  ├─ evm/
 │  ├─ crypto/
 │  ├─ networking/
+│  ├─ state/
 │  └─ shared/
-│
 └─ docs/
 ```
 
-The design must avoid copy-pasting consensus-critical logic between Master and Public Node.
+Consensus-critical logic must not be copy-pasted across binaries.
 
-Shared types and protocol rules belong in reusable crates.
-
-Example:
-
-```text
-Master
-   ┐
-   ├── shared protocol / primitives
-   │
-Public
-   ┘
-```
-
-This allows a dedicated Public Node distribution to be built later without duplicating Master implementation code.
+Shared block, transaction, state-root, signature, and protocol types belong in shared crates.
 
 ---
 
-## 5. State Synchronization
+## 5. Runtime Relationship
 
-Public Nodes synchronize from the canonical chain.
-
-### Bootstrap
-
-A new Public Node should:
+Normal production flow:
 
 ```text
-start
+User
 ↓
-discover network / trusted bootstrap source
+Public Node
 ↓
-download verified snapshot
+Validator Network
 ↓
-verify snapshot commitment
+execute / propose / verify / vote
 ↓
-apply ordered state deltas / blocks
+FINALIZED BLOCK
 ↓
-reach current canonical root
+Master sync
 ↓
-enter live synchronization
+durable NVMe state + snapshot + archive
+↓
+verified distribution back to network
 ```
 
-### Live sync
-
-The intended model is:
-
-```text
-Master canonical state
-        ↓
-block + state delta
-        ↓
-Public Nodes
-        ↓
-independent verification
-        ↓
-RAM/current-state replica
-```
-
-Public Nodes must not mount or directly query the Master database.
-
-Synchronization must happen through a versioned protocol.
+The Master is not in the per-transaction consensus hot path.
 
 ---
 
-## 6. Bulk State Synchronization
+## 6. State Synchronization
 
-Cross-node synchronization should use bulk state transitions instead of individual database operations.
+A new Public or Validator Node should bootstrap using:
 
-Example:
+```text
+verified snapshot
++
+ordered finalized deltas/blocks
+=
+current finalized state
+```
+
+Nodes must verify commitments and finality certificates before accepting canonical state.
+
+No Public/Validator Node may directly mount or query the Master database.
+
+---
+
+## 7. Bulk Synchronization
+
+Synchronization operates on finalized batches/state transitions.
 
 ```text
 Base Root A
-
-100,000 transactions execute
-
-State Delta Batch #500
-↓
-New Root B
++ Finalized Delta Batch
+= New Root B
 ```
 
-The logical synchronization unit is the batch even if transport uses many network chunks.
-
-A Public Node must be able to verify:
+The receiver verifies:
 
 ```text
-apply(State A, Delta)
-= State B
-
 computed_root == announced_root
+certificate == valid quorum
 ```
+
+Only then is the transition accepted as finalized.
 
 ---
 
-## 7. Unlimited Public Nodes Without Overloading Master
+## 8. Scaling Public Nodes
 
-Permissionless Public Nodes must not imply that every node maintains a direct high-bandwidth connection to the Master.
+Unlimited Public Nodes must not create unlimited direct Master connections.
 
-The distribution topology should evolve toward:
+Target distribution:
 
 ```text
-                 Master
-                   ↓
-              Seed Nodes
-             /     |     \
-            ↓      ↓      ↓
-         Public  Public  Public
-            ↔      ↔      ↔
-              P2P network
+Master / Snapshot Sources
+        ↓
+     Seed Nodes
+    /    |    \
+Public ↔ Public ↔ Public
+          |
+      Validators
 ```
 
-A node may obtain data from peers, but every protocol object must remain independently verifiable.
-
-This prevents Master bandwidth from becoming the scaling limit for Public Node count.
+P2P distribution carries data outward while cryptographic verification preserves trust.
 
 ---
 
-## 8. Public Node RAM Model
+## 9. Failure Semantics
 
-Public Nodes may use a RAM-heavy current-state model.
+### Public Nodes unavailable
 
-Example:
+Consensus may continue if Validator Nodes still communicate.
 
-```text
-Public Node
-├─ current state in RAM
-├─ mempool
-├─ RPC cache
-├─ recent blocks
-└─ minimal local persistence
-```
+### Master unavailable
 
-A Public Node may be treated as replaceable.
+Validators may continue consensus/finality if they retain the required state/data.
 
-After a crash/restart:
+Finalized blocks queue for later Master persistence.
+
+When Master returns:
 
 ```text
-restart
-↓
-load/download snapshot
-↓
-verify root
-↓
-catch up deltas
-↓
-rejoin network
+read last persisted finalized height
+→ sync missing finalized blocks
+→ verify certificates
+→ persist
+→ resume snapshot/delta service
 ```
 
-Loss of a Public Node must never destroy canonical chain state.
+### Validator quorum unavailable
 
----
+Finality stops.
 
-## 9. Validator Placement
-
-Validator functionality is expected to run on Public Nodes.
-
-Conceptually:
-
-```text
-Master
-= canonical state / block source
-
-Public Node
-= RPC + validator + replicated current state
-```
-
-The exact finality authority of validators versus the developer-controlled Master is not yet frozen and must be specified explicitly before production.
-
-Important distinction:
-
-- Public Nodes can verify.
-- Validators can vote/sign.
-- Master remains the initial canonical state authority.
-- The protocol must explicitly define what happens when validator quorum is unavailable.
+Master may preserve existing state but must not silently replace validator finality.
 
 ---
 
 ## 10. Security Boundary
 
-The security goal is that compromising a Public Node does not provide direct access to the Master.
-
-Required separation:
-
 ```text
 Internet
   ↓
-Public Node Layer
+Public Layer
   ↓
-Authenticated Internal Gateway / Protocol
+Validator/Consensus Network
+  ↓
+Finalized protocol objects
   ↓
 Protected Master Network
 ```
 
-Public Nodes must never receive:
+Master must not expose:
 
-- Master filesystem credentials;
-- Master database credentials;
-- unrestricted Master RPC access;
-- Master administrative keys;
-- release-signing keys.
+- filesystem credentials;
+- database credentials;
+- unrestricted admin RPC;
+- release-signing keys;
+- validator private keys.
 
-The Master must treat every message arriving from a Public Node as untrusted input.
+All inbound data is treated as untrusted until cryptographically and structurally verified.
 
 ---
 
 ## 11. Key Separation
 
-At minimum, use separate keys for:
+Use separate key domains for:
 
 ```text
-Master identity/signing
-Validator identity/signing
+Master identity
+Validator consensus identity
+Validator staking identity where applicable
 Software release signing
 Administrative access
 Backup/recovery
 ```
 
-One compromised key must not compromise every system role.
+---
+
+## 12. Software Update vs State Sync
+
+### State sync
+
+Automatic and protocol-driven:
+
+- finalized blocks;
+- finality certificates;
+- state deltas;
+- snapshots.
+
+### Software updates
+
+Authenticated and separately signed:
+
+```text
+signed release manifest
+→ download
+→ verify hash
+→ verify release signature
+→ compatibility check
+→ rolling update
+```
 
 ---
 
-## 12. State Sync vs Software Update
-
-These are separate systems.
-
-### State synchronization
-
-Automatic:
+## 13. Build Order
 
 ```text
-blocks
-state deltas
-snapshots
-validator/finality data
+1. MASTER_ONLY prototype
+2. deterministic EVM + durable state
+3. block/state formats
+4. shared protocol crates
+5. Public Node runtime
+6. Validator Node runtime
+7. validator quorum/finality
+8. Master becomes finalized-state sync/persistence role
+9. multi-Public/Validator network
+10. staking/economics
+11. parallel execution
+12. Master HA
+13. multi-region
+14. scale validation
 ```
 
-### Software update
-
-Must be authenticated.
-
-Recommended flow:
+The architectural transition from development to production is explicit:
 
 ```text
-new release
-↓
-signed manifest
-↓
-download binary/package
-↓
-verify cryptographic hash
-↓
-verify release signature
-↓
-verify protocol compatibility
-↓
-rolling restart
+EARLY:
+Master can locally simulate full chain behavior
+
+PRODUCTION:
+Validators decide finality
+Master synchronizes and persists finalized truth
 ```
-
-A Master must never push an unsigned executable that Public Nodes blindly run.
-
----
-
-## 13. Rolling Public Node Update
-
-With many Public Nodes, upgrades should be rolling.
-
-Example:
-
-```text
-Public 1
-update → verify healthy
-
-Public 2
-update → verify healthy
-
-...
-
-Public N
-```
-
-This preserves public RPC availability during software upgrades.
-
----
-
-## 14. Developer Experience
-
-Even if the Master and Public architectures are custom, dApp developers should see a normal EVM-compatible interface.
-
-```text
-Solidity
-↓
-standard transaction
-↓
-JSON-RPC
-↓
-Public Node
-↓
-EVE protocol
-↓
-Master / canonical execution
-```
-
-Internal storage, WAL, snapshot, delta synchronization, and Master topology must remain invisible to normal application developers.
-
----
-
-## 15. Initial Build Order
-
-The current agreed build sequence is:
-
-```text
-1. MASTER_ONLY
-   ↓
-2. deterministic EVM execution
-   ↓
-3. block production
-   ↓
-4. durable state + restart recovery
-   ↓
-5. minimal EVM JSON-RPC
-   ↓
-6. state snapshot/delta protocol
-   ↓
-7. one Public Node
-   ↓
-8. validator functionality
-   ↓
-9. multiple Public Nodes
-   ↓
-10. permissionless P2P distribution
-   ↓
-11. Primary + Hot Standby Master
-   ↓
-12. multi-region architecture
-```
-
-Public Node development should depend on a stable Master protocol rather than forcing the initial Master implementation to solve every distributed-system problem immediately.
-
----
-
-## 16. Current Architectural Invariant
-
-The most important current invariant is:
-
-> The Master is the protected canonical source of truth, while Public Nodes are permissionless, independently verifying, replaceable network-facing replicas/validators that synchronize through a strict versioned protocol.
-
-This decision may evolve as decentralization/finality requirements mature, but any change must be explicitly documented rather than introduced implicitly in code.
