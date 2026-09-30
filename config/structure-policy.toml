@@ -131,6 +131,6 @@ generator = "validator/components/consensus-comet/src/generation/generate_upstre
 source_manifest = "validator/components/consensus-comet/vendor/SHA256SUMS"
 source_sha256 = "82a2b3bbd563a8bfa08ce582ce75078873bd296e39dc58dd6658ac2e49d2ae5f"
 generator_sha256 = "bd232dd414744863db4b6e3af19a914fc932a42a111514e677de0381bf33f929"
-manifest_sha256 = "a1478ef61016899df9a2692cbf88c9f997c92b0ba1b5480ef48cae0519247175"
+manifest_sha256 = "5a20e5f3aa8e570e2e6c58dec87765c33b2755c22289a492c25a37c891f98262"
 reason = "Only four exact prost OUT_DIR package declarations; the Rust generator and vendor manifests remain fully checked."
 reviewer = "integrator"

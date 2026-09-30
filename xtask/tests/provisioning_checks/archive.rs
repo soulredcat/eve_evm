@@ -31,3 +31,56 @@ fn permits_contained_links_and_rejects_escaping_or_special_entries() {
         assert!(validate_archive_links(input, "node").is_err(), "{input:?}");
     }
 }
+
+#[cfg(target_os = "linux")]
+#[test]
+fn preserves_pinned_unicode_names_under_a_c_locale_without_allowing_controls() {
+    use super::super::artifacts::read_archive_listing;
+    use std::process::Command;
+    let directory = tempfile::tempdir().unwrap();
+    std::fs::create_dir(directory.path().join("go")).unwrap();
+    std::fs::write(directory.path().join("go/Þfoo.go"), "package fixture\n").unwrap();
+    let archive = directory.path().join("fixture.tar.gz");
+    assert!(
+        Command::new("tar")
+            .args(["--create", "--gzip", "--file"])
+            .arg(&archive)
+            .arg("--directory")
+            .arg(directory.path())
+            .arg("go")
+            .status()
+            .unwrap()
+            .success()
+    );
+    let original = Command::new("tar")
+        .args(["--list", "--gzip", "--file"])
+        .arg(&archive)
+        .env("LC_ALL", "C")
+        .output()
+        .unwrap();
+    assert!(original.status.success());
+    assert!(validate_archive_members(&String::from_utf8(original.stdout).unwrap(), "go").is_err());
+    let names = read_archive_listing(&archive, false).unwrap();
+    assert!(names.contains("go/Þfoo.go"));
+    assert!(validate_archive_members(&names, "go").is_ok());
+    assert!(validate_archive_links(&read_archive_listing(&archive, true).unwrap(), "go").is_ok());
+    std::fs::write(
+        directory.path().join("go/with-tab\t.go"),
+        "package fixture\n",
+    )
+    .unwrap();
+    assert!(
+        Command::new("tar")
+            .args(["--create", "--gzip", "--file"])
+            .arg(&archive)
+            .arg("--directory")
+            .arg(directory.path())
+            .arg("go")
+            .status()
+            .unwrap()
+            .success()
+    );
+    assert!(
+        validate_archive_members(&read_archive_listing(&archive, false).unwrap(), "go").is_err()
+    );
+}

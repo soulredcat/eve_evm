@@ -13,6 +13,13 @@ including SEC0/INT0 exits 0, 205 cases pass with none ignored/failed, strict lin
 format, structure and workspace release build pass. Runtime/devnet/security/bridge/
 standalone/capacity targets remain unachieved; GitHub CI execution is not inferred.
 
+## CI-20261001 — Hosted provisioning and fresh-checkout repair
+
+[Repair record](CI-20261001.md): the first hosted attempt failed before its gate.
+The exact Go archive exposes locale-dependent tar quoting, and a fresh checkout
+exposes the normalized checksum-manifest digest. Both are repaired with scoped
+tests and strict checks; the next hosted result remains separately observable.
+
 ## PUB-20260930-01 — Local test isolation and publication policy
 
 Scope: repository hygiene and English collaboration only. This record belongs to the local policy commit based on clean branch `main` at `027ef9dc5779098f1192c56308cf7eb6c21bd13e`; it does not close B0, SEC0, INT0, or any runtime gate.

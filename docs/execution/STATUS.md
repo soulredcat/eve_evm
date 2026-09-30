@@ -10,7 +10,7 @@ Updated: 2026-10-01. **B0 including SEC0/INT0 passed its complete local foundati
 - Runtime foundations: nine role/tool packages now cover execution, authentication, the exact consensus API, recovery storage, public resource/readiness/source policy, public interop metadata and validator protocol/bridge contracts. Root `crates/` is absent. Complete role runtimes and standalone copy/build/run acceptance remain unimplemented.
 - Integrated foundation gate: 205 cases pass, zero failed/ignored/filtered; format, strict workspace Clippy and release build pass. Structure covers 569 files, 15 exact exclusions, zero violations/warnings. T-L01–T-L06 have 64 cases; provisioning has 6 and verification 16. The complete 20-bulk registry, R01–R12 and 48 security/interop/public-persistence registrations preserve full requirements without claiming future runtime acceptance. [B0 evidence](B0-20261001.md) records source/config identities and reproduction.
 - Tool/API verification: fresh task-local pinned Go/Comet/OpenSSL/Solidity/Node and locked TypeScript/viem provisioning passed, including actual compiler/client probes and receipt reuse. The native engine's unsupported hybrid path fails closed. Patched OpenSSL replaces the retired PQClean cross-check wrappers; official NIST coverage is retained.
-- Dependency/publication review: current audit reports zero known vulnerabilities and two retained unmaintained warnings (derivative/paste). No existing locked package was upgraded. Final index/outgoing-history review still precedes publication. CI configuration passes Actionlint but no GitHub workflow execution has been observed for these dirty changes.
+- Dependency/publication review: current audit reports zero known vulnerabilities and two retained unmaintained warnings (derivative/paste). No existing locked package was upgraded. The first hosted CI run failed during locale-dependent archive inspection before its gate; [CI repair evidence](CI-20261001.md) records the reproduction, strict pin correction and 87 passing scoped cases. The additional regression raises the catalog to 206; a hosted/full-gate result is recorded only after it actually occurs.
 - DEVNET_ACCEPTED: NOT_ACHIEVED.
 - CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
 - PQ_PROFILE_VERIFIED: NOT_ACHIEVED.
@@ -21,7 +21,7 @@ Updated: 2026-10-01. **B0 including SEC0/INT0 passed its complete local foundati
 - 51_PERCENT_CONTINUITY: UNSATISFIED_BY_BASELINE; no unconditional majority-tolerance guarantee.
 - EXTERNAL_BRIDGE_ROUTES: DISABLED_NOT_APPROVED.
 - MAINNET_READY: NOT_AUTHORIZED / NOT_ASSESSED.
-- Full runtime/structure-boundary/security-profile/majority/interop/bridge/capacity acceptance and benchmarks: NOT_RUN / NOT_ACHIEVED. Initial component/primitive test and repository-scan results are recorded separately in EVIDENCE.md.
+- Full runtime/security-profile/majority/interop/bridge/capacity acceptance and benchmarks: NOT_RUN / NOT_ACHIEVED. Foundation structure/interface results are recorded separately from runnable distribution and runtime acceptance.
 
 ## Core bulk ledger
 
