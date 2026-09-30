@@ -5,6 +5,11 @@ members = [
     "public/components/recovery-store",
     "validator/components/authentication",
     "validator/components/execution",
+    "validator/components/consensus-comet",
+    "public/components/interop",
+    "validator/components/protocol-config",
+    "public/components/node-policy",
+    "validator/components/bridge-protocol",
 ]
 
 [workspace.package]
@@ -25,8 +30,6 @@ hex = "=0.4.3"
 rocksdb = { version = "=0.25.0", default-features = false, features = ["bindgen-runtime"] }
 ml-dsa = { version = "=0.1.1", features = ["zeroize"] }
 ed25519-dalek = "=2.2.0"
-pqcrypto-mldsa = { version = "=0.1.2", default-features = false, features = ["std"] }
-pqcrypto-traits = "=0.3.5"
 revm = { version = "=43.0.3", default-features = false, features = ["std", "portable", "secp256k1"] }
 alloy-primitives = { version = "=1.7.3", features = ["rlp", "serde"] }
 alloy-consensus = { version = "=2.5.0", features = ["std", "k256"] }
@@ -35,6 +38,11 @@ alloy-rlp = { version = "=0.3.16", features = ["derive"] }
 alloy-trie = { version = "=0.9.8", features = ["ethereum"] }
 zeroize = "=1.8.2"
 k256 = { version = "=0.13.4", default-features = false, features = ["ecdsa", "std"] }
+prost = "=0.14.4"
+prost-build = "=0.14.4"
+prost-types = "=0.14.4"
+protoc-bin-vendored = "=3.2.0"
+bs58 = "=0.5.1"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

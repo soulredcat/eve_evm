@@ -1,8 +1,5 @@
 use crate::structure::types::policy_types::StructurePolicy;
-use std::{
-    collections::BTreeSet,
-    path::{Component, Path},
-};
+use std::collections::BTreeSet;
 
 pub fn validate_policy(policy: &StructurePolicy, sources: &[String]) -> Vec<String> {
     let mut violations = Vec::new();
@@ -15,17 +12,19 @@ pub fn validate_policy(policy: &StructurePolicy, sources: &[String]) -> Vec<Stri
         .map(|entry| entry.path.as_str())
         .chain(policy.size_reviews.iter().map(|entry| entry.path.as_str()))
         .chain(policy.exceptions.iter().map(|entry| entry.path.as_str()))
-        .chain(policy.adapters.iter().map(|entry| entry.path.as_str()));
+        .chain(policy.adapters.iter().map(|entry| entry.path.as_str()))
+        .chain(
+            policy
+                .generated_modules
+                .iter()
+                .map(|entry| entry.path.as_str()),
+        );
     let mut unique = BTreeSet::new();
     for path in registrations {
         if !unique.insert(path) {
             violations.push(format!("Duplicate policy registration: {path}"));
         }
-        if path.contains(['*', '?', '[', ']', '\\'])
-            || Path::new(path)
-                .components()
-                .any(|component| !matches!(component, Component::Normal(_)))
-        {
+        if super::validate_relative_path::validate_relative_path(path).is_err() {
             violations.push(format!(
                 "Policy requires an exact repository-relative path: {path}"
             ));
@@ -46,14 +45,11 @@ pub fn validate_policy(policy: &StructurePolicy, sources: &[String]) -> Vec<Stri
                 hash.len() == 64 && hash.bytes().all(|byte| byte.is_ascii_hexdigit())
             })
         };
-        let source_code_root = ["public/", "master/", "validator/", "xtask/src/"]
-            .iter()
-            .any(|prefix| exclusion.path.starts_with(prefix));
         if !valid_kind
             || !identity_present
             || exclusion.reason.trim().is_empty()
             || exclusion.source.trim().is_empty()
-            || (source_code_root && exclusion.path.ends_with(".rs"))
+            || exclusion.path.ends_with(".rs")
         {
             violations.push(format!(
                 "Invalid generated/vendor exclusion: {}",
@@ -67,6 +63,15 @@ pub fn validate_policy(policy: &StructurePolicy, sources: &[String]) -> Vec<Stri
             || adapter.reviewer.trim().is_empty()
         {
             violations.push(format!("Incomplete adapter review: {}", adapter.path));
+        }
+    }
+    for generated in &policy.generated_modules {
+        for path in [&generated.generator, &generated.source_manifest] {
+            if super::validate_relative_path::validate_relative_path(path).is_err()
+                || !sources.contains(path)
+            {
+                violations.push(format!("Invalid generated module input: {path}"));
+            }
         }
     }
     violations

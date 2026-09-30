@@ -22,4 +22,8 @@ impl<'ast> Visit<'ast> for SyntaxInventoryAdapter<'_> {
     fn visit_expr_closure(&mut self, node: &'ast syn::ExprClosure) {
         record_closure::record_closure(self, node);
     }
+
+    fn visit_macro(&mut self, node: &'ast syn::Macro) {
+        super::record_macro::record_macro(self, node);
+    }
 }

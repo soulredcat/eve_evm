@@ -1,0 +1,121 @@
+version = 1
+
+[[gates]]
+id = "B0"
+manifest = "config/gates/B0.toml"
+implemented = true
+prerequisites = []
+
+[[gates]]
+id = "SEC0"
+manifest = "config/gates/SEC0.toml"
+implemented = true
+prerequisites = []
+
+[[gates]]
+id = "INT0"
+manifest = "config/gates/INT0.toml"
+implemented = true
+prerequisites = []
+
+[[gates]]
+id = "B1"
+manifest = ""
+implemented = false
+prerequisites = ["B0"]
+
+[[gates]]
+id = "B2"
+manifest = ""
+implemented = false
+prerequisites = ["B1"]
+
+[[gates]]
+id = "B3"
+manifest = ""
+implemented = false
+prerequisites = ["B2"]
+
+[[gates]]
+id = "B4"
+manifest = ""
+implemented = false
+prerequisites = ["B3"]
+
+[[gates]]
+id = "B5"
+manifest = ""
+implemented = false
+prerequisites = ["B1", "B2", "B3"]
+
+[[gates]]
+id = "B6"
+manifest = ""
+implemented = false
+prerequisites = ["B3", "B4"]
+
+[[gates]]
+id = "B7"
+manifest = ""
+implemented = false
+prerequisites = ["B2", "B3", "B4"]
+
+[[gates]]
+id = "B8"
+manifest = ""
+implemented = false
+prerequisites = ["B4", "B5", "B6"]
+
+[[gates]]
+id = "B9"
+manifest = ""
+implemented = false
+prerequisites = ["B6", "B7", "B8"]
+
+[[gates]]
+id = "SEC1"
+manifest = ""
+implemented = false
+prerequisites = ["B2", "B3", "B4", "B5", "B6"]
+
+[[gates]]
+id = "SEC2"
+manifest = ""
+implemented = false
+prerequisites = ["B3", "B4", "B5", "B6", "SEC1"]
+
+[[gates]]
+id = "SEC3"
+manifest = ""
+implemented = false
+prerequisites = ["B8", "B9", "SEC1", "SEC2"]
+
+[[gates]]
+id = "INT1"
+manifest = ""
+implemented = false
+prerequisites = ["B2", "B3", "B4", "B5", "B6", "SEC2"]
+
+[[gates]]
+id = "INT2"
+manifest = ""
+implemented = false
+prerequisites = ["INT1", "SEC2"]
+
+[[gates]]
+id = "INT3"
+manifest = ""
+implemented = false
+prerequisites = ["INT2", "B8", "B9"]
+
+[[gates]]
+id = "B10"
+manifest = ""
+implemented = false
+prerequisites = ["B9", "SEC3"]
+
+[[gates]]
+id = "B11"
+manifest = ""
+implemented = false
+prerequisites = ["B10"]

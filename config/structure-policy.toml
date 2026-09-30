@@ -2,6 +2,20 @@ version = 1
 current_bulk = 0
 
 [[exclusions]]
+path = "xtask/tests/provisioning_client_fixture/package-lock.json"
+kind = "generated"
+source = "https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json"
+generator = "Node 24.21.0 / npm 11.19.0 install --package-lock-only --ignore-scripts --no-audit --no-fund"
+sha256 = "a7037971456231c2e08383627f51d66fe8ecb73d77cce79738ef88e7dd8ee400"
+reason = "Exact private TypeScript 6.0.3 and viem 2.57.1 API probe dependency graph; npm ci validates integrity, not published SDK implementation."
+
+[[adapters]]
+path = "xtask/src/structure/checking/source_edges/source_edge_inventory_adapter.rs"
+external_trait = "syn::visit::Visit"
+reason = "Each module callback delegates explicit source-edge recording with lexical module context."
+reviewer = "integrator"
+
+[[exclusions]]
 path = "Cargo.lock"
 kind = "generated"
 source = "https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html"
@@ -33,3 +47,90 @@ kind = "vendor"
 source = "https://github.com/usnistgov/ACVP-Server/blob/a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324/gen-val/json-files/ML-DSA-sigVer-FIPS204/expectedResults.json"
 sha256 = "e1d84ef1b2f35196278ab0b0ed6a46ec62cc03d2dfa92c564199e1999bfb8ea6"
 reason = "Unmodified official expected-result corpus, not first-party production code; exact digest and NIST notice retained."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/LICENSE"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/abci/types.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "1b3944469fce574069cd465734cfbeea568f1f8c2a945a677f9f56dc0421e7de"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/crypto/keys.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "5f650381a011fa7e98b12f2f94172497d0051bde143099a6ce4023aafe115b83"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/crypto/proof.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "24ee9bb2ea75601e3562a7993641cfda28211078549c66e3cfd8d30892591980"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/canonical.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "2616e28a55d5fa944b98762ca262bd456a8b55f190e7edb89a45fda6d1a266c9"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/params.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "57db8a45197addaeaacd5828f8d6a216fd4a866de44385241a10a81eb08ae644"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/types.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "19f9ed36e780bfca918f5534b729a67ad5e1233c102e1874ef680901298c864c"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/validator.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "77814697e9cd97d3c8af160f9f4f7c8b2a9c15147cfe5a9fe0b906db9b438b06"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/version/types.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "f428df8904896563cca4ddf57ed5530d0596894414b4b2c9f7a649bd15580d9d"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/gogoproto/gogoproto/gogo.proto"
+kind = "vendor"
+source = "https://github.com/cosmos/gogoproto/tree/cf5213e4dcbf1fea203185c0af00840e566790d9"
+sha256 = "a2bef0fb7e233ff2f442da08b3764be6ce59cc3f2df05cd1c9a44dbb5b55c18f"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/gogoproto/LICENSE"
+kind = "vendor"
+source = "https://github.com/cosmos/gogoproto/tree/cf5213e4dcbf1fea203185c0af00840e566790d9"
+sha256 = "369124fea6f5c2a4eb29ce462519a2d06c4e6e4ba27ba8116534d454faccf823"
+reason = "Exact upstream protobuf/license input; generator checks pinned bytes before producing untracked bindings."
+
+[[generated_modules]]
+path = "validator/components/consensus-comet/src/wire/tendermint/mod.rs"
+generator = "validator/components/consensus-comet/src/generation/generate_upstream_bindings.rs"
+source_manifest = "validator/components/consensus-comet/vendor/SHA256SUMS"
+source_sha256 = "82a2b3bbd563a8bfa08ce582ce75078873bd296e39dc58dd6658ac2e49d2ae5f"
+generator_sha256 = "bd232dd414744863db4b6e3af19a914fc932a42a111514e677de0381bf33f929"
+manifest_sha256 = "a1478ef61016899df9a2692cbf88c9f997c92b0ba1b5480ef48cae0519247175"
+reason = "Only four exact prost OUT_DIR package declarations; the Rust generator and vendor manifests remain fully checked."
+reviewer = "integrator"

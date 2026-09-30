@@ -24,7 +24,11 @@ pub fn classify_file(path: &str, policy: &StructurePolicy, operation_count: usiz
             }
         }
         Some("md" | "toml" | "json" | "yml" | "yaml" | "txt" | "lock") => "document",
-        None if matches!(name, ".gitignore" | ".gitattributes" | "NOTICE" | "LICENSE") => {
+        None if matches!(
+            name,
+            ".gitignore" | ".gitattributes" | "NOTICE" | "LICENSE" | "SHA256SUMS"
+        ) =>
+        {
             "document"
         }
         _ => "unsupported",

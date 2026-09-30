@@ -7,6 +7,20 @@ pub fn review_size(
 ) -> (Vec<String>, Vec<String>) {
     let mut warnings = Vec::new();
     let mut violations = Vec::new();
+    if policy.size_reviews.iter().any(|review| {
+        review.path == path && (!(201..=400).contains(&lines) || review.lines != lines)
+    }) {
+        violations.push(format!("{path}: stale decomposition review"));
+    }
+    if policy.exceptions.iter().any(|entry| {
+        entry.path == path
+            && (!(401..=600).contains(&lines)
+                || entry.lines != lines
+                || entry.expires_bulk < policy.current_bulk
+                || entry.expires_bulk > policy.current_bulk.saturating_add(1))
+    }) {
+        violations.push(format!("{path}: stale or expired size exception"));
+    }
     match lines {
         0..=200 => {}
         201..=400 => {
@@ -36,6 +50,11 @@ pub fn review_size(
                     && !entry.reason.trim().is_empty()
                     && !entry.reviewer.trim().is_empty()
                     && !entry.split_task.trim().is_empty()
+                    && !entry.related_tests.is_empty()
+                    && entry
+                        .related_tests
+                        .iter()
+                        .all(|test| !test.trim().is_empty())
                     && entry.expires_bulk >= policy.current_bulk
                     && entry.expires_bulk <= policy.current_bulk.saturating_add(1)
             }) {

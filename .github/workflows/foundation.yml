@@ -1,0 +1,53 @@
+name: Foundation gates
+
+on:
+  push:
+    branches: [main, 'codex/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  foundation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    container:
+      # Rust 1.97.1, Debian trixie, exact linux/amd64 manifest.
+      image: rust:1.97.1-slim-trixie@sha256:fc0648ac2962539be80bd424729a20fd80f7b64bfba7e90bbd642aed6c697c5a
+    env:
+      CARGO_BUILD_JOBS: '3'
+      CC: clang-19
+      CXX: clang++-19
+      LIBCLANG_PATH: /usr/lib/llvm-19/lib
+    steps:
+      - name: Install bounded native build prerequisites
+        shell: bash
+        run: |
+          apt-get update
+          apt-get install --no-install-recommends -y git curl ca-certificates make perl gcc g++ pkg-config jq time=1.9-0.2 clang-19=1:19.1.7-3+b1 libclang-19-dev=1:19.1.7-3+b1
+      - name: Checkout reviewed source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Check exact Rust compiler and install matching check components
+        shell: bash
+        run: |
+          test "$(rustc --version | cut -d' ' -f2)" = 1.97.1
+          rustup component add rustfmt clippy --toolchain 1.97.1
+      - name: Build pinned task-local reference tools and client API probe
+        shell: bash
+        run: |
+          cargo xtask provision-tools --jobs 2
+          receipt=local-tests/toolchain-b0/provisioned-tools.json
+          for key in COMETBFT_BINARY COMETBFT_SHA256 EVE_OPENSSL EVE_GO_BINARY EVE_SOLC_BINARY EVE_NODE_BINARY EVE_TSC_SCRIPT EVE_B0_LOCAL_ARTIFACT_DIR; do
+            value=$(jq -er --arg key "$key" '.environment[$key]' "$receipt")
+            printf '%s=%s\n' "$key" "$value" >> "$GITHUB_ENV"
+          done
+      - name: Run complete B0 including registered SEC0 and INT0 foundations
+        shell: bash
+        run: cargo xtask verify --bulk B0
+
+# Raw logs, generated development keys and databases stay in ignored local-tests.
+# This workflow does not upload them or certify later devnet/security/capacity gates.

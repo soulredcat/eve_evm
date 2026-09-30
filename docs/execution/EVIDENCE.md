@@ -2,9 +2,16 @@
 
 ## Current evidence
 
-No runtime code, build, test, deployment, fault injection or benchmark has been executed as part of this planning package. There are no passing runtime evidence records yet.
+Component code, dependency/build checks and bounded foundation fixtures have been executed; records below distinguish historical checkpoints from current integration. Complete role runtimes, distributed fault acceptance, mainnet deployment and throughput targets remain unachieved.
 
 The repository documentation is an implementation contract. Its existence is not evidence that consensus, EVM compatibility, storage recovery, tokenomics or 1M TPS works.
+
+## B0-20261001 — Verified foundation bulk
+
+[Full reviewed record](B0-20261001.md): integrated `cargo xtask verify --bulk B0`
+including SEC0/INT0 exits 0, 205 cases pass with none ignored/failed, strict lint,
+format, structure and workspace release build pass. Runtime/devnet/security/bridge/
+standalone/capacity targets remain unachieved; GitHub CI execution is not inferred.
 
 ## PUB-20260930-01 — Local test isolation and publication policy
 

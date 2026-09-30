@@ -1,0 +1,11 @@
+{
+  "name": "eve-b0-client-api-fixture",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Task-local B0 compiler and EVM client API compatibility fixture; no chain finality or deployment authority.",
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "viem": "2.57.1"
+  }
+}

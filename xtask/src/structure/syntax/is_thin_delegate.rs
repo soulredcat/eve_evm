@@ -8,14 +8,15 @@ pub fn is_thin_delegate(block: &syn::Block) -> bool {
         _ => expression,
     };
     let arguments = match call {
-        syn::Expr::Call(call) => &call.args,
-        syn::Expr::MethodCall(call) => &call.args,
+        syn::Expr::Call(call) if matches!(call.func.as_ref(), syn::Expr::Path(_)) => &call.args,
+        syn::Expr::MethodCall(call)
+            if super::is_simple_delegate_value::is_simple_delegate_value(&call.receiver) =>
+        {
+            &call.args
+        }
         _ => return false,
     };
-    arguments.iter().all(|argument| {
-        matches!(
-            argument,
-            syn::Expr::Path(_) | syn::Expr::Reference(_) | syn::Expr::Field(_) | syn::Expr::Lit(_)
-        )
-    })
+    arguments
+        .iter()
+        .all(super::is_simple_delegate_value::is_simple_delegate_value)
 }

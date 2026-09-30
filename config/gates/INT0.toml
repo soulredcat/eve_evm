@@ -1,0 +1,15 @@
+version = 1
+id = "INT0"
+profile = "TYPED_METADATA_AND_FEASIBILITY_ALL_CUSTODY_DISABLED"
+groups = [
+    "config/gates/groups/xtask.toml",
+    "config/gates/groups/interop.toml",
+    "config/gates/groups/bridge-protocol.toml",
+]
+required_inputs = [
+    "config/tool-pins.toml", "docs/interop/inventory/encoding-and-fixtures.md",
+    "docs/interop/inventory/source-and-tool-pins.md",
+    "docs/interop/inventory/source-proof-feasibility.md",
+    "docs/interop/inventory/gate-outcomes.md",
+    "config/gates/requirements/interop.toml",
+]

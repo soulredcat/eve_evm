@@ -17,6 +17,9 @@ pub fn check_structure(root: &Path, policy_path: &Path) -> Result<StructureRepor
         violations: validate_policy(&policy, &sources),
         ..StructureReport::default()
     };
+    report
+        .violations
+        .extend(super::validate_role_dependencies::validate_role_dependencies(&root, &sources));
     for path in sources {
         if let Some(exclusion) = policy.exclusions.iter().find(|entry| entry.path == path) {
             if let Some(expected) = &exclusion.sha256 {

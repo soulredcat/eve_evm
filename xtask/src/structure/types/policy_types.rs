@@ -13,6 +13,8 @@ pub struct StructurePolicy {
     pub exceptions: Vec<SizeException>,
     #[serde(default)]
     pub adapters: Vec<AdapterReview>,
+    #[serde(default)]
+    pub generated_modules: Vec<GeneratedModuleReview>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -44,6 +46,8 @@ pub struct SizeException {
     pub reviewer: String,
     pub split_task: String,
     pub expires_bulk: u8,
+    #[serde(default)]
+    pub related_tests: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -51,6 +55,19 @@ pub struct SizeException {
 pub struct AdapterReview {
     pub path: String,
     pub external_trait: String,
+    pub reason: String,
+    pub reviewer: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GeneratedModuleReview {
+    pub path: String,
+    pub generator: String,
+    pub source_manifest: String,
+    pub source_sha256: String,
+    pub generator_sha256: String,
+    pub manifest_sha256: String,
     pub reason: String,
     pub reviewer: String,
 }

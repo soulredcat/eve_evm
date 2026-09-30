@@ -1,1 +1,10 @@
 pub mod check_structure;
+pub mod dependency_targets;
+pub mod is_crate_root_source;
+pub mod manifest_dependency_tables;
+pub mod manifest_source_targets;
+pub mod source_edges;
+pub mod source_package_root;
+pub mod validate_role_dependencies;
+pub mod validate_source_edges;
+pub mod validate_source_target;

@@ -1,6 +1,6 @@
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity, liquidity deferral, English publication, and regional/RAM-first public persistence. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-10-01, including the verified B0 development contracts, folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity, liquidity deferral, English publication, and regional/RAM-first public persistence. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -42,6 +42,9 @@ Revision: 2026-09-30, including folder/function policy, majority/PQ/bridge secur
 | D34 | Role ownership/file placement is an absolute integration rule: public/master/validator behavior stays in its role root, reusable operations stay in named domain crates, each behavioral file owns one clearly named operation, and public/validator builds have no direct or transitive private-master dependency. Misplacement or mixed responsibilities cannot be waived for a build/performance pass. |
 | D35 | Do not use a root `crates/` or `create/` directory. Named reusable components live under the canonical owning role's `components/` subtree; current recovery storage belongs to public, execution/authentication to validator. Preserve one canonical implementation and reproducible distribution copies. |
 | D36 | The master host may explicitly compose all roles with separate configuration/credentials and unchanged finality authority. Copy-ready public and validator role directories must each build/run alone with all dependencies, lockfile/toolchain and sanitized examples included, without the original repository or private master access. A monorepo-only build cannot satisfy standalone acceptance. |
+| D37 | The verified B0 contract uses exact Rust/REVM/RocksDB/Alloy/Comet/protobuf/client/compiler pins recorded in versioned manifests. Comet v0.40.0 source retains its upstream 0.39.0 version string, identified by the exact revision suffix. Its native key oneof cannot enforce classical AND PQ for one voter; retain only labelled classical development and fail activated hybrid startup until the reviewed SEC1 engine integration exists. No post-finality wrapper closes that gap. |
+| D38 | B0 freezes development genesis/header/system/ABI/gas byte vectors and public resource/readiness/source policy under canonical role ownership. Mainnet genesis is refused. Public caller verification flags are metadata, not authenticated capabilities; the small storage spike and declared 452 MiB/512 MiB pool budget do not prove runtime enforcement, power-loss resilience or capacity. B4/B6 retain those measurements and enforcement gates. |
+| D39 | B0 verification necessarily includes SEC0 and INT0. Exact nonzero test discovery, structure, format, strict lint, release and source/config/evidence identity are mandatory. Keep all 20 bulk IDs, R01–R12 and future T-M/T-P/T-BR/T-I/T-N outcomes; missing future coverage and verify --all fail rather than omitting unmet targets. Local foundation acceptance is separate from hosted CI execution, complete roles, security/interop acceptance and throughput. |
 
 ## Superseded assumptions
 

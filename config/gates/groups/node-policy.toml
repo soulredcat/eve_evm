@@ -1,0 +1,11 @@
+version = 1
+package = "eve-node-policy"
+requirements = ["B0.2", "RP08-configuration-subset", "T-N09-registration", "T-N10-registration", "T-N11-registration", "T-N12-registration"]
+tests = [
+    "freshness_and_verification_precede_speed_and_zone_never_grants_authority",
+    "global_bulk_and_ordinary_reservations_bound_total_payload_ram",
+    "rejects_wrong_anchor_incomplete_recovery_storage_failure_queue_and_unknown_freshness",
+    "rejects_zero_inconsistent_memory_capacity_and_overflow_budgets",
+    "serves_only_authenticated_applied_height_with_truthful_durable_watermark",
+    "uncertain_freshness_preserves_historical_replay_and_hold_down_is_bounded",
+]

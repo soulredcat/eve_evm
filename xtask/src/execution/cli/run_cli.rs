@@ -6,6 +6,28 @@ use clap::Parser;
 pub fn run_cli() -> Result<()> {
     let arguments = Arguments::parse();
     match arguments.command {
+        TaskCommand::ProvisionTools {
+            root,
+            pins,
+            output,
+            jobs,
+        } => {
+            let tools = crate::provisioning::provision_b0_tools(&root, &pins, &output, jobs)?;
+            println!("{}", serde_json::to_string_pretty(&tools)?);
+        }
+        TaskCommand::Verify {
+            root,
+            bulk,
+            security,
+            interop,
+            all,
+        } => {
+            crate::verification::orchestration::run_verify::run_verify(
+                &root,
+                bulk.into_iter().chain(security).chain(interop).collect(),
+                all,
+            )?;
+        }
         TaskCommand::CheckStructure {
             root,
             policy,

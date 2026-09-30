@@ -1,0 +1,109 @@
+version = 1
+
+[[cases]]
+id = "R01"
+expected = "Validators own finality; no master override, quorum reduction or execution-free voting."
+owner_gates = ["B3", "B8", "B9", "SEC1", "SEC3"]
+required_tests = ["T-C01", "T-C02", "T-C03", "T-C04", "T-C05", "T-C06", "T-C07", "T-C08", "T-C09", "T-C10", "T-G08"]
+foundation_groups = ["config/gates/groups/consensus.toml"]
+foundation_scope = "Actual single-engine ABCI API/height binding and unsupported hybrid guard only; no four-validator finality or signing-safety acceptance."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R02"
+expected = "Separate role runtimes; copied public and validator distributions build and run without the repository, siblings or private master."
+owner_gates = ["B6", "B9", "SEC3"]
+required_tests = ["T-Q04", "CLEAN_COPY_PUBLIC_BUILD_RUN", "CLEAN_COPY_VALIDATOR_BUILD_RUN"]
+foundation_groups = ["config/gates/groups/xtask.toml"]
+foundation_scope = "Role-owned component source, exact relocation and dependency fixtures only; monorepo package builds do not prove runnable standalone distributions."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R03"
+expected = "Deterministic supported EVM semantics and real signed deploy/native/ERC-20/swap/revert developer flows through public RPC."
+owner_gates = ["B2", "B6", "B9"]
+required_tests = ["T-E01", "T-E02", "T-E03", "T-E04", "T-E05", "T-E06", "T-S01", "T-S02", "T-A01", "T-A02", "T-A03", "T-A04", "T-A05", "T-A06"]
+foundation_groups = ["config/gates/groups/execution.toml", "config/gates/groups/protocol-config.toml"]
+foundation_scope = "Serial REVM interface/fee/receipt vectors and pinned environment contracts only; full upstream Shanghai corpus, RPC and client transaction workflow remain pending."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R04"
+expected = "Durable recoverable state, atomic markers, independently retained finalized inputs and durable anti-double-sign state before voting."
+owner_gates = ["B1", "B3", "B4", "B8", "B9", "SEC3"]
+required_tests = ["T-S05", "T-S06", "T-S07", "T-C06", "T-G04", "T-G05", "T-N09", "T-N10"]
+foundation_groups = ["config/gates/groups/recovery-store.toml", "config/gates/groups/protocol-config.toml"]
+foundation_scope = "Synced local record batches/checkpoints, process-exit recovery and bounded storage spike only; no public worker, signer durability or hardware power-loss claim."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R05"
+expected = "Source-independent authenticated snapshot/delta/history synchronization binds network, historical validators/profile and execution provenance."
+owner_gates = ["B4", "B6", "B9", "SEC1", "SEC3"]
+required_tests = ["T-N01", "T-N02", "T-N03", "T-N04", "T-N05", "T-S04", "T-S08", "T-C08", "T-C09", "T-N10", "T-N11"]
+foundation_groups = ["config/gates/groups/consensus.toml", "config/gates/groups/protocol-config.toml"]
+foundation_scope = "Height mapping and source/persistence interface limits only; matching received hashes never authenticates execution or a trusted snapshot."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R06"
+expected = "Permissionless public ingress/P2P and RPC enforce declared resource limits, overload behavior, authenticated readiness and bounded source failover."
+owner_gates = ["B4", "B6", "B9"]
+required_tests = ["T-N06", "T-N08", "T-N09", "T-N11", "T-A04", "T-A05", "T-Q03"]
+foundation_groups = ["config/gates/groups/protocol-config.toml", "config/gates/groups/interop.toml"]
+foundation_scope = "Typed finite configuration and bounded route metadata only; no public P2P, RPC overload, latency isolation or failover runtime is accepted."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R07"
+expected = "Native staking/lifecycle, authenticated useful node work and fee-funded rewards conserve the owner's 40/30/30 fee split and documented dust."
+owner_gates = ["B2", "B5", "B9", "SEC1"]
+required_tests = ["T-V01", "T-V02", "T-V03", "T-V04", "T-V05", "T-V06", "T-V07", "T-V08", "T-V09", "T-V10", "T-E04"]
+foundation_groups = ["config/gates/groups/execution.toml", "config/gates/groups/protocol-config.toml"]
+foundation_scope = "Exact 40/30/30 fee arithmetic and native ABI/gas/record vectors only; staking, work assignment, claims, set transitions and slashing are pending."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R08"
+expected = "Parallel execution equals serial state/system roots, receipts/logs, gas and header inputs under supported, hot-state and system-operation workloads."
+owner_gates = ["B7", "B9", "SEC3"]
+required_tests = ["SERIAL_PARALLEL_DIFFERENTIAL", "HOT_STATE_AND_SYSTEM_DIFFERENTIAL"]
+foundation_groups = ["config/gates/groups/execution.toml"]
+foundation_scope = "Repeated serial execution is deterministic; no parallel scheduler, conflict/re-execution or hot-state differential suite exists yet."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R09"
+expected = "Regional public ingress and independently verified replication recover without master finality or a mandatory per-transaction master acknowledgement."
+owner_gates = ["B3", "B4", "B6", "B8", "B9"]
+required_tests = ["T-C03", "T-N05", "T-N07", "T-N10", "T-N12", "T-G06"]
+foundation_groups = ["config/gates/groups/recovery-store.toml", "config/gates/groups/protocol-config.toml"]
+foundation_scope = "Storage/network identity and bounded source/persistence contracts only; no multi-role/master-offline/two-master partition runtime evidence."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R10"
+expected = "Verified releases/upgrades, protected control/recovery/transport paths and explicit consensus/quantum/bridge threat assumptions remain enforced."
+owner_gates = ["B8", "B9", "SEC1", "SEC3"]
+required_tests = ["T-Q01", "T-Q02", "T-Q03", "T-Q04", "T-Q05", "T-Q06", "T-Q07", "T-Q08", "T-G07"]
+foundation_groups = ["config/gates/groups/authentication.toml", "config/gates/groups/consensus.toml", "config/gates/groups/xtask.toml"]
+foundation_scope = "Pinned crypto primitives/vectors, maintained cross-checks and trust-path inventories only; no PQ-secure consensus, release/recovery integration or production approval."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R11"
+expected = "Real test assertions, fault scenarios, telemetry and source/config-bound evidence reproduce from a clean checkout across all required software gates."
+owner_gates = ["B0", "B9", "SEC3", "INT3"]
+required_tests = ["ALL_REGISTERED_SOFTWARE_GATES", "MANIFEST_VALIDATION", "CLEAN_CHECKOUT_GATE_REPRODUCTION"]
+foundation_groups = ["config/gates/groups/xtask.toml"]
+foundation_scope = "B0 gate discovery, format/lint/build, source identity, pinned tool provisioning and evidence orchestration only; later missing gates remain failures."
+status = "NOT_ACHIEVED"
+
+[[cases]]
+id = "R12"
+expected = "At least 1,000,000 unique aggregate finalized mixed-EVM TPS with active secure profile, 60-minute sustained run, 24-hour soak, bounded backlog and recovery evidence."
+owner_gates = ["B10", "B11", "SEC3"]
+required_tests = ["W0", "W1", "W2", "W3", "W4", "W5", "W6", "SUSTAINED_1M_FINALIZED_60_MIN", "SOAK_24_HOURS", "BOUNDED_BACKLOG", "POST_RUN_RECOVERY"]
+foundation_groups = ["config/gates/groups/recovery-store.toml"]
+foundation_scope = "Small bounded storage-interface measurements only; no finalized TPS/capacity target, secure-profile benchmark or geographic performance acceptance."
+status = "NOT_ACHIEVED"

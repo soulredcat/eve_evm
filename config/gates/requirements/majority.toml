@@ -1,0 +1,71 @@
+version = 1
+
+[[cases]]
+id = "T-M01"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Checked weighted boundaries, exact two-thirds rejection, duplicates rejected; below one-third/one-third/51% modeled distinctly"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M02"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Real engine schedules preserve honest agreement below supported fault threshold and recover eventual progress"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M03"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "At least one-third withholding stalls without quorum reduction or master takeover"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M04"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Reject 51% attacker-only certificate; separate conflicting-quorum/engine schedules show violated assumptions without immunity claims"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M05"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Compromised master/RPC cannot change authenticated state/set/checkpoint"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M06"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Clones, restart, stale backups and corrupt durable signing state fail safely"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M07"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Public-node count grants zero voting power; actual set/stake/delegation evidence is auditable"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M08"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Stale/long-range anchors, eclipse and delayed evidence restrict recovery/bridge use rather than creating new trust"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M09"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Observable conflicting finality pauses affected bridge and preserves evidence; unilateral master cannot resume"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
+
+[[cases]]
+id = "T-M10"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Honest full replay rejects invalid execution metadata; light-client limitations reported separately"
+fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."

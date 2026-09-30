@@ -1,0 +1,15 @@
+[package]
+name = "eve-node-policy"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+eve-protocol-config = { path = "../../../validator/components/protocol-config" }
+
+[dev-dependencies]
+alloy-primitives.workspace = true
+
+[lints]
+workspace = true

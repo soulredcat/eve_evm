@@ -1,0 +1,62 @@
+version = 1
+platform = "linux-x86_64"
+
+[go]
+version = "1.27.1"
+source_identity = "go1.27.1; primary go.dev download manifest"
+url = "https://go.dev/dl/go1.27.1.linux-amd64.tar.gz"
+sha256 = "63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
+archive_root = "go"
+executable = "bin/go"
+binary_sha256 = "30969f97169d7f43fe6a085873d75613adc21e30818a8c61d95bd27275df4624"
+expected_version = "go version go1.27.1 linux/amd64"
+license = "BSD-3-Clause; upstream LICENSE and third-party notices"
+
+[comet]
+version = "0.40.0"
+source_identity = "0880b4d378f347ab16e54ec677ff50d803f37d62"
+url = "https://codeload.github.com/cometbft/cometbft/tar.gz/0880b4d378f347ab16e54ec677ff50d803f37d62"
+sha256 = "c421c1461494d4e1e922a334f1899aab2f638e990a465316ed6e2437a8d71a66"
+archive_root = "cometbft-0880b4d378f347ab16e54ec677ff50d803f37d62"
+executable = "cometbft"
+expected_version = "0.39.0+0880b4d378f347ab16e54ec677ff50d803f37d62"
+license = "Apache-2.0; upstream LICENSE and locked-module notices"
+
+[openssl]
+version = "3.5.7"
+source_identity = "8cf17aaeb4599f8af87fefd810b5b5fee90fe69e"
+url = "https://github.com/openssl/openssl/releases/download/openssl-3.5.7/openssl-3.5.7.tar.gz"
+sha256 = "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
+archive_root = "openssl-3.5.7"
+executable = "apps/openssl"
+expected_version = "OpenSSL 3.5.7 9 Jun 2026 (Library: OpenSSL 3.5.7 9 Jun 2026)"
+license = "Apache-2.0; upstream LICENSE.txt and third-party notices"
+
+[solidity]
+version = "0.8.37"
+source_identity = "f401782df49be312ea4ef52a2d467cf5183b5906"
+url = "https://github.com/argotorg/solidity/releases/download/v0.8.37/solc-static-linux"
+sha256 = "5de843c2c93563cc66425c99a4fb13fdbf32b4c4ae07469480faaf126e14404a"
+executable = "solc"
+binary_sha256 = "5de843c2c93563cc66425c99a4fb13fdbf32b4c4ae07469480faaf126e14404a"
+expected_version = "solc, the solidity compiler commandline interface\nVersion: 0.8.37+commit.f401782d.Linux.g++"
+license = "GPL-3.0; compiler source LICENSE.txt"
+
+[node]
+version = "24.21.0"
+source_identity = "v24.21.0 LTS; primary nodejs.org SHASUMS256.txt"
+url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.gz"
+sha256 = "6e1db87ef58b8819e5d5402eff1536491b18edd8eb7bee5ef7897876e88dc5ff"
+archive_root = "node-v24.21.0-linux-x64"
+executable = "bin/node"
+binary_sha256 = "7fde7b8afa198da66257f42ee2001d874c7355631e6d1579a5fb5ef1f246df4c"
+expected_version = "v24.21.0"
+license = "MIT; upstream LICENSE and bundled-library notices"
+
+[clients]
+typescript = "6.0.3"
+viem = "2.57.1"
+manifest_sha256 = "c8a9a4300f6d5bdeda15e1a169ae7738d7e68245cc1116b1d4606176e55a0672"
+lock_sha256 = "a7037971456231c2e08383627f51d66fe8ecb73d77cce79738ef88e7dd8ee400"
+solana_kit = "8.4.0"
+solana_kit_integrity = "sha512-jbexijXuCqQ7MV5lFzPDEsVScreFENkhUOUVofniTkBsfi67cYGgEeGzJa7oskHGyXcWaEogW0VPVh4ep3cWnw=="

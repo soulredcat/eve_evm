@@ -1,0 +1,29 @@
+version = 1
+
+[[cases]]
+id = "T-N09"
+owner_gate = "B4"
+status = "NOT_IMPLEMENTED"
+expected = "Slow/failing disk and simultaneous snapshot/index work cannot hold RAM state locks; queue/memory/lag limits and declared readiness/backpressure behavior remain enforced, with measured RPC/execution interference"
+fixture = "Slow/failing isolated disk with simultaneous RPC, execution, snapshot and indexing under declared queue/memory/lag budgets."
+
+[[cases]]
+id = "T-N10"
+owner_gate = "B4"
+status = "NOT_IMPLEMENTED"
+expected = "Public process/power-loss recovery with masters offline restores a complete durable prefix, retrieves the unsynced tail from authenticated durable peers, and reproduces roots/receipts without duplicate effects; an unavailable tail is explicit and readiness remains false"
+fixture = "Abrupt public-process exit and host power-loss fixture with masters offline, missing tail and authenticated peer replay."
+
+[[cases]]
+id = "T-N11"
+owner_gate = "B6"
+status = "NOT_IMPLEMENTED"
+expected = "Prefer a nearby eligible source; reject invalid/wrong-network/height-profile-mismatched data, distinguish valid older replay history from a fresh head, handle uncertain freshness, fail over with bounded discovery/switching, and retain master-independent P2P ingress"
+fixture = "Wrong-network, stale/unknown-freshness, corrupt profile/head and latency-switch sources with discovery bounds."
+
+[[cases]]
+id = "T-N12"
+owner_gate = "B8"
+status = "NOT_IMPLEMENTED"
+expected = "Two independent master stores survive outage/partition and catch up to identical roots at the same finalized height; invalid history and any master-finality takeover are rejected"
+fixture = "Two independent master stores, partition/outage, authenticated catch-up and wrong-history rejection."

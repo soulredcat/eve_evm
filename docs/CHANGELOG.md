@@ -1,5 +1,12 @@
 # Documentation change record
 
+## 2026-10-01 — Verified B0, SEC0 and INT0 foundation
+
+- Completed the self-checking structure checker, exact gate/test catalogs, mandatory requirement/dependency registry, tool provisioning and pinned CI baseline.
+- Added actual Comet API/height/native-hybrid boundary, patched maintained crypto cross-verification, development genesis/ABI/gas/record/header vectors, public policy and typed bridge/interop contracts under explicit role ownership.
+- The complete local gate passes 205 cases, format, strict lint, structure and release build. All custody and unsupported hybrid activation remain closed; full runtimes, standalone distributions, security profiles and TPS targets remain pending.
+- Recorded reproduction and source/config/output identities in the reviewed B0 evidence; raw tools/keys/databases/logs remain ignored. Hosted CI execution is recorded only after it occurs.
+
 ## 2026-09-30 — Role-owned Rust foundation checkpoint
 
 - Added exact Rust/dependency pins, Cargo.lock, role-owned recovery-storage/authentication/Shanghai execution foundations and an initial executable structure checker.

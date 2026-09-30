@@ -1,0 +1,20 @@
+version = 1
+id = "SEC0"
+profile = "PRIMITIVE_AND_INTEGRATION_INVENTORY_NOT_PQ_PROFILE"
+groups = [
+    "config/gates/groups/xtask.toml",
+    "config/gates/groups/authentication.toml",
+    "config/gates/groups/consensus.toml",
+    "config/gates/groups/interop.toml",
+    "config/gates/groups/protocol-config.toml",
+    "config/gates/groups/bridge-protocol.toml",
+]
+required_inputs = [
+    "config/tool-pins.toml", "docs/security/inventory/authorization-paths.md",
+    "docs/security/inventory/commitments-and-identities.md",
+    "docs/security/inventory/crypto-sources.md",
+    "docs/security/inventory/adversary-and-gate-outcomes.md",
+    "config/gates/requirements/majority.toml",
+    "config/gates/requirements/post-quantum.toml",
+    "config/gates/requirements/bridge.toml",
+]

@@ -1,0 +1,71 @@
+version = 1
+
+[[cases]]
+id = "T-P01"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Standard vectors and maintained two-way implementation interoperability; malformed encoding and contexts rejected"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P02"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Where hybrid is required, reject classical-only/PQ-only, mismatched keys/messages, wrong domains and duplicate signers"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P03"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Actual vote/commit/client/protected-account paths still require enrolled PQ authorization after simulated classical compromise"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P04"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Enrollment, activation, rotation, retirement, stale anchors and mixed versions preserve history and prohibit downgrade"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P05"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Protected admin/recovery/permit/session/bridge paths prohibit classical fallback and enforce nonce/replay/expiry"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P06"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Crash/retry/backup/restore, oversized malformed signatures and exhaustion preserve signing safety and bounded queues"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P07"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Full RPC/execution/finality/master/sync path enforces the profile and authenticated H–H+1 commitment binding"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P08"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Real active-profile byte/CPU/storage benchmarks preserve serial/parallel semantics"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P09"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Release/upgrade/recovery/transport inventory exposes every classical bypass and fails on required missing coverage"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
+
+[[cases]]
+id = "T-P10"
+owner_gate = "SEC1"
+status = "NOT_IMPLEMENTED"
+expected = "Commitment/address/proof analysis states residual assumptions rather than inferring whole-chain security from signatures"
+fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."

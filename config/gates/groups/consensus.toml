@@ -1,0 +1,18 @@
+version = 1
+package = "eve-consensus-comet"
+requirements = ["B0.2","B0.3","SEC0-native-hybrid-incompatibility"]
+tests = [
+    "accepts_ignored_local_artifacts_and_rejects_role_source_location",
+    "activated_hybrid_requirement_fails_closed_for_native_engine",
+    "actual_pinned_engine_lifecycle_and_next_height_commitment",
+    "canonical_vote_bytes_match_pinned_upstream_vectors",
+    "maps_post_state_and_validator_updates_at_distinct_heights",
+    "matches_only_next_height_same_chain_exact_commitment",
+    "native_key_oneof_retains_one_algorithm_instead_of_both",
+    "reads_actual_varint_delimited_request_encoding",
+    "rejects_nonpositive_or_unrepresentable_mapping",
+    "rejects_symlink_escape_from_ignored_artifact_directory",
+    "rejects_untrusted_oversize_overlong_overflow_and_truncated_frames",
+    "support::fragmented_fixture_request::blocking_fixture_reader_preserves_fragmented_varint_and_payload",
+    "writes_engine_compatible_length_delimited_response_with_bound",
+]

@@ -1,0 +1,17 @@
+version = 1
+package = "eve-storage"
+requirements = ["B0.2","B0.3","RP08-interface-subset"]
+tests = [
+    "bad_identity_parent_height_and_missing_payload_never_advance_cursor",
+    "bounded_spike_measures_real_sync_checkpoint_and_reopen",
+    "checkpoint_reopens_at_capture_height_and_destination_is_not_overwritten",
+    "fixed_width_storage_bytes_match_independent_golden_layout",
+    "mismatched_identity_or_concurrent_namespace_owner_is_rejected",
+    "record_batch_and_empty_limits_fail_without_partial_height",
+    "replay_is_idempotent_and_changed_replay_is_rejected",
+    "snapshot_preserves_height_and_payload_across_new_commit",
+    "spike_refuses_preexisting_destination_or_over_budget_workload",
+    "synced_batch_reopens_with_exact_metadata_and_payload",
+    "synced_batch_survives_process_exit_without_database_destructors",
+    "truncated_noncanonical_and_missing_tail_records_are_rejected",
+]

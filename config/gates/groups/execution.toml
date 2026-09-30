@@ -1,0 +1,13 @@
+version = 1
+package = "eve-evm"
+requirements = ["B0.2","B0.3","40/30/30"]
+tests = [
+    "accepted_typed_envelopes_preserve_pricing_and_access_list_gas",
+    "creation_persists_exact_runtime_and_subsequent_call_uses_it",
+    "fee_rounding_conserves_even_the_maximum_256_bit_amount",
+    "invalid_later_nonce_rejects_whole_block_without_partial_parent_mutation",
+    "out_of_gas_is_included_as_failure_and_consumes_reserved_gas",
+    "repeated_execution_is_deterministic",
+    "revert_restores_storage_and_value_but_charges_gas_and_nonce",
+    "transfer_charges_exact_fees_without_extra_proposer_credit",
+]

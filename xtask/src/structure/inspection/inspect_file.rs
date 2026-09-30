@@ -16,7 +16,7 @@ pub fn inspect_file(
     path: &str,
     policy: &StructurePolicy,
 ) -> Result<(FileReport, Vec<String>)> {
-    let absolute = root.join(path);
+    let absolute = super::resolve_source_path::resolve_source_path(root, path)?;
     let metadata =
         std::fs::symlink_metadata(&absolute).with_context(|| format!("Inspect {path}"))?;
     if metadata.file_type().is_symlink() || !metadata.is_file() {
@@ -32,6 +32,26 @@ pub fn inspect_file(
     };
     let kind = classify_file(path, policy, inventory.operations.len());
     let (warnings, mut violations) = review_size(path, physical_lines, policy);
+    if kind == "adapter"
+        && !policy
+            .adapters
+            .iter()
+            .find(|adapter| adapter.path == path)
+            .is_some_and(|adapter| {
+                crate::structure::syntax::adapter_matches_trait::adapter_matches_trait(
+                    &source,
+                    &inventory,
+                    &adapter.external_trait,
+                )
+            })
+    {
+        violations.push(format!(
+            "{path}: adapter does not match a thin external trait implementation"
+        ));
+    }
+    if kind != "test" && inventory.executable_initializers > 0 {
+        violations.push(format!("{path}: initializer hides executable behavior"));
+    }
     if path.starts_with("crates/") || path.starts_with("create/") {
         violations.push(format!(
             "{path}: root shared-code directories violate absolute role placement"
@@ -68,19 +88,30 @@ pub fn inspect_file(
         }
         _ => {}
     }
-    let stem = Path::new(path)
-        .file_stem()
-        .and_then(|name| name.to_str())
-        .unwrap_or("");
-    if matches!(
-        stem,
-        "utils" | "helpers" | "common" | "shared" | "misc" | "manager"
-    ) || stem.strip_prefix("part").is_some_and(|suffix| {
-        !suffix.is_empty() && suffix.bytes().all(|byte| byte.is_ascii_digit())
-    }) {
+    if super::has_forbidden_source_segment::has_forbidden_source_segment(path, kind != "test") {
         violations.push(format!("{path}: catch-all or opaque split is forbidden"));
     }
-    if kind != "test" && (inventory.opaque_macros > 0 || inventory.complex_closures > 0) {
+    let reviewed_generation = policy
+        .generated_modules
+        .iter()
+        .find(|review| review.path == path)
+        .is_some_and(|review| {
+            super::review_generated_module::review_generated_module(root, review, &inventory)
+        });
+    if policy
+        .generated_modules
+        .iter()
+        .any(|review| review.path == path)
+        && !reviewed_generation
+    {
+        violations.push(format!(
+            "{path}: generated-binding inclusion review/digest is invalid"
+        ));
+    }
+    if kind != "test"
+        && !reviewed_generation
+        && (inventory.opaque_macros > 0 || inventory.includes > 0 || inventory.complex_closures > 0)
+    {
         violations.push(format!("{path}: macro/closure hides an operation"));
     }
     Ok((

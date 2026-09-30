@@ -1,0 +1,24 @@
+version = 1
+
+[ethereum_execution]
+source = "https://github.com/ethereum/execution-specs/releases/tag/tests%40v20.0.2"
+revision = "abbe05777ab83fb94ce18c425daaa7ab79e779c1"
+release = "tests@v20.0.2"
+archive = "https://github.com/ethereum/execution-specs/releases/download/tests%40v20.0.2/fixtures.tar.gz"
+bytes = 540487005
+sha256 = "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788"
+pin_evidence = "Primary GitHub release API digest and immutable target commit verified 2026-10-01."
+execution_status = "NOT_RUN; B0 runs bounded first-party Shanghai interface vectors. Full fork-specific corpus belongs to B2 compatibility acceptance."
+legacy_source = "ethereum/execution-spec-tests is archived; maintained fixture releases now live in ethereum/execution-specs."
+
+[nist_mldsa65]
+source = "https://github.com/usnistgov/ACVP-Server/tree/a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324/gen-val/json-files/ML-DSA-sigVer-FIPS204"
+revision = "a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324"
+prompt_sha256 = "e2cba4589389756fa0bea1a7e6837138bf0a81f9d14234c9ee8f6d33caa1654e"
+expected_sha256 = "e1d84ef1b2f35196278ab0b0ed6a46ec62cc03d2dfa92c564199e1999bfb8ea6"
+selection = "All 15 ML-DSA-65 external/pure cases: 3 valid and 12 invalid. Full upstream inputs and notices retained."
+
+[comet_votes]
+source = "https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62/types"
+revision = "0880b4d378f347ab16e54ec677ff50d803f37d62"
+selection = "Canonical-vote encoding vectors and actual single-engine ABCI lifecycle, not a four-validator consensus corpus."

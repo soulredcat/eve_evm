@@ -1,6 +1,6 @@
 # Planning index
 
-Status: **specifications prepared; B0/SEC0 foundation implementation in progress**. Role-owned component source and an initial structure checker exist; complete runtimes, standalone packages and full acceptance are unfinished. Specifications remain requirements, not proof of route availability, security certification or target throughput.
+Status: **B0 including SEC0/INT0 passed its complete local foundation gate**. Role-owned contracts, pinned tools and executable verification/structure gates exist. Complete runtimes, standalone packages and full security/interop/capacity acceptance remain unfinished. Specifications remain requirements, not proof of route availability, security certification or target throughput.
 
 Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [mainnet target and module boundaries](31-mainnet-target-and-module-boundaries.md), [regional masters and public persistence](32-regional-masters-and-public-persistence.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), [interoperability queue](30-cross-chain-interoperability.md), and [actual status](../execution/STATUS.md).
 
