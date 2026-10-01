@@ -4,7 +4,7 @@
 
 use super::process_start;
 use anyhow::{Result, ensure};
-use std::{path::Path, process::Command};
+use std::{io::ErrorKind, path::Path, process::Command};
 pub(crate) fn signal_owned_process(
     pid: u32,
     signal: &str,
@@ -14,9 +14,26 @@ pub(crate) fn signal_owned_process(
         return Ok(());
     }
     if let Some((binary, start)) = identity {
+        // An engine whose parent was just killed may already be a zombie or reaped:
+        // its executable link or stat disappears, and there is nothing left to signal.
+        let image = match std::fs::read_link(format!("/proc/{pid}/exe")) {
+            Ok(image) => image,
+            Err(error) if error.kind() == ErrorKind::NotFound => return Ok(()),
+            Err(error) => return Err(error.into()),
+        };
+        let started = match process_start(pid) {
+            Ok(started) => started,
+            Err(error)
+                if error
+                    .downcast_ref::<std::io::Error>()
+                    .is_some_and(|error| error.kind() == ErrorKind::NotFound) =>
+            {
+                return Ok(());
+            }
+            Err(error) => return Err(error),
+        };
         ensure!(
-            process_start(pid)? == start
-                && std::fs::read_link(format!("/proc/{pid}/exe"))? == binary.canonicalize()?,
+            started == start && image == binary.canonicalize()?,
             "refuse signal after owned child identity changed"
         );
     }

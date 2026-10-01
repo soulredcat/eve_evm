@@ -2,10 +2,13 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-use super::handle_signer_vote_request::handle_signer_vote_request;
+use super::{
+    handle_signer_vote_request::handle_signer_vote_request,
+    refuse_signing_request::refuse_signing_request,
+};
 use crate::consensus::{
     approval::ApprovalRegistry,
-    signing::{DurableSigner, sign_proposal},
+    signing::{DurableSigner, sign_proposal, signer_status},
     transport::peer::{
         AuthenticatedEnginePeer, EngineChannel, ensure_engine_channel,
         validate_engine_peer_liveness,
@@ -50,29 +53,40 @@ pub(in crate::consensus) fn dispatch_signer_request(
                 input.chain_id == signer.config.chain_id,
                 "signer chain mismatch"
             );
-            let vote = handle_signer_vote_request(
+            let before = signer_status(signer).cursor;
+            match handle_signer_vote_request(
                 signer,
                 registry,
                 input.vote.context("native vote missing")?,
                 budget,
                 reserved_clone_bytes,
-            )?;
-            Sum::SignedVoteResponse(SignedVoteResponse {
-                vote: Some(vote),
-                error: None,
-            })
+            ) {
+                Ok(vote) => Sum::SignedVoteResponse(SignedVoteResponse {
+                    vote: Some(vote),
+                    error: None,
+                }),
+                Err(error) => Sum::SignedVoteResponse(SignedVoteResponse {
+                    vote: None,
+                    error: Some(refuse_signing_request(signer, &before, error)?),
+                }),
+            }
         }
         Sum::SignProposalRequest(input) => {
             ensure!(
                 input.chain_id == signer.config.chain_id,
                 "signer chain mismatch"
             );
-            let proposal =
-                sign_proposal(signer, input.proposal.context("native proposal missing")?)?;
-            Sum::SignedProposalResponse(SignedProposalResponse {
-                proposal: Some(proposal),
-                error: None,
-            })
+            let before = signer_status(signer).cursor;
+            match sign_proposal(signer, input.proposal.context("native proposal missing")?) {
+                Ok(proposal) => Sum::SignedProposalResponse(SignedProposalResponse {
+                    proposal: Some(proposal),
+                    error: None,
+                }),
+                Err(error) => Sum::SignedProposalResponse(SignedProposalResponse {
+                    proposal: None,
+                    error: Some(refuse_signing_request(signer, &before, error)?),
+                }),
+            }
         }
         _ => anyhow::bail!("unexpected native signer response as request"),
     };

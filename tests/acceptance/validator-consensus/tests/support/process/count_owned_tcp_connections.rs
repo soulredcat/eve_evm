@@ -3,11 +3,16 @@
 // Use requires prior written permission from Redcat.
 
 use anyhow::Result;
-use std::collections::BTreeSet;
+use std::{collections::BTreeSet, io::ErrorKind};
 pub(crate) fn count_owned_tcp_connections(pid: u32, local_port: u16) -> Result<usize> {
     let mut inodes = BTreeSet::new();
     for path in ["/proc/net/tcp", "/proc/net/tcp6"] {
-        let text = std::fs::read_to_string(path)?;
+        // Hosts without IPv6 have no tcp6 table and therefore no IPv6 sockets to count.
+        let text = match std::fs::read_to_string(path) {
+            Ok(text) => text,
+            Err(error) if path.ends_with('6') && error.kind() == ErrorKind::NotFound => continue,
+            Err(error) => return Err(error.into()),
+        };
         for line in text.lines().skip(1) {
             let fields: Vec<_> = line.split_whitespace().collect();
             if fields.get(3) != Some(&"01") {
