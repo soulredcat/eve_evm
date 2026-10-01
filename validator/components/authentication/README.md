@@ -10,8 +10,12 @@ authorization over one bound identity/message. It is experimental integration,
 not consensus, authenticated enrollment, FIPS validation or a verified PQ profile.
 
 Required official verification fixtures and notices live inside `tests/fixtures/`
-so packaging does not depend on a repository-external test directory. Reusable
-source included in public/master distributions must be generated reproducibly
+so packaging does not depend on a repository-external test directory.
+
+The complete NIST terms remain in the extensionless `tests/fixtures/nist-acvp/NOTICE`
+with its exact upstream association in root REUSE.toml; README-only Markdown
+publication must not remove mandatory third-party rights or change fixture bytes.
+Reusable source included in public/master distributions must be generated reproducibly
 from this canonical component; no divergent handwritten implementation is allowed.
 
 The default shared workspace currently supplies build metadata. Complete role

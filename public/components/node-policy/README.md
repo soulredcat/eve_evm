@@ -12,9 +12,9 @@ Source classification and readiness consume caller-provided verification metadat
 not authenticated capabilities. B4/B6 must implement the actual verifiers,
 storage/network workers, atomic reservations and measurements.
 
-Read plans [15](../../../docs/plan/15-network-and-sync-protocol.md),
-[25](../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md) and
-[32](../../../docs/plan/32-regional-masters-and-public-persistence.md) before changes.
+Read plans 15 (local-only: `../../../docs/plan/15-network-and-sync-protocol.md`),
+25 (local-only: `../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md`) and
+32 (local-only: `../../../docs/plan/32-regional-masters-and-public-persistence.md`) before changes.
 
 ## Measured provenance and development bounds v1
 

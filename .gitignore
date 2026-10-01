@@ -9,6 +9,10 @@
 /artifacts/
 /coverage/
 
+# Only README.md is published; agent instructions and other Markdown stay local.
+*.[mM][dD]
+!README.md
+
 # Generated dependency and build output.
 **/target/
 **/node_modules/

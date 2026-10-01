@@ -12,18 +12,18 @@ durability and consensus lifecycle wiring belong to the validator runtime.
 Dependencies flow from role runtimes/verifiers into this component; this component
 has no private master dependency.
 
-Read plans [12](../../../docs/plan/12-consensus-spec.md),
-[14](../../../docs/plan/14-block-and-state-commitment-spec.md),
-[25](../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md),
-[27](../../../docs/plan/27-post-quantum-cryptography-and-migration.md), and
-[29](../../../docs/plan/29-security-implementation-and-acceptance.md) before changes.
+Read plans 12 (local-only: `../../../docs/plan/12-consensus-spec.md`),
+14 (local-only: `../../../docs/plan/14-block-and-state-commitment-spec.md`),
+25 (local-only: `../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md`),
+27 (local-only: `../../../docs/plan/27-post-quantum-cryptography-and-migration.md`), and
+29 (local-only: `../../../docs/plan/29-security-implementation-and-acceptance.md`) before changes.
 
 ## Exact API pins
 
 - Engine: [CometBFT v0.40.0](https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62), commit `0880b4d378f347ab16e54ec677ff50d803f37d62`, Apache-2.0.
 - Upstream minimum compiler: Go 1.25.0; local source build uses patched Go 1.27.1. Its pinned ML-DSA implementation is Cloudflare CIRCL 1.6.3. This does not certify an entire EVE security profile.
 - Rust wire generation: `prost`, `prost-build`, and `prost-types` 0.14.4; portable compiler source package `protoc-bin-vendored` 3.2.0. Exact resolved artifacts belong in Cargo.lock.
-- The engine still uses the `tendermint.abci` protobuf package and `proto/tendermint/` paths. The [vendor notice](vendor/NOTICE.md) records exact source identities and SHA256 bytes.
+- The engine still uses the `tendermint.abci` protobuf package and `proto/tendermint/` paths. Vendored declarations retain their canonical upstream paths and exact `vendor/SHA256SUMS` bytes.
 - `build.rs` delegates to `src/generation/generate_upstream_bindings.rs`; the generator checks vendored source digests and writes only to untracked Cargo `OUT_DIR`.
 
 The exact release commit retains a stale upstream `TMCoreSemVer = "0.39.0"`
@@ -32,6 +32,13 @@ constant. The source build preserves that code and sets the upstream-supported
 `0.39.0+0880b4d378f347ab16e54ec677ff50d803f37d62`; source and executable digests
 establish the v0.40.0 release identity. Do not infer engine parity from that stale
 fallback version or rewrite upstream code to conceal it.
+
+Vendored source is unchanged protocol declarations, not first-party execution
+behavior. CometBFT is Apache-2.0 with `vendor/cometbft/LICENSE` preserved; Cosmos
+gogoproto v1.7.2 at `cf5213e4dcbf1fea203185c0af00840e566790d9` is BSD-3-Clause
+with `vendor/gogoproto/LICENSE` preserved. No first-party behavior belongs under
+those source directories. Pins identify bytes, not finality/execution or audit.
+Source updates require byte comparison, compatibility checks and reviewed pins.
 
 The legacy Rust `tendermint-proto` 0.40.4 package's latest generated protocol
 module is v0.38, so its version number does not establish v0.40 engine parity.

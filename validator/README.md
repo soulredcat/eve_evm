@@ -22,7 +22,7 @@ Carry `zone_id` as operational routing/failure-domain metadata from the start, s
 
 Public nodes have RAM working state plus durable verified block/checkpoint recovery data by default. Their persistence policy cannot replace validator WAL, anti-double-sign records or recent independently recoverable state/data. An authenticated master transport identity is never a substitute for validator history and finality proofs.
 
-Read plans 12–17 and 20–22, plus [32](../docs/plan/32-regional-masters-and-public-persistence.md). A co-located public RPC process does not receive consensus keys. Never clone live signing keys into an active standby.
+Read plans 12–17 and 20–22, plus 32 (local-only: `../docs/plan/32-regional-masters-and-public-persistence.md`). A co-located public RPC process does not receive consensus keys. Never clone live signing keys into an active standby.
 
 `eve-validator init-dev` initializes one private development namespace and prints
 public identity metadata. `serve-dev` runs the application/signer actors and the

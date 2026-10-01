@@ -77,7 +77,7 @@ path = [
 precedence = "closest"
 SPDX-FileCopyrightText = "CometBFT contributors"
 SPDX-License-Identifier = "Apache-2.0"
-SPDX-FileComment = "Unmodified CometBFT v0.40.0 source, revision 0880b4d378f347ab16e54ec677ff50d803f37d62. Preserve adjacent upstream LICENSE, NOTICE.md and SHA256SUMS."
+SPDX-FileComment = "Unmodified CometBFT v0.40.0 source, revision 0880b4d378f347ab16e54ec677ff50d803f37d62. Preserve adjacent upstream LICENSE and SHA256SUMS; provenance is documented in the component README.md."
 
 [[annotations]]
 path = "validator/components/consensus-comet/vendor/gogoproto/gogoproto/gogo.proto"
@@ -99,7 +99,7 @@ path = [
     "validator/components/authentication/tests/fixtures/nist-acvp/prompt.json",
     "validator/components/authentication/tests/fixtures/nist-acvp/expectedResults.json",
     "validator/components/authentication/tests/fixtures/nist-acvp/ml-dsa65-sigver-external-pure.json",
-    "validator/components/authentication/tests/fixtures/nist-acvp/NOTICE.md",
+    "validator/components/authentication/tests/fixtures/nist-acvp/NOTICE",
 ]
 precedence = "closest"
 SPDX-FileCopyrightText = "NOASSERTION"

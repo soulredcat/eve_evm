@@ -12,10 +12,7 @@ groups = [
     "config/gates/groups/protocol-config.toml",
 ]
 required_inputs = [
-    "config/tool-pins.toml", "docs/security/inventory/authorization-paths.md",
-    "docs/security/inventory/commitments-and-identities.md",
-    "docs/security/inventory/crypto-sources.md",
-    "docs/security/inventory/adversary-and-gate-outcomes.md",
+    "config/tool-pins.toml", "docs/security/inventory/README.md",
     "config/gates/requirements/majority.toml",
     "config/gates/requirements/post-quantum.toml",
 ]

@@ -44,3 +44,5 @@ validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases
 validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_7.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_8.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_9.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Preserve the complete copied NIST notice bytes.
+validator/components/authentication/tests/fixtures/nist-acvp/NOTICE -text

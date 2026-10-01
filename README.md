@@ -6,7 +6,12 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: foundations and B1 passed local and hosted gates; the latest hosted B1 repair executes 273 cases. B2 serial RPC/developer flow, Redcat notices and own-chain scope pass the complete 348-case local gate. Hosted B2 is observed separately. Complete network roles, standalone distributions, secure-profile acceptance and measured 1M TPS remain unachieved.**
+**Status: B0/B1 and B2 have verified development gates. B3 is an incomplete,
+owner-paused draft checkpoint: the last complete attempt failed at all-node
+crash recovery after 259 prior cases passed and the network packet returned
+15 PASS / 1 FAIL. Later scoped diagnostic passes do not establish a fix.
+Standalone distributions, activated PQ, security-profile acceptance and measured
+1M TPS remain unachieved. See [draft PR #1](https://github.com/soulredcat/eve_evm/pull/1).**
 
 ## Main objective
 
@@ -36,7 +41,7 @@ A validator needs durable signing-safety and recovery records even when its work
 
 Default public nodes keep active verified state in RAM and finalized recovery blocks/checkpoints durable through a separate bounded storage worker. Execution/current-state reads do not hold state locks while waiting for disk; applied and durable heights remain distinct. Storage still consumes resources, so latency interference and lag must be measured. Public restart recovery must work from retained verified data while masters are offline.
 
-One regional master can serve several public nodes through a preferred nearby eligible sync endpoint with fallback peers. Public does not require private master topology or database access. The planned evolution is two masters synchronizing independently verified finalized history, then ten regional masters; this is not launch authorization or a throughput claim. `zone_id` affects routing/placement only. See [plan 32](docs/plan/32-regional-masters-and-public-persistence.md).
+One regional master can serve several public nodes through a preferred nearby eligible sync endpoint with fallback peers. Public does not require private master topology or database access. The planned evolution is two masters synchronizing independently verified finalized history, then ten regional masters; this is not launch authorization or a throughput claim. `zone_id` affects routing/placement only. See plan 32 (local-only: `docs/plan/32-regional-masters-and-public-persistence.md`).
 
 ## Source layout
 
@@ -59,27 +64,45 @@ One regional master can serve several public nodes through a preferred nearby el
 - `tests/acceptance/serial-rpc/`: independent B2 EVM corpus, RPC/contract/client, limits and process-restart acceptance.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
-Complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in [execution status](docs/execution/STATUS.md). Follow [verification instructions](docs/development/verification.md) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
+Complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in execution status (local-only: `docs/execution/STATUS.md`). Follow verification instructions (local-only: `docs/development/verification.md`) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
 
 ## Economics
 
 Collected transaction fees: **40% burn / 30% node rewards / 30% validator rewards**. Integer rounding, uptime, verified work, staking, escrow and slashing are specified in the plan. No additional inflation or real-value genesis allocation is authorized by these documents. Fee redistribution differs from Ethereum's base-fee burn policy and must be advertised as an EVE difference.
 
-## Start implementation
+## Current work boundary
 
-Read [AGENTS.md](AGENTS.md), [goal.md](goal.md), the [planning index](docs/plan/README.md), and [execution status](docs/execution/STATUS.md).
+Core B3 development is paused because the development PC runs other programs.
+This documentation cleanup does not resume diagnosis, runtime tests, B4 or another
+bulk. The next authorized development step must rebuild the current feature
+validator, record its binary identity, reproduce retained T-C06 and repair its
+verified cause before a complete frozen gate. Never mark a target passed without
+its required evidence or merge this draft as accepted B3.
 
-```text
-/goal Implement goal.md end to end. Follow AGENTS.md and docs/plan/23-task-backlog-and-execution.md. Work in dependency-aware bulks, implement and test real functionality, maintain evidence and handoff files, and continue through all unblocked work. Never mark a target passed without its required evidence.
-```
+Public contributor context is in this README, [the planning index](docs/plan/README.md),
+[the security inventory](docs/security/inventory/README.md) and each component
+README. Owner instructions, goals, detailed plans and execution evidence stay
+local in their existing organized paths; a fresh clone does not contain them.
 
-The goal file defines exactly what DONE, BLOCKED and TARGET_UNMET mean. Completing the documentation or a local prototype is not completing the whole project.
+When later authorized to verify code, provision the exact reference tools with
+`cargo xtask provision-tools --jobs 2`, then run `cargo xtask verify --bulk B3`
+with the pinned Linux environment. A failed or skipped mandatory check is not
+acceptance. Tool source/artifact pins and required cases are in `config/`; this
+cleanup neither runs heavy checks nor changes B3's unresolved recovery status.
 
 ## Collaboration and publication
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Shared source comments, documentation, configuration explanations, test descriptions, commit messages, and GitHub discussions must use English.
+Read CONTRIBUTING.md (local-only: `CONTRIBUTING.md`) before making changes. Shared source comments, documentation, configuration explanations, test descriptions, commit messages, and GitHub discussions must use English.
 
 Keep GitHub clean: `local-tests/`, raw artifacts, build output, temporary databases, secrets, and personal configuration must never be committed or pushed. Required reproducible tests remain versioned so every collaborator can verify the implementation. Inspect the index and all outgoing commits before an authorized push; never force-add ignored local files.
+
+Only Markdown files named `README.md` may be tracked. `AGENTS.md`, `goal.md`,
+`CONTRIBUTING.md` and every other `.md` document are local-only and ignored.
+Ignoring does not remove already tracked files; CI rejects forbidden tracked
+Markdown. This controls the current tree, not historical commits. Do not force-add
+private documents. Required test/gate inventory remains public in allowed READMEs
+and existing source/configuration. Complete third-party notices remain intact in
+extensionless legal files; no usage permission or upstream right is removed.
 
 ## Scope boundaries
 

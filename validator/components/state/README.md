@@ -12,11 +12,11 @@ Private database handles and durable commit/cache orchestration belong to
 `public/components/recovery-store/`; runtime roles keep their own authority.
 No database, live networking, clock, signer or master implementation is used here.
 
-Read plans [14](../../../docs/plan/14-block-and-state-commitment-spec.md),
-[16](../../../docs/plan/16-genesis-upgrade-and-recovery.md),
-[22](../../../docs/plan/22-code-layout-and-dependency-policy.md),
-[23](../../../docs/plan/23-task-backlog-and-execution.md) and
-[25](../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md) before edits.
+Read plans 14 (local-only: `../../../docs/plan/14-block-and-state-commitment-spec.md`),
+16 (local-only: `../../../docs/plan/16-genesis-upgrade-and-recovery.md`),
+22 (local-only: `../../../docs/plan/22-code-layout-and-dependency-policy.md`),
+23 (local-only: `../../../docs/plan/23-task-backlog-and-execution.md`) and
+25 (local-only: `../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md`) before edits.
 
 ## Data and view semantics
 

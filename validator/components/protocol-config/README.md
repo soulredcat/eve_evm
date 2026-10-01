@@ -12,12 +12,12 @@ compatibility. Public readiness/routing/resource policy belongs to
 It depends on maintained Alloy encoding/header types, Ed25519 key validation, and
 the pinned CometBFT authentication capability guard. It has no master dependency.
 
-Read plans [13](../../../docs/plan/13-transaction-and-gas-spec.md),
-[14](../../../docs/plan/14-block-and-state-commitment-spec.md),
-[16](../../../docs/plan/16-genesis-upgrade-and-recovery.md),
-[17](../../../docs/plan/17-validator-lifecycle-and-rewards.md),
-[25](../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md) and
-[27](../../../docs/plan/27-post-quantum-cryptography-and-migration.md) before changes.
+Read plans 13 (local-only: `../../../docs/plan/13-transaction-and-gas-spec.md`),
+14 (local-only: `../../../docs/plan/14-block-and-state-commitment-spec.md`),
+16 (local-only: `../../../docs/plan/16-genesis-upgrade-and-recovery.md`),
+17 (local-only: `../../../docs/plan/17-validator-lifecycle-and-rewards.md`),
+25 (local-only: `../../../docs/plan/25-folder-hierarchy-and-file-function-policy.md`) and
+27 (local-only: `../../../docs/plan/27-post-quantum-cryptography-and-migration.md`) before changes.
 
 ## Development genesis v1
 
