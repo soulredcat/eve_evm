@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 09 — Delivery roadmap
 
 The executable backlog and all gates are in [23](23-task-backlog-and-execution.md). This overview must not introduce an alternative stage numbering.
@@ -20,5 +24,7 @@ The executable backlog and all gates are in [23](23-task-backlog-and-execution.m
 B0–B9 establish DEVNET_ACCEPTED; they do not establish 1M TPS or mainnet readiness. B10–B11 must keep the user's target explicit and measured. Complete every ready task; record genuine external blockers with exact resume instructions instead of stopping at the first unavailable resource.
 
 The master-only harness builds shared components first, then production validators consume them. Never write a master consensus implementation that must later be copied into validators.
+
+The current queue includes core security SEC0, SEC1 and SEC3. Bridge SEC2 and external interoperability INT0–INT3 are retained as `DEFERRED_UNTIL_EVE_TESTNET` references for separately authorized programs; no bridge fixture or external route is a prerequisite for B0–B11 or core security acceptance. EVE testnet is the earliest eligibility checkpoint for later scope, not automatic permission to begin it. Historical B0/INT0 evidence remains a record of what ran.
 
 Production launch is a separate owner-approved gate. Implementation, testing, documentation and release artifacts can be prepared without launching a chain with real value.

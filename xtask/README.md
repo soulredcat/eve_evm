@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Repository verification tools
 
 `xtask` owns development gates, source structure inspection and reviewed evidence orchestration. It has no execution, validator signing, finality or private master authority. Its production source follows the same operation-file and physical-line rules it checks.

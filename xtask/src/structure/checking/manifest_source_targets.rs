@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::source_edges::types::SourceTarget;
 use anyhow::{Result, bail};
 use std::path::Path;

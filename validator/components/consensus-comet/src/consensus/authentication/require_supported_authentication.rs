@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{ConsensusAuthenticationRequirement, UnsupportedHybridConsensus};
 
 /// Refuse activated hybrid consensus until an engine extension is integrated.

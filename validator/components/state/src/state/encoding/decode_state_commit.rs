@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     decode_block_payload::decode_block_payload,
     decode_complete_state_data::decode_complete_state_data, decode_version::decode_version,

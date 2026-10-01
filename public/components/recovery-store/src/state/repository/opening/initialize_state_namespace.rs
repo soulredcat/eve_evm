@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::{
     StateStorageBudget,
     encoding::{build_current_state_entries, build_historical_entries, encode_head_marker},

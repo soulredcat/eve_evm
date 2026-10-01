@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Vendored protocol source provenance
 
 These files are unchanged upstream protobuf declarations and license notices,

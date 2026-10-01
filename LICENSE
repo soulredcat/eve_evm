@@ -1,0 +1,33 @@
+EVE EVM ownership and permission notice
+
+Copyright (c) 2026 Redcat. All rights reserved.
+
+Original first-party source code, documentation, tests, configuration and
+project-specific selections or compilations are identified by:
+
+    SPDX-FileCopyrightText: 2026 Redcat
+    SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+
+Use, execution, copying, modification, derivative works, redistribution,
+sublicensing, sale and other exploitation of covered first-party material require
+prior written permission from Redcat, except where applicable law, mandatory
+hosting platform terms or a separate applicable license already grants the
+relevant rights. No open-source license or additional permission is granted.
+The complete terms are in LICENSES/LicenseRef-Redcat-Permission-Only.txt.
+
+Third-party material retains its original copyright, notices and licenses. The
+Redcat notice does not claim ownership of upstream CometBFT, Cosmos gogoproto,
+NIST ACVP data, external Ethereum reference payloads or dependency implementations.
+Existing adjacent upstream notices remain authoritative for their material.
+REUSE.toml records exact file associations when inline comments would invalidate
+a format, change canonical bytes or be overwritten by a generator.
+
+Copyright covers qualifying original expression and project-specific selection
+or compilation only. It does not restrict facts, public-domain material or
+rights that upstream licenses already grant. Public repository hosting terms
+may require rights to view or fork the repository; these notices do not override
+those terms or applicable law. They do not prevent downloading or copying.
+
+See docs/development/ownership.md for scope, formats and preservation rules.
+These notices are ownership and permission statements, not digital signatures
+or proof of identity. Individual written permissions may define additional rights.

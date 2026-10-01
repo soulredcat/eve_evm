@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::{
     CryptoError, EnrolledHybridIdentity, HybridAuthorization, MAX_AUTHORIZATION_PAYLOAD_BYTES,
     ML_DSA_65_PUBLIC_KEY_BYTES,

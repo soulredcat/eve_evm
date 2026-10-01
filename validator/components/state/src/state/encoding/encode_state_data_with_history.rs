@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{encode_identity, encode_list};
 use crate::{CompleteState, StateError};
 use eve_protocol_config::records::{ExecutionBlockHash, encode_system_record};

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use ed25519_dalek::{Signer, SigningKey};
 use eve_crypto::{
     EnrolledHybridIdentity, HybridAuthorization, HybridSignature, MlDsa65SigningKey,

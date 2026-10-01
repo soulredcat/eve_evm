@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::structure::types::policy_types::StructurePolicy;
 use std::path::Path;
 
@@ -24,6 +28,9 @@ pub fn classify_file(path: &str, policy: &StructurePolicy, operation_count: usiz
             }
         }
         Some("md" | "toml" | "json" | "yml" | "yaml" | "txt" | "lock") => "document",
+        Some("ts" | "sol") if super::is_external_test_fixture::is_external_test_fixture(path) => {
+            "test"
+        }
         None if matches!(
             name,
             ".gitignore" | ".gitattributes" | "NOTICE" | "LICENSE" | "SHA256SUMS"

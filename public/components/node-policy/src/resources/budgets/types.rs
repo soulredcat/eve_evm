@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// Knobs/limits, not proof of OS enforcement or zero storage interference.
 /// Global admission must reserve bytes before allocating ordinary/bulk payloads.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Validator-owned complete logical state
 
 Canonical owner: `validator/components/state/`. This component owns complete
@@ -147,3 +151,29 @@ Process crashes are not hardware power-loss proof. Run strict lint, format,
 structure and the full B1 gate before integration; no acceptance follows from a
 component build alone. Role copies must still package this canonical source and
 pass unrelated-directory build/run; no private master dependency is introduced.
+
+## B2 proofs and retained metadata
+
+`build_account_proof` captures one immutable `StateView` and returns account and
+requested storage proofs under that version's EVM root. Inclusion and exclusion
+share the canonical account/storage HashBuilder and TrieAccount leaf path used by
+compute_evm_root. Hashed leaves and retained node paths are ordered deterministically.
+Absent accounts expose canonical empty code/storage hashes and zero fields; zero
+slots are absent leaves. Actual proofs are checked with maintained Alloy verification.
+No proof implies authenticated validator finality, system-root membership, hybrid
+security or Ethereum-mainnet identity. Public owns the RPC projection and authority.
+
+Requested slots are bounded by both caller policy and a hard 256-key cap; duplicates
+reject. `estimate_proof_reservation` checks conservative sorted account leaves,
+maximum per-account storage reconstruction and retained proof paths before allocation.
+Insufficient actual reservation or caller rebuild cap rejects. Response proof bytes
+are bounded separately. Retained original state/caller buffers require additional
+accounting; this whole-state dev reconstruction is not an allocator/RSS or scale proof.
+
+`encode_state_version`/`decode_state_version` provide the canonical bounded version
+codec (4KiB decode ceiling, strict reencode/trailing rejection). `validate_retained_block`
+checks identity/app binding, bound header/hash/root domains, parent links and complete
+canonical tx/receipt payload without reconstructing hot state. It does not establish
+content_digest, execution correctness or source finality. Repository history compares
+these normalized projections with retained canonical records. Full commit validation
+also checks complete roots/history/content, using the same retained-block operation.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use toml::value::Table;
 
 pub fn manifest_dependency_tables(document: &toml::Value) -> Vec<&Table> {

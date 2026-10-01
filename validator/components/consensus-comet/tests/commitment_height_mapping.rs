@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_consensus_comet::{
     consensus::commitments::{
         ExecutionHeight, HeightMappingError, map_finalize_height, match_next_header_commitment,

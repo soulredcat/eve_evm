@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Repository instructions for coding agents
 
 ## Read first
@@ -6,7 +10,7 @@ Read `goal.md`, `docs/plan/README.md`, `docs/plan/24-decision-register.md`, `doc
 
 ## Execute, do not merely plan
 
-Implement the goal in dependency-aware core B0–B11 and security SEC0–SEC3 bulks. A bulk includes code, tests, integration, documentation and evidence, not one isolated TODO at a time. Continue to the next ready bulk without asking whether to continue. Fix ordinary build/test failures rather than treating them as external blockers.
+Implement dependency-aware core B0–B11 and SEC0/SEC1/SEC3 bulks. D40 defers SEC2/INT0–INT3 and bridge/external-chain programs until EVE testnet, outside mandatory core acceptance. A bulk includes code, tests, integration, documentation and evidence. Continue to the next ready bulk without asking; fix ordinary build/test failures.
 
 Use the strongest reasoning available for protocol, security, concurrency and recovery decisions. Do not invent a model setting or claim to use unavailable agents. When subagents are available, use the five roles in `docs/agents/README.md`; otherwise perform the same responsibilities sequentially. Assign file ownership before parallel work. Only the integrator owns shared manifests, lockfiles and final commits during a bulk.
 
@@ -21,15 +25,15 @@ Use the strongest reasoning available for protocol, security, concurrency and re
 - Default public nodes keep working state in RAM and finalized recovery data durable through an isolated bounded storage path. Distinguish applied, durable, and authenticated heights; never claim zero storage overhead or relax validator signing durability. Zone IDs and nearby sync endpoints do not grant finality or shard ownership. Follow plan 32.
 - Preserve the user's 40/30/30 fee policy and the 1M aggregate finalized TPS goal. Do not change acceptance tests to manufacture success.
 
-## Majority, quantum and bridge security
+## Core majority and quantum security
 
-Plans 26–29 are mandatory. State the actual consensus adversary threshold; no unconditional 51%-attack immunity, automatic quorum lowering or master-finality recovery. Record tests outside the baseline assumptions without calling an observed run a new safety proof.
+Plans 26/27 and core plan 29 are mandatory. State the actual adversary threshold; no unconditional 51%-attack immunity, automatic quorum lowering or master-finality recovery. Outside-baseline tests do not constitute new safety proofs.
 
-Classical Ed25519/secp256k1 development paths are not PQ-secure. Activated hybrid authentication requires both signatures for the same enrolled identity/message, throughout consensus and clients, not an ignored post-finality wrapper. Inventory account recovery, staking, releases, transport, roots and bridge trust. Use reviewed standardized crypto implementations, pinned parameters and real vectors; no custom crypto or unsupported certification claims.
+Classical Ed25519/secp256k1 development paths are not PQ-secure. Activated hybrid authentication requires both signatures for the same enrolled identity/message throughout consensus and clients. Inventory core accounts/recovery, staking, releases, transport and roots. Use reviewed standardized implementations, pinned parameters and real vectors; no custom crypto or certification claims.
 
-Bridge value moves only after authenticated source finality/inclusion, replay and backing checks. Master and relayers cannot mint or unlock by assertion. Test two local EVE networks with fake tokens first. External chain assumptions and PQ limitations remain route-specific; no production custody without explicit authorization.
+Core EVE depends on no remote chain, route, relayer, confirmation delay or bridge backlog. Future separate programs adapt to EVE after testnet under plans 28/30 and D40; do not create their runtime scaffolds now. EVM standards/reference tests and own-chain finality/proof APIs remain core. Deferred custody is never authorized by this scope.
 
-Implement SEC0 with B0 and register T-M/T-P/T-BR gates. A classical benchmark, working devnet or wrapper library does not satisfy SECURITY_PROFILE_ACCEPTED. Keep missing mandatory coverage and stronger unmet fault-model requirements visible.
+Implement SEC0 with B0 and preserve every core T-M/T-P gate. Classical benchmarks, working devnets and wrappers do not satisfy SECURITY_PROFILE_ACCEPTED. Keep missing core coverage and unmet stronger fault models visible; deferred T-BR/T-I requirements are neither passed nor core prerequisites.
 
 ## Absolute role ownership and file placement
 
@@ -38,7 +42,7 @@ The owner makes role clarity an absolute integration rule ("level 1000"). Every 
 - `public/` owns public RPC/P2P entry points, admission, verified RAM views, public bootstrap/readiness and public persistence orchestration.
 - `master/` owns private master follower/archive entry points, master replication and protected snapshot/storage orchestration; it never owns validator finality.
 - `validator/` owns validator entry points, proposal/execution-validation wiring, voting/signing orchestration and validator lifecycle.
-- Do not create a root `crates/`, `create/`, or generic shared-code dumping directory. Place reusable components under their owning role's `components/<named-domain>/`, with a README identifying the responsibility and canonical source. Public owns recovery-store, node-policy and public interop metadata. Validator owns execution, authentication, consensus-comet, protocol-config and bridge-protocol contracts. Public readiness/source/persistence behavior stays public-owned. Reusable storage does not imply access to private master implementation.
+- Do not create root `crates/`, `create/`, or generic dumping directories. Reusable named components stay under their canonical role with a responsibility README. Public owns recovery-store/node-policy; validator owns state/execution/authentication/consensus-comet/protocol-config. Public readiness/source/persistence stays public-owned. Shared storage grants no access to private master implementation.
 - Runtime entry points stay thin. Do not copy consensus-critical logic between roles or place one runtime's private behavior under another runtime. Public/validator packages must build without master implementation, including transitive dependencies.
 - Name each behavioral file after its primary operation; keep meaningful recursive capability boundaries, narrow visibility and explicit ownership. Types, facades and reviewed thin trait adapters follow plan 25's categories.
 - Wrong-role files, mixed responsibilities, opaque numbered splits, hidden facade/adapter behavior and forbidden dependency edges fail review and the applicable structure/package gates. Repair them before integration; do not waive this rule to manufacture a pass. Record actual checker coverage and missing gates honestly.
@@ -72,6 +76,14 @@ Before edits, inspect branch, HEAD and dirty files. Preserve unrelated user work
 Run relevant unit/property/integration tests, then the bulk gate. Missing test infrastructure is work to implement. A skipped test is not a pass. Save commands, exit codes, commit/config identity and evidence references. Check format, lint and release build before integration where supported.
 
 Create a local coherent commit after a verified bulk. Push only when the current user authorization includes it. Start/stop only development processes created by this task. Never restart the user's trading bots or other services.
+
+## Absolute Redcat ownership and permission rules
+
+Every first-party publishable file must carry the Redcat copyright and permission-only notice from `docs/development/ownership.md`. Use `SPDX-FileCopyrightText: 2026 Redcat`, `SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only`, and `Use requires prior written permission from Redcat.` Follow root `LICENSE` and its complete terms. Do not grant an open-source license or another usage permission without explicit owner authorization.
+
+Use valid inline comments where supported. JSON, canonical checksum data and generated locks require a reviewed exact file annotation in `REUSE.toml`; do not corrupt formats or change immutable fixture bytes to insert comments. Preserve third-party copyright, licenses, provenance and exact pinned bytes. Never label upstream code or data as owned by Redcat. Notices do not override applicable law or mandatory hosting terms, or constitute digital signatures or access control.
+
+Run `cargo xtask check-ownership` with structure and every bulk gate. Missing/contradictory first-party notices, missing exact annotations, invalid scope or changed pinned upstream material fail publication. Count notice lines in the complete physical file; repair affected size violations without minification, exclusions or raised limits. A notice-only source change still requires accurate source identity and relevant verification.
 
 ## Absolute GitHub publication and language rules
 

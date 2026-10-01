@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::verification::{
     artifacts::{create_artifact_directory::create_artifact_directory, save_report::save_report},
     types::report_types::VerificationReport,
@@ -15,7 +19,7 @@ pub fn run_verify(root: &Path, requested: Vec<String>, all: bool) -> Result<()> 
         started_unix_ms: SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis(),
         host_platform: format!("{}-{}", std::env::consts::OS, std::env::consts::ARCH),
         topology: "Single-host component fixtures; one Comet engine API fixture, no complete role devnet".into(),
-        genesis_identity: "No authorized runtime/mainnet genesis; development byte vectors and synthetic interop genesis reservations only".into(),
+        genesis_identity: "Task-owned fake-asset EVE development fixtures; no authorized mainnet genesis".into(),
         profile_activation: "Classical development only; hybrid consensus activation unsupported and rejected".into(),
         key_epochs: "No runtime key ceremony/activation; explicitly disposable primitive/API-fixture identities".into(),
         requested,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::project_revm_account::project_revm_account;
 use alloy_primitives::Address;
 use eve_state::StateAccount;

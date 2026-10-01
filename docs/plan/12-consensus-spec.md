@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 12 — Consensus specification
 
 Status: normative development baseline. Exact dependency versions and executable protocol fixtures are pinned in B0. This is not a new consensus proof or a claim that the baseline reaches 1M TPS.

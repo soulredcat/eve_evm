@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{build_state_version, validate_state_commit};
 use crate::{BlockPayload, CompleteState, StateBudget, StateCommit, StateError, StateVersion};
 

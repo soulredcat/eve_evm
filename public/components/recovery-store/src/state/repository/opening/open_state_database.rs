@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::StateStorageBudget;
 use anyhow::{Context, Result};
 use rocksdb::{BlockBasedOptions, Cache, DB, DBCompressionType, Options};

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #[cfg(target_os = "linux")]
 #[test]
 fn extracted_source_build_does_not_require_or_embed_enclosing_git_metadata() {

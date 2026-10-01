@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "homestead",
+  "files": {
+    "fixtures/state_tests/for_shanghai/homestead/coverage/coverage/coverage.json": "d5a8b9a0b94214e37baec970caaf5eb14a2c9dbe15739634decae4ba36b0bbc4",
+    "fixtures/state_tests/for_shanghai/homestead/identity_precompile/identity/identity_return_buffer_modify.json": "e4a4639d42c86becaa304c5163ab1c1cc62dacc57f3b1ecf9a1607c1a36b6725",
+    "fixtures/state_tests/for_shanghai/homestead/identity_precompile/identity/identity_return_overwrite.json": "cb18a5ec1b637b0fd4b32f76d2d645d9a1f0a31c47d3796d3632c94128f092a4"
+  }
+}

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::syntax_inventory_adapter::SyntaxInventoryAdapter;
 use crate::structure::types::syntax_types::SyntaxInventory;
 use anyhow::{Context, Result};

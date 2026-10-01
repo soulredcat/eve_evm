@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{checksum_file::checksum_file, types::LocalSnapshotManifest};
 use crate::state::StateStorageBudget;
 use anyhow::{Context, Result, anyhow, ensure};

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::authentication::mldsa65::codec::{decode_mldsa65_public_key, decode_mldsa65_signature};
 use crate::authentication::mldsa65::validation::validate_mldsa65_input;
 use crate::{CryptoError, ML_DSA_65_PUBLIC_KEY_BYTES, ML_DSA_65_SIGNATURE_BYTES};

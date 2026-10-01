@@ -1,5 +1,55 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
-current_bulk = 1
+current_bulk = 2
+
+[[exclusions]]
+path = "LICENSES/BSD-3-Clause.txt"
+kind = "vendor"
+source = "https://github.com/cosmos/gogoproto/blob/cf5213e4dcbf1fea203185c0af00840e566790d9/LICENSE"
+sha256 = "369124fea6f5c2a4eb29ce462519a2d06c4e6e4ba27ba8116534d454faccf823"
+reason = "Byte-identical upstream license text preserves exact third-party rights under file-level ownership associations."
+
+[[adapters]]
+path = "xtask/src/structure/syntax/pattern_matching/parse_matches_arguments_adapter.rs"
+external_trait = "syn::parse::Parse"
+reason = "The external parser trait delegates one named bounded matches grammar; opaque patterns and executable argument bodies remain rejected."
+reviewer = "integrator"
+
+[[exclusions]]
+path = "LICENSES/Apache-2.0.txt"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/blob/0880b4d378f347ab16e54ec677ff50d803f37d62/LICENSE"
+sha256 = "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+reason = "Byte-identical upstream license text is preserved for exact file-level third-party associations; first-party code remains permission-only."
+
+[[adapters]]
+path = "public/components/recovery-store/src/state/history/reading/drop_history_snapshot_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor only delegates release of the bounded history snapshot lease to its named operation."
+reviewer = "integrator"
+
+[[adapters]]
+path = "xtask/src/structure/syntax/async_selection/parse_select_arguments_adapter.rs"
+external_trait = "syn::parse::Parse"
+reason = "The external parser trait delegates to one named bounded Tokio branch grammar; all branch expressions receive normal Rust AST inspection."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/components/execution/src/execution/native/provider_adapter.rs"
+external_trait = "revm::handler::PrecompileProvider"
+reason = "The maintained EVM provider delegates inactive native dispatch and refresh, while exposing its immutable warmed-address set."
+reviewer = "integrator"
+
+[[exclusions]]
+path = "tests/acceptance/serial-rpc/client/package-lock.json"
+kind = "generated"
+source = "https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json"
+generator = "Node 24.21.0 / npm 11.19.0 install --package-lock-only --ignore-scripts --no-audit --no-fund"
+sha256 = "09870d5c5ab1449a12080f8d0d67007bcaf4747bacefcc1345e41d717302ec8e"
+reason = "Exact private viem/TypeScript/EthereumJS and Node type fixture dependency graph; npm ci validates pinned integrity."
 
 [[adapters]]
 path = "public/components/recovery-store/src/state/snapshots/drop_state_snapshot_adapter.rs"
@@ -135,8 +185,8 @@ reason = "Exact upstream protobuf/license input; generator checks pinned bytes b
 path = "validator/components/consensus-comet/src/wire/tendermint/mod.rs"
 generator = "validator/components/consensus-comet/src/generation/generate_upstream_bindings.rs"
 source_manifest = "validator/components/consensus-comet/vendor/SHA256SUMS"
-source_sha256 = "82a2b3bbd563a8bfa08ce582ce75078873bd296e39dc58dd6658ac2e49d2ae5f"
-generator_sha256 = "bd232dd414744863db4b6e3af19a914fc932a42a111514e677de0381bf33f929"
+source_sha256 = "07d8345c5b59eb63356a2a211d14f066b404fddb5a2b215f774747b216eb6be3"
+generator_sha256 = "1982e680c1a65dc30d3a4910ab7b6f919f744b58e6a2643e4405687278e970f9"
 manifest_sha256 = "5a20e5f3aa8e570e2e6c58dec87765c33b2755c22289a492c25a37c891f98262"
 reason = "Only four exact prost OUT_DIR package declarations; the Rust generator and vendor manifests remain fully checked."
 reviewer = "integrator"

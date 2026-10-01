@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod state_support;
 use eve_storage::state::{
     CommitDisposition, commit_state, create_state_service, development_state_storage_budget,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     CompleteBlockOutcome, CompleteExecutionError, from_revm_state, to_revm_state,
     update_fee_ledger::update_fee_ledger,

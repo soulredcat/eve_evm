@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// Operator bounds for complete-state/reference execution work, not consensus rules.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct StateBudget {

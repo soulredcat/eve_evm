@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_state::StateAccount;
 
 /// Fixed-width local metadata; storage slots are separate and canonical roots stay upstream.

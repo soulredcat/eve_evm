@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_node_policy::{
     AppliedHeight, AuthenticatedStateHeight, BudgetError, CheckpointHeight, DurableRecoveryHeight,
     FinalizedHeight, PersistenceObservation, PublicReadiness, PublicWatermarks,

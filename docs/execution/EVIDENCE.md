@@ -1,6 +1,26 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Evidence index
 
 ## Current evidence
+
+## B2-20261001 — Complete local serial RPC gate
+
+[Integrated B2 record](B2-20261001.md): source-frozen full gate exits 0; all 348
+Cargo cases pass with zero ignored/failed/filtered, strict format/lint/release,
+structure and ownership. Fresh pinned corpus/client preparation, actual RPC/
+Solidity/restart flows, exact economics, history corruption and process recovery
+are covered. D40 deferral and Redcat notices are included; validator finality,
+standalone packages, active PQ and secured capacity remain unachieved.
+
+## B2-progress-20261001 — Unintegrated serial RPC work
+
+[Progress and scope](B2-progress-20261001.md) records actual scoped execution,
+corpus, runtime and developer-test findings. B2 remains IN_PROGRESS; no complete
+bulk gate or publication is claimed by that historical checkpoint. It is now
+superseded by the complete B2 record above. Raw artifacts remain local only.
 
 ## B1-20261001 — Complete-state and local durable recovery
 

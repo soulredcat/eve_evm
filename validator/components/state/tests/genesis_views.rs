@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod support;
 use eve_state::{
     Address, U256, capture_state_view, development_state_budget, initialize_development_state,

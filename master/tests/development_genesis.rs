@@ -1,6 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{Address, U256};
 use ed25519_dalek::SigningKey;
-use eve_master::development::config::decode_development_spec::decode_development_spec;
+use eve_protocol_config::genesis::input::decode_development_spec;
 
 fn fake_spec() -> serde_json::Value {
     let unit = U256::from(1_000_000_000_000_000_000_u64);

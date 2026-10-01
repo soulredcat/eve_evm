@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::{
     StateRepository,
     encoding::{build_current_state_entries, build_historical_entries, encode_head_marker},
@@ -46,6 +50,7 @@ pub(crate) fn build_state_batch(
         batch.put(key, value);
     }
     batch.put(HEAD_KEY, encode_head_marker(commit.target.height, identity));
+    crate::state::history::indexing::append_history_index(store, &mut batch, commit, identity)?;
     ensure!(
         batch.size_in_bytes() <= store.budget.maximum_commit_bytes,
         "atomic state/block/marker batch exceeds byte budget"

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{Bloom, Bytes};
 use eve_protocol_config::{
     headers::{ExecutionHeaderInput, build_execution_header},

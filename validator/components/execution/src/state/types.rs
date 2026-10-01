@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::{BlockExecutionError, BlockOutcome};
 use eve_state::{CompleteState, StateError, StateJournal};
 
@@ -13,4 +17,5 @@ pub enum CompleteExecutionError {
     State(StateError),
     Execution(BlockExecutionError),
     CloneReservation { required: usize, reserved: usize },
+    Header(eve_protocol_config::headers::HeaderError),
 }

@@ -1,14 +1,18 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 28 — Bridge security, finality and quantum boundaries
 
-Status: mandatory design and local implementation/testing work, added 2026-09-30. No live bridge, custody deployment, external route approval or security certification is implied.
+Status: retained future separate-program security specification. Under D40, SEC2 and T-BR01–T-BR12 are `DEFERRED_UNTIL_EVE_TESTNET`; subsequent owner scope is required before development. No live bridge, custody deployment, route approval or security certification is implied.
 
-## BRS01 — Scope and initial route
+## BRS01 — Deferred scope and initial route
 
-Build reusable bridge verification/accounting components, not an unrestricted cross-chain mint endpoint. The first executable fixture connects two task-owned EVE devnets with different chain IDs/genesis hashes and fake native/ERC-20 test assets. This provides a concrete end-to-end foundation without inventing an external chain's API or claiming that every route already works.
+The current goal is EVE's own chain. Do not build bridge verification/accounting, custody, relayers or fixture scaffolds in core. This document preserves safety requirements for a separately authorized program eligible only after EVE testnet. It is outside B0–B11 and SEC0/SEC1/SEC3 acceptance. Historical B0 bridge reservations and primitive tests remain facts at their recorded revision, not completed bridge acceptance.
 
-Ethereum <-> EVE and Solana <-> EVE are the first mandatory named external integration targets under [plan 30](30-cross-chain-interoperability.md). The two-EVE fixture alone cannot complete them. Alephium and additional chains use separate researched adapters. Preserve each endpoint's own finality, asset/address semantics, wallet signing and verifier costs; an EVM-compatible endpoint does not make every chain equivalent.
+For a later authorized bridge program, first test two task-owned EVE networks with different chain IDs/genesis and fake assets. That future fixture is not evidence of Ethereum/Solana integration. Named external candidates remain in [plan 30](30-cross-chain-interoperability.md); the owner must scope actual targets later. Preserve each endpoint's own finality, asset/address semantics, wallet signing and verifier costs; an EVM-compatible endpoint does not make every chain equivalent.
 
-The owner's security/interoperability requirement authorizes planning, local code, fake-asset fixtures and tests; it does not authorize real funds, production keys or mainnet deployment. Keep unverified routes disabled with a precise reason and resume task, while continuing other implementable adapter/core work.
+The earlier implementation authorization is superseded by D40's deferral. Reaching EVE testnet does not automatically restart SEC2 or INT work. Future adapters must conform to versioned public EVE headers, receipts, finality/proofs and ordinary authenticated transactions. They cannot require remote-chain availability, confirmation latency or acknowledgements before EVE proposes, votes, finalizes or durably records data. No real funds, production keys or custody deployment is authorized. All following implementation rules apply to that future separate program.
 
 ## BRS02 — Trust model per route
 
@@ -73,30 +77,15 @@ For a hybrid signer-based experiment, count only identities whose required class
 
 Any ZK/proof-compression substitution needs a reviewed quantum threat model for the proof system and setup as well as its verifier; a proof is not automatically post-quantum. Do not use an unverified proof-compression claim to remove source authentication.
 
-## BRS08 — Module boundaries and folder policy
+## BRS08 — Separate-program boundaries and folder policy
 
-Create these domains when implementation reaches them; they are not existing binaries:
+The future program owns route policy, remote source clients, custody proofs, replay/backing accounting, exposure limits, incident handling, chain adapters, contracts/programs and SDK. Do not place those responsibilities under core public/validator/master component roots or add them to runnable core packages merely to anticipate later work. Choose its actual repository/package layout when owner scope and runtime requirements exist; no empty program scaffold is required now.
 
-```text
-validator/components/bridge/src/
-  routes/registry/validation/validate_route_profile.rs
-  clients/finality/verification/verify_source_finality.rs
-  proofs/receipts/inclusion/verify_custody_event.rs
-  messages/replay/consumption/consume_bridge_message.rs
-  accounting/backing/reconciliation/reconcile_asset_backing.rs
-  limits/exposure/checks/check_release_limit.rs
-  incidents/pausing/evidence/verify_pause_evidence.rs
-  adapters/ethereum/
-  adapters/solana/
-contracts/bridge/evm/
-programs/bridge/solana/
-sdk/bridge/
-integration/bridge/
-```
+Consume EVE's canonical versioned public evidence and authenticated transaction APIs instead of cloning validators or importing private master code. Master stores finalized data and has no bridge signer authority. Follow plan 25 within the separate program: meaningful recursive subfolders, one behavioral function per file, target 200 lines and reviewed 400/600 thresholds. Keep transport/relayer waits outside deterministic execution and bound resource use so adapter failures cannot stall unrelated EVE transactions. Plan 30 narrows future adapter and SDK boundaries further.
 
-Share finality/crypto/state contracts instead of cloning validators. Master stores finalized data; it has no bridge signer authority. Follow plan 25: meaningful recursive subfolders, one behavioral function per file, target 200 lines, reviewed 400/600 thresholds. Keep transport/relayer logic separate from deterministic verification and custody effects. Plan 30 narrows adapter and SDK boundaries further.
+## BRS09 — Deferred program acceptance
 
-## BRS09 — Acceptance
+All T-BR IDs below are retained as `DEFERRED_UNTIL_EVE_TESTNET`, outside current core gate selection. They remain required if the owner later authorizes this program and scope; deferral is neither PASS nor evidence of a failed current core test.
 
 | Test | Required evidence |
 |---|---|
@@ -115,4 +104,4 @@ Share finality/crypto/state contracts instead of cloning validators. Master stor
 
 ## BRS10 — Completion
 
-`BRIDGE_DEVNET_ACCEPTED` requires T-BR01–T-BR12 for the declared two-EVE fixture/profile. Named Ethereum/Solana integration additionally requires INT0–INT3 and T-I01–T-I12 in plan 30; it cannot be closed by relabeling the same fixture. Live route readiness requires a pinned real adapter, chain-specific positive/negative evidence, independent review and explicit owner approval. No parameter change or README turns a local result into an approved Ethereum/Solana/Alephium/mainnet bridge.
+Current `BRIDGE_DEVNET_ACCEPTED` is `DEFERRED_UNTIL_EVE_TESTNET`. Future acceptance requires T-BR01–T-BR12 for a separately authorized two-EVE fixture/profile. Any authorized Ethereum/Solana scope additionally needs its INT/T-I evidence under plan 30; relabeling the same fixture cannot close it. Live route readiness requires a pinned real adapter, chain-specific positive/negative evidence, independent review and explicit owner approval. Neither EVE core security/capacity acceptance nor a parameter change or README approves an external/mainnet bridge.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::development::{
     bootstrap::open_development_store::open_development_store, cli::types::DevelopmentOptions,
     config::resolve_development_directory::resolve_development_directory,

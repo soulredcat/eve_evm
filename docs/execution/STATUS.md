@@ -1,85 +1,97 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Implementation status
 
-Updated: 2026-10-01. **B0 including SEC0/INT0 and B1 passed their complete local gates; latest B1 repair gate executes 273 cases with format, strict lint, structure and release build.** Complete network roles, standalone distributions, devnet/security/bridge/capacity acceptance remain unachieved.
+Updated: 2026-10-01. B0/SEC0 foundations and B1 have complete passing local gates.
+The latest B1 repair also passes hosted CI with 273 cases. B2's complete local
+gate passes 348 cases, including ownership and D40 scope. Hosted B2 is separate.
 
-## Overall
+## Current owner scope
 
-- Documentation/goal package: prepared for implementation, including plans 00–32.
-- Collaboration policy: English shared prose and clean GitHub publication rules recorded; ignored `local-tests/` workspace established. Publication checks are recorded in [PUB-20260930-01](EVIDENCE.md#pub-20260930-01--local-test-isolation-and-publication-policy); no implementation bulk or runtime gate is completed by this hygiene task.
-- Regional/public persistence contract: [plan 32](../plan/32-regional-masters-and-public-persistence.md) records 1→2→10 independent master followers, preferred eligible nearby sync endpoints, operational zone IDs, RAM working state with isolated bounded durable recovery storage, and T-N09–T-N12. Documentation verification is recorded in [DOC-20260930-02](EVIDENCE.md#doc-20260930-02--regional-masters-and-public-persistence); all four new runtime cases are `NOT_IMPLEMENTED` / `NOT_RUN`.
-- Runtime foundations: twelve role/tool/test packages include canonical state, complete persistent recovery, independent acceptance and a development-only master CLI alongside the B0 contracts. Root `crates/` is absent. Complete production/network roles and standalone copy/build/run acceptance remain unimplemented.
-- Integrated foundation gate: 205 cases pass, zero failed/ignored/filtered; format, strict workspace Clippy and release build pass. Structure covers 569 files, 15 exact exclusions, zero violations/warnings. T-L01–T-L06 have 64 cases; provisioning has 6 and verification 16. The complete 20-bulk registry, R01–R12 and 48 security/interop/public-persistence registrations preserve full requirements without claiming future runtime acceptance. [B0 evidence](B0-20261001.md) records source/config identities and reproduction.
-- Integrated B1 gate: 271 cases pass, zero failed/ignored/filtered; structure covers 790 files with zero warnings/violations, format, strict lint and release build pass. Real genesis/execution/journals/store/recovery/CLI and independent process/corruption/snapshot cases are verified. [B1 evidence](B1-20261001.md) separates local consistency/durability from finality, hardware faults and network/capacity acceptance.
-- Integrated checkpoint repair: 273 cases pass after two additional consensus wait regressions, with format, strict lint, release build and 792-file structure scan. [Repair evidence](CI-20261001-checkpoint.md) records the actual-engine race and unchanged recovery assertion. Hosted results remain separately observed.
-- Tool/API verification: fresh task-local pinned Go/Comet/OpenSSL/Solidity/Node and locked TypeScript/viem provisioning passed, including actual compiler/client probes and receipt reuse. The native engine's unsupported hybrid path fails closed. Patched OpenSSL replaces the retired PQClean cross-check wrappers; official NIST coverage is retained.
-- Dependency/publication review: current audit reports zero known vulnerabilities and two retained unmaintained warnings (derivative/paste). No existing locked package was upgraded. The first hosted CI run failed during locale-dependent archive inspection before its gate; [CI repair evidence](CI-20261001.md) records the reproduction, strict pin correction and 87 passing scoped cases. Subsequent scoped repairs raised the baseline catalog to 209; B1 adds 62 cases for 271 total. Hosted consensus lifecycle remains failing at the latest observed run; no hosted PASS is claimed.
-- DEVNET_ACCEPTED: NOT_ACHIEVED.
-- CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED.
-- PQ_PROFILE_VERIFIED: NOT_ACHIEVED.
-- BRIDGE_DEVNET_ACCEPTED: NOT_ACHIEVED.
-- SECURITY_PROFILE_ACCEPTED: NOT_ACHIEVED.
-- INTEROP_DEV_ACCEPTED: NOT_ACHIEVED.
-- SCALE_TARGET_VERIFIED: NOT_ACHIEVED.
-- 51_PERCENT_CONTINUITY: UNSATISFIED_BY_BASELINE; no unconditional majority-tolerance guarantee.
-- EXTERNAL_BRIDGE_ROUTES: DISABLED_NOT_APPROVED.
-- MAINNET_READY: NOT_AUTHORIZED / NOT_ASSESSED.
-- Full runtime/security-profile/majority/interop/bridge/capacity acceptance and benchmarks: NOT_RUN / NOT_ACHIEVED. Foundation structure/interface results are recorded separately from runnable distribution and runtime acceptance.
+EVE develops its own chain first. [D40](../plan/24-decision-register.md) defers
+SEC2/INT0–INT3, bridge and external-chain programs until EVE testnet and a later
+separate-program instruction. Such programs adapt to EVE and do not govern
+core transaction/voting/execution/durable progress or the secured 1M target.
+
+The current core registry contains B0–B11 and SEC0/SEC1/SEC3: 15 gates.
+T-M01–10, T-P01–10 and T-N09–12 remain registered, with R01–R12 unchanged in scope.
+No core security, fee, execution, recovery or performance workload is withdrawn.
+The two unused interop/bridge packages are removed from the core workspace.
+Their historical source and tests remain recoverable at 038fe80.
+
+Local EVM Shanghai standards, Solidity/client fixtures, account/storage proofs and
+the pinned Ethereum execution corpus remain core correctness tests. They impose
+no dependency on a remote chain, its RPC, consensus or confirmation speed.
+
+## Verified evidence
+
+- [B0](B0-20261001.md): historical 205-case gate, including then-authorized SEC0/
+  INT0 contracts, zero ignored/failed, strict lint/format/release and structure.
+- [B1](B1-20261001.md): 271 cases; real canonical state, journals, genesis,
+  atomic recovery, snapshots, CLI, corruption and process-recovery acceptance.
+- [Checkpoint repair](CI-20261001-checkpoint.md): 273 local cases, 792-file
+  structure pass; hosted runs at b0b9efa/038fe80 pass 271/273 respectively.
+- [Integrated B2 evidence](B2-20261001.md): full source-frozen 348-case gate passes,
+  with format, strict lint, release, 1,061-file structure and 1,079-file ownership.
+  The actual client enforces 18 flows, 12 Solidity sources, two independent public
+  processes and one master composition; these are not added again to Cargo counts.
+- B2's immutable reference corpus executes 3,495 Shanghai variants; EVE compares
+  3,118 protected executions with its declared economic delta, rejects 84 valid
+  Ethereum unprotected cases deliberately, and preserves 293 expected invalid
+  cases. All 88 unprotected inputs are rejected. This is not root equivalence
+  under Ethereum fee redistribution or a 120M live-chain profile.
+- Redcat permission-only notices and automated ownership verification are
+  implemented. Exact JSON/generated/upstream associations preserve fixture bytes
+  and third-party rights. Ownership is mandatory in every implemented bulk gate.
+- No existing registry identity/checksum was replaced. Current Cargo audit reports
+  zero known vulnerabilities and two derivative/paste maintenance warnings; the
+  32-package client audit reports zero vulnerabilities. Raw artifacts stay ignored.
 
 ## Core bulk ledger
 
-| Bulk | Status | Next acceptance requirement | Evidence |
-|---|---|---|---|
-| B0 | DONE | Complete local foundation gate passed; continue B1 | [205-case acceptance](B0-20261001.md) |
-| B1 | DONE | Atomic complete state, local durable recovery, immutable reads and development master harness verified; continue B2 | [271-case integrated acceptance](B1-20261001.md) |
-| B2 | NOT_STARTED | Real serial EVM/fees/RPC/developer fixture | None |
-| B3 | NOT_STARTED | Four-validator classical baseline consensus and signing safety; not a PQ claim | None |
-| B4 | NOT_STARTED | Verified follower/snapshot/delta/retention; isolated public persistence and master-offline restart T-N09/T-N10 | None |
-| B5 | NOT_STARTED | Staking/work/rewards/slashing invariants | None |
-| B6 | NOT_STARTED | P2P/independent public/validator packages; eligible nearby endpoint discovery/failover T-N11 | None |
-| B7 | NOT_STARTED | Serial/parallel equivalence and profiling | None |
-| B8 | NOT_STARTED | HA/upgrades/security/operations; independent two-master partition/catch-up T-N12 | None |
-| B9 | NOT_STARTED | Integrated/regional devnet acceptance with declared security profile | None |
-| B10 | NOT_STARTED | Sustained capacity program; secure-profile evidence required for secured target | None |
-| B11 | NOT_STARTED | Scaling experiments and verified secured 1M target | None |
+| Bulk | Status | Next requirement |
+|---|---|---|
+| B0 | DONE | Historical verified foundations; retain all current core regressions |
+| B1 | DONE | Verified complete local state/recovery; retain regressions in B2 |
+| B2 | DONE | Verified serial RPC/client/resource/ownership/scope gate; retain regressions |
+| B3 | NOT_STARTED | Four validators, executed proposals, signing durability and quorum |
+| B4 | NOT_STARTED | Authenticated followers/recovery and isolated public persistence |
+| B5 | NOT_STARTED | Native staking/work/rewards/slashing and supply invariants |
+| B6 | NOT_STARTED | P2P, eligible endpoints and independent copied role distributions |
+| B7 | NOT_STARTED | Serial/parallel equivalence and measured scheduling |
+| B8 | NOT_STARTED | Master HA, migrations, releases and operations |
+| B9 | NOT_STARTED | Regional functional devnet/testnet acceptance |
+| B10 | NOT_STARTED | Sustained secured capacity and persistence measurements |
+| B11 | NOT_STARTED | Verified 1M aggregate finalized target |
 
-## Security bulk ledger
+## Core security ledger
 
-| Bulk | Status | Next acceptance requirement | Evidence |
-|---|---|---|---|
-| SEC0 | DONE | Primitive/inventory/integration boundary accepted; SEC1 enforcement remains required | [B0 including SEC0](B0-20261001.md) |
-| SEC1 | NOT_STARTED | Actual consensus/account/client/recovery hybrid enforcement, majority tests and migration | None |
-| SEC2 | NOT_STARTED | Two-EVE-devnet bridge, proofs, conserved backing, replay/incident and hybrid tests | None |
-| SEC3 | NOT_STARTED | Integrated security profile, recovery/release drills, secure capacity handoff | None |
+| Bulk | Status | Next requirement |
+|---|---|---|
+| SEC0 | DONE | Primitive/inventory boundary; no network PQ claim |
+| SEC1 | NOT_STARTED | Real hybrid enforcement, majority tests and migration |
+| SEC3 | NOT_STARTED | Core secure-profile recovery/release/capacity acceptance |
 
-## Interoperability bulk ledger
+## Deferred separate programs
 
-| Bulk | Status | Next acceptance requirement | Evidence |
-|---|---|---|---|
-| INT0 | DONE | Metadata/capability/tool/feasibility contracts accepted; all custody disabled and INT1–INT3 remain pending | [B0 including INT0](B0-20261001.md) |
-| INT1 | NOT_STARTED | Real Ethereum contracts/Solana program, chain adapters and SDK local fixtures | None |
-| INT2 | NOT_STARTED | Per-direction authenticated source and destination verification, negative tests and resource measurements | None |
-| INT3 | NOT_STARTED | Fresh-checkout two-way named integration acceptance, SDK/recovery and route matrix | None |
+SEC2 and INT0–INT3 are DEFERRED_UNTIL_EVE_TESTNET, outside core dependencies.
+INT0's old contract tests truly passed in B0; that historical result neither
+authorizes current adapters nor completes an external integration. Plans 28/30
+and config/deferred-programs retain future safety requirements and provenance.
+No external route, custody, bridge runtime or prototype program is authorized now.
 
-## Named route targets
+## Unachieved boundaries
 
-| Direction | Implementation | Source/destination verification | Live approval |
-|---|---|---|---|
-| Ethereum -> EVE | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
-| EVE -> Ethereum | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
-| Solana -> EVE | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
-| EVE -> Solana | NOT_STARTED | NOT_IMPLEMENTED | DISABLED_NOT_APPROVED |
-| Additional chains, including Alephium | EXTENSIBLE_NOT_INTEGRATED | ROUTE_SPEC_REQUIRED | DISABLED_NOT_APPROVED |
+DEVNET_ACCEPTED, CONSENSUS_RESILIENCE_TESTED, PQ_PROFILE_VERIFIED,
+SECURITY_PROFILE_ACCEPTED and SCALE_TARGET_VERIFIED remain NOT_ACHIEVED.
+The classical baseline assumes less than one-third Byzantine weighted power and
+strictly more than two-thirds unique valid power. 51_PERCENT_CONTINUITY remains
+UNSATISFIED_BY_BASELINE. Actual signing durability, authenticated network recovery,
+native lifecycle, standalone packaging and sustained capacity are unfinished.
+No mainnet, real funds/custody, paid provisioning or visibility change is authorized.
 
-ETHEREUM_INTEROP_DEV and SOLANA_INTEROP_DEV are NOT_ACHIEVED. Actual route trust mode and crypto coverage are not yet established by implementation. No EVE PQ requirement certifies an external endpoint.
-
-Dependencies are in [plan 23](../plan/23-task-backlog-and-execution.md), [plan 29](../plan/29-security-implementation-and-acceptance.md), and [plan 30](../plan/30-cross-chain-interoperability.md). B0 including SEC0 and INT0 is first. Do not mark downstream work DONE because a directory, README, test name, adapter interface or crypto wrapper exists.
-
-## Claim boundaries
-
-The starting CometBFT/Ed25519 and secp256k1 EVM profile is classical. Plans 26–30 add requirements, not completed protections or integrations. Under its stated fault model the baseline does not guarantee correct continued finality with 51% Byzantine power. Local bridge acceptance does not approve an external chain or real custody. Two-EVE acceptance does not complete the named Ethereum/Solana integrations, and application simulator results do not prove source finality.
-
-## Update rules
-
-Every DONE row must link reviewed implementation and passing evidence at the actual integrated revision. Keep failed/blocked targets and stronger unmet security requirements visible. Genuine blockers record category, cause, attempted alternatives and exact resume action; they do not prevent independent work.
-
-Use [EVIDENCE.md](EVIDENCE.md) for run records and [HANDOFF.md](HANDOFF.md) for resumption. Keep R01–R12, T-L, T-M/T-P/T-BR and T-I01–T-I12 requirements traceable. Do not equate documentation completion, functional devnet acceptance, security-profile acceptance, interoperability acceptance and mainnet readiness.
+Every DONE entry needs implementation and reviewed passing evidence. Ownership
+notices, a clean index, root matching or local durability do not establish finality,
+security-profile acceptance or 1M TPS. Update EVIDENCE/HANDOFF at each bulk/checkpoint.

@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+[package]
+name = "eve-public"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license-file.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+hex.workspace = true
+jsonrpsee.workspace = true
+tokio.workspace = true
+alloy-primitives.workspace = true
+alloy-consensus.workspace = true
+alloy-eips.workspace = true
+alloy-rlp.workspace = true
+alloy-rpc-types-eth.workspace = true
+eve-state = { path = "../validator/components/state" }
+eve-protocol-config = { path = "../validator/components/protocol-config" }
+eve-evm = { path = "../validator/components/execution" }
+eve-storage = { path = "components/recovery-store" }
+eve-node-policy = { path = "components/node-policy" }
+
+[dev-dependencies]
+tempfile.workspace = true
+ed25519-dalek.workspace = true
+k256.workspace = true
+
+[lints]
+workspace = true

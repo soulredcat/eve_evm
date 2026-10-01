@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use xtask::verification::{
     commands::run_recorded_command::run_recorded_command, types::report_types::VerificationReport,
 };

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 25 — Recursive folder hierarchy, function files and size limits
 
 Status: mandatory implementation policy, added 2026-09-30. The structure command, T-L01–T-L06 coverage and CI integration are implemented and pass complete local B0/B1 gates. Hosted results remain separately recorded in the execution evidence; standalone package gates remain unfinished.

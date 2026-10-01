@@ -1,9 +1,14 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 //! Version-one immutable development genesis; no production network authorization.
 
 mod development_economics;
 mod encode_development_genesis;
 mod encode_economics;
 mod hash_development_genesis;
+pub mod input;
 mod types;
 mod validate_development_genesis;
 

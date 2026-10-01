@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::support::sign_hash;
 use alloy_consensus::{SignableTransaction, TxEip1559, TxEip2930, TxEnvelope};
 use alloy_eips::{eip2718::Encodable2718, eip2930::AccessList};

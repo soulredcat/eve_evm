@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::{encoding::height_key, types::HEADER_PREFIX};
 use alloy_rlp::Decodable;
 use anyhow::{Context, Result, ensure};

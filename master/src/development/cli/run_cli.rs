@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     print_development_status::print_development_status,
     types::{Arguments, Command},
@@ -13,6 +17,11 @@ use eve_storage::state::{create_state_service, read_state_service, state_reader}
 pub fn run_cli() -> Result<()> {
     let arguments = Arguments::parse();
     match arguments.command {
+        Command::ServeDev { options, listeners } => {
+            crate::development::rpc::serve_development_rpc::serve_development_rpc(
+                options, listeners,
+            )?;
+        }
         Command::SnapshotDev { options, output } => {
             crate::development::snapshots::export_development_snapshot::export_development_snapshot(&options, &output)?;
             println!(

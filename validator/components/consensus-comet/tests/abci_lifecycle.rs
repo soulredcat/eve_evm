@@ -1,12 +1,15 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod support;
 
 use std::{
-    net::{SocketAddr, TcpListener},
+    net::TcpListener,
     path::PathBuf,
     process::Command,
     sync::{Arc, Mutex},
-    thread,
-    time::{Duration, Instant},
+    time::Duration,
 };
 
 use anyhow::{Context, Result, ensure};
@@ -14,6 +17,7 @@ use sha2::{Digest, Sha256};
 use support::{
     API_TRANSACTION, FixtureState, assert_actual_header_mapping, load_fixture_state, rpc_json,
     start_engine, start_fixture_server, validate_local_artifact_directory, wait_for_fixture_commit,
+    wait_for_height,
 };
 
 #[test]
@@ -170,29 +174,4 @@ fn actual_pinned_engine_lifecycle_and_next_height_commitment() -> Result<()> {
     )?;
     println!("API lifecycle evidence: {}", artifacts.display());
     Ok(())
-}
-
-fn wait_for_height(
-    address: SocketAddr,
-    height: i64,
-    process: &mut std::process::Child,
-) -> Result<()> {
-    let deadline = Instant::now() + Duration::from_secs(40);
-    while Instant::now() < deadline {
-        ensure!(
-            process.try_wait()?.is_none(),
-            "CometBFT exited before API smoke completed"
-        );
-        if let Ok(status) = rpc_json(address, "/status") {
-            let current: i64 = status["sync_info"]["latest_block_height"]
-                .as_str()
-                .context("RPC latest height")?
-                .parse()?;
-            if current >= height {
-                return Ok(());
-            }
-        }
-        thread::sleep(Duration::from_millis(100));
-    }
-    anyhow::bail!("actual CometBFT engine did not reach required height {height}")
 }

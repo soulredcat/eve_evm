@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 
 [[cases]]
@@ -32,7 +36,7 @@ fixture = "Active enrolled hybrid profile across real consensus, account, client
 id = "T-P05"
 owner_gate = "SEC1"
 status = "NOT_IMPLEMENTED"
-expected = "Protected admin/recovery/permit/session/bridge paths prohibit classical fallback and enforce nonce/replay/expiry"
+expected = "Protected EVE account/admin/recovery/permit/session and staking/control paths prohibit classical fallback and enforce nonce/replay/expiry"
 fixture = "Active enrolled hybrid profile across real consensus, account, client and recovery paths; bounded invalid-input variants."
 
 [[cases]]

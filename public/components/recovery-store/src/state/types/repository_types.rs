@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::DurableStateAck;
 use crate::state::StateStorageBudget;
 use eve_state::{StateCommit, StateIdentity};
@@ -18,6 +22,8 @@ pub struct StateRepository {
     pub(crate) publication: Arc<RwLock<Option<DurableStateAck>>>,
     #[cfg(test)]
     pub(crate) simulated_failure: Option<SimulatedCommitFailure>,
+    #[cfg(test)]
+    pub(crate) simulated_index_failure: Option<SimulatedCommitFailure>,
 }
 
 #[cfg(test)]

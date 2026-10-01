@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::{
     structure::inspection::resolve_source_path::resolve_source_path,
     verification::types::manifest_types::{GateManifest, GateRegistry},
@@ -34,12 +38,12 @@ pub fn load_gate_selection(
     }
     ensure!(
         all || requested.len() == 1,
-        "Select exactly one core, security or interop gate, or --all"
+        "Select exactly one EVE core or security gate, or --all"
     );
     let ids = if all {
         registry.gates.iter().map(|gate| gate.id.clone()).collect()
     } else if requested == ["B0"] {
-        vec!["B0".into(), "SEC0".into(), "INT0".into()]
+        vec!["B0".into(), "SEC0".into()]
     } else {
         requested.to_vec()
     };

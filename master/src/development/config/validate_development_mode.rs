@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use anyhow::{Result, ensure};
 
 pub fn validate_development_mode(mode: &str, acknowledged: bool) -> Result<()> {

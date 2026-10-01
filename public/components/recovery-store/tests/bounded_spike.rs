@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use anyhow::Result;
 use eve_storage::recovery::types::StorageBudget;
 use eve_storage::spike::{run_storage_spike, types::StorageSpikeConfig};

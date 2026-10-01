@@ -1,6 +1,10 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 24 — Current decisions and bounded defaults
 
-Revision: 2026-10-01, including the verified B0 development contracts, folder/function policy, majority/PQ/bridge security, Ethereum/Solana interoperability, mainnet capacity, liquidity deferral, English publication, and regional/RAM-first public persistence. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
+Revision: 2026-10-01, including D40's EVE-ownchain priority and testnet-timed deferral of separate bridge/adapter programs. Earlier bridge/interoperability scope and verified B0 evidence remain historical facts where superseded. This register resolves contradictory exploratory suggestions in the earlier conversation. The initial documentation baseline was commit `1d8b73c7eec223a1460c9e09cfb2d18a5627dee6`.
 
 ## Accepted user direction
 
@@ -23,12 +27,12 @@ Revision: 2026-10-01, including the verified B0 development contracts, folder/fu
 | D15 | File-size policy is target 200 physical lines, decomposition review for 201–400, reviewed temporary exception for 401–600, and hard failure above 600 for handwritten files. B0 implements the checker; every bulk enforces it. |
 | D16 | Majority-attack resilience is mandatory and evaluated under explicit adversary assumptions. The existing BFT baseline does not guarantee safety/liveness at 51% Byzantine power; stronger unmet requirements remain visible rather than being renamed complete. |
 | D17 | Post-quantum security is a required implementation/migration track, not a label for the classical baseline. Enforce the named crypto profile throughout consensus, protected accounts, clients, control/recovery and releases. |
-| D18 | Bridge security requires authenticated source finality/inclusion, replay prevention, backing conservation, exposure controls and route-specific crypto/trust assessment. No relayer/master assertion authorizes value movement. |
-| D19 | Core B0–B11, security SEC0–SEC3 and interoperability INT0–INT3 are mandatory. The initial two-EVE/fake-asset bridge is a foundation, not completion of named external targets or authorization for live custody. |
+| D18 | Any later bridge program requires authenticated source finality/inclusion, replay prevention, backing conservation, exposure controls and route-specific crypto/trust assessment. No relayer/master assertion authorizes value movement. Implementation timing and core scope follow D40. |
+| D19 | Earlier scope made B0–B11, SEC0–SEC3 and INT0–INT3 mandatory. D40 supersedes its bridge/interop requirement: current mandatory work is B0–B11 plus SEC0/SEC1/SEC3; SEC2 and INT0–INT3 are deferred separate programs. Historical tests are not erased. |
 | D20 | Secure-profile 1M TPS must be measured with required authentication enabled. A classical-only result is diagnostic, not secured-target completion. |
-| D21 | EVE must be bridge-friendly to Ethereum, Solana and other chains. Ethereum <-> EVE and Solana <-> EVE are the first named external integration targets; other chains use separately verified adapters. |
-| D22 | Keep EVE as an EVM core. Solana has its own program/account/token/signing adapter, not forced EVM execution. Common bridge interfaces preserve per-chain finality, address/asset identity and explicit trust/PQ capabilities. |
-| D23 | Bridge SDK/quotes/status/retry and round-trip tests are required. Adding an RPC URL, passing two-EVE tests, or deploying an escrow alone cannot mark an external route supported or approved. |
+| D21 | Earlier Ethereum <-> EVE and Solana <-> EVE targets are retained future candidates under D40. Separate adapter programs adapt to EVE only after EVE testnet and subsequent owner scope; EVE core need not know those chains. |
+| D22 | Keep EVE as an EVM core. Future Solana adapters use its actual program/account/token/signing semantics. Future bridge interfaces preserve per-chain finality, address/asset identity and explicit trust/PQ capabilities outside core; D40 controls timing. |
+| D23 | Any separately authorized bridge program needs SDK/quotes/status/retry and round-trip tests for its declared scope. Adding an RPC URL, passing two-EVE tests, or deploying escrow cannot mark a route supported or approved. These are deferred program gates under D40. |
 | D24 | Production liquidity/DEX, automated pool-price stabilization and reserve-funded trading are deferred to a separately developed future module. Do not build them in the current core goal or make core completion depend on them. |
 | D25 | Retain an evidence-driven architectural path toward future 100M and potentially 1B finalized TPS as technology advances. These are not proven capacities or additional first-launch gates. |
 | D26 | The USD-100M/100M-base-token backing proposal, possible later collateral and multiple-admin unlock requirement remain separately recorded in plan 31. No actual funding, mint, fixed market price, unilateral master release or automatic trading is authorized. |
@@ -44,7 +48,8 @@ Revision: 2026-10-01, including the verified B0 development contracts, folder/fu
 | D36 | The master host may explicitly compose all roles with separate configuration/credentials and unchanged finality authority. Copy-ready public and validator role directories must each build/run alone with all dependencies, lockfile/toolchain and sanitized examples included, without the original repository or private master access. A monorepo-only build cannot satisfy standalone acceptance. |
 | D37 | The verified B0 contract uses exact Rust/REVM/RocksDB/Alloy/Comet/protobuf/client/compiler pins recorded in versioned manifests. Comet v0.40.0 source retains its upstream 0.39.0 version string, identified by the exact revision suffix. Its native key oneof cannot enforce classical AND PQ for one voter; retain only labelled classical development and fail activated hybrid startup until the reviewed SEC1 engine integration exists. No post-finality wrapper closes that gap. |
 | D38 | B0 freezes development genesis/header/system/ABI/gas byte vectors and public resource/readiness/source policy under canonical role ownership. Mainnet genesis is refused. Public caller verification flags are metadata, not authenticated capabilities; the small storage spike and declared 452 MiB/512 MiB pool budget do not prove runtime enforcement, power-loss resilience or capacity. B4/B6 retain those measurements and enforcement gates. |
-| D39 | B0 verification necessarily includes SEC0 and INT0. Exact nonzero test discovery, structure, format, strict lint, release and source/config/evidence identity are mandatory. Keep all 20 bulk IDs, R01–R12 and future T-M/T-P/T-BR/T-I/T-N outcomes; missing future coverage and verify --all fail rather than omitting unmet targets. Local foundation acceptance is separate from hosted CI execution, complete roles, security/interop acceptance and throughput. |
+| D39 | Historical B0 verification included SEC0 and INT0 under the then-active scope. Exact nonzero core test discovery, structure, ownership, format, strict lint, release and source/config/evidence identity remain mandatory. D40 removes SEC2/INT0–INT3 from current core selection; retain their IDs/history as deferred. Missing current core coverage fails rather than being omitted. Local foundation acceptance is separate from hosted CI, complete roles, security acceptance and throughput. |
+| D40 | EVE's own chain is the current goal. Bridge SEC2/T-BR and external interoperability INT0–INT3/T-I, including the two-EVE bridge fixture, are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs. Reaching testnet permits later scope consideration, not automatic development. Adapters conform to EVE through versioned public interfaces and ordinary authenticated transactions; core has no external-chain route/client/custody dependency or remote latency, block-production, voting, finality or durable-acknowledgement dependency. Preserve EVM/RPC semantics, validator/public/master security/recovery, 40/30/30 and the secured 1M target. |
 
 ## Superseded assumptions
 
@@ -62,12 +67,13 @@ Revision: 2026-10-01, including the verified B0 development contracts, folder/fu
 - Classical EVM accounts/consensus, a PQ library, TLS, or a PQ stamp ignored by consensus verification do not establish end-to-end quantum security.
 - A bridge cannot repair failed endpoint assumptions merely by adding more relayers, waiting a fixed delay or signing messages with PQ keys.
 - EVM compatibility does not automatically integrate every EVM chain, execute Solana programs or supply external finality proofs. External dependencies do not become PQ-secure by connecting to EVE.
+- Earlier mandatory external integration and two-EVE bridge work does not survive D40 as a current core prerequisite. Its deferral is an explicit owner scope change, not a passed test, failed core requirement or permission to start a replacement program now.
 - Earlier reserve/DEX stabilization suggestions are not authorization to add a liquidity controller to the core; the owner deferred that application. Existing AMM tests are not a production DEX requirement.
 - 1M TPS is not optional for the stated mainnet release target. Conversely, the future 100M/1B direction is not a capability already demonstrated by this documentation.
 
 ## Selected development baseline
 
-These defaults permit incremental implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ/bridge/interoperability security. Plans 26–32 explicitly extend or narrow this classical starting point.
+These defaults permit incremental core implementation. They are not binding mainnet allocations, proof of the final 1M-TPS architecture, or completed majority/PQ security. Plans 26–32 explicitly extend or narrow this classical starting point; deferred bridge specifications do not authorize current adapter implementation.
 
 | Area | Baseline | Change rule |
 |---|---|---|
@@ -93,8 +99,8 @@ These defaults permit incremental implementation. They are not binding mainnet a
 | Platform | Linux reference; WSL documented where applicable | Other support requires evidence |
 | Code organization | Plan 25 recursive capability folders and one-function behavioral files | Structural tests and reviewed bounded exceptions; no bypass of D13–D15 |
 | PQ experiments | Reviewed ML-DSA-65 integration; classical AND PQ for activated hybrid authority | SEC0 pins actual support/vectors; no unsupported production security claim |
-| Bridge foundation | Two EVE devnets with distinct identities and fake assets | Real consensus/proofs; does not complete Ethereum/Solana |
-| External integration targets | Ethereum and Solana adapters/endpoints plus versioned SDK under plan 30 | INT0–INT3 evidence per direction; live routes remain disabled until reviewed and owner-approved |
+| Bridge foundation | Historical two-EVE fake-asset reservation only; SEC2 deferred | `DEFERRED_UNTIL_EVE_TESTNET`; later separate scope and real consensus/proof evidence required |
+| External integration candidates | Ethereum/Solana and other separately scoped adapter programs under plan 30 | `DEFERRED_UNTIL_EVE_TESTNET`; subsequent owner scope, direction-specific evidence and custody approval required |
 | Application boundary | No production liquidity/DEX or automated stabilizer in this core goal | Future separate module under new scope; keep existing EVM/AMM fixtures |
 | Mainnet capacity | Proven 1M finalized TPS release gate | Active profile, production-representative evidence; no silent threshold reduction |
 
@@ -104,7 +110,7 @@ Genesis hash is the immutable network/spec digest. Runtime configuration digests
 
 Pin exact compatible dependency/tool versions and source/artifact digests. Freeze byte-level structures, native system ABI/gas schedule, reserved escrows, genesis fixtures, app-hash/validator activation mapping and task-runner commands. Implement `cargo xtask check-structure`, its versioned policy/exclusion manifests and T-L01–T-L06 tests from plan 25.
 
-Include SEC0 from plan 29: crypto/commitment inventory, actual PQ/consensus integration spikes, local bridge identities and T-M/T-P/T-BR test registration. Include INT0 from plan 30: Ethereum/Solana references/toolchains, typed asset/route/address interfaces, actual verifier feasibility and T-I01–T-I12 registration. Read plan 31 before selecting work: do not create a liquidity/stabilization track or reserve-spending hooks. These are bounded implementation tasks with specified outcomes, not permission to leave indefinite TBD sections.
+Include current SEC0 from plan 29: core crypto/commitment inventory, actual PQ/consensus integration spikes and T-M/T-P test registration. Historical B0 also implemented INT0 metadata, source/tool research and bridge identity reservations; preserve the evidence at its actual revision. Those components, T-BR and T-I are no longer mandatory core deliverables under D40. Read plan 31 before selecting work: do not create adapter, liquidity/stabilization or reserve-spending scaffolds. Current core tasks have specified outcomes, not permission to leave indefinite TBD sections.
 
 Include plan 32's source-selection/readiness/storage budgets, typed watermarks, recovery contracts and T-N09–T-N12 registration. B0 performs bounded compile-tested/interface spikes; distributed runtime acceptance belongs to B4/B6/B8, not a fabricated B0 pass.
 
@@ -112,9 +118,15 @@ When a baseline library cannot satisfy a requirement, record the actual failing 
 
 ## Owner gates
 
-Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; real-value Ethereum/Solana/Alephium/other bridge or settlement deployment and route limits. Local bridge/security/adapter implementation uses fake assets only. Development parameters do not authorize production custody. Reserve funding/custody, issuance, exact admin threshold and the future liquidity module require their own explicit specification and authorization.
+Mainnet chain ID/name and supply allocation; real validator economics/governance; key ceremony and release trust roots; binding source licenses/private repository changes; independent security audit; purchased infrastructure; mainnet launch; later bridge/adapter program scope after EVE testnet; real-value bridge or settlement deployment and route limits. Any subsequently authorized local bridge tests use fake assets only. Development parameters and EVE testnet readiness do not authorize production custody. Reserve funding/custody, issuance, exact admin threshold and the future liquidity module require their own explicit specification and authorization.
 
 Changes adding external trust, exceptional fork/social recovery or weaker crypto/fault guarantees require explicit disclosure and approval; they cannot masquerade as routine performance tuning or bridge compatibility. No interoperability-provider partnership or issuer-native token support is presumed.
+
+## D40 change record — 2026-10-01
+
+Owner instruction replaces the earlier mandatory bridge/interoperability queue with EVE-ownchain-first delivery. External development is eligible only after EVE reaches testnet, in separately scoped programs that adapt to EVE. Requiring full mainnet/1M completion before considering that scope would exceed the clarified timing. Automatic adapter development at testnet would exceed the authorization.
+
+Affected scope: D18–D23/D39, plans 23/28–31, core security acceptance, bulk registry/pins and role package ownership. No consensus, crypto profile, Shanghai fork rule, fee rule or native proof format is changed. Historical B0/SEC0/INT0 commands/results remain valid for their recorded revision; current gates select only current core requirements and expose deferred IDs explicitly. Verification must confirm no external adapter dependency in production execution, block production, voting, finality or durable acknowledgement. Deferred program safety rules remain in plans 28/30; real custody remains unapproved.
 
 ## Decision change template
 

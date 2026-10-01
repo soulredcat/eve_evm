@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 pub fn is_macro_expression(expression: &syn::Expr) -> bool {
     match expression {
         syn::Expr::Lit(_) | syn::Expr::Path(_) | syn::Expr::Infer(_) => true,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod decode_mldsa65_public_key;
 mod decode_mldsa65_signature;
 mod export_mldsa65_public_key;

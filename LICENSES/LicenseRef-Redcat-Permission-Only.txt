@@ -1,0 +1,33 @@
+Redcat Permission-Only Terms
+
+Copyright (c) 2026 Redcat. All rights reserved.
+
+These terms apply to original first-party material identified by
+SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only, including original
+source code, documentation, tests, configuration and project-specific selections
+or compilations. The name Redcat identifies the project owner designated in the
+repository ownership notices.
+
+No permission to use, execute, copy, modify, create derivative works of,
+redistribute, sublicense, sell or otherwise exploit the covered material is
+granted by these terms. Prior written permission from Redcat is required for
+those activities, except to the extent that applicable law, mandatory hosting
+platform terms or a separate applicable license already grants the relevant
+rights. Permission must identify its scope; repository access, a contribution,
+a copyright notice or publication alone does not grant additional permission.
+
+Third-party material retains its own copyright, notices and licenses. These
+terms do not transfer third-party ownership to Redcat, withdraw third-party
+license permissions or restrict uncopyrightable facts and public-domain material.
+For generated dependency manifests, notices concern the project-specific
+selection or compilation only; dependency implementations retain their licenses.
+
+Nothing in these terms overrides rights required by applicable law or mandatory
+hosting platform terms, including platform-required rights to view or fork a
+public repository. An ownership notice is not a cryptographic signature, access
+control or technical restriction on copying.
+
+To the extent permitted by applicable law, the covered material is provided
+"AS IS", without warranties of any kind. Redcat disclaims liability for claims,
+damages or other liability arising from the covered material. A separate written
+agreement may provide different terms for an authorized use.

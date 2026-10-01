@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::support::{Fixture, plain_policy, source_with_lines};
 use xtask::structure::inspection::{
     count_physical_lines::count_physical_lines, review_size::review_size,

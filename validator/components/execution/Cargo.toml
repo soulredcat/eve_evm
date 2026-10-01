@@ -1,12 +1,18 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 [package]
 name = "eve-evm"
 version = "0.1.0"
 edition.workspace = true
 rust-version.workspace = true
 publish.workspace = true
+license-file.workspace = true
 
 [dependencies]
 eve-state = { path = "../state" }
+eve-protocol-config = { path = "../protocol-config" }
 revm.workspace = true
 alloy-primitives.workspace = true
 alloy-consensus.workspace = true

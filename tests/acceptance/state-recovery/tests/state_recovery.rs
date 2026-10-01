@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #[path = "cases/canonical_payload.rs"]
 mod canonical_payload;
 #[path = "cases/durable_identity.rs"]

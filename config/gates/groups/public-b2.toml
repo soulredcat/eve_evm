@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+version = 1
+package = "eve-public"
+requirements = ["B2", "T-A01", "T-A03", "T-A05", "T-A06"]
+tests = [
+    "rpc::tests::cancellation::ta05_cancelled_real_evm_call_keeps_leases_until_blocking_execution_exits",
+    "rpc::tests::log_range::ta05_real_retained_history_accepts_1000_blocks_and_rejects_1001_block_log_scan",
+    "rpc::tests::query_bounds::ta05_proof_slot_simulation_gas_calldata_and_log_range_bounds_are_enforced",
+    "rpc::tests::storage_encoding::ta01_storage_positions_accept_canonical_zero_padded_words_without_weakening_block_quantities",
+    "rpc::tests::worker_caps::ta05_exact_worker_and_active_caps_reject_and_release_without_state_change",
+    "rpc::tests::worker_caps::ta05_global_byte_pressure_preserves_reserved_producer_capacity",
+]

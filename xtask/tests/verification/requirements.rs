@@ -1,15 +1,17 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use xtask::verification::manifests::validate_requirement_registry::validate_requirement_registry;
 
 #[test]
-fn all_security_interop_and_persistence_requirements_are_registered_without_claiming_completion() {
+fn all_core_security_and_persistence_requirements_are_registered_without_claiming_completion() {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap();
     let cases = validate_requirement_registry(root).unwrap();
-    assert_eq!(cases.len(), 48);
-    for id in [
-        "T-M01", "T-M10", "T-P01", "T-P10", "T-BR01", "T-BR12", "T-I01", "T-I12", "T-N09", "T-N12",
-    ] {
+    assert_eq!(cases.len(), 24);
+    for id in ["T-M01", "T-M10", "T-P01", "T-P10", "T-N09", "T-N12"] {
         assert_eq!(cases[id], "NOT_IMPLEMENTED");
     }
 }

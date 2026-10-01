@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Public durable recovery storage
 
 Canonical owner: the public role's durable recovery-storage component. Validator
@@ -98,3 +102,47 @@ WAL batch. Its cursor is a locally synced prefix, not authenticated post-state.
 Physical B0 checkpoints are local recovery artifacts. The complete public
 storage worker, authenticated network import, master-offline peer recovery,
 retention/chaos and secure-profile/mainnet throughput gates remain unfinished.
+## Derived history index — B2
+
+The auxiliary `EVEHISTORY01` schema is separately versioned from `EVESTATE01`.
+It indexes execution hashes to heights, transaction hashes to exact height/index
+locations and heights to bounded canonical state versions. It does not modify
+canonical B1 commit bytes, identities, genesis, roots or consensus authority.
+
+`ensure_history_index` owns an exclusive bounded bootstrap over retained recovery
+commits. Each synced pass records the exact source commit identity and a whole-block
+cursor. Count and physical batch bytes both bound progress, including the final
+activation marker. A fitting prefix commits and resumes; a single block that cannot
+fit fails explicitly. Interrupted passes reopen against the same canonical source.
+Conflicting/duplicate identities, missing entries, orphan rows, stale cursors and
+unsupported schemas fail rather than silently overwriting recovery data.
+
+A complete index advances atomically with state, block data and the durable marker.
+Auxiliary bootstrap writes publish their actual successful-sync sequence at the
+same execution version. Ambiguous writes or lost acknowledgments fence fresh
+reads/writes until reopen/reconciliation; unit-only fault hooks distinguish simulated
+failures from actual hardware evidence. Already captured snapshots remain immutable.
+
+`capture_history_snapshot` reserves a shared snapshot lease and checks the actual
+database sequence against the acknowledged head and complete index. Narrow block
+reads validate header, transaction/receipt encodings, roots, parent/version bindings
+and retained identity references without loading a complete state at each height.
+Account-state reads/proofs still use the complete captured-state path. Public raw
+database access remains unavailable.
+
+Reverse-lookup absence is authoritative only in that complete local index. Missing
+or stale index coverage is `HISTORY_NOT_READY`, not an unknown null or invented
+pruning result. This local consistency binding is not authenticated source finality.
+
+Run the history_index/history_corruption/history_transactions integration cases
+and the library's auxiliary failure/boundary cases, then the full storage/owning
+bulk gate. Transaction fixtures include actual canonical execution and an explicitly
+labelled structurally valid stale-nonce B1 recovery source used to reject duplicate
+derived identities. They do not claim a valid second execution or validator finality.
+
+Projection `maximum_block_bytes` includes all current/parent version, header,
+transaction, receipt, root and commit-identity row value bytes; exact and one-byte
+boundary cases verify this sum. It does not claim physical page-I/O or RSS accounting.
+Auxiliary pass budgets cannot exceed repository physical batch bounds. Actual child
+process exits after acknowledged partial/complete index passes verify no-destructor
+reopen, exact prefix/cursor, idempotent completion and unchanged canonical bytes/head.

@@ -1,6 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 07 — Developer compatibility
 
 Developers interact through Solidity bytecode, ABI, Ethereum-style signed transactions and JSON-RPC. They should not need to know the master database, WAL format or replica topology.
+
+These are EVE execution and developer-interface semantics. Ethereum specifications, libraries, compiler/client fixtures and Shanghai reference vectors remain core correctness inputs; they require no connection to Ethereum mainnet or another chain. External-chain adaptation is a separate future program, `DEFERRED_UNTIL_EVE_TESTNET`, and cannot add remote finality or RPC dependencies to EVE execution.
 
 The first executable compatibility target is explicitly **Shanghai EVM semantics**, with protected legacy transactions and typed transactions 1 and 2. This is a bounded development baseline, not a claim to implement the newest Ethereum fork. Compiler fixtures must set `evmVersion` accordingly. Cancun/Prague and later features require a versioned implementation and tests, not silent acceptance.
 

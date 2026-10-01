@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::StateService;
 use crate::state::{ImmutableStateView, capture_state_snapshot, read_snapshot_commit};
 use anyhow::{Context, Result, anyhow, ensure};

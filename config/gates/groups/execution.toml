@@ -1,13 +1,34 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 package = "eve-evm"
-requirements = ["B0.2","B0.3","40/30/30"]
+requirements = ["B0.2", "B2", "T-E01", "T-E02", "T-E03", "T-E04", "T-E05", "T-E06-inactive-boundary"]
 tests = [
     "accepted_typed_envelopes_preserve_pricing_and_access_list_gas",
+    "admission_rejects_intrinsic_caps_code_and_upfront_balance_without_execution",
+    "admission_uses_shanghai_intrinsic_upfront_and_state_nonce_metadata",
+    "candidate_builder_rejects_invalid_order_time_and_reservation_without_parent_changes",
+    "canonical_block_builder_derives_base_fee_and_matches_atomic_journal",
     "creation_persists_exact_runtime_and_subsequent_call_uses_it",
+    "explicit_types_reject_incompatible_fields_and_lists_are_bounded_before_cloning",
     "fee_rounding_conserves_even_the_maximum_256_bit_amount",
+    "inactive_native_direct_call_reverts_custody_and_keeps_included_fee_nonce_semantics",
+    "inactive_native_internal_call_staticcall_and_delegatecall_return_failure",
+    "inferred_and_explicit_access_list_calls_charge_real_intrinsic_and_warm_storage",
     "invalid_later_nonce_rejects_whole_block_without_partial_parent_mutation",
+    "native_boundary_preserves_ethereum_identity_precompile",
     "out_of_gas_is_included_as_failure_and_consumes_reserved_gas",
     "repeated_execution_is_deterministic",
     "revert_restores_storage_and_value_but_charges_gas_and_nonce",
+    "reverted_internal_touch_preserves_existing_empty_account",
+    "shanghai_clears_touched_precompile_before_next_transaction_extcodehash",
+    "simulation_and_estimation_propagate_real_revert_data_and_bound_resources",
+    "simulation_memory_cap_halts_actual_execution_and_transfer_estimate_is_not_a_placeholder",
+    "simulation_preserves_basefee_allows_contract_caller_and_does_not_synthesize_balance",
+    "transaction_boundary_delete_then_value_recreate_cannot_resurrect_old_storage",
     "transfer_charges_exact_fees_without_extra_proposer_credit",
+    "unsigned_storage_call_and_estimation_leave_complete_canonical_state_unchanged",
+    "unsigned_type_two_defaults_zero_tip_and_reports_actual_effective_gas_price",
 ]

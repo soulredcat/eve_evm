@@ -1,4 +1,7 @@
-pub mod decode_development_spec;
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 pub mod development_harness_budget;
 pub mod load_development_genesis;
 pub mod read_bounded_input;

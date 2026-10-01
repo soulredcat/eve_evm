@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 [workspace]
 resolver = "3"
 members = [
@@ -6,19 +10,20 @@ members = [
     "validator/components/authentication",
     "validator/components/execution",
     "validator/components/consensus-comet",
-    "public/components/interop",
     "validator/components/protocol-config",
     "public/components/node-policy",
-    "validator/components/bridge-protocol",
     "validator/components/state",
     "tests/acceptance/state-recovery",
     "master",
+    "public",
+    "tests/acceptance/serial-rpc",
 ]
 
 [workspace.package]
 edition = "2024"
 rust-version = "1.97.1"
 publish = false
+license-file = "LICENSES/LicenseRef-Redcat-Permission-Only.txt"
 
 [workspace.dependencies]
 anyhow = "=1.0.104"
@@ -33,10 +38,10 @@ hex = "=0.4.3"
 rocksdb = { version = "=0.25.0", default-features = false, features = ["bindgen-runtime"] }
 ml-dsa = { version = "=0.1.1", features = ["zeroize"] }
 ed25519-dalek = "=2.2.0"
-revm = { version = "=43.0.3", default-features = false, features = ["std", "portable", "secp256k1"] }
+revm = { version = "=43.0.3", default-features = false, features = ["std", "portable", "secp256k1", "optional_eip3607", "optional_no_base_fee", "optional_fee_charge", "memory_limit"] }
 alloy-primitives = { version = "=1.7.3", features = ["rlp", "serde"] }
 alloy-consensus = { version = "=2.5.0", features = ["std", "k256"] }
-alloy-eips = { version = "=2.5.0", default-features = false, features = ["std"] }
+alloy-eips = { version = "=2.5.0", default-features = false, features = ["std", "serde"] }
 alloy-rlp = { version = "=0.3.16", features = ["derive"] }
 alloy-trie = { version = "=0.9.8", features = ["ethereum"] }
 zeroize = "=1.8.2"
@@ -45,7 +50,9 @@ prost = "=0.14.4"
 prost-build = "=0.14.4"
 prost-types = "=0.14.4"
 protoc-bin-vendored = "=3.2.0"
-bs58 = "=0.5.1"
+jsonrpsee = { version = "=0.26.1", features = ["server"] }
+tokio = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "net", "sync", "time", "signal"] }
+alloy-rpc-types-eth = "=2.5.0"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

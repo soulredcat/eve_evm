@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::encoding::encode_state_data_with_history;
 use alloy_consensus::Header;
 use alloy_primitives::keccak256;

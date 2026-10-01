@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::structure::inspection::resolve_source_path::resolve_source_path;
 use crate::verification::types::manifest_types::{GateRegistry, RequirementManifest};
 use anyhow::{Result, ensure};
@@ -12,8 +16,6 @@ pub fn validate_requirement_registry(root: &Path) -> Result<BTreeMap<String, Str
     for (file, prefix, start, end) in [
         ("majority", "T-M", 1, 10),
         ("post-quantum", "T-P", 1, 10),
-        ("bridge", "T-BR", 1, 12),
-        ("interop", "T-I", 1, 12),
         ("public-persistence", "T-N", 9, 12),
     ] {
         let path = format!("config/gates/requirements/{file}.toml");

@@ -1,12 +1,16 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 26 — Consensus adversaries and majority-attack resilience
 
 Status: mandatory security requirements, added 2026-09-30. Not an implemented defense, security proof, audit, or guarantee of majority-attack immunity.
 
 ## M01 — Requirement and scope
 
-The owner requires resistance to majority attacks, alongside post-quantum and bridge security. Translate that objective into explicit adversary models, executable tests and residual-risk reports. Do not use “51% resistant” as an unqualified acceptance label. EVM execution, consensus, cryptographic authentication and cross-chain custody are different security boundaries.
+The owner requires resistance to majority attacks alongside post-quantum security in EVE core. Translate that objective into explicit adversary models, executable tests and residual-risk reports. Do not use “51% resistant” as an unqualified acceptance label. EVM execution, consensus and cryptographic authentication are core boundaries. Bridge custody belongs to a future separate program, `DEFERRED_UNTIL_EVE_TESTNET` under D40.
 
-This plan extends plans 12, 17, 19 and 20. Plans 27 and 28 cover quantum authentication and bridges. Preserve validator-owned finality, protected follower-only masters, the 40/30/30 fee split and plan 25's recursive one-function-file policy.
+This plan extends plans 12, 17, 19 and 20. Plan 27 covers mandatory core quantum authentication; plan 28 retains deferred bridge safety requirements. Preserve validator-owned finality, protected follower-only masters, the 40/30/30 fee split and plan 25's recursive one-function-file policy.
 
 ## M02 — Baseline fault assumptions
 
@@ -34,13 +38,13 @@ An attacker controlling enough legitimate signing power is not solved by stronge
 
 Validate proposals through deterministic execution, full necessary data availability and authenticated parent state. Keep durable anti-equivocation records, one active signing owner per identity, and signer fencing during recovery. Never reduce quorum automatically when validators go offline.
 
-Use bonded stake and deterministic activation/removal delays. Keep unbonding, evidence retention and checkpoint trust periods consistent across consensus, clients and bridge routes. Validator changes must be authenticated by the previous valid history, not a list from a master or relayer.
+Use bonded stake and deterministic activation/removal delays. Keep unbonding, evidence retention and checkpoint trust periods consistent across consensus and EVE clients. Future adapters must honor those EVE periods through public interfaces. Validator changes must be authenticated by previous valid history, not a list from a master or relayer.
 
 Measure stake concentration, delegation concentration and correlated operator/cloud/region exposure. Report the available evidence and its limitations. One operator can create many keys: per-key caps, country IDs, node signatures and IP diversity do not establish independent ownership or Sybil resistance. Do not introduce identity-based slashing based on unverifiable operator guesses.
 
 Keep RPC, synchronization and consensus queues separate and bounded. Support diverse authenticated bootstrap sources, peer rotation and eclipse/partition tests. Multiple RPC providers reading the same chain are transport redundancy, not independent consensus security.
 
-A known finalized checkpoint cannot be replaced by a conflicting peer assertion. Preserve conflicting certificates/evidence, stop accepting affected bridge transfers and expose a security alarm once a verifiable conflict is observed. Detection is not guaranteed to precede damage, especially under censorship or partition; do not make an impossible global “all nodes instantly pause” promise.
+A known finalized checkpoint cannot be replaced by a conflicting peer assertion. Preserve conflicting certificates/evidence, quarantine the affected authenticated-state/readiness path and expose a security alarm once a verifiable conflict is observed. A unilateral master action cannot replace history or clear the conflict. Detection is not guaranteed to precede damage, especially under censorship or partition; do not make an impossible global “all nodes instantly pause” promise. Future bridge programs must apply their own route containment under plan 28.
 
 ## M05 — Behavior outside the fault assumptions
 
@@ -50,7 +54,9 @@ No majority-attack recovery may grant production finality to master, release, em
 
 If continuous correct finality under 51% Byzantine active power remains a strict product requirement, mark it `UNSATISFIED_BY_BASELINE`. Research alternative fault/network/trust models with stated assumptions, protocol reasoning and adversarial evidence. Do not silently change the requirement or claim a protocol-name change proves it. Additional independent trust or stronger synchrony assumptions must be disclosed and approved before use.
 
-## M06 — Bridge containment
+## M06 — Deferred bridge containment reference
+
+This subsection applies only to a subsequently authorized separate bridge program after EVE testnet. It adds no current core bridge gate or remote-chain dependency.
 
 A bridge verifies the source chain's finalized history under a named trust model. If that trust model fails, valid-looking source proofs may no longer reflect a unique economic history. Limits, delays, independent monitoring and pause mechanisms reduce exposure but do not repair compromised source consensus.
 
@@ -69,8 +75,8 @@ Run attacks only in task-owned local/devnet resources with fake tokens. Tests mu
 | T-M05 | A compromised master or RPC source cannot change authenticated state, validator membership or accepted historical checkpoints. |
 | T-M06 | Key cloning, signer restart, stale backups and corrupted signing state fail safely without equivocation by honest signers. |
 | T-M07 | Public-node multiplication does not increase voting power; stake/set changes and delegation concentration are auditable. |
-| T-M08 | Long-range/stale-checkpoint, eclipse and delayed-evidence cases produce explicit recovery/bridge restrictions rather than fresh trust in the newest supplied signature. |
-| T-M09 | On observable conflicting finality, the affected bridge route rejects new execution, retains evidence and cannot be resumed by a unilateral master action. |
+| T-M08 | Long-range/stale-checkpoint, eclipse and delayed-evidence cases produce explicit EVE recovery/client restrictions rather than fresh trust in the newest supplied signature. |
+| T-M09 | On observable conflicting finality, affected EVE authentication/readiness is quarantined, evidence is retained and a unilateral master cannot replace history or clear the conflict. Future route containment is a deferred program extension. |
 | T-M10 | Honest full replay rejects invalid state despite attacker-generated metadata; report separately what a non-replaying light client can establish. |
 
 ## M08 — Evidence and completion

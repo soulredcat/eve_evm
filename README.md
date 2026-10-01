@@ -1,8 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # EVE EVM
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: B0 including SEC0/INT0 and B1 passed their complete local gates; latest B1 runs 271 tests, structure, format, strict lint and release build. Complete state, atomic persistent recovery and the development-only master harness are implemented. Complete network roles, standalone distributions, devnet/security acceptance and measured TPS remain unachieved.**
+**Status: foundations and B1 passed local and hosted gates; the latest hosted B1 repair executes 273 cases. B2 serial RPC/developer flow, Redcat notices and own-chain scope pass the complete 348-case local gate. Hosted B2 is observed separately. Complete network roles, standalone distributions, secure-profile acceptance and measured 1M TPS remain unachieved.**
 
 ## Main objective
 
@@ -41,19 +45,18 @@ One regional master can serve several public nodes through a preferred nearby el
 - `validator/`: validator runtime; it may be co-located with a public node.
 - `public/components/recovery-store/`: bounded durable recovery record storage owned by the public role.
 - `public/components/node-policy/`: validated public resource, watermark, readiness and source-selection policy.
-- `public/components/interop/`: typed public chain/asset/route metadata and exact amount codecs; custody stays disabled.
 - `validator/components/execution/`: deterministic EVM execution owned by the validator role.
 - `validator/components/authentication/`: reviewed authentication integration owned by the validator role.
 - `validator/components/consensus-comet/`: pinned engine API, framing, height binding and unsupported hybrid guard.
 - `validator/components/protocol-config/`: development genesis, native ABI/gas and canonical record/header contracts.
 - `validator/components/state/`: complete logical state, canonical roots, journals and structural recovery commits.
-- `validator/components/bridge-protocol/`: restricted source-verification/custody capability interfaces; actual verifiers and custody remain pending.
-- `xtask/`: structure, verification, evidence and task-local tool provisioning.
+- `xtask/`: structure, ownership, verification, evidence and pinned local tools.
 - `docs/plan/`: normative development specifications and dependency-ordered work.
 - `docs/agents/`: role-specific execution responsibilities.
 - `docs/execution/`: persistent progress, evidence and resumption state.
 - `tests/`: reviewed reproducible test source and sanitized regression fixtures.
 - `tests/acceptance/state-recovery/`: independent B1 root, execution, durable, corruption, snapshot and process-recovery acceptance.
+- `tests/acceptance/serial-rpc/`: independent B2 EVM corpus, RPC/contract/client, limits and process-restart acceptance.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
 Complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in [execution status](docs/execution/STATUS.md). Follow [verification instructions](docs/development/verification.md) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
@@ -80,4 +83,6 @@ Keep GitHub clean: `local-tests/`, raw artifacts, build output, temporary databa
 
 ## Scope boundaries
 
-The first implementation is an independent devnet. Alephium bridging, settlement proofs, production keys, public mainnet launch, token issuance to real users, and paid infrastructure require separate explicit approval. No Alephium-inherited security is claimed. A public repository does not hide master source or secrets; source-distribution licensing and any private repository split are separate owner decisions.
+EVE develops its own chain first. D40 defers bridges and external-chain adapters until EVE testnet, then separate programs adapt to EVE. Their latency, confirmations and backlog are outside core execution/voting/publication and the secured 1M target. Local EVM standards and correctness fixtures remain. Real keys/funds, mainnet, custody and paid infrastructure need separate approval.
+
+Copyright (c) 2026 Redcat, all rights reserved. Use requires prior written permission under [LICENSE](LICENSE); every first-party file carries a notice or exact [REUSE association](REUSE.toml). Upstream rights and mandatory law/platform terms remain preserved.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 //! Varint-length-delimited protobuf framing used by CometBFT's socket transport.
 
 mod read_abci_request;

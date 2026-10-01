@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use std::process::Command;
 use xtask::verification::{
     artifacts::create_artifact_directory::create_artifact_directory,
@@ -56,7 +60,7 @@ fn artifact_creation_requires_git_ignore_and_records_failed_future_gate() {
             .unwrap()
             .success()
     );
-    assert!(run_verify(fixture.path(), vec!["B2".into()], false).is_err());
+    assert!(run_verify(fixture.path(), vec!["B3".into()], false).is_err());
     let directories: Vec<_> = std::fs::read_dir(fixture.path().join("local-tests"))
         .unwrap()
         .map(|entry| entry.unwrap().path())

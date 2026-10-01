@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Specialist execution responsibilities
 
 These are role instructions for the available coding-agent runtime, not a claim that five agents have already been started. The lead explicitly reads/assigns them. When parallel subagents are unavailable, perform the responsibilities sequentially with the same gates; do not invent tool calls or claim independent agents ran.

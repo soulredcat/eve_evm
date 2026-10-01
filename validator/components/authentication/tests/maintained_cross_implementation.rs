@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 //! Strict OpenSSL 3.5.7 interoperability: missing/wrong tools are failures, not skips.
 use eve_crypto::{derive_mldsa65_key, export_mldsa65_public_key, sign_mldsa65, verify_mldsa65};
 use std::fs;

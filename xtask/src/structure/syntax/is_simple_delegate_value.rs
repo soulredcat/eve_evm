@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 pub fn is_simple_delegate_value(expression: &syn::Expr) -> bool {
     match expression {
         syn::Expr::Path(_) | syn::Expr::Lit(_) => true,

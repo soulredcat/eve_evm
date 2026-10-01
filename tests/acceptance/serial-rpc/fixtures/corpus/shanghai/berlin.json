@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "berlin",
+  "files": {
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/call/call_insufficient_balance.json": "24bee66d282bcf94266182e69bdd2a008d11ae9206b7e1ad029db8539739dfab",
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/create/create_insufficient_balance.json": "a63d8c8c7a65f121fcdd01f091f3ae31b99b6eb3e901c400e3495a043461bf17",
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/create/create_nonce_overflow.json": "c04147c80d05249dd02cd50434f14a6d1332ed00a61787aa84896032b0bf71ab",
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/warm_status_revert/access_list_slot_warmth_survives_failed_create2.json": "1f43c672cd13c99a845d92d34dd9d21b818f5738d4a1c6e0cbc7ecc42c22344b",
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/warm_status_revert/account_warm_status_reverted_by_subcall.json": "9a3978c5bc0f3024c7dc2ea1890ea74fcae6d0c173be7497feae2a020592bc44",
+    "fixtures/state_tests/for_shanghai/berlin/eip2929_gas_cost_increases/warm_status_revert/storage_warm_status_reverted_by_subcall.json": "28d4f55ea9d5e7b31f5d6fa05de2c5ccf939045a3b2eb1d3ad854b8bda050ee1",
+    "fixtures/state_tests/for_shanghai/berlin/eip2930_access_list/acl/account_storage_warm_cold_state.json": "64135f5842c126f38049f0c378ef0f646aa0247bce48eb70dd3e98c145744d76",
+    "fixtures/state_tests/for_shanghai/berlin/eip2930_access_list/acl/repeated_address_acl.json": "dd4d5ee93556b11d9a006506b1f8fd9cc9f7134eb7deb0146a5317d32edb7660",
+    "fixtures/state_tests/for_shanghai/berlin/eip2930_access_list/acl/transaction_intrinsic_gas_cost.json": "f6f5e67c017299796ea9546c09b994b035b17d6b59372c2dc6bc70c7f76a10d0",
+    "fixtures/state_tests/for_shanghai/berlin/eip2930_access_list/tx_intrinsic_gas/tx_intrinsic_gas.json": "d76f8ea4b02f946cf58ef91407123f552cadaf15193fc6394e236174373bd441",
+    "fixtures/state_tests/for_shanghai/berlin/eip2930_access_list/tx_type/eip2930_tx_validity.json": "f4f2eae356b7ec4ccb25a98bc11cee2e76b742eb19662dd4ff9dc78daf21ba26"
+  }
+}

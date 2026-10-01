@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::{
     CommitDisposition, DurableStateAck, StateRepository,
     encoding::{decode_head_marker, height_key},
@@ -38,6 +42,7 @@ pub(crate) fn validate_reopened_repository(store: &StateRepository) -> Result<Du
         let identity = compute_commit_identity(&commit, &store.budget.logical)
             .map_err(|error| anyhow!("invalid recovery identity: {error:?}"))?;
         validate_snapshot_rows(&snapshot, &commit, bytes, identity, current == height)?;
+        crate::state::history::validation::validate_indexed_commit(&snapshot, &commit, identity)?;
         if current == height {
             ensure!(
                 identity == head_identity,
@@ -48,6 +53,11 @@ pub(crate) fn validate_reopened_repository(store: &StateRepository) -> Result<Du
         head = Some(commit);
     }
     let head = head.context("empty full-state recovery chain")?;
+    crate::state::history::validation::validate_index_cursor(
+        &snapshot,
+        &head.target,
+        head_identity,
+    )?;
     Ok(DurableStateAck {
         committed: head.target.clone(),
         store_head: head.target,

@@ -1,20 +1,24 @@
-# 30 — Ethereum, Solana and extensible bridge interoperability
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
 
-Status: mandatory planning and implementation requirement, added 2026-09-30. No adapter, deployed route, provider partnership, token backing or bridge acceptance is claimed complete.
+# 30 — Deferred external-chain adapter programs
+
+Status: retained future separate-program specification. D40 supersedes the earlier mandatory external implementation queue: INT0–INT3 and T-I01–T-I12 are `DEFERRED_UNTIL_EVE_TESTNET`. Subsequent owner scope is required; no adapter, route, provider partnership, token backing or bridge acceptance is claimed complete.
 
 ## I01 — Owner requirement and scope
 
-EVE must be bridge-friendly to Ethereum, Solana and other chains without rewriting its core for each integration. Ethereum and Solana are the first named external integration targets in both directions. The two-EVE fixture in plan 28 remains the foundation, not the final interoperability deliverable. Alephium and additional chains remain extensible route candidates, not silently activated or promised integrations.
+EVE's own chain is the current goal. External bridges, remote-chain clients, custody and adapters must not be developed now or remain prerequisites for core acceptance. External work is eligible only after EVE reaches testnet, in subsequently authorized separate programs whose adapters conform to EVE. Ethereum/Solana two-way targets, the two-EVE bridge fixture and additional-chain candidates are retained future requirements, not active assignments.
 
-EVE remains an EVM execution environment. Solana interoperability does not require embedding Solana's runtime or running Solana programs as Solidity contracts. It requires explicit source/destination adapters, verifiers, custody endpoints, asset mappings and wallet/SDK support. Compatibility, route availability, fault tolerance and quantum protection are separate claims.
+EVE remains an EVM execution environment with its declared Shanghai/RPC semantics and reference corpus. EVM standards, Ethereum libraries and local compiler/client/correctness fixtures do not require a remote-chain connection and remain core. Future Solana interoperability would use its actual runtime/account/token/signing semantics outside EVE, with explicit adapters/verifiers/custody and wallet support. Compatibility, route availability, fault tolerance and quantum protection remain separate claims.
 
-Deliver source code, local fake-asset fixtures, documented interfaces and verifier research/implementation under INT0–INT3 below. No live custody, real-token issuance, paid provider enrollment, external trust downgrade or production deployment is authorized. Implement unblocked work; keep any unverified route disabled with its precise blocker.
+Do not create a replacement program prototype, adapter package or unused core hook now. Historical INT0 source/tool research and metadata tests remain factual evidence at their recorded revision. All requirements below apply only to a later separate owner scope. EVE testnet does not automatically authorize development; live custody, real-token issuance, paid providers, external trust downgrade and production deployment remain unapproved.
 
 ## I02 — Stable architecture and responsibilities
 
 ```text
 Ethereum contracts <-> Ethereum adapter --\
-                                          > Bridge core <-> EVE endpoint
+                                          > Separate bridge program <-> EVE public APIs
 Solana programs    <-> Solana adapter   --/
 Other chain        <-> Separate adapter --/
 
@@ -24,9 +28,9 @@ Wallet / SDK -> source-chain transaction -> authenticated source evidence
 
 Keep five boundaries explicit: chain transport/observation; chain-specific finality and event verification; shared message/replay/backing accounting; destination custody execution; developer/wallet presentation. An RPC observation is not a verified bridge message. Never upgrade an untrusted observation into a verified type merely because several RPCs agree.
 
-Define typed interfaces during INT0: `ChainIdentity`, `ChainAddress`, `AssetOrigin`, `RouteManifest`, `SourceObservation`, `SourceFinalityVerifier`, `VerifiedBridgeMessage`, `DestinationExecutor` and `BridgeQuote`. Verification capability constructors are restricted to real checked paths. Consensus-bound handlers receive authenticated data, not live external RPC results. Master stores finalized data and has no bridge approval, custody key or mandatory per-transfer round trip.
+Define typed route/chain/asset/observation/verification/quote interfaces within the separately authorized program when its INT0 scope begins. Historical type names do not justify retaining those interfaces as core dependencies. Verification capability constructors are restricted to real checked paths. EVE provides versioned own-chain headers, receipts, finality and proofs through public APIs; master has no bridge approval, custody key or mandatory per-transfer round trip.
 
-Transport retries, polling, subscriptions and proof fetching occur outside deterministic EVM execution. Destination verification, consumed-message state and mint/unlock effects execute under that chain's own atomicity rules. P2P/RPC distribution may scale independently; more relayers are not more independent consensus security.
+Transport retries, polling, subscriptions and proof fetching occur outside deterministic EVM execution. Future adapter submission uses ordinary authenticated EVE transactions and destination effects follow that chain's atomicity rules. EVE block production, voting, finality, transaction latency and durable acknowledgement cannot depend on a remote chain's availability, confirmation speed or acknowledgement. Bound ordinary RPC/mempool admission so adapter overload cannot starve core workloads; more relayers are not more independent consensus security.
 
 ## I03 — Route identity and supported-capability registry
 
@@ -90,51 +94,36 @@ Existing interoperability providers may be researched behind an optional transpo
 
 ## I08 — Security and performance boundaries
 
-Plans 26–29 remain mandatory. Route crypto coverage includes both source consensus/user authority and destination custody/verifier/admin paths. EVE PQ signatures do not upgrade Ethereum or Solana by association; classify residual classical/external dependencies as `CLASSICAL` or `MIXED_TRUST` where applicable. Compatibility tests may pass without a whole-route PQ claim; they cannot close the independent PQ end-to-end requirement.
+Plans 26–27 and SEC0/SEC1/SEC3 remain mandatory core security; plans 28/30 retain deferred program requirements. Future route crypto coverage includes source consensus/user authority and destination custody/verifier/admin paths. EVE PQ signatures do not upgrade external endpoints by association; classify their residual dependencies as `CLASSICAL` or `MIXED_TRUST`. Compatibility tests may pass without a whole-route PQ claim; they cannot close the future program's independent PQ requirement.
 
 Unknown finality, stale anchors, fork/profile changes, mismatched deployments, unexpected token extensions or unavailable verification pause the affected route. No master-only emergency mint, lower quorum, unauthenticated RPC fallback or silently changed signer policy is allowed.
 
 Report source-finality wait, proof production/verification, destination fees/compute, relayer backlog, end-to-end latency, bytes and completed bridge throughput separately from EVE transaction TPS. Local fast execution cannot make another chain's finality instant. Bridge overload must be bounded and isolated from unrelated EVE consensus/RPC workloads.
 
-## I09 — Recursive source organization
+## I09 — Separate-program source organization
 
-Create real modules when their tasks start; these are planned paths, not existing implementations:
+Choose actual repositories and module paths only when future program scope exists. The separate program owns chain adapters, contracts/programs, route policy, backing/replay accounting, SDK and tests. Core public/validator/master packages own only EVE behavior and cannot import remote-chain clients or an external-chain registry. Use canonical versioned EVE evidence/transactions without copying the EVM engine, consensus or private master implementation.
 
-```text
-validator/components/bridge/src/
-  routes/capabilities/validation/validate_route_capabilities.rs
-  assets/origin/mapping/resolve_asset_representation.rs
-  assets/amounts/conversion/convert_exact_amount.rs
-  messages/claims/replay/consume_transfer_once.rs
-  adapters/ethereum/finality/verification/verify_ethereum_anchor.rs
-  adapters/ethereum/events/custody/verify_ethereum_deposit.rs
-  adapters/solana/accounts/custody/validate_solana_custody.rs
-  adapters/solana/finality/verification/verify_solana_evidence.rs
-  adapters/eve/finality/verification/verify_eve_application_anchor.rs
-contracts/bridge/evm/
-programs/bridge/solana/
-sdk/bridge/src/chains/ethereum/transactions/build_deposit.ts
-sdk/bridge/src/chains/solana/transactions/build_deposit.ts
-integration/bridge/ethereum/
-integration/bridge/solana/
-```
+Keep each chain's verifier, custody, transport and wallet responsibilities distinct; do not create one giant switch over every chain. Follow plan 25 at every depth, including Rust, Solidity, TypeScript and test/generator code with explicit language coverage. Unsupported checker coverage is work, not a silent pass. No empty scaffold is required now.
 
-Shared accounting/crypto contracts remain single-source. Do not build one giant switch over every chain or duplicate the EVM engine. Follow plan 25 at every depth, including Rust, Solidity, TypeScript and test/generator code with explicit language coverage; unsupported checker coverage is work, not a silent pass.
+## I10 — Deferred INT0–INT3 program queue
 
-## I10 — Mandatory INT0–INT3 execution queue
+All IDs below are `DEFERRED_UNTIL_EVE_TESTNET`, excluded from current core selection. These dependencies describe future work after EVE testnet and subsequent owner scope; the old B0+INT0 integration remains historical evidence only.
 
 | Bulk | Dependencies | Implementation and exit evidence |
 |---|---|---|
-| INT0 | Within B0 + SEC0 | Pin Ethereum/Solana references/toolchains; finalize typed chain/asset/route formats and source-proof feasibility for both directions; register T-I01–T-I12; record real integration blockers. No core/security cycle. |
-| INT1 | B2+B3+B4+B5+B6 and SEC2 shared interfaces | Implement shared SDK/route registry plus Ethereum contracts and Solana program/adapters with local fake-asset application fixtures. Independent chain tracks may run in parallel. Label simulator-only and classical evidence. |
-| INT2 | INT1 + SEC2 applicable proof/accounting gates | Integrate actual source authentication and destination verification for each named direction; test real client/consensus evidence, negative cases and costs. Secure EVE-profile acceptance additionally requires SEC1. A placeholder verifier or RPC-only observation cannot pass. |
+| INT0 | EVE testnet + subsequent owner program scope | Review historical inventory; pin actual target-chain tools/references, typed interfaces and direction-specific proof feasibility for authorized targets; register program gates. No dependency back into core. |
+| INT1 | Program INT0 + applicable separately scoped SEC2 interfaces | Implement program SDK/registry and authorized contracts/programs/adapters with fake-asset local fixtures. Independent chain tracks may run in parallel. Label simulator-only and classical evidence. |
+| INT2 | INT1 + SEC2 applicable proof/accounting gates | Integrate actual source authentication and destination verification for each named direction; test real client/consensus evidence, negative cases and costs. Program acceptance under a verified EVE profile requires SEC1 evidence. A placeholder verifier or RPC-only observation cannot pass. |
 | INT3 | INT2 + B8/B9 relevant recovery/release gates | Run fresh-checkout Ethereum/EVE and Solana/EVE transfers and returns, SDK/retry/incident tests, route matrix and independent review artifacts. No live route is enabled by local success. |
 
-Ethereum and Solana work may proceed independently after shared interfaces. If one verifier needs unavailable infrastructure or unapproved extra trust, record its exact blocker and continue endpoint/SDK/other-route work. Do not close the named integration target by substituting two EVE networks, or change core/security completion to hide the unmet target.
+After authorization, chain tracks may proceed independently. If a verifier needs unavailable infrastructure or unapproved extra trust, record the program blocker and continue its other authorized work. Do not substitute two EVE networks for a named external integration. Core completion remains independent of future program completion, while route status remains explicit.
 
-Implement `cargo xtask verify --interop INT0` through `INT3` in the task runner. These are planned commands, not available tools claimed here. Include structural gates, fail on zero/missing requested tests, and record profile, endpoints, source/verifier versions, real test count and evidence hashes. Mainnet economics, funds, deployment and extra trust approvals remain owner gates.
+A future program must implement its own nonzero verification gates with ownership/structure checks, source/verifier/profile identities and real test counts. Current root runner requests for INT0–INT3 report the deferral without a passing empty gate. Historical `cargo xtask verify --interop INT0` evidence applies only at its recorded revision. Mainnet economics, funds, deployment and extra trust approvals remain owner gates.
 
-## I11 — Required tests
+## I11 — Retained future program tests
+
+T-I01–T-I12 below are deferred program requirements, not current core failures or achievements.
 
 | Test | Required evidence |
 |---|---|
@@ -153,6 +142,6 @@ Implement `cargo xtask verify --interop INT0` through `INT3` in the task runner.
 
 ## I12 — Completion and reporting
 
-Record `ETHEREUM_INTEROP_DEV`, `SOLANA_INTEROP_DEV`, `INTEROP_DEV_ACCEPTED`, per-direction verifier status, trust mode, quantum coverage and live approval separately. Initial values are NOT_STARTED/NOT_ACHIEVED; live routes are DISABLED_NOT_APPROVED. No generic SUPPORTED flag hides an incomplete direction.
+Current `ETHEREUM_INTEROP_DEV`, `SOLANA_INTEROP_DEV`, `INTEROP_DEV_ACCEPTED` and INT0–INT3 scope are `DEFERRED_UNTIL_EVE_TESTNET`; live routes remain DISABLED_NOT_APPROVED. Historical metadata tests are neither route acceptance nor a current core failure. A future authorized program records verifier status, trust mode, quantum coverage and approval per direction; no generic SUPPORTED flag hides an incomplete route.
 
-`INTEROP_DEV_ACCEPTED` requires INT0–INT3 and T-I01–T-I12 on actual integrated code under the explicitly declared local/test profile. Simulator-only contracts or stubs are partial progress, not this acceptance. A two-way Ethereum result does not complete Solana or arbitrary other chains. End-to-end PQ, stronger majority tolerance and mainnet readiness remain their own evidence/approval gates.
+Future `INTEROP_DEV_ACCEPTED` requires the separately authorized program's INT0–INT3 and T-I01–T-I12 on actual integrated code under its declared local/test profile. Simulator-only contracts or stubs are partial progress, not acceptance. A two-way Ethereum result does not complete Solana or arbitrary other chains. Core security acceptance remains independent; whole-route PQ, stronger majority tolerance and deployment retain their own evidence/approval gates.

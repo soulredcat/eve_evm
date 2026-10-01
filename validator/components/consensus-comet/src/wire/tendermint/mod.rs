@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 //! Machine-generated bindings from the exact pinned upstream protobuf sources.
 //!
 //! Output is generated into Cargo's untracked `OUT_DIR`; handwritten domain

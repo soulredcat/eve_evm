@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Source-build provenance repair — 2026-10-01
 
 The [second hosted attempt](https://github.com/soulredcat/eve_evm/actions/runs/36770126572)

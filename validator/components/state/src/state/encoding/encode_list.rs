@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 pub(crate) fn encode_list(fields: &[Vec<u8>]) -> Vec<u8> {
     let mut bytes = Vec::new();
     alloy_rlp::Header {

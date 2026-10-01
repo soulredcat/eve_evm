@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::{
     StateSnapshot, encoding::height_key, repository::validation::validate_snapshot_rows,
     types::COMMIT_PREFIX,

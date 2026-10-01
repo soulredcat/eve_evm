@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::provisioning::{
     artifacts::{extract_pinned_archive, fetch_pinned_artifact},
     paths::resolve_contained_path,

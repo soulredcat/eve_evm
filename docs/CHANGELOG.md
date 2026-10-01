@@ -1,4 +1,18 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Documentation change record
+
+## 2026-10-01 — Verified B2 and EVE-ownchain scope
+
+- Added actual serial RPC/admission, isolated simulations, canonical Shanghai
+  execution/proofs and durable derived history, with independent client/restart flows.
+- Full local gate passes 348 cases, strict checks, structure, ownership and release.
+- Added Redcat permission-only notices while preserving upstream/canonical bytes.
+- D40 defers separate external programs until EVE testnet and removes unused core
+  interop/bridge packages; core security/fees/recovery/capacity gates remain mandatory.
+- See the complete B2 record; validator finality, copied packages and 1M remain open.
 
 ## 2026-10-01 — Verified B1 complete state and local recovery
 

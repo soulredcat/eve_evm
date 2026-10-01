@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+version = 1
+package = "eve-serial-rpc-acceptance"
+requirements = ["B2", "T-E01", "T-E02", "T-E03", "T-E04", "T-E05", "T-E06", "T-A01", "T-A02", "T-A03", "T-A04", "T-A05", "T-A06"]
+tests = [
+    "cases::eve_economic_policy::te02_eve_compatible_corpus_matches_exact_gas_receipts_and_declared_fee_delta",
+    "cases::nonce_overflow::te01_pinned_transaction_nonce_overflow_is_rejected_at_deserialization",
+    "cases::unprotected_policy::te01_all_88_unprotected_corpus_envelopes_are_rejected_by_eve",
+    "cases::vanilla_reference::te02_all_3495_shanghai_cases_match_unchanged_vanilla_roots_and_receipts",
+    "empty_account_transition::te02_touched_empty_storage_is_cleared_before_value_recreation_in_next_transaction",
+    "mempool::affordability::te05_cumulative_affordability_and_invalid_second_transaction_leave_parent_atomic",
+    "mempool::capacity::ta04_count_sender_and_exact_byte_caps_reject_without_eviction",
+    "mempool::capacity::ta04_local_ttl_expires_at_exact_monotonic_boundary_without_changing_consensus",
+    "mempool::nonce_order::ta04_future_nonce_duplicate_and_committed_revalidation_preserve_sender_order",
+    "mempool::replacement::ta04_type_two_replacement_requires_ceiling_ten_percent_on_both_caps",
+    "mempool::replacement::ta04_zero_priority_fee_replacement_still_requires_one_wei_increase",
+    "simulation_isolation::te06_reverted_call_and_estimation_cannot_publish_storage_or_fee_changes",
+    "simulation_isolation::te06_state_changing_call_and_exact_gas_estimation_preserve_both_canonical_domains",
+    "ta02_real_pinned_typescript_solidity_fixture_verifies_two_public_processes_and_restart",
+    "te04_base_fee_matches_literal_eip1559_rise_fall_target_and_floor",
+    "te04_invalid_or_overflowing_parent_base_fee_is_rejected",
+    "te04_odd_wei_remainder_belongs_to_validator_and_conserves_collected_fees",
+]

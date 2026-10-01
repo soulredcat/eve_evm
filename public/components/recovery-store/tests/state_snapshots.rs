@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod state_support;
 use eve_storage::state::{
     activate_snapshot_namespace, capture_state_snapshot, commit_state,

@@ -1,8 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Bulk verification
 
-`cargo xtask verify --bulk B0` runs the registered foundation, including SEC0 and
-INT0 subsets. A runnable gate is not a passed gate or a completed runtime.
-Security/bridge/interop/runtime/capacity acceptance remains separate from B0.
+`cargo xtask verify --bulk B0` runs EVE foundations including SEC0. D40 defers
+external SEC2/INT0–INT3 programs until testnet, outside mandatory core selection.
+A runnable command is not a passed gate or completed runtime/security target.
 `cargo xtask verify --bulk B1` retains those foundations and adds complete-state,
 durable recovery, development composition and independent acceptance coverage.
 
@@ -15,7 +19,7 @@ dependencies are provisioned into ignored task storage from exact pins:
 cargo xtask provision-tools --jobs 2
 cargo xtask verify --bulk B0
 cargo xtask verify --security SEC0
-cargo xtask verify --interop INT0
+cargo xtask verify --bulk B2
 ```
 
 Provisioning validates archive/member/link containment, source digests, executable
@@ -25,7 +29,7 @@ probes. It does not install a global runtime, enable custody or launch a role no
 The gate revalidates `local-tests/toolchain-b0/provisioned-tools.json` and passes its
 checked environment directly to child commands.
 
-The gate runs structure inspection, formatting, strict workspace Clippy, exact
+The gate runs structure and Redcat ownership inspection, formatting, strict workspace Clippy, exact
 test discovery/execution (including registered documentation tests) and release
 builds. Missing, duplicate, unregistered, ignored, filtered or zero requested
 tests fail. The exact catalog is under `config/gates/groups/`; changing a required
@@ -33,6 +37,7 @@ case needs review. `check-structure` also inspects its own implementation.
 
 ```sh
 cargo xtask check-structure --report local-tests/structure.json
+cargo xtask check-ownership --report local-tests/ownership.json
 cargo test --locked -p xtask
 cargo xtask verify --bulk B1
 cargo xtask verify --all
@@ -40,9 +45,15 @@ cargo xtask verify --all
 
 The `--all` command returns nonzero while later mandatory gates remain
 unimplemented. `--all` cannot certify the project by selecting only completed
-subsets. Registered T-M/T-P/T-BR/T-I/T-N and R requirements retain their individual
+subsets. Core T-M/T-P/T-N and R requirements retain their individual
 outcomes and owning dependencies; a primitive or metadata test does not close a
 complete runtime requirement.
+
+B2 prepares the exact complete Shanghai state corpus and a fresh ignored private
+client package, installs its lock with scripts disabled, and runs strict TypeScript
+with noEmitOnError before actual public/master process flows and all Solidity inputs.
+It binds checked tool/runtime identities and retains B0/B1 regressions. Retired
+external groups remain historical evidence, not current PASS or core dependencies.
 
 Each attempt creates a unique ignored `local-tests/verify-*/` directory containing
 a report, structure scan and command stdout/stderr. Reports bind the revision,

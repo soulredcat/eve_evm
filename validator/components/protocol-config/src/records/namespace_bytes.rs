@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::SystemNamespace;
 
 pub(crate) fn namespace_bytes(namespace: SystemNamespace) -> &'static [u8] {

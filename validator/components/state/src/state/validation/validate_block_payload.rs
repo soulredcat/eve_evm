@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_consensus::{ReceiptEnvelope, Transaction, TxEnvelope, TxType};
 use alloy_eips::eip2718::{Decodable2718, Encodable2718};
 use alloy_primitives::Bloom;

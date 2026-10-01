@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use std::{fs, path::Path, process::Command};
 use tempfile::{TempDir, tempdir};
 use xtask::structure::{

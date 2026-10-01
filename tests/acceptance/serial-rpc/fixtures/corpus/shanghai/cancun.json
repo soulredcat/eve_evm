@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "cancun",
+  "files": {
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/dynamic_create2_selfdestruct_collision/dynamic_create2_selfdestruct_collision.json": "0e46365e672bfd10f5bed939ceecf4ba7bbcb13ed902bc2f5c7ef976b8fa9c80",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/reentrancy_selfdestruct_revert/reentrancy_selfdestruct_revert.json": "afa4320cd28f8f1e77f6728b0166630d5cf552efdcdea916696b8b63ee5e29af",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/calling_from_new_contract_to_pre_existing_contract.json": "b3331fb41c830a1e783c1604f63030e4d2fa9a6a19f6d7b3161a422fdc1669bf",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/calling_from_pre_existing_contract_to_new_contract.json": "9fcc9d5f8a0df5f8ec66d572bf4af4a1c38406d20f57dad684df215dd45bea01",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/create_and_destroy_multiple_contracts_same_tx.json": "e67146e1fcf79b17d1c53b065bf66d720629245ecd7a6419c5a0c1b900998423",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/create_selfdestruct_same_tx.json": "ffb3b843d169ed9beba6766ceee5062e39907732859be2364c3cf75492bab5bf",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/create_selfdestruct_same_tx_increased_nonce.json": "f78b3ed08b4e52e135be215f533fe676f98256b3d27a411790648f3633f8af1f",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/parent_creates_child_selfdestruct_one.json": "ec78e774e8986575dca446a8d38ad642dd9d87256b00aa1f187d68bc753b7c4e",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/recursive_contract_creation_and_selfdestruct.json": "ec4c8a43075022ca549402dc4d07e5daedea000f59e73c8a781c4851bd153f94",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/self_destructing_initcode.json": "29506c7ecc0b523a265b98c315d805bbba1e766bd5e9b0101dd0a68e90b34e57",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/self_destructing_initcode_create_tx.json": "5355138f01a7f01db9e37e67c6247b82bfc057d196077bbddee870d4f54f9359",
+    "fixtures/state_tests/for_shanghai/cancun/eip6780_selfdestruct/selfdestruct/selfdestruct_pre_existing.json": "b55ea4ee82099418b997cd1f2eecb21f6865013c3f3bb3782a5545d1416df39b"
+  }
+}

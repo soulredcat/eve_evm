@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #[path = "structure/checking/mod.rs"]
 mod checking;
 #[path = "structure/discovery/mod.rs"]

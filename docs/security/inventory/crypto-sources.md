@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Cryptographic sources and maintained cross-verification
 
 ## Experimental Rust backend
@@ -118,5 +122,7 @@ build recipe, version and actual artifact bytes. See
 
 SLH-DSA release/recovery alternatives and maintained authenticated hybrid transport
 remain unimplemented. Consensus-engine paired verification, protected accounts,
-client anchors, release/recovery, bridge paths and full-profile capacity remain
+client anchors, release/recovery and secured EVE core capacity remain
 mandatory. No standardized algorithm/library/test certifies the complete network.
+Bridge/external programs are deferred until EVE testnet under D40 and have their
+own later trust/crypto acceptance; they are not core completion dependencies.

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct FinalizedHeight(pub u64);
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]

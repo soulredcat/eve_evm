@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_master::development::config::{
     resolve_development_directory::resolve_development_directory,
     validate_development_mode::validate_development_mode,

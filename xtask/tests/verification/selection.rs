@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use xtask::verification::manifests::{
     load_gate_selection::load_gate_selection, load_test_group::load_test_group,
 };
@@ -14,7 +18,7 @@ fn unsupported_gates_remain_pending_and_empty_groups_fail() {
         fixture.path().join("config/gates/registry.toml"),
     )
     .unwrap();
-    let (gates, pending) = load_gate_selection(fixture.path(), &["B2".into()], false).unwrap();
+    let (gates, pending) = load_gate_selection(fixture.path(), &["B3".into()], false).unwrap();
     assert!(gates.is_empty() && pending.len() == 1);
     assert!(load_gate_selection(fixture.path(), &["unknown".into()], false).is_err());
     assert!(load_gate_selection(fixture.path(), &[], false).is_err());
@@ -45,13 +49,13 @@ fn gate_manifest_identity_and_local_path_cannot_be_substituted() {
 }
 
 #[test]
-fn b0_selection_requires_its_security_and_interop_subgate_manifests() {
+fn b0_selection_requires_its_core_security_subgate_manifest() {
     let fixture = tempfile::tempdir().unwrap();
     std::fs::create_dir_all(fixture.path().join("config/gates")).unwrap();
     let repository = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap();
-    for file in ["registry.toml", "B0.toml", "SEC0.toml", "INT0.toml"] {
+    for file in ["registry.toml", "B0.toml", "SEC0.toml"] {
         std::fs::copy(
             repository.join("config/gates").join(file),
             fixture.path().join("config/gates").join(file),
@@ -64,7 +68,7 @@ fn b0_selection_requires_its_security_and_interop_subgate_manifests() {
             .iter()
             .map(|gate| gate.id.as_str())
             .collect::<Vec<_>>(),
-        ["B0", "SEC0", "INT0"]
+        ["B0", "SEC0"]
     );
     assert!(pending.is_empty());
     std::fs::remove_file(fixture.path().join("config/gates/SEC0.toml")).unwrap();

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::validate_provisioned_tools;
 use crate::provisioning::{
     clients::{verify_client_probe, verify_solidity_probe},

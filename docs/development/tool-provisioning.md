@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Pinned task-local B0 tools
 
 `cargo xtask provision-tools` provisions the complete Linux x86_64 B0 reference
@@ -36,7 +40,6 @@ Never source/evaluate the JSON as shell code; CI selects explicit checked keys.
 | Solidity 0.8.37 | Verified [Linux compiler](https://github.com/argotorg/solidity/releases/tag/v0.8.37); standard-JSON Shanghai ABI/bytecode probe | Compiler API smoke, no bridge deployment/finality proof |
 | Node 24.21.0 LTS | [Primary release hashes](https://nodejs.org/dist/v24.21.0/SHASUMS256.txt), Linux archive and executable SHA256 pinned | No global Node/npm change; bundled npm 11.19.0 |
 | TypeScript 6.0.3 / viem 2.57.1 | Exact private manifest/lock, task-local npm ci with install scripts disabled | Strict typed real viem ABI/client API probe and deterministic ERC-20 encoded bytes; no RPC request or transaction |
-| Solana kit 8.4.0 | [Primary npm package metadata](https://registry.npmjs.org/@solana/kit/8.4.0), exact version/publisher SRI pinned | Declared source input for INT0; actual Solana SDK/endpoints remain INT1 work |
 
 TypeScript 6.0.3 is selected for the dependency-free JavaScript compiler recipe.
 The inspected TypeScript 7.0.2 package adds platform-native compiler dependencies;
@@ -53,8 +56,12 @@ generated `package-lock.json`: npm 11.19.0, lockfileVersion 3. Lock SHA256 is
 `a7037971456231c2e08383627f51d66fe8ecb73d77cce79738ef88e7dd8ee400`; manifest SHA256
 `c8a9a4300f6d5bdeda15e1a169ae7738d7e68245cc1116b1d4606176e55a0672`.
 The lock retains exact dependency versions, publisher integrity and license data.
-TypeScript is Apache-2.0; viem and Solana kit are MIT. Node/Go/OpenSSL/Comet compiler
+TypeScript is Apache-2.0; viem is MIT. Node/Go/OpenSSL/Comet compiler
 and dependency notices remain separate from an EVE source-license decision.
+
+D40 removes the unused Solana metadata fields from current tool inputs. External
+SDKs and programs are deferred until EVE testnet; historical INT0 source pins stay
+identified in the historical inventory, rather than governing current core tools.
 
 ## Containment, reuse and reports
 

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 
 [[cases]]
@@ -53,14 +57,14 @@ fixture = "Four-validator weighted engine schedules with authenticated commits a
 id = "T-M08"
 owner_gate = "SEC1"
 status = "NOT_IMPLEMENTED"
-expected = "Stale/long-range anchors, eclipse and delayed evidence restrict recovery/bridge use rather than creating new trust"
+expected = "Stale/long-range anchors, eclipse and delayed evidence restrict EVE recovery/client trust rather than creating new authority"
 fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
 
 [[cases]]
 id = "T-M09"
 owner_gate = "SEC1"
 status = "NOT_IMPLEMENTED"
-expected = "Observable conflicting finality pauses affected bridge and preserves evidence; unilateral master cannot resume"
+expected = "Observable conflicting EVE finality quarantines affected authentication/readiness and preserves evidence; master cannot replace or unilaterally clear history"
 fixture = "Four-validator weighted engine schedules with authenticated commits and disposable fault-injection keys."
 
 [[cases]]

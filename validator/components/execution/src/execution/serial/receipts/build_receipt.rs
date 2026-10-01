@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_consensus::{Eip658Value, Receipt, ReceiptEnvelope};
 use revm::context_interface::result::ExecutionResult;
 

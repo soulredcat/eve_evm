@@ -1,19 +1,24 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 31 — Mainnet performance target and separate application modules
 
-Status: owner scope clarification recorded 2026-09-30. Documentation only; no performance result, funded reserve, custody deployment or working application is claimed.
+Status: owner scope clarifications recorded 2026-09-30 and 2026-10-01. D40 prioritizes EVE ownchain and defers separate external adapter programs until EVE testnet plus subsequent owner scope. No performance result, funded reserve, custody deployment or working application is claimed.
 
 ## MB01 — Latest instruction takes precedence
 
 The owner withdrew liquidity and automatic DEX price stabilization from the current EVE core implementation goal: these will be a separately developed module later. Do not implement the earlier proposed reserve-funded stabilization system, add it to the mandatory core queue, or make core acceptance wait for it.
 
-This instruction narrows application scope. It does not cancel EVM execution, validator finality, master synchronization, staking/rewards, security, Ethereum/Solana bridge interoperability, or the user's folder/function-file policy.
+The liquidity instruction narrows application scope. The subsequent D40 instruction also withdraws bridge/interop development from current core scope and permits consideration only after EVE testnet in separate programs. EVM execution/RPC semantics, validator finality, master/public recovery, staking/rewards, core majority/PQ security and the folder/function-file policy remain mandatory.
 
 ## MB02 — Core versus separate future module
 
 | Area | Current treatment |
 |---|---|
 | EVM, public/validator/master roles, storage, networking and RPC | Mandatory core work under existing specifications. |
-| Staking, fee split, PQ/security and bridge/interoperability | Existing mandatory tracks remain in scope. |
+| Staking, 40/30/30 fees, majority/PQ and core security | Mandatory core work, including SEC0/SEC1/SEC3. |
+| Bridge SEC2, two-EVE bridge fixture and external interoperability INT0–INT3 | `DEFERRED_UNTIL_EVE_TESTNET`; later separate owner scope required; outside core acceptance. |
 | Liquidity provision, production DEX pools, automated market-making or price stabilization | Deferred separate application module; not part of the current core goal. |
 | Reserve-funded intervention, automatic buyback/mint/sell and pool-price controllers | Do not build or activate in this goal. |
 | Solidity swap/AMM fixtures and contention benchmarks | Retain as disposable compatibility/correctness/performance tests, not a production DEX commitment. |
@@ -23,11 +28,13 @@ Do not create placeholder liquidity runtimes, privileged stabilizer hooks, unuse
 
 A future module should use versioned public interfaces and normal authenticated transactions or explicitly approved system interfaces. It must not require direct master database access or change consensus rules by making an off-chain price call. Its failure, pause or absence must not prevent unrelated core transactions from finalizing.
 
+Future chain adapters conform to EVE's own versioned headers, receipts, finality and proofs. Core contains no remote-chain client, route registry or custody-program dependency. EVE block production, voting, finality, transaction latency and durable acknowledgement cannot wait for an external chain's availability or confirmation speed. EVE testnet is an eligibility checkpoint for later scope, not automatic permission to develop, deploy or move value.
+
 ## MB03 — Proven 1M TPS is a mainnet release requirement
 
 The owner's launch target is 1,000,000 aggregate finalized user transactions per second, demonstrated rather than projected. MAINNET_READY must require SCALE_TARGET_VERIFIED for the release candidate using the active required security profile and production-representative topology, configuration, workload, persistence and network conditions. A working devnet below the target is an intermediate result, not authorization to lower this launch requirement.
 
-Use plans 08, 20, 21 and security/interop specifications for sustained/soak runs, mixed-EVM workload, bounded backlog, latency, correct execution, data availability and recovery. Count each economic user transaction once; do not add replicas, bridge retries, internal calls or batch roots to manufacture throughput. Publish single-hot-pool and cross-domain results separately from aggregate low-contention capacity.
+Use plans 08, 20, 21 and core security specifications for sustained/soak runs, mixed-EVM workload, bounded backlog, latency, correct execution, data availability and recovery. Count each economic user transaction once; do not add replicas, bridge retries, internal calls or batch roots to manufacture throughput. Publish single-hot-pool and cross-domain results separately from aggregate low-contention capacity. Deferred bridge throughput or remote-chain speed cannot lower or become a prerequisite for EVE's secured 1M target.
 
 A production-representative prelaunch benchmark is not proof that live mainnet already processed that volume. Label prelaunch capacity, offered load, actual finalized load and later live-mainnet measurements distinctly. Failed or unavailable measurements retain TARGET_UNMET or BLOCKED_INFRA; mainnet deployment and spending still require owner authorization.
 
@@ -51,8 +58,8 @@ Real custody, off-chain asset evidence, asset mapping, issuance and withdrawal/r
 
 ## MB06 — Goal and review enforcement
 
-Read this document with the decision register before selecting work. Keep the existing core, security and interop queues; do not invent a liquidity/stabilization bulk. Record a future request in a separately scoped plan instead of importing it into consensus by default.
+Read this document with the decision register before selecting work. Execute B0–B11 and SEC0/SEC1/SEC3; retain SEC2/INT0–INT3 as deferred references. Do not invent an active adapter, liquidity or stabilizer bulk. Record a later program request in a separately scoped plan instead of importing it into consensus by default.
 
-Review each bulk for unwanted liquidity dependencies or reserve-spend privileges. Retain AMM fixture tests and bridge lock/mint/burn/unlock accounting: neither is the canceled price-stabilizer implementation. If actual runtime code later contains a now-deferred component, inspect ownership and preserve unrelated work; use a reviewed isolated removal/refactor with regression evidence rather than deleting a broad folder blindly.
+Review each bulk for external-chain coupling, unwanted liquidity dependencies and reserve-spend privileges. Retain EVM/AMM fixture tests and historical bridge evidence; deferred bridge accounting belongs to the later program specification. If actual runtime code contains a now-deferred component, inspect dependencies and ownership, preserve unrelated work and use a focused removal/refactor with core regression evidence. Do not erase what historical B0/SEC0/INT0 runs established at their recorded revision.
 
 No runtime test was performed by this documentation revision. Structural, functional and performance completion still requires the existing implementation gates, and the 200/400/600 file policy is unchanged.

@@ -1,9 +1,30 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Master runtime
 
-The B1 development composition is implemented; the production master follower,
+The B1 storage and B2 RPC development composition are implemented; the production master follower,
 network replication and authenticated source recovery remain later work.
 
 ## Development composition
+
+`serve-dev` composes the canonical public library with an owned Tokio runtime;
+master does not copy private public startup, EVM or commitment behavior:
+
+```sh
+cargo run --locked -p eve-master -- serve-dev --mode DEV_ALL_IN_ONE --acknowledge-unsafe-development --root . --data local-tests/master-rpc --genesis local-tests/development.json --http-address 127.0.0.1:8545 --ws-address 127.0.0.1:8546 --block-interval-ms 1000 --zone-id 1
+```
+
+Startup emits actual bound addresses and LOCAL_DEV_UNAUTHENTICATED status.
+Ctrl-C stops the owned producer and RPC listeners; restart reconciles the same
+durable namespace before serving. Production/sync-only/missing-acknowledgement
+paths reject. The actual developer fixture tests signed submission/receipt,
+retained history and restart through this composition and two public processes.
+It establishes no validator finality. RPC, logical memory and separate transport
+limits follow [public's profile](../public/README.md); default external binding
+is disabled. Zone metadata grants no voting or shard ownership. B6 standalone
+packaging and B3/B4 production roles remain separate unimplemented gates.
 
 The eve-master binary owns only local development orchestration. It reuses the
 canonical validator state/execution/protocol components and public recovery

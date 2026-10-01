@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::StateStorageBudget;
 use crate::recovery::types::StorageBudget;
 use eve_state::development_state_budget;

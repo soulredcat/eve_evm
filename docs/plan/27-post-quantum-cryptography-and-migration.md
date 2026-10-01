@@ -1,10 +1,14 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 27 — Post-quantum authentication and migration
 
-Status: mandatory security work, added 2026-09-30. The current classical devnet baseline is NOT post-quantum secure. No cryptographic integration or acceptance test is claimed complete.
+Status: mandatory core security work, updated 2026-10-01 under D40. Historical SEC0 primitive/vector evidence does not activate the profile. The current classical devnet baseline is NOT post-quantum secure; complete consensus/account/client/recovery enforcement and PQ profile acceptance remain unachieved.
 
 ## P01 — Scope and claims
 
-The owner's post-quantum requirement concerns cryptographic security, distinct from proof-of-stake consensus. Protect the actual authorization paths: validator proposals/votes, account operations, staking/control keys, checkpoints/light clients, bridge custody, upgrades/releases and recovery. Inventory transport authentication and key exchange separately.
+The owner's post-quantum requirement concerns cryptographic security, distinct from proof-of-stake consensus. Protect actual core authorization paths: validator proposals/votes, account operations, staking/control keys, EVE checkpoints/light clients, upgrades/releases and recovery. Inventory transport authentication and key exchange separately. Bridge custody and external-chain clients are deferred separate-program extensions under D40, `DEFERRED_UNTIL_EVE_TESTNET`; they are not prerequisites for core profile acceptance.
 
 An ML-DSA library, encrypted NVMe, TLS, more validators, a random pool ID or a post-hoc signature on a root does not by itself secure the chain. Every trust path and bypass must be checked. Post-quantum signatures also do not solve malicious-majority consensus behavior from plan 26.
 
@@ -32,7 +36,7 @@ At genesis or an authenticated scheduled upgrade, bind the security profile, alg
 
 For an activated hybrid authorization, require BOTH the applicable classical signature and the PQ signature for the SAME enrolled identity and SAME logical message. Verification is AND, not OR. Count voting power once and only after all required signature components pass.
 
-Use unambiguous canonical encodings and domain separation. Bind network/genesis, protocol/profile, purpose, signer identity/key epoch, and the complete consensus/account/bridge payload. Bind chain, height/round/step/block ID for votes; account, nonce, expiry and operation bytes for user authorization; route and unique message identity for bridges.
+Use unambiguous canonical encodings and domain separation. Bind network/genesis, protocol/profile, purpose, signer identity/key epoch and complete consensus/account payload. Bind chain, height/round/step/block ID for votes; account, nonce, expiry and operation bytes for user authorization. Any future bridge program must separately bind its route and unique message identity; core does not need a bridge payload or external-chain enum.
 
 Do not change the engine's canonical classical sign bytes casually. Specify and test the exact relationship between the existing engine message and its PQ-bound counterpart. Registration must prove possession of all required keys and authenticate their binding. Reject swapped keys, duplicate signers, truncated signatures, invalid lengths, wrong domains and retired keys.
 
@@ -44,7 +48,7 @@ The current engine's Ed25519 baseline is classical. Determine support in the act
 
 Implement a reviewed consensus-engine extension or maintained compatible alternative that enforces the hybrid rule throughout proposal, vote, commit, validator-set transition, evidence, signer, network and light-client paths. Preserve tested locking and fault assumptions; this is not authorization to write a new improvised consensus algorithm.
 
-The protected master and bridge verifier must enforce the same profile and historical key-set binding. Existing durable anti-double-sign records still apply. Record signing intents, message identity and emitted signature material safely across retries/crashes; randomized signatures must not change the signed logical identity or permit conflicting messages.
+Protected master/public followers and EVE light clients must enforce the same profile and historical key-set binding. Any future adapter must consume that profile through versioned public EVE evidence. Existing durable anti-double-sign records still apply. Record signing intents, message identity and emitted signature material safely across retries/crashes; randomized signatures must not change the signed logical identity or permit conflicting messages.
 
 If the selected engine cannot support the requirement, record the concrete failing interface, alternatives and implementation work. Keep `PQ_PROFILE_VERIFIED` unmet; do not relabel classical consensus as secure.
 
@@ -54,13 +58,13 @@ Standard secp256k1 EOAs remain a classical compatibility mode, not quantum-resis
 
 First protected-account path: an explicitly versioned contract-account or native authorization extension that verifies the required PQ/hybrid user operation. Freeze the ABI, authorization encoding, gas schedule, account derivation and replay rules through executable fixtures. A [ERC-4337-style account-abstraction design](https://eips.ethereum.org/EIPS/eip-4337) is a possible transport pattern, not a claim that support already exists.
 
-An untrusted bundler may relay an authenticated operation but cannot change recipient, value, calldata, fees/limits, nonce or expiry. Cover deploy/initialize, upgrade/admin, approve/permit, sessions, recovery, guardian, staking withdrawal, bridge deposit and key-rotation paths. No classical-only owner or recovery bypass may control a PQ-protected account.
+An untrusted bundler may relay an authenticated operation but cannot change recipient, value, calldata, fees/limits, nonce or expiry. Cover deploy/initialize, upgrade/admin, approve/permit, sessions, recovery, guardian, staking withdrawal and key-rotation paths. No classical-only owner or recovery bypass may control a PQ-protected account. Bridge-specific user operations require separately scoped extension tests when a future program is authorized.
 
 Do not claim a legacy EOA becomes protected by a frontend label or by registering a second public key alone. Migration must secure funds, allowances, contract authority and pending operations. Prefer fresh protected accounts when migrating legacy authority; document residual legacy exposure. Show actual wallet/tooling limitations instead of promising unchanged signature UX.
 
 ## P07 — Hashes, roots and identity strength
 
-Inventory signature prehashes, consensus IDs, validator-key identifiers, Ethereum Keccak/MPT roots, bridge message hashes, code hashes, address truncation and snapshot commitments. Specify the required collision/second-preimage/authentication properties and quantum assumptions for each path.
+Inventory signature prehashes, consensus IDs, validator-key identifiers, EVM Keccak/MPT roots, code hashes, address truncation and EVE snapshot commitments. Specify required collision/second-preimage/authentication properties and quantum assumptions for each core path. Retain historical bridge-hash analysis as deferred program reference; no external hash/proof format enters core merely because it was inventoried.
 
 A stronger signature or a 512-bit outer hash does not automatically strengthen a weaker inner commitment. Do not claim a uniform 128-bit or NIST-category security level for the whole EVM merely from the ML-DSA parameter choice. Analyze legacy 256-bit commitments and 160-bit routing identities before an end-to-end claim. Where insufficient, design and test versioned supplemental commitments or migrations without pretending existing Ethereum proof formats changed transparently.
 
@@ -68,7 +72,7 @@ Pre-register trusted key material and anchors before retiring classical authoriz
 
 ## P08 — Release, recovery and implementation security
 
-Release manifests and recovery/upgrade authorities must meet the active profile. Hybrid two-of-three release authorization requires both signature types for each counted identity; master, admin and release keys remain separate from consensus/custody keys. A software-update signature does not authorize changing consensus history.
+Release manifests and recovery/upgrade authorities must meet the active profile. Hybrid two-of-three release authorization requires both signature types for each counted identity; master, admin and release keys remain separate from consensus keys. Future custody keys require their own authority boundary. A software-update signature does not authorize changing consensus history.
 
 Use secure RNG, secret-memory hygiene, constant-time reviewed implementations where applicable, bounded decoding and tested error handling. Review implementation-specific side channels, dependency provenance and backup/restore. No test-only verifier bypass may enter a production build.
 
@@ -76,7 +80,7 @@ Transport upgrades use maintained protocols and explicit downgrade protection; d
 
 ## P09 — Performance and accounting
 
-Measure real public-key/signature sizes, key registration cost, signature verification/signing latency, memory, block/consensus bytes and storage replication. Separate per-user-operation authentication from per-validator-vote and per-bridge-message costs.
+Measure real public-key/signature sizes, key registration cost, signature verification/signing latency, memory, block/consensus bytes and storage replication. Separate per-user-operation authentication from per-validator-vote costs. Any later adapter measures its own proof/message costs without setting EVE's transaction rate or introducing remote acknowledgement.
 
 Capacity model: `signature_bytes_per_second = authenticated_operations_per_second * measured_signature_bytes`, plus keys/envelopes, validator traffic, replication and receipts. Batching commitments does not eliminate original authorization bytes or verification work. Do not assume PQ signatures compress or aggregate like BLS.
 
@@ -90,7 +94,7 @@ Meter worst-case verification and invalid-signature spam. Add limits before expe
 | T-P02 | Classical-only, PQ-only, mismatched-message/key, wrong-domain and duplicate-signer inputs fail where hybrid is required. |
 | T-P03 | Simulate classical-key compromise in a task-owned test network: actual vote/commit/light-client and protected-account paths still require valid enrolled PQ authorization. No production signature-forging bypass. |
 | T-P04 | Enrollment, activation, rotation, retirement, stale checkpoint and mixed-version boundaries preserve authenticated history and prohibit downgrade. |
-| T-P05 | Protected-account admin, recovery, permit/session and bridge paths cannot fall back to classical-only authorization; nonce/replay/expiry tests pass. |
+| T-P05 | Protected-account admin, recovery, permit/session and staking/control paths cannot fall back to classical-only authorization; nonce/replay/expiry tests pass. Bridge-specific custody extensions remain deferred under D40. |
 | T-P06 | Signer crash/retry, backup restore, malformed large signatures and resource-exhaustion tests preserve safety and bounded queues. |
 | T-P07 | Full RPC-to-execution-to-finality-to-master/sync verification enforces the profile, including the H/H+1 commitment rules. |
 | T-P08 | Real security-profile benchmarks report byte/CPU/storage costs and unchanged serial/parallel semantics. |

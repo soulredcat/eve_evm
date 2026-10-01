@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{encode_root_record::encode_root_record, height_key};
 use crate::state::types::{
     COMMIT_PREFIX, HEADER_PREFIX, ID_PREFIX, RECEIPT_PREFIX, ROOT_PREFIX, TX_PREFIX,

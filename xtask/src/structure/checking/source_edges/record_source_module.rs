@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     collect_module_path_attributes::collect_module_path_attributes,
     source_edge_inventory_adapter::SourceEdgeInventoryAdapter, types::SourceTarget,

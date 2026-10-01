@@ -1,9 +1,18 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Authorization-path inventory
 
-Status: B0 inventory; mandatory path integration is SEC1–SEC3 work. Existing
+Status: B0 inventory; mandatory core integration is SEC1/SEC3 work. Existing
 `eve-crypto` paired verification is a local primitive, without authenticated
 enrollment or consensus-engine use. A caller-supplied paired identity is not a
 trusted validator/account registration.
+
+D40 defers bridge custody and external-chain client paths below to separate
+programs, `DEFERRED_UNTIL_EVE_TESTNET`, with subsequent owner scope required.
+They do not fail current core profile acceptance. Historical inventory remains
+factual; core EVE follower/light-client, signer and recovery paths remain required.
 
 | Boundary / operation | Initial assumption | Required protected authorization / missing integration | Gate |
 |---|---|---|---|
@@ -21,14 +30,25 @@ trusted validator/account registration.
 | Public/bootstrap/master-following clients | No authenticated runtime yet | Historical profile/set/anchor binding; verified replay or authenticated commitments; master has no finality key | T-M05/T-P07 |
 | Stored checkpoints/snapshots | Storage checksums are not authentication | Trusted history/set/profile, replay tail and expiration; old classical anchors are not retroactively PQ | T-M08/T-P04/T-P07 |
 | Master administration / endpoint access | Protected transport still unimplemented | Separate credentials, least authority, authentic transport; cannot vote, approve a route or rewrite history | T-M05/T-P09 |
-| Bridge deposit/burn user authority | Both endpoints' actual account model | Protected EVE account; explicitly disclose classical external wallet/source authority | T-P05/T-BR09/T-I09 |
-| Bridge source-client updates / claims | No source verifier implemented | Real source finality, inclusion, network, historical keys and profile; atomic replay/backing check | T-BR01–T-BR05/T-I05 |
-| Bridge custody/token mappings | No custody runtime implemented | Chain-specific contract/program ownership, exact origin/deployment identity, backing conservation | T-BR07/T-BR08/T-I06 |
-| Bridge pause/resume/recovery | No incident runtime implemented | Pause-only authority; authorized fresh-anchor reconciliation for resume; no emergency mint/unlock | T-M09/T-BR06/T-BR10 |
+| Core conflicting-finality handling | Observable authenticated history conflict | Quarantine affected authentication/readiness, preserve evidence; master cannot choose replacement history or clear conflict | T-M09 |
 | Releases / upgrade control | Two-of-three development identities, not implemented | Both signatures per counted identity, manifest/artifact binding, anti-downgrade; separate from consensus/custody | T-P09 |
 | Transport authentication | TLS/P2P credentials not selected/activated | Maintained protocol, authenticated peers and downgrade protection; classify remaining classical certificates | T-P09 |
 | Transport key exchange | Not selected/activated | ML-KEM is key agreement, not signatures; use maintained hybrid transport and record confidentiality separately | T-P09 |
-| External Ethereum/Solana consensus/admin | External classical assumptions | Route-specific verification/upgrade controls; EVE authentication cannot upgrade external key security | T-BR09/T-I09 |
+
+## Deferred separate-program paths
+
+These rows are future program obligations, not current core dependencies or
+claims of completed custody. Any authorized adapter must conform to EVE's public
+versioned evidence and ordinary authenticated transactions. Remote-chain
+availability/speed cannot control EVE block production, voting, finality or sync.
+
+| Boundary / operation | Historical initial assumption | Required future protected authorization | Deferred gate |
+|---|---|---|---|
+| Bridge deposit/burn user authority | Endpoints' actual account models | Protected EVE operation; disclose external classical wallet/source authority | T-BR09/T-I09; program extension of T-P05 |
+| Bridge source-client updates / claims | No source verifier implemented | Actual source finality/inclusion/historical profiles; atomic replay/backing checks | T-BR01–T-BR05/T-I05 |
+| Bridge custody/token mappings | No custody runtime implemented | Chain-specific contract/program authority, exact origin/deployment and conserved backing | T-BR07/T-BR08/T-I06 |
+| Bridge pause/resume/recovery | No incident runtime implemented | Pause-only authority; fresh-anchor reconciliation for resume; no emergency mint/unlock | T-BR06/T-BR10; program extension of T-M09 |
+| External consensus/admin | External classical assumptions | Route-specific verification/upgrade controls; EVE cannot upgrade external key security | T-BR09/T-I09 |
 
 No row is accepted merely because it appears here. Existing standard signatures
 and external BLS/Ed25519 remain vulnerable to a sufficiently capable quantum

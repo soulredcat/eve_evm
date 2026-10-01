@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #![allow(dead_code)] // Shared structural storage fixtures used by separate test binaries.
 use eve_state::{
     Address, B256, BlockPayload, Bytes, DevelopmentGenesis, GenesisAccount, GenesisValidator,

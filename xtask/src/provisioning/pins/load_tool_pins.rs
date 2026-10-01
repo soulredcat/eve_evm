@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::validate_artifact_pin;
 use crate::provisioning::{paths::resolve_contained_path, types::ToolPins};
 use anyhow::{Result, ensure};

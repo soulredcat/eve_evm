@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{encode_account_record::encode_account_record, height_key};
 use crate::state::types::{ACCOUNT_PREFIX, HASH_PREFIX, SLOT_PREFIX, SYSTEM_PREFIX};
 use anyhow::{Result, anyhow};

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "osaka",
+  "files": {
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/contract_creation_transaction.json": "0479226b84d74afbb2b2db20128239e440fcbe1d2515ef7bb5f0a88b59b24acf",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/contract_initcode.json": "67703d6efaa5557fd363342e815c7f2e987449223e6ebe60938cb293f7670763",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_call_operations.json": "a3174c81212caeb9ae57f75811af8c9b804693f274c28bce2381e072b3909cee",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_gas_usage_contract_wrapper.json": "2d647c56a1e0bf3e979a3fb3b779ba336b827edb9d7e7e9677be5e10abb2c4fe",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_invalid_inputs.json": "4803716c193e619c65420e84d32cc88c2f2c38536dbdb8b06206a8dd3f9c757e",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_used_in_transaction_entry_points.json": "51ee84816de7ab8cb5967174a40dbe301776eb33e3534e4fb3cfa2f3f0040f07",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_variable_gas_cost.json": "9e55e54698c8f2ef7519b1645cb11f0d43c0eef5b3a4c3a9a4d71b1ece288ec8",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/modexp_variable_gas_cost_exceed_tx_gas_cap.json": "729d4da1f42d636ba2535496a038aab7191026b71e183e036677b40eba5e1cc2",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/vectors_from_eip.json": "1439c38d61f40328f3a55b755cd885b68e364ed5f29c6e31e2980e1f971b7330",
+    "fixtures/state_tests/for_shanghai/osaka/eip7883_modexp_gas_increase/modexp_thresholds/vectors_from_legacy_tests.json": "7974a25a89fa3a20b5d13701c4ce5338f09c1cca5c5e8699020a6be67c32cf11"
+  }
+}

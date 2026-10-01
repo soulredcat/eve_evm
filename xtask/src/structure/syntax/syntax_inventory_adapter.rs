@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{record_closure, record_impl_method, record_item, record_trait_method};
 use crate::structure::types::syntax_types::SyntaxInventory;
 use syn::visit::Visit;

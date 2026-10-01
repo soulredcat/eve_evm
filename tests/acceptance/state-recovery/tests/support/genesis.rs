@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{Address, Bytes, U256};
 use ed25519_dalek::SigningKey;
 use eve_protocol_config::{

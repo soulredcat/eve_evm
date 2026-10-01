@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 05 — Economic invariants
 
 The user-selected split is 40% burn, 30% node reward pool and 30% validator reward pool. Implement deterministic integer accounting over collected gas fees after applicable gas refunds, including fees from valid reverting transactions. Do not distribute transaction value as fees.

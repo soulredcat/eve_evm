@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 17 — Validator lifecycle, node work and rewards
 
 Status: executable **development** economics. Parameter values below are test-network defaults, not approved mainnet tokenomics or a security/economic audit.

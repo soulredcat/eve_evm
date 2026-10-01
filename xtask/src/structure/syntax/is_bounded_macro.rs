@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use syn::{Expr, Token, parse::Parser, punctuated::Punctuated};
 
 pub fn is_bounded_macro(operation: &syn::Macro) -> bool {
@@ -23,6 +27,9 @@ pub fn is_bounded_macro(operation: &syn::Macro) -> bool {
         return syn::parse2::<syn::Meta>(operation.tokens.clone())
             .is_ok_and(|predicate| super::is_cfg_predicate::is_cfg_predicate(&predicate));
     }
+    if name == "matches" {
+        return super::pattern_matching::is_bounded_matches::is_bounded_matches(operation);
+    }
     if name == "Token" {
         return matches!(
             operation.tokens.to_string().as_str(),
@@ -42,6 +49,8 @@ pub fn is_bounded_macro(operation: &syn::Macro) -> bool {
                 | "|"
                 | ":"
                 | "."
+                | "if"
+                | "else"
         );
     }
     if !matches!(

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #![allow(dead_code)] // Shared deterministic public fixtures for separate test binaries.
 
 use eve_state::{

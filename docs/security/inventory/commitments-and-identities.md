@@ -1,9 +1,18 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Commitments, prehashes and identity strength
 
 Status: B0 coverage inventory. Required quantum properties depend on the use of
 each hash and its input structure. No uniform whole-chain security category is
 inferred from ML-DSA-65. Existing inner 256-bit commitments and 160-bit address
 namespaces need explicit review before a protected-profile claim.
+
+Current scope is EVE ownchain under D40. Core EVM commitments, EVE finality/header
+binding, authenticated recovery and crypto identity analysis remain mandatory.
+External-chain/bridge entries are historical reference for separate programs,
+`DEFERRED_UNTIL_EVE_TESTNET`, and are excluded from current core acceptance.
 
 | Item | Format / purpose | Required review and remaining limitation |
 |---|---|---|
@@ -19,11 +28,21 @@ namespaces need explicit review before a protected-profile claim.
 | EVE execution/application commitment | Plan 14 versioned execution header/system root | H execution is linked by the authenticated H+1 application commitment; arbitrary root plus H certificate is insufficient |
 | Public storage checksums/WAL/durable cursor | Recovery encoding and RocksDB durability | Corruption detection/durability is not source authentication; expose applied/durable/authenticated watermarks separately |
 | Snapshot/delta/chunk hashes | Versioned chain/profile-bound recovery commitments | Authenticate anchor and replay tail; do not lose the only recovery copy; reject stale/foreign roots |
-| Bridge economic/message IDs | Not implemented | Hash all namespace/genesis/route/deployment/asset/amount/recipient/sequence/profile fields; retries and alternate proof locators must not create new entitlement |
-| Public route binding bytes | `eve-route-binding-v1` serialization, without an approval signature | Metadata only; future manifest hashing/authentication must include versioned implementation/anchor/upgrade policies and cannot trust this public field alone |
-| Ethereum source evidence | Beacon SSZ/SHA-256, BLS sync committees, execution Keccak roots | Both fork-specific binding and inclusion needed; source assumptions are classical/external |
-| Solana source evidence | Full 32-byte public keys, actual pinned ledger/BLS certificate format where active | Authenticate epoch rank/stake/key mapping and custody execution; no fabricated Ethereum receipt trie |
 | Release/package/source identities | SHA-256 artifact digests plus future paired authorization | Digest pins identify bytes, not independent audit, execution validity, trustworthy genesis or license permission |
+
+## Deferred separate-program commitments
+
+These entries preserve research from source revision
+`038fe80f412754e5a7080240ca0e57ba3c19e368`; the metadata/bridge packages are
+removed from active core. No new adapter prototype or custody implementation is
+authorized. Reaching EVE testnet permits subsequent owner scope consideration.
+
+| Item | Historical format / purpose | Required future review |
+|---|---|---|
+| Bridge economic/message IDs | Not implemented | Bind full route/network/deployment/asset/amount/recipient/sequence/profile; retries cannot create new entitlement |
+| Public route binding bytes | Historical `eve-route-binding-v1`, no approval signature | Metadata only; future authenticated manifest must bind verifier/anchor/upgrade policy; no core registry dependency |
+| Ethereum source evidence | Beacon SSZ/SHA-256, BLS committees, execution Keccak roots | Actual fork-specific finality/inclusion; source remains classical/external |
+| Solana source evidence | Full public keys and actual active ledger/certificate format | Authenticated epoch rank/stake/key changes and custody execution; no fabricated Ethereum receipt trie |
 
 Supplemental wider commitments may protect a future native authorization path,
 but wrapping a weak inner commitment in a wider digest does not restore lost

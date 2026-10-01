@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::provisioning::paths::resolve_contained_path;
 use anyhow::{Context, Result, ensure};
 use std::{

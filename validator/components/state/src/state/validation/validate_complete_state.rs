@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{U256, keccak256};
 use alloy_trie::KECCAK_EMPTY;
 use eve_protocol_config::records::{encode_system_record, hash_system_key};

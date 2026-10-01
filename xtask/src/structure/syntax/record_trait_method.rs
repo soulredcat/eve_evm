@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     has_test_configuration::has_test_configuration, is_thin_delegate::is_thin_delegate,
     syntax_inventory_adapter::SyntaxInventoryAdapter,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::compute_artifact_digest;
 use crate::provisioning::{
     execution::run_checked_command, paths::resolve_contained_path, types::ArtifactPin,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::support::Fixture;
 use std::{fs, path::Path};
 use xtask::structure::inspection::compute_source_digest::compute_source_digest;
@@ -32,7 +36,7 @@ fn t_l06_current_execution_source_relocation_preserves_exact_root_and_receipt_co
             "canonical source bytes diverged: {suffix}",
         );
     }
-    fixture.policy(&format!("[[adapters]]\npath = \"{relocated}/execution/serial/fees/handler/fee_handler_adapter.rs\"\nexternal_trait = \"revm::handler::Handler\"\nreason = \"Exact canonical fee-adapter copy for source-relocation regression.\"\nreviewer = \"test-reviewer\"\n"));
+    fixture.policy(&format!("[[adapters]]\npath = \"{relocated}/execution/serial/fees/handler/fee_handler_adapter.rs\"\nexternal_trait = \"revm::handler::Handler\"\nreason = \"Exact canonical fee-adapter copy for source-relocation regression.\"\nreviewer = \"test-reviewer\"\n\n[[adapters]]\npath = \"{relocated}/execution/native/provider_adapter.rs\"\nexternal_trait = \"revm::handler::PrecompileProvider\"\nreason = \"Exact reviewed inactive-native provider copy for source-relocation regression.\"\nreviewer = \"test-reviewer\"\n"));
     fixture.assert_pass();
 }
 

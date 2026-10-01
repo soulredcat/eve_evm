@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{apply_journal_operation::apply_journal_operation, encode_state_journal};
 use crate::{
     CompleteState, StateBudget, StateError, StateJournal, StateVersion, validate_complete_state,

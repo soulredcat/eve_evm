@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     solidity_probe_types::{SolidityProbeInput, SoliditySettings, SoliditySource},
     validate_solidity_probe_output::validate_solidity_probe_output,

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::execution::serial::fees::FeeAllocation;
 use crate::transactions::signed::TransactionValidationError;
 use alloy_consensus::ReceiptEnvelope;

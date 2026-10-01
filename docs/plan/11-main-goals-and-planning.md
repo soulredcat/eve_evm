@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 11 — Main goals and planning
 
 ## Requirements
@@ -22,6 +26,8 @@ Every Rxx must map to concrete tests/evidence in [20](20-test-vectors-and-accept
 ## Delivery policy
 
 Develop the smallest complete path first, but continue past a toy prototype. Keep production trust boundaries present in shared interfaces from the beginning. Make bounded development decisions without repeated approval requests; preserve explicit owner gates for real funds, launch, governance, licensing and infrastructure spending.
+
+Decision D40 prioritizes EVE's own chain. Mandatory current work is B0–B11 with SEC0, SEC1 and SEC3; SEC2 and INT0–INT3 are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs. Their absent routes do not fail core acceptance, and deferral does not claim the historical bridge/interoperability requirements passed. EVE maintains its own versioned verification interfaces without external-chain execution, latency, availability or storage-acknowledgement dependencies.
 
 ## Success levels
 

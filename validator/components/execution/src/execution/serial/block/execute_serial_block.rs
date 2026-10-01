@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     BlockEnvironment, BlockExecutionError, BlockOutcome, TransactionOutcome,
     validate_block_environment,
@@ -15,7 +19,7 @@ use alloy_primitives::{Bytes, U256};
 use alloy_trie::root::ordered_trie_root_encoded;
 use core::{convert::Infallible, marker::PhantomData};
 use revm::{
-    Context, ExecuteCommitEvm, ExecuteEvm, MainBuilder, MainContext,
+    Context, ExecuteEvm, MainBuilder, MainContext,
     context_interface::{Transaction, result::EVMError},
     database::InMemoryDB,
     handler::Handler,
@@ -38,7 +42,9 @@ pub fn execute_serial_block(
             super::populate_block_environment::populate_block_environment(environment, block)
         })
         .with_db(parent.clone());
-    let mut evm = context.build_mainnet();
+    let mut evm = context
+        .build_mainnet()
+        .with_precompiles(crate::execution::native::inactive_native_provider());
     let mut handler: EveFeeHandler<_, EVMError<Infallible>, _> = EveFeeHandler {
         marker: PhantomData,
     };
@@ -76,7 +82,10 @@ pub fn execute_serial_block(
             gas_used,
         ));
         let changes = evm.finalize();
-        evm.commit(changes);
+        super::super::state::commit_shanghai_changes(
+            &mut evm.ctx.journaled_state.database,
+            changes,
+        );
         outcomes.push(TransactionOutcome {
             hash: transaction.hash,
             sender: transaction.sender,

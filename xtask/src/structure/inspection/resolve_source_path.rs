@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::structure::policy::validate_relative_path::validate_relative_path;
 use anyhow::{Result, bail};
 use std::path::{Path, PathBuf};

@@ -1,6 +1,17 @@
-# Exact source and tool pins
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
 
-Inspected on 2026-09-30. These reference/tool pins identify inputs; they are not
+# Historical external source and tool pins
+
+Inspected on 2026-09-30 for B0/INT0, with evidence preserved at source revision
+`038fe80f412754e5a7080240ca0e57ba3c19e368`. Under D40, external consensus/Agave
+pins and INT work are `DEFERRED_UNTIL_EVE_TESTNET`, not active core provisioning
+requirements. Solidity, EVM primitives, Shanghai execution vectors and pinned
+developer clients remain core correctness inputs. All pins below are historical;
+a later separate program must review its actual sources/tools before use.
+
+These reference/tool pins identify inputs; they are not
 approval of a deployed network, trust anchor, custody model or source license for
 EVE. All downloaded raw archives/binaries remain ignored task-local artifacts.
 No remote installer script was executed. Exact Cargo dependencies and checksums
@@ -36,7 +47,7 @@ Agave's pinned manifests identify API families: solana-program 4.1.0,
 solana-pubkey 4.3.0, solana-message 4.5.0, solana-transaction 4.2.0,
 solana-packet 4.3.0, spl-token-interface 3.0.0 and
 spl-token-2022-interface 3.1.0. These are inspected upstream inputs, not new EVE
-dependencies. INT1 must pin its actual program/SDK transitive lockfiles and SBF
+dependencies. A subsequently authorized INT1 must pin actual program/SDK lockfiles and SBF
 compiler tools before integration; no claim is made that these crates already
 compile together as an EVE adapter.
 

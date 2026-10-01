@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::state::encoding::{encode_list, encode_version};
 use crate::{JournalOperation, StateBudget, StateError, StateJournal};
 use eve_protocol_config::records::encode_system_record;

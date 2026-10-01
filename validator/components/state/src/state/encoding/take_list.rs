@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::StateError;
 
 pub(crate) fn take_list<'a>(input: &mut &'a [u8]) -> Result<&'a [u8], StateError> {

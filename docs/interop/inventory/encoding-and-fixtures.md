@@ -1,4 +1,14 @@
-# Version-one metadata encoding and fixtures
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
+# Historical version-one metadata encoding and fixtures
+
+Scope: B0/INT0 source at `038fe80f412754e5a7080240ca0e57ba3c19e368`, before D40's
+removal of unused bridge/interop packages from active core. All file/type names
+below describe that recorded revision. They are retained encoding evidence, not
+current core interfaces or a requirement to re-create them. SEC2/INT0–INT3 are
+`DEFERRED_UNTIL_EVE_TESTNET` for subsequently authorized separate programs.
 
 All integers are checked. No floats, display rounding, time-dependent score,
 network calls or transaction effects occur in this component. Source/destination
@@ -81,7 +91,7 @@ Two-EVE SEC2 development fixture reservations are `eve-bridge-a-v1`/31337 with
 synthetic genesis [a1;32] and `eve-bridge-b-v1`/31338 with [b2;32], fake 18-decimal
 native `EVE_TEST` assets only, capped at 10^18 base units per metadata request.
 `tests/fixtures/two-eve-reservations-v1.json` freezes these reservations and tests
-reject custody admission. Real independent genesis files/hashes, enrolled validator
-sets, custody addresses and authenticated proof fixtures must be generated from
-the actual B3/SEC2 runtimes before those tests can run. No reserved identifier may
+reject custody admission. A future separate program would generate real independent
+genesis files/hashes, enrolled sets, custody addresses and authenticated proofs
+from actual EVE runtimes before executing SEC2. No reserved identifier may
 be treated as a finality anchor or irreversible production-genesis choice.

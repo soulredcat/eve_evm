@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// Required verification rule selected by authenticated network configuration.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ConsensusAuthenticationRequirement {

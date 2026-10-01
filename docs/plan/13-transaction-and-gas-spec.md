@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 13 — Transactions, EVM execution and gas
 
 Status: normative devnet choices, explicitly distinct from a promise of full latest-Ethereum protocol equivalence.

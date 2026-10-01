@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 pub fn is_thin_delegate(block: &syn::Block) -> bool {
     let [syn::Stmt::Expr(expression, _)] = block.stmts.as_slice() else {
         return false;

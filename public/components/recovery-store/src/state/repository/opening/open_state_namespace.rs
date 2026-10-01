@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     initialize_state_namespace::initialize_state_namespace,
     open_state_database::open_state_database,
@@ -45,6 +49,8 @@ pub(crate) fn open_state_namespace(
         publication: Arc::new(RwLock::new(None)),
         #[cfg(test)]
         simulated_failure: None,
+        #[cfg(test)]
+        simulated_index_failure: None,
     };
     let ack = validate_reopened_repository(&store)?;
     *store

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Primary implementation references
 
 Reviewed for planning on 2026-09-30. These links explain upstream behavior; they are not dependency/version pins or evidence that EVE has been implemented. B0 must record actual selected revisions, digests and compatibility tests.

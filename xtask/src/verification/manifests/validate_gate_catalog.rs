@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::verification::types::manifest_types::GateRegistry;
 use anyhow::{Result, ensure};
 use std::collections::BTreeSet;
@@ -6,8 +10,7 @@ use std::collections::BTreeSet;
 pub fn validate_gate_catalog(registry: &GateRegistry) -> Result<()> {
     let expected = (0..=11)
         .map(|index| format!("B{index}"))
-        .chain((0..=3).map(|index| format!("SEC{index}")))
-        .chain((0..=3).map(|index| format!("INT{index}")))
+        .chain(["SEC0", "SEC1", "SEC3"].map(String::from))
         .collect::<BTreeSet<_>>();
     let actual = registry
         .gates
@@ -16,11 +19,11 @@ pub fn validate_gate_catalog(registry: &GateRegistry) -> Result<()> {
         .collect::<BTreeSet<_>>();
     ensure!(
         registry.version == 1 && registry.gates.len() == expected.len() && actual == expected,
-        "Mandatory B0-B11/SEC0-SEC3/INT0-INT3 catalog is missing, duplicate or substituted"
+        "Mandatory EVE B0-B11/SEC0/SEC1/SEC3 core catalog is missing, duplicate or substituted"
     );
     for gate in &registry.gates {
         let required: &[&str] = match gate.id.as_str() {
-            "B0" | "SEC0" | "INT0" => &[],
+            "B0" | "SEC0" => &[],
             "B1" => &["B0"],
             "B2" => &["B1"],
             "B3" => &["B2"],
@@ -33,11 +36,7 @@ pub fn validate_gate_catalog(registry: &GateRegistry) -> Result<()> {
             "B10" => &["B9", "SEC3"],
             "B11" => &["B10"],
             "SEC1" => &["B2", "B3", "B4", "B5", "B6"],
-            "SEC2" => &["B3", "B4", "B5", "B6", "SEC1"],
-            "SEC3" => &["B8", "B9", "SEC1", "SEC2"],
-            "INT1" => &["B2", "B3", "B4", "B5", "B6", "SEC2"],
-            "INT2" => &["INT1", "SEC2"],
-            "INT3" => &["INT2", "B8", "B9"],
+            "SEC3" => &["B8", "B9", "SEC1"],
             _ => unreachable!("the mandatory gate catalog was checked"),
         };
         let prerequisites = gate

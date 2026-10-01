@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 pub(crate) fn release_snapshot_lease(leases: &AtomicUsize) {

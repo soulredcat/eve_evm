@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 //! Experimental authentication primitives; this crate does not implement consensus or enrollment.
 #![forbid(unsafe_code)]
 

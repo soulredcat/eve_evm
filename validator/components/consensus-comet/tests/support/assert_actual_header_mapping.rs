@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use anyhow::{Context, Result, ensure};
 use eve_consensus_comet::{
     consensus::commitments::{ExecutionHeight, match_next_header_commitment},

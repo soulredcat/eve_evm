@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::wire::tendermint::types::Header;
 
 use super::{ExecutionHeight, HeaderCommitmentMatch, HeightMappingError, map_finalize_height};

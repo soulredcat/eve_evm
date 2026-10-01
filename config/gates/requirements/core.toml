@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 
 [[cases]]
@@ -50,8 +54,8 @@ id = "R06"
 expected = "Permissionless public ingress/P2P and RPC enforce declared resource limits, overload behavior, authenticated readiness and bounded source failover."
 owner_gates = ["B4", "B6", "B9"]
 required_tests = ["T-N06", "T-N08", "T-N09", "T-N11", "T-A04", "T-A05", "T-Q03"]
-foundation_groups = ["config/gates/groups/protocol-config.toml", "config/gates/groups/interop.toml"]
-foundation_scope = "Typed finite configuration and bounded route metadata only; no public P2P, RPC overload, latency isolation or failover runtime is accepted."
+foundation_groups = ["config/gates/groups/protocol-config.toml", "config/gates/groups/node-policy.toml"]
+foundation_scope = "Typed EVE resource/readiness/source configuration only; later P2P, storage isolation and verified failover acceptance remain mandatory."
 status = "NOT_ACHIEVED"
 
 [[cases]]
@@ -83,7 +87,7 @@ status = "NOT_ACHIEVED"
 
 [[cases]]
 id = "R10"
-expected = "Verified releases/upgrades, protected control/recovery/transport paths and explicit consensus/quantum/bridge threat assumptions remain enforced."
+expected = "Verified releases/upgrades, protected EVE control/recovery/transport paths and explicit consensus/quantum threat assumptions remain enforced."
 owner_gates = ["B8", "B9", "SEC1", "SEC3"]
 required_tests = ["T-Q01", "T-Q02", "T-Q03", "T-Q04", "T-Q05", "T-Q06", "T-Q07", "T-Q08", "T-G07"]
 foundation_groups = ["config/gates/groups/authentication.toml", "config/gates/groups/consensus.toml", "config/gates/groups/xtask.toml"]
@@ -93,7 +97,7 @@ status = "NOT_ACHIEVED"
 [[cases]]
 id = "R11"
 expected = "Real test assertions, fault scenarios, telemetry and source/config-bound evidence reproduce from a clean checkout across all required software gates."
-owner_gates = ["B0", "B9", "SEC3", "INT3"]
+owner_gates = ["B0", "B9", "SEC3"]
 required_tests = ["ALL_REGISTERED_SOFTWARE_GATES", "MANIFEST_VALIDATION", "CLEAN_CHECKOUT_GATE_REPRODUCTION"]
 foundation_groups = ["config/gates/groups/xtask.toml"]
 foundation_scope = "B0 gate discovery, format/lint/build, source identity, pinned tool provisioning and evidence orchestration only; later missing gates remain failures."

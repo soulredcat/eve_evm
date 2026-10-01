@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// Distinct signing purposes for the experimental canonical envelope.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u8)]
@@ -10,7 +14,6 @@ pub enum AuthorizationPurpose {
     AccountOperation = 6,
     AccountRecovery = 7,
     Release = 8,
-    BridgeTransfer = 9,
 }
 
 /// Expected enrollment selected by an authenticated registry, not supplied as untrusted proof data.

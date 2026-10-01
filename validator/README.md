@@ -1,8 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Validator runtime
 
 Planning only; the runtime is not implemented yet.
 
-Role ownership and standalone distribution are absolute requirements. `components/execution/` owns deterministic EVM execution; `components/authentication/` owns authentication; `components/consensus-comet/` owns the pinned consensus API boundary; `components/protocol-config/` owns immutable genesis/native/header/record contracts; `components/bridge-protocol/` owns source-verification/custody capability contracts. Validator-specific signing/consensus wiring stays here. Public readiness/source/persistence policy belongs to the public role. The completed copy-ready validator directory must include required dependencies, lockfile/toolchain, sanitized configuration and notices, and pass build/run after copying only this directory into an unrelated location. No private master implementation or unresolved parent-directory dependency is permitted. Component source does not yet prove a running validator or standalone distribution.
+Role ownership and standalone distribution are absolute requirements. Components own deterministic execution, logical state, authentication, pinned consensus and immutable EVE genesis/native/header contracts. Validator signing/consensus wiring stays here; public readiness/source/persistence stays public-owned. A copy-ready validator must contain all dependencies, locks/toolchain, sanitized configuration and notices and build/run after copying this directory alone. Private master implementation and unresolved outside paths are forbidden. Current components do not yet prove a complete validator or standalone distribution. External programs are deferred until testnet under D40.
 
 Owns transaction execution/replay, proposal validation, consensus participation, finality and validator lifecycle integration. Uses shared EVM/protocol/state modules and a reviewed BFT adapter; no private master database dependency.
 

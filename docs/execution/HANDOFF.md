@@ -1,102 +1,124 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Resumption handoff
 
-Updated: 2026-10-01. B0 including SEC0/INT0 and B1 passed their complete local
-gates. The owner authorizes integrating each verified bulk into main and pushing.
-Inspect actual branch, HEAD, index and status; no background continuation is implied.
+Updated: 2026-10-01. The owner authorizes integrating each verified bulk into
+main and pushing. Inspect branch, HEAD, index and dirty files before work.
+No background continuation or unobserved hosted result is implied.
 
-## Verified position
+The B2 integration contains verified serial RPC, Redcat notices and D40 changes,
+tested at base 038fe80 with an unchanged before/after source bundle. The commit
+containing this record is identified by Git, avoiding a self-referential hash.
+Verify main/origin publication and hosted B2 independently; neither is inferred.
+Read [STATUS](STATUS.md), [B2 evidence](B2-20261001.md), AGENTS, goal,
+plans 13/18/20/23/24/25/29/32 and the affected directory READMEs.
 
-Read [STATUS](STATUS.md), [B1 evidence](B1-20261001.md), prior B0/CI records,
-AGENTS/goal and mandatory plans. Latest local B1 repair gate executes 273 cases with
-zero failed/ignored/filtered, strict lint, format, structure and release build.
-Its input/source/config/tool/output identities are recorded in the reviewed B1
-record and ignored raw report. Post-run evidence/status gets final checks before
-the coherent B1 commit; verify actual publication rather than assume a branch.
+## Current scope and ownership
 
-Twelve packages have explicit ownership. Validator owns immutable protocol,
-logical state, one canonical EVM/system root implementation and execution/auth/
-bridge/consensus contracts. Public owns complete recovery repository, cache/
-snapshot/policy and interop metadata. Master owns the explicit development-only
-composition; tools/tests own gates and independent acceptance. No private master
-dependency or root crates/create dumping directory is allowed.
+D40 defers SEC2, INT0–INT3, bridge and external-chain programs until EVE testnet
+and a subsequent separate-program instruction. Future programs adapt to EVE's
+public APIs. External RPC, confirmation speed, routes and custody never govern
+core execution, voting, finality or durable acknowledgement. Plans 28/30 and
+config/deferred-programs retain future safety contracts and historical provenance.
+The unused interop/bridge packages are removed; their baseline is recoverable
+at 038fe80 and their task-owned noticed copies remain ignored locally.
 
-The master CLI uses DEV_ALL_IN_ONE with explicit acknowledgement and dedicated
-ignored data. It performs real genesis/init/reopen/EVM apply/snapshot/restore,
-rejects production/master-sync-only/private-signing material and advertises no
-authenticated validator finality. Genesis debits bonds into f100 exactly once.
-Full roles, four-validator signing/finality, public worker/network recovery,
-standalone copied distributions, security/custody and TPS remain unfinished.
+Current core contains B0–B11 plus SEC0/SEC1/SEC3: 15 gates, with mandatory core
+T-M/T-P/persistence coverage retained. Twelve packages have explicit ownership.
+Validator owns canonical protocol, state, execution, authentication and Comet API
+contracts. Public owns admission/RPC, verified-view policy and recovery repository.
+Master owns private composition/storage entry points. Public and validator do
+not depend on private master. Standalone copied distributions remain B6 work.
 
-## Actual environment and CI
+The owner requested Redcat permission-only notices. Commentable first-party
+files carry SPDX/permission comments; exact REUSE associations cover JSON,
+generated locks and preserved upstream material without altering canonical bytes.
+LICENSE and LICENSES retain statutory/platform/third-party rights. This is a
+copyright policy, not cryptographic file signing or proof of legal ownership.
+Every implemented bulk runs check-ownership alongside structure; never waive either.
 
-Pinned task-local tools are provisioned under local-tests/toolchain-b0, recipe 2
-with readonly Go source modules, no enclosing EVE VCS stamp and exact upstream
-revision identity. Historical recipe 1 tools were preserved in a separate ignored
-namespace. Do not silently reuse old recipe receipts. Source/archive/binary/
-client-tree hashes and checked child environment are revalidated by every gate.
+## Verified position and B2 scope
 
-Linux reference uses Rust 1.97.1, clang 19/libclang 19, GCC 14.2, make 4.4.1, Perl 5.40.1
-and the explicit recorded native/reference pins. Local WSL Cargo is task-owned
-and may not be on PATH; consult prior commands in ignored reports, never alter
-unrelated toolchains/services. No complete-role service is running at checkpoint.
+Historical B0 including then-authorized SEC0/INT0 passed 205 cases. B1 passed
+271 cases, followed by the repaired 273-case gate. Hosted runs at b0b9efa and
+038fe80 separately passed 271 and 273; see the checkpoint evidence record.
 
-Hosted CI attempts are separate: extraction locale, checksum-manifest LF,
-enclosing Git provenance and checkout UID trust were repaired in scoped commits.
-The latest observed hosted failure reaches consensus after crypto/bridge, while
-the local actual-engine fixture passes. HTTP chunk framing was repaired and
-fixed safe diagnostic categories added; inspect the current hosted run before
-claiming it passes. Raw logs/keys/databases are not uploaded or published.
-The checkpoint race is reproduced and repaired locally: RPC block-store height
-can precede synced ABCI application Commit. The lifecycle now waits for both;
-see CI-20261001-checkpoint.md and the ignored fault/control report. Preserve the
-minimum checkpoint and restart assertions. Its integrated 273-case B1 gate passes;
-a separately observed hosted result remains required before claiming hosted success.
+B2's complete local gate exits 0 with 348 exact Cargo cases, zero ignored/failed/
+filtered, format, strict lint, release, structure and ownership. Tooling has 133
+cases; nested 18 client flows and 3495 corpus variants are not added again.
+See the integrated record for exact source/config/tool/output hashes and commands.
+
+The canonical block builder handles headers/basefee, signed admission, isolated
+simulation and inactive f100 dispatch. Per-transaction EIP-161 cleanup repairs
+touched empty accounts without changing upstream goldens. Shared trie operations
+provide bounded local membership proofs, never validator certificates.
+
+Public has real HTTP/WS RPC and nonce-aware bounded admission. The development
+producer applies canonical execution and synced storage before publishing local
+receipts/events. Complete history indices preserve canonical B1 bytes, bootstrap
+in bounded whole-block prefixes, bind completion to database identity and fence
+ambiguous writes. Actual interrupted children and signed-history corruption
+tests are distinct from simulated faults and hardware power-loss certification.
+
+The independently compiled Node/TypeScript/viem client executes 18 enforced
+flows, 12 Solidity sources, two independent public stores/processes and one
+master RPC composition. Strict compilation emits no unverified client.
+The pinned unchanged Shanghai subset covers all 194 state files/3495 variants;
+EVE compares 3118 protected executions with its declared economic effects.
+84 Ethereum-valid unprotected envelopes remain explicit EVE rejections; all
+88 unprotected inputs are tested. Reference gas is 120M; live development is 30M.
+
+## Exact next commands
+
+First: git status --short --branch. Verify B2 publication, then read plan 12 and
+the consensus component README. Next is B3: actual four-validator execution,
+certificates and signing durability. B3 remains NOT_IMPLEMENTED until its full
+gate exists and passes; cargo xtask verify --bulk B3 must report that truth.
+
+All publishable source must stay frozen during the full gate's before/after
+fingerprint. Fix genuine failures, rerun affected checks and the full gate.
+Record commands/counts/source/config/tool/output identities in reviewed evidence,
+review the index/outgoing history, commit coherently, fast-forward main and push
+without force. Keep primary/task-owned checkouts clean; preserve unrelated edits.
+Observe the resulting hosted gate separately. B3 preparation found native FilePV
+does not sync the parent directory after rename. Use a reviewed durable signer
+contract, explicit non-nil vote execution/data approval, correct engine remote
+priv-validator wire support and replay metadata; never treat process-restart tests
+as hardware power-loss or general backup-rollback protection.
+
+## Environment and continuity
+
+Linux reference uses Rust 1.97.1, clang/libclang 19 and the recorded native pins.
+Local WSL Cargo is under /home/admin/.cache/eve-evm-toolchain/cargo/bin;
+CARGO_HOME and RUSTUP_HOME use that task toolchain, while CARGO_TARGET_DIR is
+/home/admin/.cache/eve-evm-build/target. Never alter unrelated tools/services.
+Task tools use ignored local-tests/toolchain-b0, recipe 2; pin/receipt/archive/
+binary/client-tree identities are revalidated. No globally installed Python
+or automatic service restart is needed. Raw logs/keys/databases stay ignored.
+
+Comet RPC height can advance before application Commit. Lifecycle recovery
+waits for both RPC and synced application marker; preserve the checkpoint/restart
+assertions. Native hybrid activation remains rejected until actual SEC1 support.
+Every child development process must be stopped/waited by its creating fixture.
 Never restart unrelated trading bots.
 
-## Exact next step — B2
+## Remaining production boundaries
 
-First command: `git status --short --branch`. Then read plans 13/18/20/23 and
-the public/validator/state/execution/recovery READMEs. B2 is real serial EVM,
-fee/RPC/developer flow, not another in-memory scaffold:
+DEV_ALL_IN_ONE and LOCAL_DEV_UNAUTHENTICATED are explicit development only.
+Local receipts, durability and root matching never establish validator finality.
+Four-validator consensus/anti-double-sign durability is B3; authenticated recovery
+and isolated public RAM persistence are B4. Staking/native work is B5, copied roles
+are B6, parallel equivalence is B7, HA/releases are B8 and regional testnet is B9.
+Whole-state copies/synced B2 persistence are bounded correctness baselines,
+not the secured 1M architecture or a zero-storage-overhead promise.
 
-1. Add a thin public JSON-RPC runtime with bounded admission, request/response
-   types, validation and cache-first immutable state service. Raw DB remains in
-   the canonical repository; deterministic execution performs no network calls.
-2. Decode/recover actual signed Shanghai envelopes, execute through the canonical
-   complete-state serial oracle and expose real receipts/logs/code/storage/
-   balances/block hashes. Keep native/EVE fee differences explicit.
-3. Integrate local development production without granting master production
-   finality. Four-validator consensus/sign durability remains B3, not a fake
-   certificate or trusted-master fallback.
-4. Add actual Solidity deploy/native/ERC20/swap/revert developer fixtures and
-   applicable pinned upstream compatibility vectors. Wallet/client/tool versions,
-   resource/nonce/fee bounds and error behaviors must be measured/declared.
-5. Extend B2 gates with nonzero exact coverage, retain B0/B1 regressions and
-   structure. Run full gate, record evidence, commit and integrate only on pass.
-
-B1 whole-state copies/recovery encoding are a bounded correctness baseline;
-they are not the secured 1M storage/execution architecture. Clone reservations
-include both oracle images; a partial lazy cache is never a complete state root.
-Stored/root-matched data and local checksum snapshots are not finality proofs.
-Use the existing retained-history/content digest, canonical codecs and explicit
-durable acknowledgement; preserve exact replay and atomic fee/system effects.
-
-## Non-negotiable limits
-
-Validators own finality; no quorum lowering or master takeover. Sign only after
-execution/data and durable anti-double-sign state. Public RAM state retains
-durable recovery inputs with separate applied/durable/authenticated heights.
-Zones/nearest endpoints grant no authority. Preserve fee 40/30/30 and secured 1M
-aggregate finalized TPS target, which remains unverified.
-
-Baseline assumes less than one-third Byzantine weighted power and strictly more
-than two-thirds unique valid power. 51% continuity remains unsatisfied. Native
-hybrid activation stays unsupported/rejected until real SEC1 enforcement.
-Custody/routes remain disabled; no primitive/interface/unit result certifies the
-network or external chain. Deferred liquidity/stabilization remains out of scope.
-
-Publish English source/docs and compact reviewed evidence. Never stage ignored
-local tests/tools/raw logs/private material/databases/dependency/build output.
-Review index/outgoing history and preserve unrelated edits. Mainnet/genesis
-economics, real keys/funds/custody, paid infrastructure, license and visibility
-changes retain explicit owner boundaries.
+Validators retain sole finality; sign only after execution/data and durable
+anti-double-sign state. Zones/nearest masters confer no authority. Preserve
+40/30/30 and 1M aggregate finalized TPS. Baseline assumes less than one-third
+Byzantine weighted power and strictly more than two-thirds unique valid power;
+51_PERCENT_CONTINUITY remains UNSATISFIED_BY_BASELINE.
+No mainnet, real funds/custody, paid resources, license grant, visibility change
+or irreversible genesis decision is authorized. Publish English reviewed source
+and compact evidence; never stage local artifacts, dependencies, keys or raw logs.

@@ -1,7 +1,15 @@
-# Per-direction source-proof feasibility
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
 
-Status: source/API inspection and compile-tested B0 metadata. Every actual source
-authentication/destination custody path below is NOT_IMPLEMENTED. No RPC
+# Historical per-direction source-proof feasibility
+
+Status: source/API inspection and compile-tested B0 metadata at source revision
+`038fe80f412754e5a7080240ca0e57ba3c19e368`. Every actual source authentication/
+custody path was NOT_IMPLEMENTED; under D40 all routes and INT/SEC2 work are now
+`DEFERRED_UNTIL_EVE_TESTNET` for subsequently authorized separate programs. The
+remaining-work table preserves historical research, not an active core backlog.
+No RPC
 observation, elapsed wait, relayer signature or matching root is a verified claim.
 No additional attestation committee/provider trust has been authorized.
 
@@ -51,16 +59,19 @@ limits require the pinned local runtime test. If staging is needed, authenticate
 route/author/content hash/chunk indices/length/expiry and prevent substitution or
 early consumption. Never disable mandatory PQ verification to fit a packet.
 
-## Prerequisites and failure classification
+## Deferred scope and future prerequisites
 
-Actual EVE consensus finality, durable signing/enrollment and historical client
-authentication are upstream B3/SEC1 dependencies. Shared atomic replay/backing and
-the two-real-EVE fake-asset fixture belong to SEC2. Ethereum/Solana endpoint and
-SDK work can proceed in INT1 independently of a blocked finality verifier.
+Actual EVE consensus finality, durable signing/enrollment and authenticated
+own-chain client history remain core B3/SEC1 work. A future separate program
+consumes those versioned public interfaces; atomic replay/backing, remote source
+clients, two-EVE bridge fixtures and external endpoints/SDK belong to that program.
+None can become a latency, block-production, voting, finality or durable-ack
+dependency of EVE core.
 
-The current blocker is missing implementation/integration evidence, not a proved
-impossibility of external verification. Source anchors, active feature/fork
-configuration and production custody/trust choices are still unavailable or
-unauthorized. Keep these route-specific blockers visible through INT2/INT3.
-Neither local fake-token application tests nor the source libraries above close
-T-I03/T-I04/T-I05/T-I09/T-I10/T-I12 or end-to-end PQ security.
+Current non-execution follows owner scope, not a failed core gate or proved
+impossibility of verification. EVE testnet is the earliest eligibility checkpoint;
+subsequent owner scope is still required. Future work must establish source
+anchors, actual active forks/features, verifier evidence and approved trust/custody
+choices. Historical library/source inspection and fake metadata did not close
+T-I03/T-I04/T-I05/T-I09/T-I10/T-I12 or whole-route PQ security. No live funds,
+external custody or production deployment is authorized.

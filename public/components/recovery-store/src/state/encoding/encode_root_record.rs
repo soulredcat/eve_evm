@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_state::StateVersion;
 
 pub(crate) fn encode_root_record(version: &StateVersion) -> Vec<u8> {

@@ -1,5 +1,9 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #[path = "../state_support/mod.rs"]
-mod state_support;
+pub(crate) mod state_support;
 use crate::state::{
     commit_state, create_state_service, development_state_storage_budget, open_state_repository,
     read_state_service, state_reader, types::SimulatedCommitFailure,

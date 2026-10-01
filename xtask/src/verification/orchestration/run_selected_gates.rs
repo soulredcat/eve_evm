@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::{
     structure::checking::check_structure::check_structure,
     verification::{
@@ -46,6 +50,16 @@ pub(super) fn run_selected_gates(
         report.pending.is_empty(),
         "Requested coverage is NOT_IMPLEMENTED: {:?}",
         report.pending
+    );
+    let ownership = crate::publication::ownership::check_ownership::check_ownership(root)?;
+    std::fs::write(
+        artifacts.join("ownership.json"),
+        serde_json::to_vec_pretty(&ownership)?,
+    )?;
+    ensure!(
+        ownership.violations.is_empty(),
+        "Mandatory Redcat ownership gate failed: {:?}",
+        ownership.violations
     );
     let mut groups = BTreeSet::new();
     for gate in gates {
@@ -112,7 +126,11 @@ pub(super) fn run_selected_gates(
             "warnings",
         ],
     )?;
-    if report.requested.iter().any(|id| id == "B1") {
+    if groups.contains("config/gates/groups/serial-rpc-b2.toml") {
+        crate::verification::fixtures::prepare_b2_acceptance::prepare_b2_acceptance(
+            root, artifacts, report,
+        )?;
+    } else if groups.contains("config/gates/groups/master-b1.toml") {
         require_command_success(
             root,
             artifacts,

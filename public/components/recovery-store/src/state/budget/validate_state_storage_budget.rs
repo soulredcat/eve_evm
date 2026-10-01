@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::StateStorageBudget;
 use crate::recovery::validation::validate_storage_budget::validate_storage_budget;
 use anyhow::{Result, ensure};

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use std::collections::BTreeMap;
 
 use super::{RecordError, SystemRecord, encode_system_record, hash_system_key};

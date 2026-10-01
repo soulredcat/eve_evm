@@ -1,8 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 23 — Executable backlog and bulk delivery contract
 
 ## How to run this plan
 
-This is the dependency-aware core implementation queue for `goal.md`. Run it together with mandatory [security queue 29](29-security-implementation-and-acceptance.md), which adds SEC0–SEC3 and T-M/T-P/T-BR requirements from plans 26–28. Every bulk includes design finalization, code, tests, integration, docs, evidence and review. Do not ask for permission after each completed bulk. Do not stop after scaffolding or a passing unit test while the required end-to-end path is missing.
+This is the dependency-aware EVE-ownchain implementation queue for `goal.md`. Run it together with mandatory [security queue 29](29-security-implementation-and-acceptance.md): SEC0, SEC1, SEC3 and core T-M/T-P requirements from plans 26–27. Bridge SEC2/T-BR and interoperability INT0–INT3/T-I are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs under D40. Every current bulk includes design finalization, code, tests, integration, docs, evidence and review. Do not ask for permission after each completed bulk. Do not stop after scaffolding or a passing unit test while the required end-to-end path is missing.
 
 The lead reads current Git state, STATUS and HANDOFF, chooses the ready bulk with the highest dependency value, assigns file ownership and records acceptance gates. Independent subtracks inside a bulk may run concurrently. Shared interfaces are resolved first. The integrator runs the complete gate after combining work.
 
@@ -23,7 +27,7 @@ B6+B7+B8 -> B9
 B9 -> B10 -> B11
 ```
 
-B5 also requires the shared system interfaces from B1/B2. Research spikes may start earlier, but a dependent runtime bulk cannot be marked DONE before its prerequisites pass. Genuine external blockers do not stop unrelated ready work. SEC0 is part of B0; SEC1–SEC3 dependencies and secured-profile capacity gates are defined in plan 29.
+B5 also requires the shared system interfaces from B1/B2. Core research spikes may start earlier, but a dependent runtime bulk cannot be marked DONE before its prerequisites pass. Genuine external blockers do not stop unrelated ready work. SEC0 is part of B0; SEC1/SEC3 dependencies and secured-profile capacity gates are defined in plan 29. Future external-chain work must not enter this dependency graph or EVE's execution, block-production, voting, finality or durable-acknowledgement path.
 
 ## B0 — Pin the implementation contract
 
@@ -35,7 +39,7 @@ Tasks B0.1–B0.7:
 4. Create workspace, task runner, gate manifest, CI baseline and dependency/test-corpus pins. The runner must fail if a requested test is absent.
 5. Map R01–R12 to implementation tasks/tests and initialize real evidence tracking. Register T-N09/T-N10 for B4, T-N11 for B6 and T-N12 for B8 with concrete resource/crash/source/partition fixtures; later runtime tests remain NOT_RUN until implemented.
 6. Implement `cargo xtask check-structure` with language-aware function-file classification, physical-line thresholds, reviewed exact-path exception/expiry handling and explicit generated/vendor exclusions. Add T-L01–T-L06, including 200/201/400/401/600/601 boundary fixtures and modules deeper than three levels. Wire the checker into CI and every bulk gate; it must check its own handwritten implementation and record warning rationales and exceptions.
-7. Execute SEC0: inventory crypto/commitment/control paths; pin and test actual PQ implementations/integration surfaces; register T-M/T-P/T-BR tests and security gates; define two local EVE bridge identities. Do not pretend the initial Ed25519/secp256k1 engine is already PQ-secure.
+7. Execute SEC0: inventory core crypto/commitment/control paths; pin and test actual PQ implementations/integration surfaces; register T-M/T-P tests and core security gates. Do not pretend the initial Ed25519/secp256k1 engine is already PQ-secure. Historical B0 also ran INT0 metadata/bridge reservations; preserve that evidence without requiring those deferred components in current core gates.
 
 Gate: actual build and interface smoke tests; byte vectors and development-config validation; bounded storage-spike evidence and versioned public persistence/readiness budgets; no guessed APIs or mutable dependency tags; passing structure-checker tests and an actual structure report; SEC0 outputs. `verify --bulk B0` is executable and runs `check-structure`. An absent/stubbed checker fails B0. Missing permissions/tools are documented blockers with exact alternatives, not fabricated success.
 
@@ -61,13 +65,13 @@ Gate: T-C01–T-C10 with fixed genesis and separate keys, except later lifecycle
 
 Tasks: MASTER_SYNC_ONLY imports finalized data; source-independent header/validator verification; snapshot/delta export/import; resume/corruption handling; retained finalized data on validators; public RAM working state with local durable blocks/checkpoints; isolated ordered immutable storage batches and bounded resource/backlog controls; master-offline public recovery including authenticated missing-tail retrieval. Follow plan 32 without holding global RAM locks across IO or treating queued blocks as durable.
 
-Gate: T-N01–T-N07, T-N09/T-N10, T-S04–T-S08, T-G04/T-G06 and master-offline catch-up. Delete public replica state and reconstruct it. Stop all masters while validators/public peers continue, inject public storage stalls and loss of unsynced RAM, then restart from complete local records and authenticated durable peer data. Assert configured queue/resource/lag limits, truthful durability/readiness and exact roots/receipts without asking master to decide blocks. Missing last-copy recovery data fails not-ready. Preserve authenticated profile/key-set history for later PQ and bridge clients.
+Gate: T-N01–T-N07, T-N09/T-N10, T-S04–T-S08, T-G04/T-G06 and master-offline catch-up. Delete public replica state and reconstruct it. Stop all masters while validators/public peers continue, inject public storage stalls and loss of unsynced RAM, then restart from complete local records and authenticated durable peer data. Assert configured queue/resource/lag limits, truthful durability/readiness and exact roots/receipts without asking master to decide blocks. Missing last-copy recovery data fails not-ready. Preserve authenticated profile/key-set history for EVE followers and light clients.
 
 ## B5 — Staking, node work and fee-funded rewards
 
 Tasks: native system ABI/escrows; validator/node registration and key possession; delegation, exit, unbonding and key rotation; deterministic epoch/set transitions; authenticated participation and assigned node-work receipts; commission/claims; evidence/slashing/jail; supply-conservation properties.
 
-Gate: all T-V01–T-V10 plus real user-facing TypeScript staking/claim fixture. Epoch replay/claim/evidence deduplication must pass. The 40/30/30 split and documented dust policy conserve fees; no outside mint or manual master score is present. Replace B3-only lifecycle scaffolding with the actual production module. SEC1 covers activated hybrid key/control/recovery paths; SEC2 tests separate bridge backing conservation.
+Gate: all T-V01–T-V10 plus real user-facing TypeScript staking/claim fixture. Epoch replay/claim/evidence deduplication must pass. The 40/30/30 split and documented dust policy conserve fees; no outside mint or manual master score is present. Replace B3-only lifecycle scaffolding with the actual production module. SEC1 covers activated hybrid key/control/recovery paths.
 
 ## B6 — Public network and distribution
 
@@ -79,19 +83,19 @@ Gate: T-N08/T-N11, integrated T-N09/T-N10 under public network load, all T-A cas
 
 Tasks: versioned read/write tracking; worker scheduling/owned overlays; conflict detection/re-execution; ordered merge/commit; system-operation dependency tracking; serial fallback and performance counters.
 
-Gate: every supported serial fixture and randomized workload yields identical state, system roots, receipts/logs, gas and header inputs in parallel. Include one hot pool, shared ERC-20/allowance, nonce contention, CREATE2 and atomic multi-pool revert. Report speedups and regressions honestly; correctness is mandatory even where contention prevents speedup. Re-run after secure-account and bridge operations are integrated.
+Gate: every supported serial fixture and randomized workload yields identical state, system roots, receipts/logs, gas and header inputs in parallel. Include one hot pool, shared ERC-20/allowance, nonce contention, CREATE2 and atomic multi-pool revert. Report speedups and regressions honestly; correctness is mandatory even where contention prevents speedup. Re-run after secure-account operations are integrated.
 
 ## B8 — HA, upgrades, release safety and operations
 
 Tasks: two independent master followers with private logical gateway routing and local storage fencing where applicable; verified failover/partition/catch-up runbooks and a capacity plan for ten replicas, without claiming ten deployed masters; protocol activation and schema migration; signed manifest staging/verification; voting-power-aware rolling upgrades; dependency/secret checks, fuzzing, metrics and diagnostic docs.
 
-Gate: T-N12, integrated T-N10/T-N11 during master outages, all T-Q cases and T-G01–T-G08; injected bad releases/migrations/keys fail safely; master failover cannot sign; signer rollback cannot double-sign. Partition and recover two master stores, verifying identical authenticated history/roots at the same height. Independent master storage copies need not run a second consensus protocol. SEC3 adds integrated secure-profile migration, control-key and bridge incident drills.
+Gate: T-N12, integrated T-N10/T-N11 during master outages, all T-Q cases and T-G01–T-G08; injected bad releases/migrations/keys fail safely; master failover cannot sign; signer rollback cannot double-sign. Partition and recover two master stores, verifying identical authenticated history/roots at the same height. Independent master storage copies need not run a second consensus protocol. SEC3 adds integrated secure-profile migration, control-key and core incident drills.
 
 ## B9 — Regional behavior and DEVNET_ACCEPTED
 
 Tasks: reproducible multi-role devnet deployment; simulated region delay/loss/partition scenarios; full developer/staking flows after outages; fresh-checkout packaging/build/run; requirement-to-evidence review and consolidated runbooks.
 
-Gate: B0–B8 mandatory checks, including structure gates, remain green in the integrated revision; functional regional tests explicitly labelled simulated when local. All R01–R11 software gates pass. Publish a DEVNET_ACCEPTED report with the actual security profile and limitations. This checkpoint does not satisfy R12, SEC1–SEC3, external bridge readiness or authorize mainnet.
+Gate: B0–B8 mandatory checks, including structure gates, remain green in the integrated revision; functional regional tests explicitly labelled simulated when local. All R01–R11 software gates pass. Publish a DEVNET_ACCEPTED report with the actual security profile and limitations. This functional checkpoint does not satisfy R12, SEC1/SEC3 or authorize mainnet. Record EVE testnet readiness separately; it permits consideration of a later adapter-program scope, not automatic external development.
 
 ## B10 — Capacity program
 
@@ -103,11 +107,11 @@ Gate: reproducible baseline and each achieved target step with required evidence
 
 Tasks: resolve measured limiting components, evaluate alternative consensus/storage adapters where evidence warrants, implement/test necessary regional/partitioning experiments under plan 21, and rerun full correctness/recovery/regression gates after each architectural change.
 
-Gate: SCALE_TARGET_VERIFIED only after declared mixed-EVM sustained 1M target, soak, bounded backlog, data availability, active security profile and recovery evidence. Sharding can be marked unnecessary only with evidence that the target is met without it; otherwise record experiments, unresolved constraints and next executable actions. No artificial claim that committing roots from independent conflicting states forms a valid global EVM chain. Bridge throughput and external route limitations are reported separately.
+Gate: SCALE_TARGET_VERIFIED only after declared mixed-EVM sustained 1M target, soak, bounded backlog, data availability, active security profile and recovery evidence. Sharding can be marked unnecessary only with evidence that the target is met without it; otherwise record experiments, unresolved constraints and next executable actions. No artificial claim that committing roots from independent conflicting states forms a valid global EVM chain. Deferred adapter speeds and route readiness cannot cap EVE throughput or become this gate's prerequisites.
 
 ## Bulk integration protocol
 
-Before closing a bulk: inspect the full diff; run format/lint/unit, `cargo xtask check-structure` and relevant integration/security gates; review unsafe/concurrency/authentication/recovery code; check documentation links and status accuracy; record evidence at the integrated revision; make a coherent local commit; update HANDOFF and proceed.
+Before closing a bulk: inspect the full diff; run format/lint/unit, `cargo xtask check-structure`, `cargo xtask check-ownership` and relevant integration/security gates; review unsafe/concurrency/authentication/recovery code; check documentation links and status accuracy; record evidence at the integrated revision; make a coherent local commit; update HANDOFF and proceed.
 
 Record structural warnings with decomposition rationale, active reviewed exceptions and their split tasks. A handwritten file over 600 lines, expired exception, unrelated operations in a behavioral file or an absent mandatory checker blocks integration. No bulk may disable these checks to meet a functional or throughput target.
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::build_tool_environment;
 use crate::provisioning::{
     builds::{provision_comet, provision_openssl, provision_prebuilt},

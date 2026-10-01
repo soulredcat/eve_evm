@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "istanbul",
+  "files": {
+    "fixtures/state_tests/for_shanghai/istanbul/eip1344_chainid/chainid/chainid.json": "2f51df2a58284654c0d390f6bfbe9780c2fefba9c2eb4bfd32a0f05533754da3",
+    "fixtures/state_tests/for_shanghai/istanbul/eip152_blake2/blake2/blake2b.json": "59e028cfa520a3c02c4a62d553cf28d58fb8701dd8c56223c434eed93eac3ca8",
+    "fixtures/state_tests/for_shanghai/istanbul/eip152_blake2/blake2/blake2b_gas.json": "d5d7dd159b521cc179c03de1c953bdae1f12870e9e388b4ef679f00d518c0281",
+    "fixtures/state_tests/for_shanghai/istanbul/eip152_blake2/blake2/blake2b_invalid_input.json": "b41e638e5ae95b2514025940cbfd4128f0a9d851751bd9c1148a4c65904c68f7",
+    "fixtures/state_tests/for_shanghai/istanbul/eip152_blake2/blake2/blake2b_large_gas_limit.json": "12730e03ea7a9b4855cb0ffe8396eb7b0bd6035e3f3cc98d0ba0a27c62235d84",
+    "fixtures/state_tests/for_shanghai/istanbul/eip152_blake2/blake2_delegatecall/blake2_precompile_delegatecall.json": "1e06fea9e1fec457485d4cb42c778e5a063a4ebf22350247c82ca890e871a2a8",
+    "fixtures/state_tests/for_shanghai/istanbul/eip2200_net_gas_metering/sstore_combinations/sstore_combinations_initial.json": "9a9963dfe104ee2f99f029424377eaf7e0a847122be2e97208023bb54fc3146b",
+    "fixtures/state_tests/for_shanghai/istanbul/eip2200_net_gas_metering/sstore_combinations/sstore_combinations_initial_staticcall_only.json": "24a1d8f8bf00dcae0c1503244f59eaf1c5d74b783d37eaee61f155a49064ff59"
+  }
+}

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Application checkpoint observation repair — 2026-10-01
 
 The latest failed hosted consensus command at
@@ -51,3 +55,11 @@ identical to this passing gate.
 Reproduce with pinned provisioning and `cargo xtask verify --bulk B1`. Hosted
 acceptance must be observed separately; local component results do not establish
 validator finality, signing durability or production network acceptance.
+
+Hosted verification is now separately observed:
+[B1 at b0b9efa](https://github.com/soulredcat/eve_evm/actions/runs/36787802042)
+passes 271 cases, and
+[checkpoint repair at 038fe80](https://github.com/soulredcat/eve_evm/actions/runs/36790691980)
+passes 273 cases. Both jobs conclude success; their actual logs contain the
+matching whole-gate PASS counts. The checks run in the pinned Linux CI container.
+This closes the observed hosted foundation failure, not later runtime/security gates.

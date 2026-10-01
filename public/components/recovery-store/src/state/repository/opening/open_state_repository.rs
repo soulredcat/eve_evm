@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::open_state_namespace;
 use crate::state::{StateRepository, StateStorageBudget};
 use anyhow::Result;

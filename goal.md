@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # EVE EVM — implementation goal
 
 ## Objective
@@ -8,20 +12,20 @@ User decisions are authoritative: validators make consensus decisions; developer
 
 Follow plan 32 for the regional topology and public persistence: start with one master, one public node and the existing validator devnet baseline; prepare independently verified two-master replication and a planned ten-master regional layout. Public nodes use a preferred nearby eligible sync endpoint without private master inventory, retain fallback P2P sources, and continue without master acknowledgements. Default public working state is RAM-first with finalized blocks/recoverable checkpoints persisted by a separate bounded worker; resource interference must be measured, not declared zero. Zone IDs are routing metadata, not sharding or finality authority.
 
-The owner additionally requires majority-attack resilience, post-quantum security and a secure bridge. Implement the explicit fault models, authenticated security profiles, local bridge fixture and acceptance gates in plans 26–29. Do not claim unlimited 51% immunity or end-to-end quantum security from the existing classical baseline.
+The owner additionally requires majority-attack resilience and post-quantum security for EVE itself. Implement the explicit fault models, authenticated security profiles and core acceptance in plans 26/27/29. Do not claim unlimited 51% immunity or end-to-end quantum security from the classical baseline.
 
-EVE must also be bridge-friendly to Ethereum, Solana and other chains through the adapter architecture in plan 30. Ethereum and Solana are mandatory named two-way integration targets, not optional examples. Preserve an EVM core while implementing separate EVM-contract and Solana-program endpoints, typed assets/addresses, source verification, SDK/transaction builders and resumable transfers. The two-EVE bridge fixture is only the first step. Other routes are extensible, not automatically supported or approved.
+The latest owner decision D40 defers bridge and external-chain programs until EVE reaches testnet. Future separate programs adapt to EVE's versioned public interfaces; the core does not adapt to remote consensus, asset rules or speeds. External polling, confirmations, relays and bridge queues cannot enter EVE's transaction, voting, execution or durable-acknowledgement path. Preserve generic own-chain headers, receipts, finality and proof capabilities without premature external route implementations.
 
 ## Current scope boundary
 
-Follow plan 31. Liquidity provision, a production DEX, reserve-funded trading and automatic pool-price stabilization are deferred to a separate future module. Do not implement them in this goal or make core launch depend on that module. Keep ordinary Solidity/AMM test fixtures and swap workloads as EVM compatibility and performance tests; bridge custody/accounting remains mandatory. The previously discussed reserve/multi-admin lock proposal is recorded separately and does not authorize automatic trading, real issuance or reserve withdrawal.
+Follow plan 31 and D40. Liquidity, production DEX/reserve trading, stabilization, bridges and external-chain adapters are separate deferred work. Core acceptance and its 1M target do not wait for those programs. Keep Solidity/AMM fixtures, Ethereum-style RPC and Shanghai reference vectors as local EVM correctness/performance tests; they introduce no external-chain runtime dependency. The reserve/multi-admin proposal does not authorize trading, issuance or withdrawal.
 
 ## Authority and reading order
 
 1. Current explicit user instructions and repository safety boundaries.
 2. `docs/plan/24-decision-register.md`, `docs/plan/31-mainnet-target-and-module-boundaries.md`, and `docs/plan/32-regional-masters-and-public-persistence.md`: current architectural decisions, release target, scope, regional topology/public persistence, and superseded assumptions.
 3. Specifications 12–22, policies 25–28, and plan 30, with their acceptance tests. Plans 26–28 refine the older classical development baseline; they do not retroactively make it secure.
-4. `docs/plan/23-task-backlog-and-execution.md`, `docs/plan/29-security-implementation-and-acceptance.md`, and plan 30's INT0–INT3 queue: mandatory core, security and interoperability work.
+4. `docs/plan/23-task-backlog-and-execution.md` and core plan 29: mandatory B0–B11 and SEC0/SEC1/SEC3. Plans 28/30 and SEC2/INT0–INT3 are deferred program references under D40.
 5. Overviews 00–11, which summarize rather than override those specifications.
 6. `docs/execution/STATUS.md`, `EVIDENCE.md`, and `HANDOFF.md`: actual progress.
 
@@ -29,9 +33,9 @@ For an inconsistency, preserve safety and the latest architectural decision, add
 
 ## Execution contract
 
-Work autonomously through every ready core bulk B0–B11, security bulk SEC0–SEC3 and interoperability bulk INT0–INT3 using `AGENTS.md`. SEC0 and INT0 are included in B0; other dependencies are in plans 29/30. Plan by dependencies and implement complete vertical slices. Research an unfamiliar API using primary documentation, make a bounded spike, record the result, then implement. Do not spend the whole run repeatedly rewriting plans.
+Work autonomously through every ready B0–B11 and SEC0/SEC1/SEC3 bulk using `AGENTS.md`. SEC0 belongs to B0. SEC2/INT0–INT3 are DEFERRED_UNTIL_EVE_TESTNET, outside the mandatory core registry; historical executed INT0 results stay recorded. Plan by dependencies and implement complete vertical slices. Verify unfamiliar APIs with primary references and bounded spikes, then implement rather than repeatedly rewriting plans.
 
-Use five specialist responsibilities when supported: lead/orchestrator; protocol/EVM; state/network/performance; correctness/security; reviewer/integrator. Independent tasks may run in parallel; overlapping files and consensus interfaces require explicit ownership. Tests and review are part of each bulk, not a final cleanup stage. Assign Ethereum and Solana adapter ownership separately after shared interface agreement; do not create duplicated custody/replay logic.
+Use five specialist responsibilities when supported: lead/orchestrator; protocol/EVM; state/network/performance; correctness/security; reviewer/integrator. Assign file ownership before parallel work. Tests and review belong to every bulk. Do not create external-chain adapter programs or custody scaffolds before the deferred testnet phase is separately scoped.
 
 Each bulk must leave a usable repository state. Run its gates, repair failures, save evidence, update status, create a coherent local commit, and proceed. For a genuine external blocker, record the failed command, cause, required resource and resume action, and work on other ready tasks. Lack of certainty is a reason for a test or source check, not for inventing a guarantee.
 
@@ -43,7 +47,7 @@ Use `runtime-or-crate/src/domain/capability/sub-capability/operation/.../functio
 
 Target at most 200 formatted physical lines per file; 201–400 requires decomposition review and a retained-size rationale; 401–600 requires a reviewed exact-path temporary exception with an expiring split task; more than 600 is a hard failure for handwritten files. Line counts include imports, comments, blank lines and tests. No minification, blanket exclusions or lowered acceptance criteria.
 
-B0 must implement and test `cargo xtask check-structure`, covering T-L01–T-L06, and wire it into CI and every bulk gate. Preserve deterministic behavior and package independence during refactors. Do not postpone folder/file cleanup until the project ends, and do not claim the structure checker exists before it is actually implemented. Apply explicit language coverage to bridge Solidity, Solana Rust and TypeScript SDK code as those modules are added.
+B0 implements `cargo xtask check-structure` and T-L01–T-L06; every bulk also checks Redcat ownership notices with `cargo xtask check-ownership`. Preserve deterministic behavior, English publication, per-file permission-only notices and package independence. Fixture Solidity/TypeScript receives explicit structure coverage plus actual pinned compiler validation; future external programs have their own gates.
 
 ## Required software outcomes
 
@@ -66,9 +70,6 @@ The implementation must provide:
 - Function-focused, recursively nested implementation modules, passing structural checks and no expired size exceptions.
 - Majority-adversary tests and honest fault-assumption reporting, without automatic quorum reduction or master takeover.
 - Actual mandatory hybrid/PQ authentication through consensus, protected accounts, clients, control/recovery and release paths; crypto/commitment inventory and tested migrations.
-- A two-EVE-devnet bridge with fake assets, authenticated finality/inclusion, replay protection, conserved backing, bounded exposure and tested incident handling.
-- Ethereum/EVE and Solana/EVE adapters and real destination endpoints with two-way fake-asset acceptance, exact decimals/asset identity, wallet/SDK examples and per-direction verification evidence under plan 30.
-- An extensible route registry that exposes capabilities, trust/PQ coverage, unsupported-token reasons, fees, progress and approval state without pretending every chain is already integrated.
 
 A master-only early prototype composes the same shared execution/storage components with a local test producer. It must not become a second production consensus implementation. A production-mode master with all validators offline preserves data and reports stalled finality; it does not invent blocks.
 
@@ -80,19 +81,19 @@ All B0–B9 mandatory acceptance checks pass. A clean checkout can build and sta
 
 ### SECURITY_PROFILE_ACCEPTED
 
-SEC0–SEC3 and T-M/T-P/T-BR acceptance pass for the named fault model, protected authentication scope and local bridge fixture. Publish crypto coverage, residual classical/external dependencies and migration/incident evidence. Classical-only consensus, post-hoc PQ stamps, an unprotected account-recovery path or a mocked bridge cannot satisfy this level.
+SEC0/SEC1/SEC3 and T-M/T-P acceptance pass for the declared EVE fault model and protected authentication scope. Publish core crypto coverage, residual classical dependencies and migration/incident evidence. Classical-only consensus, post-hoc PQ stamps or unprotected account recovery cannot satisfy this level. Deferred bridge security cannot substitute for core verification or block the core gate.
 
 CometBFT's baseline does not guarantee safety/liveness under 51% Byzantine power. Any stronger continuity requirement remains `UNSATISFIED_BY_BASELINE` until a reviewed alternative with explicit assumptions meets it. Passing an attack test does not prove universal immunity. An external bridge route remains disabled until its own adapter and authorization gates pass.
 
 ### INTEROP_DEV_ACCEPTED
 
-INT0–INT3 and T-I01–T-I12 in plan 30 pass for both named external targets and both directions under the declared local/test trust profile. Ethereum and Solana endpoint/application tests, authenticated source verification, exact accounting, SDK signing/fees/resume and incident tests must exist. A simulator-only contract test, fake verifier, or two-EVE result cannot close these targets. Record each direction and external dependency separately.
+DEFERRED_UNTIL_EVE_TESTNET. SEC2/INT0–INT3 and T-BR/T-I belong to future separate programs under plans 28/30. They are neither achieved nor mandatory core prerequisites. Any later scope must independently define route trust, verification, accounting, client/recovery and incident acceptance; a simulator cannot supply source finality.
 
-This checkpoint neither approves live routes nor certifies Ethereum/Solana as post-quantum. Preserve secure EVE verification while clearly classifying external classical or added-trust dependencies. If a required verifier or approved trust model is unavailable, its target remains blocked/incomplete; continue the other implementable adapter and SDK work.
+This deferred checkpoint approves no live route or external-chain security claim. Future adapter backlog, latency and failure remain isolated from EVE's consensus and finalized throughput.
 
 ### SCALE_TARGET_VERIFIED
 
-B10–B11 evidence proves the declared sustained 1M finalized TPS workload under the rules in plans 08, 20, 21 and 27–32. Include raw data, active security profile, workload mix, latency, real cross-node network/storage behavior, bounded backlog, recovery and independent replay checks. Report transfer, mixed-contract, hot-pool, cross-domain and bridge results separately. A projected sum of workers, compressed roots, ingress rate, classical-only benchmark or short burst is not proof of the secured target. EVE TPS does not imply the same completed bridge TPS or remove external-chain finality delays.
+B10–B11 evidence proves sustained 1M EVE finalized TPS under plans 08/20/21/27/29/31/32. Include the active security profile, workload, latency, cross-node/storage behavior, bounded backlog, recovery and independent replay. Transfer, mixed-contract, hot-pool and atomic cross-domain workloads stay mandatory. Worker sums, roots, ingress, classical-only benchmarks and bursts do not prove the secured target. Future external programs have separate measurements and cannot cap EVE's core acceptance.
 
 For mainnet readiness, evidence must cover the release candidate and production-representative configuration/topology. Do not describe a prelaunch capacity benchmark as an already-observed live-mainnet load. Future 100M/1B goals require separate measured evidence; preserve extensibility without claiming those capacities or expanding the first-launch threshold beyond 1M.
 
@@ -100,20 +101,20 @@ If software runs but measurements fall short, status is TARGET_UNMET and the nex
 
 ### MAINNET_READY
 
-Requires SCALE_TARGET_VERIFIED at the 1M release threshold above, explicit owner-approved genesis/economics/governance, independent security review, operational/key ceremony, licensed distribution decisions, production infrastructure and route-specific bridge approval. This goal does not authorize deployment or spending. Code completion does not certify economic security, PQ strength of every dependency, majority immunity or audit status. The separately deferred liquidity/price-stabilization module is not a prerequisite for core mainnet readiness.
+Requires SCALE_TARGET_VERIFIED at 1M, owner-approved genesis/economics/governance, independent core security review, operations/key ceremony, permitted distribution and production infrastructure. This goal authorizes no deployment or spending. Code completion does not certify economic/PQ security, majority immunity or audit status. Deferred external, bridge and liquidity programs are not core mainnet prerequisites.
 
 ## Definition of done per requirement
 
 A requirement is DONE only with real implementation, positive and negative tests, integration with adjacent modules, updated operator/developer documentation, passing relevant gates including structure checks, and recorded evidence at the reviewed commit. Stubs, TODO bodies, unconditional success, fake signatures, hard-coded roots, ignored recovery errors and disabled assertions do not qualify.
 
-`docs/execution/STATUS.md` tracks every core/security/interoperability bulk and unmet stronger target. `docs/execution/EVIDENCE.md` links the actual reports. Large logs stay in an artifact directory with checksums rather than being dumped into Git. `docs/execution/HANDOFF.md` always identifies the next uncompleted action so a new session can continue without this conversation.
+`docs/execution/STATUS.md` tracks core/security bulks, deferred scope and unmet stronger targets. `EVIDENCE.md` links actual reports; raw logs stay ignored. `HANDOFF.md` records the exact next action without requiring this conversation.
 
 ## Permission and resource boundaries
 
-Operate on this repository and task-created development resources. Use fake development tokens only. Do not access unrelated wallets, keys, databases or bots. Do not purchase infrastructure, change GitHub visibility, choose a binding source license, use real signing keys, issue real tokens or deploy mainnet/live custody. Keep paid review and external route validation requirements explicit. No added signer/provider trust or external production route is silently authorized by the request for bridge compatibility. Do not fund reserves, select real custody arrangements or add automatic reserve spending from the earlier economic proposal.
+Operate on this repository and task-owned development resources with fake tokens. Preserve unrelated wallets/keys/data/bots. No paid infrastructure, visibility change, additional license grant beyond the authorized Redcat permission-only policy, real signing/funds, mainnet/live custody or reserve spending is authorized. External programs require a later scoped instruction after testnet.
 
 Session/tool limits must produce a resumable checkpoint, not a promise of unattended future work. A goal file guides an available Codex session; it does not remove runtime, quota, permission or hardware limits.
 
 ## First actions
 
-Inspect the checkout and toolchain. Read the plans, latest scope in plan 31, regional/public-persistence contracts in plan 32, and status. Execute B0 including SEC0 and INT0: pin and smoke-test dependency/consensus/crypto and chain-adapter interfaces, finalize byte-level fixtures and security/route inventories, freeze measured storage/source-selection/readiness budgets and typed watermarks, register T-N09–T-N12, build the requirement-to-test matrix, create core/security/interoperability gates, and implement the structure checker with boundary tests. Then proceed through the next ready bulks without asking for another planning round.
+Inspect the checkout/toolchain, D40, plans 31/32 and current status/handoff. Finish the active verified core bulk, including its structure/ownership and regression gates; then proceed to the next ready B0–B11 or SEC0/SEC1/SEC3 bulk without another planning round. Do not restart completed foundations or build deferred external adapters.

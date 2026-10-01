@@ -1,6 +1,16 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Contributing to EVE EVM
 
-The repository contains specifications and a pinned Rust workspace with verified B0/SEC0/INT0 foundations and B1 complete-state, durable recovery and development composition. Complete node runtimes, standalone distributions and later acceptance gates remain unfinished. Start with `AGENTS.md`, `goal.md`, `docs/plan/README.md`, and `docs/execution/HANDOFF.md`.
+The repository contains a pinned EVE workspace with verified foundations and complete-state/recovery development composition. Complete network roles, standalone distributions and later gates remain unfinished. D40 defers external-chain programs until EVE testnet. Start with `AGENTS.md`, `goal.md`, the plan index and execution handoff.
+
+## Ownership and prior permission
+
+First-party material is Copyright (c) 2026 Redcat, all rights reserved, under `LicenseRef-Redcat-Permission-Only`. Use, execution, copying, modification and distribution require prior written permission from Redcat, subject to applicable law, mandatory hosting terms and separately applicable licenses. Repository access does not grant additional permission. See [LICENSE](LICENSE) and [ownership rules](docs/development/ownership.md).
+
+Every first-party file needs its valid inline notice or exact `REUSE.toml` association. Preserve upstream ownership/licenses and canonical fixture bytes. Run `cargo xtask check-ownership`; its required coverage does not replace structure, correctness or security gates. Contributions must respect the owner's permission and identify any separately licensed upstream material.
 
 ## Required language
 
@@ -43,6 +53,6 @@ Passing a publication review does not grant push authorization. Push only when t
 
 ## Implementation and evidence
 
-Follow the dependency-aware B0–B11, SEC0–SEC3, and INT0–INT3 queues and the function-file policy in plan 25. Keep required tests with the changes they verify. Missing tests and unavailable gates remain visible; local experiments cannot replace shared acceptance evidence.
+Follow B0–B11, core SEC0/SEC1/SEC3 and plan 25. D40 removes SEC2/INT0–INT3 from mandatory core work until a separately scoped post-testnet program. Preserve core tests and historical evidence; deferred coverage cannot be called passed. Local experiments cannot replace shared acceptance.
 
 `cargo xtask check-structure` and required T-L01–T-L06 boundary/regression coverage are implemented. Complete local B0 and B1 gates pass; CI invokes the current B1 gate while hosted results are recorded separately in `docs/execution/`. Documentation, ignore checks and a clean Git index do not satisfy a runtime, security or capacity gate.

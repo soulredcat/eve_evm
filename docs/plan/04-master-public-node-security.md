@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 04 — Runtime trust boundaries
 
 The threat model assumes an attacker may control a public node, a minority validator, a bootstrap peer, a snapshot source, or a master host. Network isolation reduces exposure; it does not make the master unreachable through every exploit chain or make authenticated payloads safe.

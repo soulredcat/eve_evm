@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// ABI v1: dynamic bytes are bounded versioned key/possession/proof envelopes.
 pub const NATIVE_FUNCTIONS_V1: &[&str] = &[
     "registerNode(bytes32,bytes)",

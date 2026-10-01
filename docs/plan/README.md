@@ -1,8 +1,12 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Planning index
 
-Status: **B0 including SEC0/INT0 passed its complete local foundation gate**. Role-owned contracts, pinned tools and executable verification/structure gates exist. Complete runtimes, standalone packages and full security/interop/capacity acceptance remain unfinished. Specifications remain requirements, not proof of route availability, security certification or target throughput.
+Status: **historical B0 including SEC0/INT0 passed its complete local foundation gate**. Current D40 scope is EVE ownchain: B0–B11 and SEC0/SEC1/SEC3 remain mandatory; SEC2 and INT0–INT3 are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs. Complete runtimes, standalone packages, core security and capacity acceptance remain unfinished. Specifications and historical foundation tests do not prove route availability, security certification or target throughput.
 
-Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [mainnet target and module boundaries](31-mainnet-target-and-module-boundaries.md), [regional masters and public persistence](32-regional-masters-and-public-persistence.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [security backlog](29-security-implementation-and-acceptance.md), [interoperability queue](30-cross-chain-interoperability.md), and [actual status](../execution/STATUS.md).
+Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current decisions](24-decision-register.md), [mainnet target and module boundaries](31-mainnet-target-and-module-boundaries.md), [regional masters and public persistence](32-regional-masters-and-public-persistence.md), [folder/function policy](25-folder-hierarchy-and-file-function-policy.md), [core backlog](23-task-backlog-and-execution.md), [core security backlog](29-security-implementation-and-acceptance.md), and [actual status](../execution/STATUS.md). Plans 28/30 are retained deferred program references, not active execution queues.
 
 ## Design overviews
 
@@ -41,10 +45,10 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 | [25](25-folder-hierarchy-and-file-function-policy.md) | Recursive folders, one-function files, 200/400/600 limits and structure gates |
 | [26](26-consensus-adversary-and-majority-resilience.md) | Majority adversaries, actual BFT limits, safety/availability and incident tests |
 | [27](27-post-quantum-cryptography-and-migration.md) | Crypto inventory, hybrid/PQ authentication, accounts, commitments and migration |
-| [28](28-bridge-security-and-finality.md) | Route trust, source proofs, custody/backing, limits and local bridge acceptance |
-| [29](29-security-implementation-and-acceptance.md) | Mandatory SEC0–SEC3 queue, core dependencies and security completion levels |
-| [30](30-cross-chain-interoperability.md) | Ethereum/Solana two-way targets, extensible adapters, wallet/SDK, assets, INT0–INT3 and T-I gates |
-| [31](31-mainnet-target-and-module-boundaries.md) | Proven 1M mainnet target, future 100M/1B path, liquidity deferral and separate reserve/admin proposal |
+| [28](28-bridge-security-and-finality.md) | Deferred separate-program bridge safety, proofs, backing and T-BR acceptance |
+| [29](29-security-implementation-and-acceptance.md) | Mandatory SEC0/SEC1/SEC3 core queue; SEC2 deferral and security completion levels |
+| [30](30-cross-chain-interoperability.md) | Deferred adapter programs, external candidates, wallet/SDK, INT0–INT3 and T-I references |
+| [31](31-mainnet-target-and-module-boundaries.md) | EVE-ownchain/testnet adapter boundary, proven 1M mainnet target, future 100M/1B path and deferred application/reserve proposals |
 | [32](32-regional-masters-and-public-persistence.md) | Regional 1→2→10 master topology, nearest eligible sync endpoints, RAM-first public state with isolated durable persistence, recovery budgets and T-N09–T-N12 |
 
 ## Execution support
@@ -53,9 +57,9 @@ Start with [goal.md](../../goal.md), [AGENTS.md](../../AGENTS.md), [current deci
 - [Status](../execution/STATUS.md), [evidence index](../execution/EVIDENCE.md), [handoff](../execution/HANDOFF.md).
 - [Primary references](../references.md) and [documentation change record](../CHANGELOG.md). Security and chain-adapter primary links are included directly in plans 26–28 and 30.
 
-Specs 12–32 resolve earlier exploratory suggestions. Plans 26–29 add mandatory security requirements; the classical initial engine/accounts in older plans remain only a development baseline. They are not retroactively quantum secure or majority-attack immune. Plan 30 adds Ethereum and Solana as named implementation targets, not approved live routes; the two-EVE fixture alone cannot complete them.
+Specs 12–32 resolve earlier exploratory suggestions. Plans 26–27 and SEC0/SEC1/SEC3 add mandatory core security requirements; the classical initial engine/accounts remain only a development baseline, without retroactive PQ or majority-attack immunity. D40 supersedes earlier mandatory bridge/interop scope. Plans 28/30 retain future safety requirements and historical candidates, including two-EVE bridge tests, outside current core acceptance. No live route or new adapter development is authorized.
 
-Plan 31 records the latest scope: proven 1M finalized TPS is a mainnet release requirement; 100M/1B remain future evidence-driven goals. Production liquidity/DEX and price stabilization are a separate future module, not current core work. AMM/swap test fixtures remain mandatory where already specified, and the recorded reserve/multi-admin proposal does not authorize trading or funding.
+Plan 31 records the latest scope: EVE ownchain first, external development only after EVE testnet plus separate owner scope, and proven secured 1M finalized TPS for mainnet release. External adapters conform to versioned public EVE proof/transaction interfaces without remote latency, block-production, voting, finality or durable-acknowledgement dependencies. Future 100M/1B goals, liquidity/DEX/stabilization and reserve/admin proposals remain separate. Shanghai/compiler/client/AMM correctness fixtures stay core; no funding or trading is authorized.
 
 Plan 32 records the owner-approved regional topology and public persistence model. Master followers remain off the transaction path; public working state stays in RAM while bounded storage workers retain durable recovery data. Nearby-source selection includes authentication, freshness, fallback and resource limits. Storage interference must be measured; zone IDs do not create sharding or finality authority. T-N09–T-N12 extend B4/B6/B8 acceptance and remain unimplemented.
 

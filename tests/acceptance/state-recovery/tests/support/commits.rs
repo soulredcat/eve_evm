@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_consensus::constants::{EMPTY_RECEIPTS, EMPTY_TRANSACTIONS};
 use alloy_primitives::{Address, B256, Bloom};
 use eve_protocol_config::{

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{record_source_module::record_source_module, types::SourceEdgeInventory};
 use std::path::PathBuf;
 use syn::visit::Visit;

@@ -1,12 +1,21 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 package = "eve-state"
-requirements = ["B1","T-S01","T-S03","T-S04","T-S08"]
+requirements = ["B1", "B2", "T-S01", "T-S03", "T-S04", "T-S08", "T-A06"]
 tests = [
+    "account_and_storage_inclusion_absence_proofs_match_independent_literal_roots",
     "captured_views_do_not_mix_versions_and_missing_code_is_explicit",
     "delete_recreate_and_explicit_clear_reset_storage_without_partial_parent_writes",
     "genesis_debits_bonds_without_minting_and_keeps_empty_fee_pools_absent",
     "metadata_and_single_slot_updates_preserve_untouched_slots_and_zero_deletes",
     "missing_or_mismatched_bytecode_rejects_and_system_only_change_changes_app_commitment",
+    "narrow_retained_block_and_version_codec_validate_without_complete_state",
+    "proof_tampering_truncation_wrong_key_and_resource_limits_reject",
+    "retained_metadata_rejects_hash_roots_app_domain_and_parent_substitution",
     "stale_versions_and_budget_excess_reject_before_journal_serialization_or_apply",
+    "two_hundred_fifty_six_slots_fit_declared_budget_and_next_slot_rejects",
     "whole_commit_codec_roundtrips_rejects_trailing_data_and_binds_history_outside_evm_root",
 ]

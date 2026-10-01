@@ -1,40 +1,44 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 29 — Security implementation bulks and acceptance
 
-Status: mandatory extension of the executable queue, added 2026-09-30. Specifications and tests described here are not implemented or passing yet.
+Status: mandatory core security queue, updated 2026-10-01 under D40. SEC0 has historical foundation evidence; complete runtime security acceptance is not achieved. SEC2 is `DEFERRED_UNTIL_EVE_TESTNET` for a separately authorized bridge program.
 
 ## SX01 — Execution contract
 
-Run this security track alongside B0–B11 from plan 23, not as an optional post-mainnet cleanup. Read plans 26–28 before designing consensus signatures, key enrollment, recovery, bridge proofs or their resource budgets. Also execute the mandatory Ethereum/Solana interoperability queue INT0–INT3 in [plan 30](30-cross-chain-interoperability.md). Preserve all earlier functional and structure gates.
+Run SEC0, SEC1 and SEC3 alongside B0–B11 from plan 23, not as optional post-mainnet cleanup. Read plans 26–27 before designing consensus signatures, key enrollment, recovery or authentication resource budgets. Preserve current core functional, ownership and structure gates. Plans 28/30 retain deferred bridge/adapter safety requirements; SEC2 and INT0–INT3 are outside current core selection and acceptance.
 
-This track adds majority-adversary evaluation, post-quantum authorization and a concrete local bridge fixture. It does not authorize launching a bridge, creating a production genesis, spending money or using real custody/signing keys. Missing external adapters do not block local tests or unrelated core development, but remain incomplete named requirements rather than being omitted from the goal.
+This track adds majority-adversary evaluation and post-quantum authorization throughout EVE. It does not authorize production genesis, spending or real signing/custody keys. EVE testnet is the earliest point at which the owner may scope later separate adapter programs; no automatic start is authorized. Missing deferred adapters or the two-EVE bridge fixture do not fail core security acceptance and are not represented as completed.
 
 ## SX02 — Dependency map
 
 ```text
 B0 includes SEC0 inventory/spikes/test registration
 B2+B3+B4+B5+B6 -> SEC1 authenticated secure profile
-B3+B4+B5+B6 -> SEC2 classical bridge fixture development
-SEC1 -> SEC2 hybrid end-to-end acceptance
-B8+B9+SEC1+SEC2 -> SEC3 integrated security acceptance
+B8+B9+SEC1 -> SEC3 integrated core security acceptance
 SEC3 -> secured-profile B10/B11 capacity acceptance
+
+EVE testnet + subsequent owner scope -> separate SEC2/INT program planning
 ```
 
-SEC0 is part of B0, not a separate circular dependency. Baseline B3 may first establish classical consensus as explicitly labeled development work. SEC1 must then integrate and test actual mandatory hybrid consensus authentication before any PQ claim. Early classical bridge tests may run while SEC1 is being implemented; they do not satisfy the secure bridge gate.
+SEC0 is part of B0, not a separate circular dependency. Baseline B3 may first establish classical consensus as explicitly labeled development work. SEC1 must then integrate and test actual mandatory hybrid consensus authentication before any PQ claim. An ignored signature wrapper, lowered quorum or master-finality fallback cannot satisfy it.
 
-B0 also includes INT0. INT1–INT3 reuse the shared SEC2 proof/accounting interfaces and follow plan 30's dependencies. SEC2's two-EVE fixture is not evidence of an Ethereum or Solana integration. Neither SEC3 nor INTEROP_DEV_ACCEPTED automatically certifies an external classical endpoint as post-quantum.
+Historical B0 included INT0 under its then-active scope. Its metadata tests and two-EVE reservations remain historical evidence, not current core prerequisites or a bridge acceptance result. Future SEC2/INT work consumes versioned public EVE proof/finality interfaces outside core; it cannot add remote-chain wait, client, custody or durability dependencies to EVE consensus/execution.
 
-B9's DEVNET_ACCEPTED remains a functional checkpoint with its actual profile disclosed. It is not completion of the owner's security or interoperability requirements. B10/B11 classical throughput experiments are diagnostic only; secured-target evidence requires the active verified profile.
+B9's DEVNET_ACCEPTED remains a functional checkpoint with its actual profile disclosed. It is not completion of core security requirements. B10/B11 classical throughput experiments are diagnostic only; secured-target evidence requires the active verified core profile. External-chain speed and route readiness do not constrain EVE's secured 1M acceptance.
 
 ## SEC0 — Inventory and executable integration decisions
 
 Tasks:
 
-- Map every authorization path: votes/proposals, set changes, account/admin/recovery, staking, source clients, bridge custody, releases, transport and stored checkpoints.
+- Map every core authorization path: votes/proposals, set changes, account/admin/recovery, staking, EVE followers/light clients, releases, transport and stored checkpoints.
 - Map every relevant commitment/prehash and identity truncation. State the intended quantum security properties and unresolved risks; a signature parameter does not determine the whole chain's strength.
 - Pin actual maintained crypto implementations and official algorithm vectors/errata. Smoke-test ML-DSA-65 sign/verify, serialization, size limits and cross-implementation verification without inventing APIs or certification.
-- Inspect consensus-engine and destination-verifier integration surfaces. Record a compile-tested path or concrete failure and a bounded replacement/extension plan. No fake after-the-fact PQ finality wrapper.
-- Register T-M01–T-M10, T-P01–T-P10 and T-BR01–T-BR12 with real expected outcomes and dependencies. Implement gate discovery so missing/zero tests cannot pass.
-- Fix local bridge fixture identities and fake-token configuration for two independent EVE devnets. Coordinate INT0's separate Ethereum/Solana identities, finality/crypto assumptions and T-I test registry; do not invent source proofs.
+- Inspect consensus-engine and EVE follower/light-client verification surfaces. Record a compile-tested path or concrete failure and a bounded replacement/extension plan. No fake after-the-fact PQ finality wrapper.
+- Register core T-M01–T-M10 and T-P01–T-P10 with real expected outcomes and dependencies. Implement gate discovery so missing/zero current tests cannot pass.
+- Retain the historical bridge/INT0 inventory and registrations with their actual source identity. Label SEC2/T-BR/INT/T-I `DEFERRED_UNTIL_EVE_TESTNET`; do not create new fixture, endpoint or adapter scaffolds in this goal.
 
 Gate: versioned inventory, source/parameter pins, smoke-test outputs, attack assumptions, integration decision record and registered executable test entry points. A classical API-only baseline is explicitly marked incomplete for SEC1, not PQ-secure.
 
@@ -46,25 +50,25 @@ Gate: T-M01–T-M10 and T-P01–T-P10 pass according to their stated outcomes. S
 
 Passing a test whose expected result is “majority withholding halts the baseline” demonstrates honest fault characterization, not 51% continuity. Keep any stronger majority-tolerance target `UNSATISFIED_BY_BASELINE` until a reviewed alternative with explicit assumptions satisfies it. Do not mark it DONE by editing the requirement.
 
-## SEC2 — Bridge implementation and recovery
+## SEC2 — Deferred separate bridge program
 
-Tasks: route registry, authenticated source client, receipt/event inclusion, replay ledger, exact lock/mint/burn/unlock accounting, fake-token two-network fixture, bounded queues, route limits, delay/pause/resume policy, key/profile upgrades and crash recovery. Use shared finality and crypto interfaces, not private master APIs.
+State: `DEFERRED_UNTIL_EVE_TESTNET`. Subsequent owner scope is required before implementation, including the two-EVE fake-asset fixture. SEC2 is neither a failed current core gate nor completed bridge work. Its retained future requirements are route registry, authenticated source client, inclusion, atomic replay/backing accounting, bounded queues/limits, incident policy and recovery under [plan 28](28-bridge-security-and-finality.md).
 
-Gate: T-BR01–T-BR12 pass for the named fixture/profile. Actual local consensus produces and authenticates the events. Malicious relayer/master input, stale/incorrect proofs, replay, reentrancy and wrong-network messages cannot move value. Bridge accounting and message consumption remain atomic through restart.
+Future program gate: T-BR01–T-BR12 pass for its named fixture/profile. Actual local consensus produces and authenticates the events. Malicious relayer/master input, stale/incorrect proofs, replay, reentrancy and wrong-network messages cannot move value. Bridge accounting and message consumption remain atomic through restart. These obligations do not add bridge state or remote verifiers to core.
 
-A local EVE-to-EVE result is not proof of an external route. Ethereum/Solana adapter work proceeds under INT0–INT3 with source/destination-specific tests. Production route approval, audit and keys remain owner gates. Keep the exact missing prerequisite in HANDOFF rather than asking to postpone all work. Reuse shared safety rules without pretending every endpoint uses EVM receipts, CometBFT certificates or EVE's crypto profile.
+A later EVE-to-EVE result is not proof of an external route. INT0–INT3 retain direction-specific future requirements under plan 30. Production route approval, audit, keys and funds remain owner gates; EVE PQ authorization cannot certify an external endpoint.
 
 ## SEC3 — Integrated security and capacity handoff
 
 Tasks: fresh-checkout secure-profile deployment, independent verifier/cross-implementation checks, key-rotation/upgrade/incident drills, data-loss/master-outage recovery, gate/report integration, package independence and complete workload/resource accounting. Re-run core EVM, fee, serial/parallel and structure tests after security changes.
 
-Gate: security tests pass on the integrated revision; profile/route limitations are machine-readable and visible to operators; no undeclared classical control path remains in the protected scope. Missing external audit or stronger fault-model proof is explicitly unresolved, not simulated away.
+Gate: core security tests pass on the integrated revision; profile limitations are machine-readable and visible to operators; no undeclared classical control path remains in the protected core scope. Observable conflicting finality quarantines affected authentication/readiness, preserves evidence and cannot be cleared by unilateral master history selection. Missing independent audit or stronger fault-model proof is explicitly unresolved, not simulated away.
 
-Run the bridge locally with fake funds only. Run high-throughput measurements with real secure-profile checks enabled; report bridge proof throughput separately from ordinary EVM TPS. Security-disabled or classical-only measurements cannot close the secured 1M target. Publish external interoperability progress separately so incomplete named routes are not hidden by a successful SEC3 fixture.
+Run high-throughput measurements with real secure-profile checks enabled. Security-disabled or classical-only measurements cannot close the secured 1M target. No bridge run or external adapter is required for SEC3. Reports must disclose the deferred program scope rather than imply whole-route or custody security.
 
 ## SX03 — Test runner and evidence
 
-Extend the B0 task runner to support `cargo xtask verify --security SEC0`, `SEC1`, `SEC2` and `SEC3`. These are required interfaces to implement, not available commands claimed by this document. Include structure checks and reject absent/stubbed tests, unsupported requested coverage and zero selected cases. Plan 30 adds separate `--interop INT0` through `INT3` gates.
+The runner must select SEC0, SEC1 and SEC3 for current core security verification. Preserve SEC2 and INT0–INT3 IDs as explicitly deferred; requesting one must report `DEFERRED_UNTIL_EVE_TESTNET`, never a passing empty gate. Include ownership/structure checks and reject absent/stubbed current tests, unsupported requested coverage and zero selected cases. Historical commands/results retain their recorded revision; future program runners require their own scoped gate implementation.
 
 Every report records commit/config/genesis, profile/parameter/key epochs, engine and crypto versions, actual test count, command and exit code, attack schedule, raw evidence hashes, timing and residual risks. Keep secret keys and real credentials out of logs. Test-only compromised keys must be visibly disposable local fixtures.
 
@@ -73,19 +77,19 @@ Track distinct statuses in `docs/execution/STATUS.md`:
 ```text
 CONSENSUS_RESILIENCE_TESTED: NOT_ACHIEVED
 PQ_PROFILE_VERIFIED: NOT_ACHIEVED
-BRIDGE_DEVNET_ACCEPTED: NOT_ACHIEVED
 SECURITY_PROFILE_ACCEPTED: NOT_ACHIEVED
-INTEROP_DEV_ACCEPTED: NOT_ACHIEVED
 51_PERCENT_CONTINUITY: UNSATISFIED_BY_BASELINE
+BRIDGE_DEVNET_ACCEPTED: DEFERRED_UNTIL_EVE_TESTNET
+INTEROP_DEV_ACCEPTED: DEFERRED_UNTIL_EVE_TESTNET
 EXTERNAL_BRIDGE_ROUTES: DISABLED_NOT_APPROVED
 ```
 
-`SECURITY_PROFILE_ACCEPTED` requires SEC0–SEC3 implementation/evidence for the declared supported fault model and protected crypto/bridge scope. It is not a mainnet audit, approval of every external chain, or an immunity guarantee. A stronger unresolved user target remains separately open.
+`SECURITY_PROFILE_ACCEPTED` requires SEC0, SEC1 and SEC3 implementation/evidence for the declared supported fault model and protected EVE core scope. This explicit D40 scope change does not weaken hybrid authentication or majority assumptions. It is not a mainnet audit, external route approval or immunity guarantee. A stronger unresolved user target remains separately open.
 
 ## SX04 — Agent ownership and continuation
 
-Lead assigns requirement/test ownership and dependencies. Protocol/EVM owns consensus and account authorization; state/network/performance owns transport, availability and resource accounting; correctness/security owns adversarial, crypto and bridge invariant tests; reviewer/integrator owns full-gate verification and evidence. Add specialized Ethereum/Solana integration and review tasks within these roles rather than making unverified crypto/security claims.
+Lead assigns requirement/test ownership and dependencies. Protocol/EVM owns consensus and account authorization; state/network/performance owns transport, availability and resource accounting; correctness/security owns core adversarial/crypto invariant tests; reviewer/integrator owns full-gate verification and evidence. Deferred program requirements are retained reference material, not an active agent assignment.
 
-Follow plan 25 in all new crypto and bridge code: meaningful nested capability folders, one primary behavioral function per file, target 200 physical lines and reviewed 400/600 limits. Preserve package independence and existing safety tests during refactoring.
+Follow plan 25 in new core crypto code: meaningful nested capability folders, one primary behavioral function per file, target 200 physical lines and reviewed 400/600 limits. Preserve package independence and current safety tests during refactoring. Future bridge code will require the same policy within its separate program.
 
-Continue ready core/security/interoperability work, commit coherent verified bulks, and update STATUS/EVIDENCE/HANDOFF. Do not stop at a security diagram or wrapper with unconditional verification success. Report genuine infrastructure/protocol/review blockers with evidence and the precise next action.
+Continue ready core/security work, commit coherent verified bulks, and update STATUS/EVIDENCE/HANDOFF. Do not start deferred adapters or stop at a security diagram or wrapper with unconditional verification success. Report genuine infrastructure/protocol/review blockers with evidence and the precise next action.

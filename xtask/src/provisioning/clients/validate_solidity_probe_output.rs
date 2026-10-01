@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use anyhow::{Context, Result, ensure};
 
 pub fn validate_solidity_probe_output(bytes: &[u8]) -> Result<()> {

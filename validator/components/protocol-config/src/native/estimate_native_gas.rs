@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{NATIVE_GAS_V1, NativeGasInput, NativeGasSchedule, NativeMeterError};
 
 /// Native execution charge, additional to ordinary EVM transaction intrinsic gas.

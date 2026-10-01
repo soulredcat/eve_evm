@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::structure::{
     inspection::compute_source_digest::compute_source_digest,
     types::{policy_types::GeneratedModuleReview, syntax_types::SyntaxInventory},

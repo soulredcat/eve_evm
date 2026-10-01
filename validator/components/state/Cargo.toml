@@ -1,9 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 [package]
 name = "eve-state"
 version = "0.1.0"
 edition.workspace = true
 rust-version.workspace = true
 publish.workspace = true
+license-file.workspace = true
 
 [dependencies]
 alloy-primitives.workspace = true

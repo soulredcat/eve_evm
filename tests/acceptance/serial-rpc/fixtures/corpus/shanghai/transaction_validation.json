@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "transaction_validation",
+  "files": {
+    "fixtures/transaction_tests/for_shanghai/frontier/validation/transaction/tx_nonce_overflow.json": "70d22e2ba19dc7fb55a3cbef2f6201f3b616d0dd6454d47302a1d386b348c030"
+  }
+}

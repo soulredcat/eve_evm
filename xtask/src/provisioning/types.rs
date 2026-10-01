@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use serde::{Deserialize, Serialize};
 use std::{collections::BTreeMap, path::PathBuf};
 
@@ -22,8 +26,6 @@ pub struct ClientPins {
     pub viem: String,
     pub manifest_sha256: String,
     pub lock_sha256: String,
-    pub solana_kit: String,
-    pub solana_kit_integrity: String,
 }
 
 #[derive(Debug, Deserialize)]

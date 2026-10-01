@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{encode_complete_state_data, encode_list, encode_version};
 use crate::{StateBudget, StateCommit, StateError, validate_state_commit};
 

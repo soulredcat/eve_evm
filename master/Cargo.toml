@@ -1,9 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 [package]
 name = "eve-master"
 version = "0.1.0"
 edition.workspace = true
 rust-version.workspace = true
 publish.workspace = true
+license-file.workspace = true
 
 [dependencies]
 anyhow.workspace = true
@@ -17,6 +22,8 @@ eve-protocol-config = { path = "../validator/components/protocol-config" }
 eve-state = { path = "../validator/components/state" }
 eve-evm = { path = "../validator/components/execution" }
 eve-storage = { path = "../public/components/recovery-store" }
+eve-public = { path = "../public" }
+tokio.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

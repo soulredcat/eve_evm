@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::load_block_hash_history::load_block_hash_history;
 use crate::state::{
     encoding::{build_current_state_entries, build_historical_entries},

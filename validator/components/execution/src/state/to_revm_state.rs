@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{CompleteExecutionError, estimate_clone_reservation};
 use alloy_primitives::U256;
 use eve_state::{CompleteState, StateBudget, StateError, StateVersion, validate_state_version};

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod support;
 
 use eve_crypto::{
@@ -87,12 +91,12 @@ fn tp02_rejects_valid_components_signed_over_different_messages() {
     let fixture = fixture();
     let authorization = HybridAuthorization {
         genesis_hash: [50; 32],
-        purpose: AuthorizationPurpose::BridgeTransfer,
-        payload: b"route and complete transfer identity A",
+        purpose: AuthorizationPurpose::AccountOperation,
+        payload: b"complete account operation identity A",
     };
     let signed = sign(&fixture, &authorization);
     let other = HybridAuthorization {
-        payload: b"route and complete transfer identity B",
+        payload: b"complete account operation identity B",
         ..authorization
     };
     let other_signed = sign(&fixture, &other);

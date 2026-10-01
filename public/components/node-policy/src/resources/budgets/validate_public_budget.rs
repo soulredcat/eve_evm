@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{BudgetError, PublicBudget};
 
 pub fn validate_public_budget(value: PublicBudget) -> Result<(), BudgetError> {

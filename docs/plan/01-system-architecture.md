@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 01 — System architecture
 
 Status: documentation requirements only; runtime deployment and recovery behavior are not implemented or verified yet.
@@ -9,7 +13,7 @@ Status: documentation requirements only; runtime deployment and recovery behavio
 | Public | RPC, local mempool policy, peer propagation, RAM working state, durable recovery data, verified queries | Production votes without validator registration; master credentials |
 | Validator | Proposal validation, execution, consensus votes, finality, recent durable recovery data | Unilateral finality; master administration |
 | Master | Verified finalized-state persistence, snapshots, archive, recovery distribution | Mandatory transaction sequencing, production proposer key, override of quorum |
-| Shared crates | Deterministic formats, EVM adapter, roots, verification, storage contracts | Hidden role authority or cross-runtime globals |
+| Role-owned reusable components | Deterministic formats, EVM adapter, roots, verification, storage contracts | Hidden role authority or cross-runtime globals |
 
 One operator may co-locate public and validator processes. Source separation remains mandatory. A master host may run a separate local development validator, but that does not make the master role a voter.
 
@@ -25,6 +29,8 @@ Validators do not wait for master acknowledgements in ordinary consensus. They m
 ## Boundaries
 
 Use separate traffic budgets for public RPC, consensus, block availability, bulk snapshot/delta transfer, and management. Sharing a physical host does not justify shared unrestricted credentials or unbounded queues. Consensus and management are not routed through a single mandatory master gateway.
+
+Core components contain no external-chain route registry, custody verifier or remote-chain client dependency. Versioned EVE headers, receipts, finality evidence and proof interfaces remain native verification/recovery capabilities. Future separately authorized adapter programs consume those public interfaces and submit ordinary authenticated EVE transactions; they cannot require remote-chain availability, confirmation speed or acknowledgement before EVE proposes, votes, finalizes or durably records a block. External work is `DEFERRED_UNTIL_EVE_TESTNET` under decision D40 and plans 28/30.
 
 ## Baseline and evolution
 

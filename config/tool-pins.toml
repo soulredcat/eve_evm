@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 platform = "linux-x86_64"
 
@@ -58,5 +62,3 @@ typescript = "6.0.3"
 viem = "2.57.1"
 manifest_sha256 = "c8a9a4300f6d5bdeda15e1a169ae7738d7e68245cc1116b1d4606176e55a0672"
 lock_sha256 = "a7037971456231c2e08383627f51d66fe8ecb73d77cce79738ef88e7dd8ee400"
-solana_kit = "8.4.0"
-solana_kit_integrity = "sha512-jbexijXuCqQ7MV5lFzPDEsVScreFENkhUOUVofniTkBsfi67cYGgEeGzJa7oskHGyXcWaEogW0VPVh4ep3cWnw=="

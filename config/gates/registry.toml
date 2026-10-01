@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 
 [[gates]]
@@ -13,12 +17,6 @@ implemented = true
 prerequisites = []
 
 [[gates]]
-id = "INT0"
-manifest = "config/gates/INT0.toml"
-implemented = true
-prerequisites = []
-
-[[gates]]
 id = "B1"
 manifest = "config/gates/B1.toml"
 implemented = true
@@ -26,8 +24,8 @@ prerequisites = ["B0"]
 
 [[gates]]
 id = "B2"
-manifest = ""
-implemented = false
+manifest = "config/gates/B2.toml"
+implemented = true
 prerequisites = ["B1"]
 
 [[gates]]
@@ -79,34 +77,10 @@ implemented = false
 prerequisites = ["B2", "B3", "B4", "B5", "B6"]
 
 [[gates]]
-id = "SEC2"
-manifest = ""
-implemented = false
-prerequisites = ["B3", "B4", "B5", "B6", "SEC1"]
-
-[[gates]]
 id = "SEC3"
 manifest = ""
 implemented = false
-prerequisites = ["B8", "B9", "SEC1", "SEC2"]
-
-[[gates]]
-id = "INT1"
-manifest = ""
-implemented = false
-prerequisites = ["B2", "B3", "B4", "B5", "B6", "SEC2"]
-
-[[gates]]
-id = "INT2"
-manifest = ""
-implemented = false
-prerequisites = ["INT1", "SEC2"]
-
-[[gates]]
-id = "INT3"
-manifest = ""
-implemented = false
-prerequisites = ["INT2", "B8", "B9"]
+prerequisites = ["B8", "B9", "SEC1"]
 
 [[gates]]
 id = "B10"

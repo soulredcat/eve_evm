@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// Emit reviewed fixed diagnostic categories; raw command data stays local-only.
 pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
     let mut categories = Vec::new();

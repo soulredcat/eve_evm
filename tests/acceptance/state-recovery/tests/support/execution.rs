@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{Address, B256, Bloom, Bytes};
 use eve_evm::{
     BlockEnvironment, FeePoolAddresses, estimate_clone_reservation, execute_complete_state,

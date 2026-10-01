@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use eve_crypto::{
     CryptoError, MAX_ML_DSA_MESSAGE_BYTES, ML_DSA_65_PUBLIC_KEY_BYTES, ML_DSA_65_SIGNATURE_BYTES,
     derive_mldsa65_key, export_mldsa65_public_key, sign_mldsa65, verify_mldsa65,

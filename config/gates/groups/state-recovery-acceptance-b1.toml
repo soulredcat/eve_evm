@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 package = "eve-state-recovery-acceptance"
 requirements = ["B1","T-S01","T-S02","T-S03","T-S04","T-S05","T-S06","T-S08"]

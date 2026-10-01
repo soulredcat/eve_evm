@@ -1,10 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
 version = 1
 package = "eve-protocol-config"
-requirements = ["B0.3","SEC0-config-guard"]
+requirements = ["B0.3", "B2", "T-E04", "SEC0-config-guard"]
 tests = [
     "accepts_funded_genesis_and_refuses_production_economics_or_identity_changes",
     "activated_hybrid_and_verified_pq_profiles_refuse_native_consensus_even_if_both_peers_agree",
     "application_commitment_has_exact_spec_field_order_and_domain",
+    "base_fee_literal_rise_fall_target_floor_and_rounding_vectors",
+    "checked_base_fee_rejects_overflow_and_malformed_parent_environment",
+    "development_spec_rejects_unknown_fields_profile_keys_duplicates_and_size",
     "export_orders_canonical_keys_and_rejects_duplicates_and_unbounded_chunks",
     "freeze_minimal_integer_empty_data_deletion_and_presence_tags",
     "freezes_worked_registration_and_hybrid_metering_vectors",
@@ -12,6 +19,7 @@ tests = [
     "matches_trusted_applicable_height_binding_and_refuses_network_or_epoch_substitution",
     "possession_bytes_bind_network_profile_owner_role_nonce_epoch_and_full_key",
     "protocol_v1_golden_bytes_hashes_and_abi_topics",
+    "pure_development_spec_decoder_preserves_canonical_genesis_identity",
     "rejects_excess_gas_reversed_time_zero_fee_and_protocol",
     "rejects_invalid_upgrade_order_and_unsupported_hybrid_activation",
     "rejects_reserved_allocations_duplicates_unfunded_keys_and_overflow",

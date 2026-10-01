@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "source_revision": "abbe05777ab83fb94ce18c425daaa7ab79e779c1",
+  "archive_sha256": "1280540950a4c3470a421416b6f35458a9b635827265c29e5aef1ae839ae1788",
+  "target_fork": "Shanghai",
+  "family": "shanghai",
+  "files": {
+    "fixtures/state_tests/for_shanghai/shanghai/eip3651_warm_coinbase/warm_coinbase/warm_coinbase_call_out_of_gas.json": "8ebde7ff16ab8ea75ba648bdaa5031480b54d659fdbb936539388ff4c024dd05",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3651_warm_coinbase/warm_coinbase/warm_coinbase_gas_usage.json": "168dd2a6c9260587c47fc894f0477392722e5bcf0d3e09bd8d295f58b10bafdb",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3855_push0/push0/push0_contract_during_call_contexts.json": "6165dc7d28abf8de91fff16ff820ed584c333306ef95794c82161ab6c454603e",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3855_push0/push0/push0_contracts.json": "25928603b51c96bf113f321399ca50fd51c7b6a0d1fff31e12f0cc959cfd3627",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3860_initcode/initcode/contract_creating_tx.json": "40a74d49a46d66a9b03058c5f1459b9e4050e031ebf3844c2b0e048469a3a57c",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3860_initcode/initcode/create2_oversized_initcode_with_insufficient_balance.json": "700d8ca2b2ccebc53320819dc5ecfb3eeb1f51bf1c965ff9ac262a548d3c70d4",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3860_initcode/initcode/create_opcode_initcode.json": "6f46f9b8e7e9354ba95349e2c24a5b8ec05ffe488c7cc6f4f59ee2b22e3bbd86",
+    "fixtures/state_tests/for_shanghai/shanghai/eip3860_initcode/initcode/gas_usage.json": "c88e291f92741931de01f7ba2f767acbb26f6aa990d5b958a793ab200dde17c4"
+  }
+}

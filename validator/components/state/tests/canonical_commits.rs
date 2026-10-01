@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 mod support;
 use eve_state::{
     B256, Bytes, StateError, SystemValue, compute_commit_identity, decode_state_commit,

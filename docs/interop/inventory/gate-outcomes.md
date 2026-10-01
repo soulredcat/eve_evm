@@ -1,7 +1,15 @@
-# Interoperability gate outcomes and B0 coverage
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
 
-Expected outcomes retain plan 30's mandatory two directions for both Ethereum and
-Solana. No test ID is closed by a foundation subset or a registered future case.
+# Historical interoperability gate outcomes and B0 coverage
+
+This table preserves original expected outcomes and actual B0 subsets at source
+revision `038fe80f412754e5a7080240ca0e57ba3c19e368`. Under D40, T-I01–T-I12 and
+INT0–INT3 are `DEFERRED_UNTIL_EVE_TESTNET` for a subsequently scoped separate
+program, outside current core gates. The old NOT_IMPLEMENTED/NOT_RUN values below
+describe historical route coverage; they are not failed current core acceptance.
+No test ID is closed by a foundation subset, deferral or a registered future case.
 
 | Gate | Required complete outcome | B0 foundation / remaining work |
 |---|---|---|
@@ -18,13 +26,15 @@ Solana. No test ID is closed by a foundation subset or a registered future case.
 | T-I11 | Upgrade/provider/extension/pause changes cannot bypass approval or backing | Disabled metadata and Token-2022 rejection pass; real incident/admin runtime absent |
 | T-I12 | Reproducible standalone packages run both integrations and report application/authentication/approval separately | NOT_IMPLEMENTED / NOT_RUN |
 
-Versioned test binaries in `public/components/interop/tests/`:
+Historical test binaries in `public/components/interop/tests/` at that revision:
 `chain_identity` (6), `asset_origin` (4), `exact_amount` (4),
 `route_capabilities` (7), `transfer_request` (3), `local_bridge_identity` (2):
 26 tests, no ignored cases, latest run exit 0. The fixture uses synthetic genesis/raw addresses and
 independently specified bytes, not Ethereum/Solana source-finality vectors.
 
-Reproduce: `cargo test --locked -p eve-interop`. The integration runner must
-discover nonzero actual tests; zero library/doc-test cases alone cannot pass a
-requested foundation gate. Full INT1–INT3 gates must reject missing implementations
-rather than allowing the B0 metadata suite to impersonate them.
+Historical reproduction: inspect that revision in an isolated checkout,
+then run `cargo test --locked -p eve-interop`; the package is absent from active
+core. A future program must discover nonzero tests and reject missing requested
+implementation rather than let this metadata subset impersonate route acceptance.
+Current requests for deferred INT gates report the deferral, never a passing
+empty selection. EVE execution/RPC correctness tests remain current core work.

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # 32 — Regional masters and RAM-first public persistence
 
 Status: owner topology and persistence clarification recorded 2026-09-30. Documentation only; no runtime, latency isolation, crash recovery, failover, or capacity result is claimed.
@@ -87,7 +91,7 @@ B0 freezes compile-tested types, source-selection/readiness/storage budgets, wat
 | T-N11 | Prefer a nearby eligible source; reject invalid/wrong-network/height-profile-mismatched data, distinguish valid older replay history from a fresh head, handle uncertain freshness, fail over with bounded discovery/switching, and retain master-independent P2P ingress | B6 |
 | T-N12 | Two independent master stores survive outage/partition and catch up to identical roots at the same finalized height; invalid history and any master-finality takeover are rejected | B8 |
 
-Retain every existing T-S/T-N/T-G, structure, security, interoperability, fee, and serial/parallel test. Include positive and negative cases under predeclared configuration limits; test loss of all relevant peers without claiming impossible recovery. Run the declared four-validator baseline and label same-host/emulated failures honestly.
+Retain every core T-S/T-N/T-G, structure, ownership, security, fee and serial/parallel test. D40 defers external interoperability until testnet rather than removing any core recovery case. Test declared limits and loss of relevant peers without claiming impossible recovery; label the four-validator same-host/emulated faults honestly.
 
 Reports separate finalized/applied/durable/authenticated rates and latency, RAM footprint, queue slope, disk bytes/write amplification, snapshot/catch-up load, retention headroom, and per-master ingest. Define workload, security profile, resource limits, and p99/readiness objectives before measurement. A fast RAM-only run cannot satisfy durable public acceptance or the secured 1M target.
 

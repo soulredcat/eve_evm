@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::resolve_contained_path;
 use anyhow::{Context, Result, ensure};
 use std::path::{Path, PathBuf};

@@ -1,3 +1,7 @@
+<!-- SPDX-FileCopyrightText: 2026 Redcat -->
+<!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
+<!-- Use requires prior written permission from Redcat. -->
+
 # Validator-owned development protocol contract
 
 Canonical owner: `validator/components/protocol-config/`. This component owns
@@ -140,3 +144,18 @@ header shape and fail-closed profiles. The golden JSON freezes project encodings
 and maintained Alloy outputs; it is not an independent Ethereum corpus or a
 security proof. Hand-specified small RLP vectors also exercise integer/tag rules.
 Run strict Clippy, format and the integrated structure/B0 gates before integration.
+
+## B2 shared development input and base fee
+
+`genesis::input::decode_development_spec` is a pure bounded JSON decoder. It rejects
+input above 1 MiB, unknown/duplicate fields, unsupported profile and noncanonical
+32-byte lowercase 0x public keys, then invokes the existing development genesis
+validator and frozen economics. The canonical genesis identity is preserved.
+Runtime file/path/private-credential/mode guards remain with public/master owners;
+this decoder does not load signing material or authorize production genesis.
+
+`headers::derive_next_base_fee` derives the next development fee from the active
+parent gas use/limit: elasticity 2, denominator 8, minimum rise of 1 and fee floor 1.
+It checks exact wide arithmetic overflow before invoking maintained EIP-1559 logic.
+Missing/zero fee, invalid parent gas and overflow fail explicitly. Copying parent
+basefee unchanged is not an accepted block-construction rule.

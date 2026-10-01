@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     classify_file::classify_file, count_physical_lines::count_physical_lines,
     review_size::review_size,
@@ -119,6 +123,7 @@ pub fn inspect_file(
             path: path.into(),
             kind: kind.into(),
             physical_lines,
+            syntax_coverage: super::source_syntax_coverage::source_syntax_coverage(path).into(),
             operations: inventory.operations,
             violations,
         },

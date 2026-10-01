@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use crate::support::Fixture;
 use std::process::Command;
 use xtask::structure::discovery::discover_sources::discover_sources;

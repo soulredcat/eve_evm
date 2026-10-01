@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use alloy_primitives::{Address, B256, Bloom};
 
 use crate::records::{EvmStateRoot, ExecutionBlockHash, GenesisHash};
@@ -24,4 +28,5 @@ pub struct ExecutionHeaderInput {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum HeaderError {
     InvalidEnvironment,
+    ArithmeticOverflow,
 }

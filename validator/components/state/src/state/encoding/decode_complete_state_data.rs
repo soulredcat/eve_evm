@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{
     decode_accounts::decode_accounts, decode_codes::decode_codes, decode_history::decode_history,
     decode_identity, decode_system_map::decode_system_map, take_list,

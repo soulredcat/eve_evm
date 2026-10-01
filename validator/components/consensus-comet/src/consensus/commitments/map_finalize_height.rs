@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{CommitmentHeightMapping, ExecutionHeight, HeightMappingError};
 
 /// Map `FinalizeBlock(H)` outputs to the pinned engine's later header metadata.

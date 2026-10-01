@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 use super::{decode_system_value::decode_system_value, decode_value, take_bytes, take_list};
 use crate::StateError;
 use eve_protocol_config::records::{SystemNamespace, SystemRecord, encode_system_record};

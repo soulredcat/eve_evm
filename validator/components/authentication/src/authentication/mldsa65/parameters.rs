@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 /// FIPS 204 ML-DSA-65 public-key encoding length, in bytes.
 pub const ML_DSA_65_PUBLIC_KEY_BYTES: usize = 1952;
 /// FIPS 204 ML-DSA-65 signature encoding length, in bytes.

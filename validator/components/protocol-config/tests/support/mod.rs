@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
 #![allow(dead_code)]
 
 use alloy_primitives::{Address, B256, Bloom, Bytes, U256};
