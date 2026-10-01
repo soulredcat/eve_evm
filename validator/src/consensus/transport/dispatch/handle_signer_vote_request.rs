@@ -4,11 +4,12 @@
 
 use crate::consensus::{
     approval::{
-        ApprovalRegistry, find_approval, pin_signed_vote_approval, reconstruct_retained_approval,
+        ApprovalError, ApprovalRegistry, approval_error_diagnostic, find_approval,
+        pin_signed_vote_approval, reconstruct_retained_approval,
     },
     signing::{DurableSigner, sign_vote, signer_status},
 };
-use anyhow::Result;
+use anyhow::{Context, Result};
 use eve_consensus_comet::wire::tendermint::types::Vote;
 use eve_state::StateBudget;
 
@@ -24,6 +25,11 @@ pub(super) fn handle_signer_vote_request(
     let signed = match direct {
         Ok(signed) => signed,
         Err(first) => {
+            if first.chain().count() != 1
+                || first.to_string() != "non-nil vote requires canonical execution/data approval"
+            {
+                return Err(first);
+            }
             let Some(block) = request
                 .block_id
                 .as_ref()
@@ -36,20 +42,30 @@ pub(super) fn handle_signer_vote_request(
                 .as_slice()
                 .try_into()
                 .map_err(|_| anyhow::anyhow!("invalid requested block hash"))?;
-            let approval = match find_approval(registry, &hash)
-                .map_err(|_| anyhow::anyhow!("approval cache unavailable"))?
-            {
+            let approval = match find_approval(registry, &hash).map_err(|error| {
+                approval_error_diagnostic(error).context("proposal approval cache failed")
+            })? {
                 Some(approval) => approval,
-                None => reconstruct_retained_approval(
+                None => match reconstruct_retained_approval(
                     registry,
                     signer,
                     &hash,
                     budget,
                     reserved_clone_bytes,
-                )
-                .map_err(|_| first.context("required proposal execution/data unavailable"))?,
+                ) {
+                    Ok(approval) => approval,
+                    Err(ApprovalError::Unavailable {
+                        reason: "full proposal data unavailable",
+                        cause: None,
+                    }) => return Err(first),
+                    Err(error) => {
+                        return Err(approval_error_diagnostic(error)
+                            .context("retained proposal execution failed"));
+                    }
+                },
             };
-            sign_vote(signer, request, Some(&approval))?
+            sign_vote(signer, request, Some(&approval))
+                .context("prepared proposal vote signing failed")?
         }
     };
     if signer_status(signer).cursor != before

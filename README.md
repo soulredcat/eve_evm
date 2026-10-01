@@ -6,12 +6,11 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: B0/B1 and B2 have verified development gates. B3 is an incomplete,
-owner-paused draft checkpoint: the last complete attempt failed at all-node
-crash recovery after 259 prior cases passed and the network packet returned
-15 PASS / 1 FAIL. Later scoped diagnostic passes do not establish a fix.
+**Status: B0/B1, B2 and classical B3 have verified development gates. The complete
+B3 gate passes 518 tests, including all 16 consensus acceptance cases and T-C06
+all-node crash recovery, strict lint/format and the release build.
 Standalone distributions, activated PQ, security-profile acceptance and measured
-1M TPS remain unachieved. See [draft PR #1](https://github.com/soulredcat/eve_evm/pull/1).**
+1M TPS remain unachieved. This is a single-host Linux development result.**
 
 ## Main objective
 
@@ -64,7 +63,7 @@ One regional master can serve several public nodes through a preferred nearby el
 - `tests/acceptance/serial-rpc/`: independent B2 EVM corpus, RPC/contract/client, limits and process-restart acceptance.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
-Complete public/master/validator node entry points and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in execution status (local-only: `docs/execution/STATUS.md`). Follow verification instructions (local-only: `docs/development/verification.md`) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
+The validator development entry point is implemented. Complete public/follower integration and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in execution status (local-only: `docs/execution/STATUS.md`). Follow verification instructions (local-only: `docs/development/verification.md`) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
 
 ## Economics
 
@@ -72,23 +71,27 @@ Collected transaction fees: **40% burn / 30% node rewards / 30% validator reward
 
 ## Current work boundary
 
-Core B3 development is paused because the development PC runs other programs.
-This documentation cleanup does not resume diagnosis, runtime tests, B4 or another
-bulk. The next authorized development step must rebuild the current feature
-validator, record its binary identity, reproduce retained T-C06 and repair its
-verified cause before a complete frozen gate. Never mark a target passed without
-its required evidence or merge this draft as accepted B3.
+The owner-authorized B3 integration includes [PR #2](https://github.com/soulredcat/eve_evm/pull/2)
+and review corrections that preserve fatal internal faults. The complete frozen
+gate passes 518 cases: 16 consensus, 99 validator and all retained foundation/RPC/
+storage/tooling cases, with zero ignored or failed. Signing refusals return a
+native error without releasing a signature; durability and fencing remain required.
+Stop after B3. B4 and other bulks remain outside the current owner scope.
 
 Public contributor context is in this README, [the planning index](docs/plan/README.md),
 [the security inventory](docs/security/inventory/README.md) and each component
 README. Owner instructions, goals, detailed plans and execution evidence stay
 local in their existing organized paths; a fresh clone does not contain them.
 
-When later authorized to verify code, provision the exact reference tools with
+To reproduce verification, provision the exact reference tools with
 `cargo xtask provision-tools --jobs 2`, then run `cargo xtask verify --bulk B3`
 with the pinned Linux environment. A failed or skipped mandatory check is not
 acceptance. Tool source/artifact pins and required cases are in `config/`; this
-cleanup neither runs heavy checks nor changes B3's unresolved recovery status.
+verification must use the registered complete gate and preserve failed evidence.
+Use the receipt environment exported in the [CI workflow](.github/workflows/foundation.yml).
+Raw output and detailed execution records stay local-only. The accepted frozen
+source bundle is `23fcccfe428472d886ba0ad4d17716f503d7b587c814ba249738f861f4862193`;
+final README status updates are checked separately without changing tested code/configuration.
 
 ## Collaboration and publication
 

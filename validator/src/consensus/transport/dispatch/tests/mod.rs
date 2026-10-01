@@ -3,4 +3,5 @@
 // Use requires prior written permission from Redcat.
 
 mod refusal_diagnostic;
+mod refusal_recovery;
 mod refusal_response;

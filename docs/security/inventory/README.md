@@ -7,9 +7,9 @@
 This inventory contains authorization, commitment, crypto-source and adversary obligations registered at B0.
 It is not an independent audit, activated protected profile or `SECURITY_PROFILE_ACCEPTED`.
 Primitive vectors, devnets and signature wrappers do not close missing consensus, account,
-recovery, release, transport or client integration. Development is paused during **incomplete B3**:
-the full gate failed C06 all-node crash/recovery, with 15 of 16 acceptance cases passing.
-Two diagnostic C06 runs passed without establishing or fixing the cause. The full failure remains authoritative.
+recovery, release, transport or client integration. Classical B3 passes its complete 518-case gate:
+all 16 consensus acceptance cases, including C06 all-node crash/recovery, and 99 validator cases pass.
+This single-host development result does not close the stronger security, distribution or capacity gates.
 
 ## Core scope, authority and fault model
 

@@ -68,3 +68,12 @@ Fixtures kill/wait only their own children, including failure paths. Native ABCI
 typed framing, wrong-process/digest/channel, saved-proof exit, prefix/body bounds
 and slow-progress deadlines have dedicated cases. No simulated metadata yields a
 production peer capability.
+
+Signer dispatch returns native `RemoteSignerError` for a reviewed bare policy
+refusal only when no new signature was persisted and the signer remains unfenced.
+WAL replay may request an earlier height/round/step; that refusal must not terminate
+an otherwise safe validator. Missing retained proposal data causes abstention.
+Approval-cache faults, retained reexecution/resource failures, contextual errors,
+fencing and a changed durable cursor remain fatal. Refusal never creates execution
+approval, a signature or permission to vote without data; recovery liveness still
+requires enough validators with the necessary validated data.

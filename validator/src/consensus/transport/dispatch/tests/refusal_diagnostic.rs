@@ -48,13 +48,7 @@ fn earlier_hrs_refusal_is_preserved_when_nonnil_recovery_cache_is_missing() {
     )
     .unwrap_err();
     let causes = error.chain().map(ToString::to_string).collect::<Vec<_>>();
-    assert_eq!(
-        causes,
-        vec![
-            "required proposal execution/data unavailable",
-            "signer height/round/step regression"
-        ]
-    );
+    assert_eq!(causes, vec!["signer height/round/step regression"]);
     assert_eq!(signer_status(&signer).cursor, before);
     assert!(!signer_status(&signer).fenced);
 }

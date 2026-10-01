@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use crate::consensus::signing::{
-    open_durable_signer, sign_vote, signer_status,
+    fence_signer, open_durable_signer, sign_vote, signer_status,
     tests::{temporary_fixture, test_key, vote_request},
 };
 use eve_storage::records::development_opaque_record_budget;
@@ -52,4 +52,78 @@ fn unclassified_signing_error_remains_fatal() {
         super::super::refuse_signing_request::refuse_signing_request(&signer, &before, error)
             .unwrap_err();
     assert_eq!(fatal.to_string(), "durable signer write failed");
+}
+
+#[test]
+fn moved_durable_cursor_prevents_policy_error_response() {
+    let (_directory, fixture) = temporary_fixture();
+    let mut signer = open_durable_signer(
+        &fixture.root.join("signing"),
+        fixture.config.clone(),
+        test_key(1),
+        fixture.service,
+        development_opaque_record_budget(),
+    )
+    .unwrap();
+    let before = signer_status(&signer).cursor;
+    sign_vote(&mut signer, vote_request(&fixture.config), None).unwrap();
+    let after = signer_status(&signer).cursor;
+    assert_ne!(after, before);
+    let fatal = super::super::refuse_signing_request::refuse_signing_request(
+        &signer,
+        &before,
+        anyhow::anyhow!("signer height/round/step regression"),
+    )
+    .unwrap_err();
+    assert_eq!(fatal.to_string(), "signer height/round/step regression");
+    assert_eq!(signer_status(&signer).cursor, after);
+}
+
+#[test]
+fn fenced_signer_prevents_policy_error_response() {
+    let (_directory, fixture) = temporary_fixture();
+    let mut signer = open_durable_signer(
+        &fixture.root.join("signing"),
+        fixture.config.clone(),
+        test_key(1),
+        fixture.service,
+        development_opaque_record_budget(),
+    )
+    .unwrap();
+    let before = signer_status(&signer).cursor;
+    fence_signer(&mut signer);
+    let fatal = super::super::refuse_signing_request::refuse_signing_request(
+        &signer,
+        &before,
+        anyhow::anyhow!("signer height/round/step regression"),
+    )
+    .unwrap_err();
+    assert_eq!(fatal.to_string(), "signer height/round/step regression");
+    assert_eq!(signer_status(&signer).cursor, before);
+    assert!(signer_status(&signer).fenced);
+}
+
+#[test]
+fn contextual_internal_error_with_policy_root_remains_fatal() {
+    let (_directory, fixture) = temporary_fixture();
+    let signer = open_durable_signer(
+        &fixture.root.join("signing"),
+        fixture.config.clone(),
+        test_key(1),
+        fixture.service,
+        development_opaque_record_budget(),
+    )
+    .unwrap();
+    let before = signer_status(&signer).cursor;
+    let error = anyhow::anyhow!("current signer parent unavailable")
+        .context("retained proposal execution failed");
+    let fatal =
+        super::super::refuse_signing_request::refuse_signing_request(&signer, &before, error)
+            .unwrap_err();
+    assert_eq!(fatal.to_string(), "retained proposal execution failed");
+    assert_eq!(
+        fatal.root_cause().to_string(),
+        "current signer parent unavailable"
+    );
+    assert_eq!(signer_status(&signer).cursor, before);
 }

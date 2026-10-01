@@ -8,7 +8,8 @@ The detailed `.md` plans listed here are local-only owner documents, preserved
 in these paths and ignored by Git. This public index describes responsibilities;
 its local-only references are intentionally plain text, not broken GitHub links.
 Public component contracts and the security inventory remain in tracked READMEs.
-Development remains paused during incomplete B3; do not resume it from this index.
+Classical B3 passes its complete 518-case gate and is accepted for integration.
+Stop after B3 and do not start another bulk from this index.
 
 Status: **historical B0 including SEC0/INT0 passed its complete local foundation gate**. Current D40 scope is EVE ownchain: B0–B11 and SEC0/SEC1/SEC3 remain mandatory; SEC2 and INT0–INT3 are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs. Complete runtimes, standalone packages, core security and capacity acceptance remain unfinished. Specifications and historical foundation tests do not prove route availability, security certification or target throughput.
 

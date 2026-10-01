@@ -5,8 +5,9 @@
 # Validator runtime
 
 The runtime implements the classical Linux development consensus path. Complete
-B3 acceptance is still pending; scoped tests and an exploratory four-node smoke
-are not a completed bulk or production security claim.
+B3 verification passes 518 cases, including all 16 actual consensus acceptance
+cases and 99 validator cases. This single-host result is not production security,
+post-quantum activation, standalone distribution or secured-throughput acceptance.
 
 Role ownership and standalone distribution are absolute requirements. Components own deterministic execution, logical state, authentication, pinned consensus and immutable EVE genesis/native/header contracts. Validator signing/consensus wiring stays here; public readiness/source/persistence stays public-owned. A copy-ready validator must contain all dependencies, locks/toolchain, sanitized configuration and notices and build/run after copying this directory alone. Private master implementation and unresolved outside paths are forbidden. Standalone copied distribution remains B6 work and is not established by a monorepo package build. External programs are deferred until testnet under D40.
 

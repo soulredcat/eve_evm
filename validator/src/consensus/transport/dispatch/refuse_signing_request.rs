@@ -23,6 +23,8 @@ const REFUSALS: [&str; 7] = [
 /// The engine treats `RemoteSignerError` as a non-fatal signing failure, including
 /// during WAL replay where it re-requests earlier height/round/step messages.
 /// Any other error, a moved durable cursor or a fenced signer remains fatal.
+/// Only bare policy errors qualify; contextual internal/reexecution faults stay fatal
+/// even when their underlying message matches a known refusal.
 pub(super) fn refuse_signing_request(
     signer: &DurableSigner,
     cursor_before: &OpaqueRecordCursor,
@@ -30,7 +32,11 @@ pub(super) fn refuse_signing_request(
 ) -> Result<RemoteSignerError> {
     let status = signer_status(signer);
     let reason = error.root_cause().to_string();
-    if status.fenced || &status.cursor != cursor_before || !REFUSALS.contains(&reason.as_str()) {
+    if status.fenced
+        || &status.cursor != cursor_before
+        || error.chain().count() != 1
+        || !REFUSALS.contains(&reason.as_str())
+    {
         return Err(error);
     }
     Ok(RemoteSignerError {
