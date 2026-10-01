@@ -44,12 +44,14 @@ impl Cluster {
     pub fn start(&mut self) -> Result<()> {
         self.reservations.clear();
         self.proxies
-            .start(self.nodes.iter().map(|node| node.p2p).collect())?;
+            .start(self.nodes.iter().map(|node| node.p2p).collect())
+            .context("B3_PHASE_PROXY")?;
         for index in 0..self.nodes.len() {
-            self.spawn_node(index)?;
+            self.spawn_node(index).context("B3_PHASE_NODE_SPAWN")?;
         }
         for index in 0..self.nodes.len() {
-            self.register_engine(index)?;
+            self.register_engine(index)
+                .context("B3_PHASE_ENGINE_DISCOVERY")?;
         }
         wait_for_height(self, &[0, 1, 2, 3], 2)?;
         Ok(())

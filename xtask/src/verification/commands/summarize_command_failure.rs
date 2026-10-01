@@ -15,6 +15,15 @@ pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
             "ENGINE_VERSION_COMMAND_FAILED",
         ),
         ("CometBFT init failed", "ENGINE_INITIALIZATION_FAILED"),
+        ("B3_PHASE_FIXTURE", "B3_PHASE_FIXTURE"),
+        ("B3_PHASE_INITIALIZATION", "B3_PHASE_INITIALIZATION"),
+        ("B3_PHASE_PROXY", "B3_PHASE_PROXY"),
+        ("B3_PHASE_NODE_SPAWN", "B3_PHASE_NODE_SPAWN"),
+        ("B3_PHASE_ENGINE_DISCOVERY", "B3_PHASE_ENGINE_DISCOVERY"),
+        (
+            "owned native engine child not found",
+            "ENGINE_DISCOVERY_DEADLINE",
+        ),
         (
             "CometBFT exited before API smoke completed",
             "ENGINE_EXITED_DURING_LIFECYCLE",

@@ -73,7 +73,7 @@ impl Cluster {
             reservations.extend([rpc, p2p]);
         }
         let (genesis_path, genesis, authority, authority_address, fixture_path, fixture_digest) =
-            write_cluster_genesis(&artifact, &nodes, &options)?;
+            write_cluster_genesis(&artifact, &nodes, &options).context("B3_PHASE_FIXTURE")?;
         let mut cluster = Self {
             namespace: Some(namespace),
             retain_failed_namespace: false,
@@ -93,7 +93,7 @@ impl Cluster {
             proxies,
             reservations,
         };
-        cluster.initialize()?;
+        cluster.initialize().context("B3_PHASE_INITIALIZATION")?;
         Ok(cluster)
     }
 }
