@@ -7,6 +7,9 @@ package = "eve-validator-consensus-acceptance"
 requirements = ["B3", "T-C01", "T-C02", "T-C03", "T-C04", "T-C05", "T-C06", "T-C07", "T-C08", "T-C09", "T-C10"]
 
 tests = [
+    "support::process::tests::failure_metadata_releases_only_fixed_categories_and_known_io_kinds",
+    "support::process::tests::failure_metadata_rejects_wrong_identity_version_and_shape",
+    "support::process::tests::failure_metadata_never_follows_links_or_reads_oversized_unprivate_files",
     "cases::certificate_faults::t_c04_actual_native_certificate_rejects_wrong_context_weight_and_signatures",
     "cases::crash_recovery::t_c06_actual_signer_and_application_crashes_preserve_signatures_and_single_fees",
     "cases::forged_roots::t_c08_forged_master_roots_and_changed_header_cannot_replace_actual_certificate",

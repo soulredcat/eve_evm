@@ -6,6 +6,22 @@ version = 1
 package = "eve-storage"
 requirements = ["B0.2", "B0.3", "RP08-interface-subset", "B1-complete-local-state"]
 tests = [
+    "opaque_complete_older_checkpoint_is_not_a_general_backup_rollback_detector",
+    "opaque_content_binding_matches_independent_node_sha256_vectors_and_full_namespace",
+    "opaque_database_owner_is_exclusive_across_actual_processes",
+    "opaque_encoded_record_and_count_limits_reject_before_durable_mutation",
+    "opaque_existing_database_with_all_metadata_removed_cannot_initialize_again",
+    "opaque_history_capacity_never_prunes_and_exact_replay_remains_available",
+    "opaque_initialization_rejects_existing_empty_foreign_and_missing_parent_directories",
+    "opaque_invalid_resource_and_read_budgets_fail_closed",
+    "opaque_network_owner_and_domain_cannot_rebind_existing_namespace",
+    "opaque_reopen_rejects_missing_metadata_history_corrupt_payload_and_orphan_rows",
+    "opaque_stale_or_future_compare_rejects_without_mutating_valid_owner",
+    "opaque_synced_append_survives_actual_child_exit_without_destructors",
+    "opaque_synced_compare_replay_and_restart_preserve_complete_payload_identity",
+    "records::tests::physical_batch::opaque_physical_batch_limit_includes_head_and_exact_replays",
+    "records::tests::simulated_sync::actual_missing_retained_row_fences_reads_and_future_appends",
+    "records::tests::simulated_sync::simulated_opaque_ambiguous_write_and_lost_ack_fence_until_real_reopen",
     "actual_database_sequence_snapshot_keeps_both_domains_and_recovery_payload_at_one_height",
     "actual_transaction_and_receipt_bootstrap_lookups_bind_exact_source_location",
     "atomic_new_commit_extends_index_without_invalidating_captured_history",

@@ -6,8 +6,8 @@
 
 The instruction files referenced below, including root AGENTS.md and goal.md,
 are local-only and ignored. A fresh clone contains this role summary but not those
-private documents. Classical B3 passes complete verification; current owner scope
-ends after its integration. Do not advance to another bulk without new input.
+private documents. Current owner instruction forbids subagents; perform these
+responsibilities sequentially. Repair hosted B3 verification before advancing to B4.
 
 These are role instructions for the available coding-agent runtime, not a claim that five agents have already been started. The lead explicitly reads/assigns them. When parallel subagents are unavailable, perform the responsibilities sequentially with the same gates; do not invent tool calls or claim independent agents ran.
 

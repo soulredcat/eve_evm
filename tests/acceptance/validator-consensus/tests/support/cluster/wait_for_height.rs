@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::Cluster;
+use crate::support::process::summarize_node_failure;
 use crate::support::rpc::rpc_json;
 use anyhow::{Context, Result, ensure};
 use std::time::{Duration, Instant};
@@ -21,10 +22,12 @@ pub(crate) fn wait_for_height(cluster: &mut Cluster, nodes: &[usize], height: i6
     loop {
         let mut complete = true;
         for &index in nodes {
-            if let Some(child) = &mut cluster.nodes[index].child {
+            let node = &mut cluster.nodes[index];
+            if let Some(child) = &mut node.child {
                 ensure!(
                     child.try_wait()?.is_none(),
-                    "validator {index} exited before height {height}; artifacts {}",
+                    "validator {index} exited before height {height}; failure categories {}; artifacts {}",
+                    summarize_node_failure(&node.data, child.id()),
                     cluster.artifact.display()
                 );
             }

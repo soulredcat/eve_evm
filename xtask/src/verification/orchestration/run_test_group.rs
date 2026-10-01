@@ -41,7 +41,19 @@ pub(super) fn run_test_group(
     } else {
         env!("CARGO")
     };
-    let results = require_command_success(root, artifacts, report, program, &execution)?;
+    let results =
+        require_command_success(root, artifacts, report, program, &execution).map_err(|error| {
+            let failed = report
+                .commands
+                .last()
+                .and_then(|command| std::fs::read_to_string(artifacts.join(&command.stdout)).ok())
+                .map(|stdout| {
+                    crate::verification::commands::summarize_registered_test_failures::
+                    summarize_registered_test_failures(&stdout, &group.tests)
+                })
+                .unwrap_or_else(|| "FAILURE_EVIDENCE_UNAVAILABLE".into());
+            error.context(format!("Registered failed cases: {failed}"))
+        })?;
     let passed = parse_test_results(&results, tests.len())?
         + super::run_doc_tests::run_doc_tests(
             root,

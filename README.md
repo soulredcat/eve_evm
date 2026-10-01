@@ -7,10 +7,11 @@
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
 **Status: B0/B1, B2 and classical B3 have verified development gates. The complete
-B3 gate passes 518 tests, including all 16 consensus acceptance cases and T-C06
+B3 local gate passed 518 tests, including all 16 consensus acceptance cases and T-C06
 all-node crash recovery, strict lint/format and the release build.
 Standalone distributions, activated PQ, security-profile acceptance and measured
-1M TPS remain unachieved. This is a single-host Linux development result.**
+1M TPS remain unachieved. Hosted CI at that checkpoint failed the consensus packet;
+diagnosis and repair are in progress before B4.**
 
 ## Main objective
 
@@ -76,7 +77,8 @@ and review corrections that preserve fatal internal faults. The complete frozen
 gate passes 518 cases: 16 consensus, 99 validator and all retained foundation/RPC/
 storage/tooling cases, with zero ignored or failed. Signing refusals return a
 native error without releasing a signature; durability and fencing remain required.
-Stop after B3. B4 and other bulks remain outside the current owner scope.
+The owner resumed sequential core work on 2026-10-02 and forbids subagents for now.
+Resolve the hosted B3 failure before advancing to B4; keep the failed evidence visible.
 
 Public contributor context is in this README, [the planning index](docs/plan/README.md),
 [the security inventory](docs/security/inventory/README.md) and each component

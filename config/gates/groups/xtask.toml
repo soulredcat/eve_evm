@@ -6,6 +6,10 @@ version = 1
 package = "xtask"
 requirements = ["B0.4","B0.5","B0.6","T-L01","T-L02","T-L03","T-L04","T-L05","T-L06"]
 tests = [
+    "catalog::implemented_gates_share_complete_package_inventories_for_each_feature_set",
+    "failure_identifiers::failure_identifiers_are_registered_exact_deduplicated_and_sorted",
+    "failure_identifiers::failure_identifiers_never_echo_unknown_messages_paths_or_control_characters",
+    "failure_identifiers::failure_identifier_summary_bounds_count_and_identifier_length",
     "features::test_group_features_are_explicit_bounded_unique_cargo_names",
     "dual_license::zip215_exact_conjunction_requires_both_separate_license_texts",
     "dual_license::zip215_conjunction_rejects_either_missing_component_text",

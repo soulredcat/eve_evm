@@ -37,14 +37,37 @@ pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
             "APPLICATION_CHECKPOINT_TIMED_OUT",
         ),
         ("Connection refused", "CONNECTION_REFUSED"),
+        (
+            "exited before height",
+            "VALIDATOR_EXITED_BEFORE_REQUIRED_HEIGHT",
+        ),
+        (
+            "native/application progress deadline",
+            "CONSENSUS_PROGRESS_DEADLINE",
+        ),
+        (
+            "actual native application/signer readiness deadline",
+            "VALIDATOR_READINESS_DEADLINE",
+        ),
         ("Permission denied", "PERMISSION_DENIED"),
         ("assertion", "ASSERTION_FAILED"),
-        ("error[E", "RUST_COMPILATION_FAILED"),
     ] {
         if stdout.contains(needle) || stderr.contains(needle) {
             categories.push(category);
         }
     }
+    if stdout
+        .lines()
+        .chain(stderr.lines())
+        .any(|line| line.starts_with("error[E"))
+    {
+        categories.push("RUST_COMPILATION_FAILED");
+    }
+    categories.extend(
+        super::summarize_runtime_failure_categories::summarize_runtime_failure_categories(
+            stdout, stderr,
+        ),
+    );
     if categories.is_empty() {
         "UNCLASSIFIED_FAILURE; inspect ignored command evidence".into()
     } else {

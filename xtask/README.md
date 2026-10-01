@@ -6,6 +6,12 @@
 
 `xtask` owns development gates, source structure inspection and reviewed evidence orchestration. It has no execution, validator signing, finality or private master authority. Its production source follows the same operation-file and physical-line rules it checks.
 
+Failed groups report bounded registered test identifiers and reviewed fixed
+categories. Unknown text, panic payloads, keys and private paths are never echoed.
+Raw stdout/stderr stay in ignored local evidence. Reported failure identifiers are
+diagnostic only; a failed command still fails the gate and contributes no accepted
+group count. Missing failure metadata does not turn a failure into a pass.
+
 Run the structure checker from the repository root:
 
 ```sh

@@ -55,4 +55,23 @@ fn compact_failure_categories_never_echo_raw_keys_paths_or_untrusted_text() {
         summarize_command_failure("Error: API-test checkpoint did not persist", ""),
         "CHECKPOINT_CONTEXT_PRESENT, APPLICATION_CHECKPOINT_BELOW_REQUIRED_HEIGHT"
     );
+    assert_eq!(
+        summarize_command_failure("validator 1 exited before height 9; /private/path", ""),
+        "VALIDATOR_EXITED_BEFORE_REQUIRED_HEIGHT"
+    );
+    assert_eq!(
+        summarize_command_failure("native/application progress deadline at 9; key=secret", ""),
+        "CONSENSUS_PROGRESS_DEADLINE"
+    );
+    assert_eq!(
+        summarize_command_failure("source diff: IO_TIMED_OUT APPROVAL_REQUIRED error[E", ""),
+        "UNCLASSIFIED_FAILURE; inspect ignored command evidence"
+    );
+    assert_eq!(
+        summarize_command_failure(
+            "validator 1 exited before height 9; failure categories SIGNER_PARENT_HEIGHT,IO_TIMED_OUT,private-key=secret; artifacts /private/path",
+            ""
+        ),
+        "VALIDATOR_EXITED_BEFORE_REQUIRED_HEIGHT, IO_TIMED_OUT, REDACTED_RUNTIME_CATEGORY, SIGNER_PARENT_HEIGHT"
+    );
 }

@@ -51,6 +51,18 @@ fn bounded_failure_log_is_private_and_never_overwrites_existing_or_foreign_paths
 
 #[test]
 fn diagnostic_categories_redact_dynamic_packet_or_secret_strings() {
+    assert_eq!(
+        classify_node_failure("retained proposal execution failed"),
+        "APPROVAL_REEXECUTION_FAILED"
+    );
+    assert_eq!(
+        classify_node_failure("prepared proposal vote signing failed"),
+        "APPROVAL_SIGNING_FAILED"
+    );
+    assert_eq!(
+        classify_node_failure("proposal approval cache failed"),
+        "APPROVAL_CACHE_FAILED"
+    );
     let sensitive = "seed=private-material sign_bytes=raw-packet credential=untrusted";
     let category = classify_node_failure(sensitive);
     assert_eq!(category, "REDACTED_UNCLASSIFIED");

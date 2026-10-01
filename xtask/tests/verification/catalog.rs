@@ -5,11 +5,44 @@
 #[path = "catalog/core_mapping.rs"]
 mod core_mapping;
 
-use std::path::{Path, PathBuf};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    path::{Path, PathBuf},
+};
 use xtask::verification::{
     manifests::validate_gate_catalog::validate_gate_catalog,
-    types::manifest_types::{GateRegistration, GateRegistry},
+    types::manifest_types::{GateManifest, GateRegistration, GateRegistry, TestGroup},
 };
+
+#[test]
+fn implemented_gates_share_complete_package_inventories_for_each_feature_set() {
+    let root = repository();
+    let mut inventories = BTreeMap::new();
+    for gate in registry().gates.into_iter().filter(|gate| gate.implemented) {
+        let manifest: GateManifest =
+            toml::from_str(&std::fs::read_to_string(root.join(&gate.manifest)).unwrap()).unwrap();
+        for path in manifest.groups {
+            let group: TestGroup =
+                toml::from_str(&std::fs::read_to_string(root.join(&path)).unwrap()).unwrap();
+            let features: BTreeSet<_> = group.features.into_iter().collect();
+            let key = (group.package, features);
+            let tests: BTreeSet<_> = group.tests.into_iter().collect();
+            let docs: BTreeSet<_> = group.doc_tests.into_iter().collect();
+            if let Some((previous_path, previous_tests, previous_docs)) = inventories.get(&key) {
+                assert_eq!(
+                    &tests, previous_tests,
+                    "stale package inventory: {path} versus {previous_path}"
+                );
+                assert_eq!(
+                    &docs, previous_docs,
+                    "stale doc inventory: {path} versus {previous_path}"
+                );
+            } else {
+                inventories.insert(key, (path, tests, docs));
+            }
+        }
+    }
+}
 
 #[test]
 fn complete_fifteen_gate_catalog_preserves_all_current_core_security_bulks() {

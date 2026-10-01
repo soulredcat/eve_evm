@@ -24,6 +24,12 @@ identities to ignored `retained-namespace.json`. Clear that disposable namespace
 only after the retained recovery evidence has been reviewed. No fixture contains
 a tracked private seed.
 
+An exited owned child reports only fixed runtime failure categories and recognized
+I/O kinds to the gate. The reader accepts a bounded private regular file for that
+exact process identity, refuses symlinks and nonregular files, and redacts unknown
+fields/codes. Raw panic output, key material, paths and detailed diagnostics remain
+local. This summary supplies diagnosis, never execution or finality authority.
+
 The Cargo integration packet contains these actual process scenarios:
 
 | Gate | Observable assertion |
