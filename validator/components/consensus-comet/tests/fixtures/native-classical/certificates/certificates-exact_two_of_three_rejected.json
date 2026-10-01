@@ -1,0 +1,83 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "certificates": [
+    {
+      "commit": {
+        "block_id": {
+          "hash": "d5674437bb10c3785ddad87af0437836a7555564912185e519b594db3feece0a",
+          "parts": {
+            "hash": "4444444444444444444444444444444444444444444444444444444444444444",
+            "total": 1
+          }
+        },
+        "height": 3,
+        "round": 2,
+        "signatures": [
+          {
+            "address": "11f5da7fff4ce69d590d696c8564d1628c99bfa5",
+            "flag": 2,
+            "signature": "d1490660c85bbd6244e2337dc21fa81d8a5084a2184c6f0e9037ebb12b41a993c95472d77b0987f135ca40bbf64a5192c3da6a5cee31e90437857c0c87d4fa02",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          },
+          {
+            "address": "39ea144387a353c1d8d7d118486a42b4d33e9f04",
+            "flag": 2,
+            "signature": "2e130a46494a801029e58738fa9ba387d1238201f12edcb77163c9721c0e13595e8be7a92199cb0f32227886375155827cf409c2e0085dedc57a727c9aecd109",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          },
+          {
+            "address": "",
+            "flag": 1,
+            "signature": "",
+            "timestamp": null
+          }
+        ]
+      },
+      "header": {
+        "app_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+        "chain_id": "eve-local-v1",
+        "consensus_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+        "data_hash": "9999999999999999999999999999999999999999999999999999999999999999",
+        "evidence_hash": "",
+        "height": 3,
+        "last_block_id": null,
+        "last_commit_hash": "",
+        "last_results_hash": "",
+        "next_validators_hash": "b68543fc254e1dcb0749c64f33c9087e64437cd5087beaef3a6dccb01ca7e23f",
+        "proposer_address": "11f5da7fff4ce69d590d696c8564d1628c99bfa5",
+        "time": {
+          "nanos": 123456789,
+          "seconds": 1790812800
+        },
+        "validators_hash": "b68543fc254e1dcb0749c64f33c9087e64437cd5087beaef3a6dccb01ca7e23f",
+        "version": {
+          "app": 1,
+          "block": 11
+        }
+      },
+      "name": "exact_two_of_three_rejected",
+      "native_outcome": "REJECT",
+      "native_reason": "INSUFFICIENT_VOTING_POWER",
+      "validators": [
+        {
+          "public_key": "e5e21d32361944ff169f1233f6fc4efc97c3a50b0488f90d02081c715b27f1db",
+          "voting_power": 10
+        },
+        {
+          "public_key": "b700a26d75465d0289ac4c2522f3cb92cc1a116ba0bdf6837ae9809aa67428eb",
+          "voting_power": 10
+        },
+        {
+          "public_key": "81fed73a3da04a79d28dd7a305e4e898a4d664f72a58b813fd25f9d4458b6c1c",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

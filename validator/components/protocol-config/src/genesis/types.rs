@@ -6,6 +6,14 @@ use alloy_primitives::{Address, B256, Bytes, U256};
 
 use crate::network::SecurityProfile;
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct DevelopmentConsensusLimits {
+    pub block_gas_limit: u64,
+    pub maximum_block_bytes: u64,
+    pub evidence_max_age_blocks: u64,
+    pub evidence_max_age_seconds: u64,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct GenesisAccount {
     pub address: Address,

@@ -1,0 +1,10 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
+mod diagnostics;
+mod foreground;
+mod initialization;
+mod listener;
+mod namespace;
+mod support;

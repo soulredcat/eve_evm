@@ -128,6 +128,53 @@ Owner instruction replaces the earlier mandatory bridge/interoperability queue w
 
 Affected scope: D18–D23/D39, plans 23/28–31, core security acceptance, bulk registry/pins and role package ownership. No consensus, crypto profile, Shanghai fork rule, fee rule or native proof format is changed. Historical B0/SEC0/INT0 commands/results remain valid for their recorded revision; current gates select only current core requirements and expose deferred IDs explicitly. Verification must confirm no external adapter dependency in production execution, block production, voting, finality or durable acknowledgement. Deferred program safety rules remain in plans 28/30; real custody remains unapproved.
 
+## D41 — Classical development genesis anchor
+
+B3's initial Comet AppHash is the existing canonical genesis StateVersion content
+digest, binding its identity and complete state before the first certified header.
+Do not construct ApplicationCommitment(0); genesis keeps that field absent, and
+positive execution heights retain the unchanged EVE_APP_V1 commitment. This closes
+the startup boundary without changing the EVM genesis/header/fee encodings.
+Compatibility and independent genesis/header/replay vectors are mandatory before
+B3 integration. Mainnet genesis remains an explicit owner boundary.
+
+## D42 — Native Ed25519 verification parity
+
+The pinned Comet verifier uses ZIP-215. Dalek's strict or uncofactored verification
+cannot silently replace that consensus behavior. B3 pins ed25519-zebra 4.2.0 for
+individual native classical certificate verification, with published ZIP-215 rules
+and exact native edge vectors. Existing account/hybrid authentication and signing
+rules remain unchanged. New dependency/source/license/audit checks are mandatory;
+this is not a security certification or PQ activation. Unsupported profiles fail.
+
+## D43 — Genesis-bound B3 acceptance lifecycle
+
+Plan 23's temporary authenticated transition uses a disabled-by-default
+`development-acceptance` feature, a bounded manifest bound in the canonical
+genesis fixture contract's code, and real signed EVM calls/successful receipts.
+Rotation retains its existing owner/backed power; leave/jail are bounded native
+test-set removals. Native updates retain H+2 activation and separate H+1/H+3
+metadata. Normal builds reject marked acceptance genesis, preventing a silent
+rule difference at the same genesis identity. Exact replay derives the same
+updates from retained canonical transactions/receipts. No arbitrary operator or
+master schedule triggers changes. This does not implement production staking,
+slashing or key ceremonies; B5 must replace the temporary adapter. The separate
+bounded malformed-proposal hook never bypasses actual non-nil vote execution or
+durable signing. Full T-C05/T-C07 acceptance is mandatory before B3 integration.
+
+## D44 — EVE classical enrollment point policy
+
+Initial and acceptance-future EVE enrollments require a canonical nonidentity
+prime-order Ed25519 public point. Reuse existing pinned Dalek `to_edwards`,
+`is_torsion_free` and canonical compression; no curve primitive or dependency
+upgrade is introduced. Small-order rejection alone does not reject mixed-order
+points. The native generic ZIP-215 verifier and raw-byte validator hash stay
+unchanged; preserved mixed-order native vectors must still verify there while
+EVE enrollment rejects them. Generated existing EVE keys/encodings remain valid.
+This development admission hardening is not PQ activation or certification.
+Primary API contracts: [Dalek 2.2.0](https://docs.rs/ed25519-dalek/2.2.0/ed25519_dalek/struct.VerifyingKey.html)
+and [curve25519-dalek 4.1.3](https://docs.rs/curve25519-dalek/4.1.3/curve25519_dalek/edwards/struct.EdwardsPoint.html#method.is_torsion_free).
+
 ## Decision change template
 
 Record ID/date, affected requirements, old/new rule, reason/evidence, alternatives, compatibility/migration impact, safety/capacity tests, operator consequences and approval scope. Update every affected plan/test/config in the same bulk. Safety exceptions cannot be hidden as performance optimizations.

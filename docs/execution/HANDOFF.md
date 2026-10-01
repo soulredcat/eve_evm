@@ -7,6 +7,23 @@
 Updated: 2026-10-01. The owner authorizes integrating each verified bulk into
 main and pushing. Inspect branch, HEAD, index and dirty files before work.
 No background continuation or unobserved hosted result is implied.
+Latest owner steering supersedes the earlier finish-B3-first boundary: pause
+development now because the PC runs other programs. Publish the current-state
+checkpoint branch and create a draft PR to main without merging, then stop.
+Do not resume development, tests/builds, B4 or another bulk without new input.
+For the following publication after this checkpoint and new owner resumption,
+`.md` files are forbidden except README.md. The owner explicitly deferred this
+migration for the current PR. Preserve content, migrate formats/references/gates
+and implement filename enforcement before that later publication; not done now.
+
+Current primary branch: codex/validator-consensus-b3, base/main/origin B2 commit
+b5f98df359eadfc83983b22eea39a249bd03fdbb. B2 was pushed non-force and both
+checkouts were clean before B3. The current checkpoint is explicitly incomplete
+and stays on its draft branch; main remains at the accepted B2 commit. Its current
+commit/PR identity is verified by Git and the attached PR, avoiding self-reference.
+Hosted B2 run 36812752566
+at that exact commit completed SUCCESS; actual job log confirms 348 executed cases.
+Read CI-20261001-B2.md. This is separately observed hosted B2, not B3 acceptance.
 
 The B2 integration contains verified serial RPC, Redcat notices and D40 changes,
 tested at base 038fe80 with an unchanged before/after source bundle. The commit
@@ -26,7 +43,7 @@ The unused interop/bridge packages are removed; their baseline is recoverable
 at 038fe80 and their task-owned noticed copies remain ignored locally.
 
 Current core contains B0–B11 plus SEC0/SEC1/SEC3: 15 gates, with mandatory core
-T-M/T-P/persistence coverage retained. Twelve packages have explicit ownership.
+T-M/T-P/persistence coverage retained. Fourteen packages have explicit ownership.
 Validator owns canonical protocol, state, execution, authentication and Comet API
 contracts. Public owns admission/RPC, verified-view policy and recovery repository.
 Master owns private composition/storage entry points. Public and validator do
@@ -74,8 +91,36 @@ EVE compares 3118 protected executions with its declared economic effects.
 
 First: git status --short --branch. Verify B2 publication, then read plan 12 and
 the consensus component README. Next is B3: actual four-validator execution,
-certificates and signing durability. B3 remains NOT_IMPLEMENTED until its full
-gate exists and passes; cargo xtask verify --bulk B3 must report that truth.
+certificates and signing durability. B3 implementation and its complete gate now
+exist; implementation alone is not a passing bulk. The complete gate remains FAIL
+until the actual recovery defect below is repaired and every required check passes.
+Read local-tests/b3-preparation role handoffs: native sign/cert/hash/ZIP vectors,
+56-case storage and 45-case ownership conjunction checks are scoped passes.
+They do not prove a four-validator runtime or full T-C01–T-C10 acceptance.
+Private signer/approval/application/Unix transport are being integrated under
+validator/src/consensus. The actual classical runtime and all ten process cases
+now have scoped passing evidence; complete frozen B3 verification remains pending.
+The current B3 manifest selects 92 feature-enabled validator cases and 16 independent
+network/codec cases, retaining every current core B2 regression. Normal and test
+validator executables are separately preserved and fingerprinted by the preparer.
+The first complete B3 attempt fails at the network group: 259 prior cases passed,
+then 15 of 16 network cases passed and T-C06 stopped when validator 1 exited before
+height 9 after all-node crashes. Local-only report:
+local-tests/verify-254-1790848988209122086/report.json, source bundle
+9c9560cf74a1bd0e0ae27efe7a82bf374ebdd6ea13cd60b6448708702704e3e3.
+This is distinct from the earlier common-checkpoint selection repair. Generic
+stderr lost the underlying Rust actor error; bounded private diagnostics and
+failure-only native namespace retention are being added for concrete reproduction.
+Source is now frozen as an owner-paused checkpoint. B3 is not complete and its
+classified failure has not been reproduced. Three private diagnostic cases pass;
+a fourth scoped regression preserves the original signing refusal instead of
+masking it as missing data, with no signature/cursor/policy change. The current
+CLI f7e1d80e contains diagnostic version one, not the final cause-preservation
+source patch. The complete gate has not been rerun at this newer source.
+After new owner authorization, inspect git status first. Exact next development
+command: cargo build --locked -p eve-validator --features development-acceptance.
+Then record its SHA and coordinate retained C06 reproduction before another
+complete frozen gate. Do not execute these commands or resume automatically now.
 
 All publishable source must stay frozen during the full gate's before/after
 fingerprint. Fix genuine failures, rerun affected checks and the full gate.

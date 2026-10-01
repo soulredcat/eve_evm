@@ -6,6 +6,22 @@
 
 ## Current evidence
 
+## B3-checkpoint-20261001 — Owner-paused incomplete validator work
+
+[Checkpoint and exact limitations](B3-checkpoint-20261001.md): the complete
+507-case manifest attempt failed after 259 prior cases passed and the network
+group returned 15 PASS / 1 FAIL at actual all-node crash recovery. Two later
+diagnostic C06 runs passed without identifying the failure; they do not establish
+a fix. Scoped diagnostic/error-cause regressions are recorded separately.
+The owner authorizes a branch checkpoint and draft PR without merge, then stops
+development. B3 remains incomplete; no acceptance gate or test is weakened.
+
+## CI-20261001-B2 — Observed hosted B2 success
+
+[Hosted B2 record](CI-20261001-B2.md): run 36812752566 at main commit b5f98df
+completes SUCCESS; actual job log confirms 348 executed cases. Fresh setup/tools,
+complete gate and cleanup succeed. Raw report remains job-local, not uploaded.
+
 ## B2-20261001 — Complete local serial RPC gate
 
 [Integrated B2 record](B2-20261001.md): source-frozen full gate exits 0; all 348

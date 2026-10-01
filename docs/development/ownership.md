@@ -116,5 +116,8 @@ for missing/conflicting notices, unsafe/stale/overlapping annotation paths,
 unsupported metadata, missing texts, upstream Redcat claims or changed registered
 upstream digests. Its isolated tests are under `xtask/tests/ownership/`.
 Supported external annotations use single license identifiers and `closest`
-precedence. This bounded gate does not validate every REUSE/SPDX feature, decide
+precedence, plus the reviewed exact upstream `Apache-2.0 AND BSD-3-Clause` rule
+for ZIP-215 inputs. Both separate texts and every exact source digest are required;
+unknown/reversed/nested expressions fail. First-party licensing stays unchanged.
+This bounded gate does not validate every REUSE/SPDX feature, decide
 copyright ownership, replace legal review or certify dependency distributions.

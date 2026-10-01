@@ -4,7 +4,8 @@
 
 //! Pinned CometBFT wire boundary and commitment-height contracts.
 //!
-//! This component does not implement a consensus protocol or authenticate headers.
+//! Classical certificate checks require a caller-authenticated historical set.
+//! This component does not implement a consensus protocol or execute proposals.
 
 pub mod consensus;
 pub mod wire;

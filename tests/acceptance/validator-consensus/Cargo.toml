@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+[package]
+name = "eve-validator-consensus-acceptance"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license-file.workspace = true
+
+[dev-dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
+hex.workspace = true
+sha2.workspace = true
+base64.workspace = true
+ed25519-dalek.workspace = true
+k256.workspace = true
+alloy-primitives.workspace = true
+alloy-consensus.workspace = true
+alloy-eips.workspace = true
+prost-types.workspace = true
+prost.workspace = true
+eve-state = { path = "../../../validator/components/state" }
+eve-protocol-config = { path = "../../../validator/components/protocol-config" }
+eve-consensus-comet = { path = "../../../validator/components/consensus-comet" }
+eve-storage = { path = "../../../public/components/recovery-store" }
+eve-evm = { path = "../../../validator/components/execution" }
+
+[lints]
+workspace = true

@@ -139,6 +139,11 @@ pub(super) fn run_selected_gates(
             &["build", "--locked", "-p", "eve-master"],
         )?;
     }
+    if groups.contains("config/gates/groups/validator-consensus-b3.toml") {
+        crate::verification::fixtures::prepare_b3_acceptance::prepare_b3_acceptance(
+            root, artifacts, report,
+        )?;
+    }
     for path in groups {
         super::run_test_group::run_test_group(
             root,

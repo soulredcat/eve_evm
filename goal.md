@@ -117,4 +117,4 @@ Session/tool limits must produce a resumable checkpoint, not a promise of unatte
 
 ## First actions
 
-Inspect the checkout/toolchain, D40, plans 31/32 and current status/handoff. Finish the active verified core bulk, including its structure/ownership and regression gates; then proceed to the next ready B0–B11 or SEC0/SEC1/SEC3 bulk without another planning round. Do not restart completed foundations or build deferred external adapters.
+The owner's latest 2026-10-01 instruction pauses development during incomplete B3 because the PC runs other programs. Publish the current-state checkpoint on its branch and create a draft PR to main without merging, then stop. Do not resume development, heavy checks, B4 or another security bulk until new owner input. Preserve the failed complete gate and all remaining requirements for later work. This takes precedence over automatic advancement; it does not mark B3, testnet, security or capacity accepted.

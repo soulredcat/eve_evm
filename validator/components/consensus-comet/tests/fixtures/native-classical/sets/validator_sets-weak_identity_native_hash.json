@@ -1,0 +1,22 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "validator_sets": [
+    {
+      "addresses": [
+        "01d0fabd251fcbbe2b93b4b927b26ad2a1a99077"
+      ],
+      "curve_point_decodable": true,
+      "hash": "387e0471036439f09387740d4f514efd2365b3acacaf717e8a290bd5d9d08c7d",
+      "name": "weak_identity_native_hash",
+      "native_validate_basic_accepts": true,
+      "small_order": true,
+      "torsion_free": true,
+      "validators": [
+        {
+          "public_key": "0100000000000000000000000000000000000000000000000000000000000000",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

@@ -11,7 +11,7 @@ Generated Rust output goes only to Cargo's untracked `OUT_DIR`.
 
 | Source | Exact identity | License | Included files |
 |---|---|---|---|
-| [CometBFT](https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62) | v0.40.0, commit `0880b4d378f347ab16e54ec677ff50d803f37d62` | Apache-2.0; preserved `cometbft/LICENSE` | ABCI types and their crypto/types/version imports; canonical vote/proposal types |
+| [CometBFT](https://github.com/cometbft/cometbft/tree/0880b4d378f347ab16e54ec677ff50d803f37d62) | v0.40.0, commit `0880b4d378f347ab16e54ec677ff50d803f37d62` | Apache-2.0; preserved `cometbft/LICENSE` | ABCI types and their crypto/types/version imports; canonical vote/proposal and remote priv-validator types |
 | [Cosmos gogoproto](https://github.com/cosmos/gogoproto/tree/cf5213e4dcbf1fea203185c0af00840e566790d9) | v1.7.2, commit `cf5213e4dcbf1fea203185c0af00840e566790d9` | BSD-3-Clause; preserved `gogoproto/LICENSE` | `gogoproto/gogo.proto`, required by CometBFT declarations |
 
 The canonical source paths are preserved beneath each upstream directory. No

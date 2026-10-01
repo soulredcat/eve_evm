@@ -5,9 +5,10 @@
 # Validator-owned CometBFT boundary
 
 Canonical owner: `validator/components/consensus-comet/`. This component owns the
-pinned engine's ABCI wire binding, bounded socket framing, height-mapping checks,
-and explicit authentication capability boundary. It does not implement finality,
-EVM transitions, private master storage, or a second consensus algorithm.
+pinned engine's ABCI/private-validator wire bindings, bounded socket framing,
+height mapping, native classical canonical bytes/hashes/certificate checks and
+explicit authentication capability boundary. Complete application, signing
+durability and consensus lifecycle wiring belong to the validator runtime.
 Dependencies flow from role runtimes/verifiers into this component; this component
 has no private master dependency.
 
@@ -109,3 +110,75 @@ silently skips actual-engine coverage. The upstream v0.40.0 GitHub release has n
 binary assets, so build the exact source commit with the pinned Go toolchain.
 Generated test keys, engine data, checkpoints, raw logs, and local evidence remain
 inside ignored `local-tests/`; only sanitized reproduction summaries are publishable.
+
+## B3 native classical signing and certificate operations
+
+`consensus/signing/` owns pure native vote/proposal canonical conversion.
+`encode_vote_sign_bytes` and `encode_proposal_sign_bytes` return the engine's
+length-delimited protobuf bytes, with `sfixed64` heights/rounds, complete part-set
+IDs and the native proposal POLRound rule. Missing nonnullable timestamps map to
+Go's year-one zero time, distinct from Unix epoch; seconds/nanoseconds are bounded.
+Chain IDs, message types, positive heights, nonnegative rounds, hash/address widths
+and optional classical signature widths are checked before encoding. Nil votes
+remain distinct from nonnil proposals. Baseline vote extensions fail explicitly.
+
+Encoding grants no signing or execution approval. Proposer signing follows native
+PrepareProposal ordering and precedes ProcessProposal; an application must not
+require a prior ProcessProposal callback to sign its own prepared proposal.
+Nonnil votes require actual execution/data approval for the exact block ID,
+height, parent and applicable configuration/profile. Locked prevote/precommit
+paths may reuse a previously validated block without a fresh callback, so runtime
+approval and retained proposal data must survive/reconcile those rounds and crash
+boundaries. These pure operations provide no approval ledger or durable signer.
+
+`consensus/certificates/` owns native header/set hashes and classical certificate
+verification. `canonicalize_validator_set` reproduces decreasing-power then
+increasing-address order; `validator_address` is SHA256-20 of the raw Ed25519 key,
+not its owner's EVM reward address. `hash_validator_set` hashes native
+SimpleValidator protobuf leaves. `hash_consensus_header` hashes the native ordered
+14-field RFC6962 tree using standard protobuf wrappers, not the execution RLP hash.
+The header wrapper requires native block protocol 11 and bounded valid fields.
+`hash_transaction_data` matches native Data.Hash: transaction SHA256 IDs become
+the field-tree leaves. It bounds the development raw bytes/count before hashing;
+complete BFT-envelope validity and actual EVM execution remain caller obligations.
+
+`verify_commit_certificate` checks caller-expected chain/height/round/full block ID,
+the header hash, applicable-height set hash, exact signer positions/addresses and
+all nonabsent signatures, including nil votes. Only block votes count toward strict
+`3*S > 2*T`; exactly two-thirds fails. Total power retains the native `i64::MAX/8`
+limit. The 64-validator cap is an explicit local-development verification bound,
+not production scalability acceptance. Duplicate/unknown/reordered signers and
+malformed absent entries fail rather than reducing quorum.
+
+The historical-set input carries the authentication requirement and rejects
+activated hybrid use through the existing native guard. Its provenance and
+freshness must already be authenticated by the caller. A result authenticates
+that certificate only; it does not prove execution, establish validator-set history
+or replace H/H+1 application anchoring. The certificate and height-binding checks
+are tested separately. Genesis's development application anchor is the existing
+height-zero StateVersion content digest; it is not an ApplicationCommitment(0).
+
+Native Comet verification uses ZIP215 cofactored/noncanonical-point criteria.
+Pinned `ed25519-zebra` 4.2.0 provides deterministic individual verification for this
+boundary. Dalek's ordinary/strict equation is not substituted for native verification;
+existing Dalek signing and protected-account/hybrid rules remain separate.
+Native byte verification is distinct from EVE enrollment policy: successful raw
+ZIP215 verification does not admit a weak key into EVE genesis or an update.
+Native set hashing remains byte-based, matching Go even for a weak or invalid-point
+key; actual signature verification decodes through Zebra. EVE enrollment must
+separately enforce its approved key/possession policy.
+
+Versioned public-only fixtures under `tests/fixtures/native-classical/` come from
+the pinned Go engine's production canonical/hash/verification APIs, not the Rust
+functions under test. `tests/fixtures/zip215-upstream/` preserves attributed
+upstream edge inputs/notices with actual native outcomes. A mixed-order nonweak
+key plus noncanonical R demonstrates the ZIP215/Dalek difference. See each fixture
+README for provenance, identities and policy differences. Disposable fixture keys
+are unsafe test identities and provide no live-network or custody authorization.
+
+Run the dedicated `native_signing` and `native_certificates` suites, strict lint,
+ownership and structure checks, then the integrated B3 gate when complete.
+Four-validator operation, durable signing/fencing/recovery, partition schedules,
+actual application lifecycle and complete T-C01–T-C10 acceptance remain separate
+runtime/integration work. These scoped native operations do not establish B3
+completion, majority continuity, PQ protection or a throughput result.

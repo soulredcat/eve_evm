@@ -35,6 +35,7 @@ pub fn generate_upstream_bindings() -> Result<(), Box<dyn Error>> {
             &[
                 proto.join("tendermint/abci/types.proto"),
                 proto.join("tendermint/types/canonical.proto"),
+                proto.join("tendermint/privval/types.proto"),
             ],
             &[proto, gogo, well_known],
         )?;

@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-use std::io::{self, Write};
-
-use prost::Message;
-
+use super::write_protobuf_message;
 use crate::wire::tendermint::abci::Response;
+use std::io::{self, Write};
 
 /// Write one bounded varint-length-delimited response and flush the connection.
 pub fn write_abci_response<W: Write>(
@@ -14,12 +12,5 @@ pub fn write_abci_response<W: Write>(
     response: &Response,
     maximum_message_bytes: usize,
 ) -> io::Result<()> {
-    if response.encoded_len() > maximum_message_bytes {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidInput,
-            "ABCI size limit",
-        ));
-    }
-    writer.write_all(&response.encode_length_delimited_to_vec())?;
-    writer.flush()
+    write_protobuf_message(writer, response, maximum_message_bytes)
 }

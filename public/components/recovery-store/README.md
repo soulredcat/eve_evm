@@ -146,3 +146,43 @@ boundary cases verify this sum. It does not claim physical page-I/O or RSS accou
 Auxiliary pass budgets cannot exceed repository physical batch bounds. Actual child
 process exits after acknowledged partial/complete index passes verify no-destructor
 reopen, exact prefix/cursor, idempotent completion and unchanged canonical bytes/head.
+
+## Opaque compare-and-append history — B3
+
+`records/` is a separate exclusive database for caller-encoded signing intents or
+consensus replay metadata, never fake execution blocks. Immutable genesis/owner/
+domain bytes, a contiguous sequence and standard SHA-256 content chaining bind
+every exact payload and parent. Storage does not implement signer height/round/
+step rules, signature verification, authenticated finality or key enrollment.
+
+The local schema is `EVEOPAQUE01`. An encoded record is target sequence (8 bytes),
+parent cursor (8-byte sequence plus 32-byte hash), content hash (32 bytes), payload
+length (8 bytes) and payload. Integers are unsigned big-endian. SHA-256 binds
+`EVE_OPAQUE_RECORD_V1`, the full 96-byte namespace, parent cursor, target sequence,
+payload length and payload. Sequence zero uses a zero parent and empty payload.
+
+`open_opaque_record_repository` initializes only a nonexistent final directory
+under an existing parent. An existing empty, incomplete, foreign or corrupt
+namespace cannot silently reset. Unix initialization syncs the database directory
+and its parent; the caller must establish durable ancestors. Native Windows
+directory durability is unsupported and fails closed. Local RocksDB LOCK is
+single-host namespace exclusion, not fencing a copied key/database on another host.
+
+`compare_and_append_opaque_records` requires the exact acknowledged head for new
+records and syncs one WAL-enabled batch including its head. Entirely retained exact
+replays return their original end and truthful current head without writing; mixed
+replay/new tails, stale compares and changed payloads reject. Ambiguous write/sync
+and failed retained reads fence the handle until drop/reopen/reconciliation.
+
+Encoded record/read and physical batch limits include metadata. Count, DB memory/
+worker/file and retained-history limits are finite; capacity exhaustion never
+prunes safety history. Reopen checks every retained row, sequence, parent, hash,
+identity and head, rejecting missing/orphan/foreign data. These limits do not claim
+whole-process RSS, OS-cache or physical-storage bounds.
+
+Dedicated `opaque_records`, `opaque_record_limits`, `opaque_record_corruption`,
+`opaque_record_hashes`, `opaque_record_process_recovery` and unit cases distinguish actual
+no-destructor child exits and exclusive owners from labelled simulated failures.
+A coherent older checkpoint is deliberately shown to remain locally valid: this
+repository cannot prove full-backup rollback protection or hardware power-loss
+durability. Validator signing policy must supply the stronger continuity rules.

@@ -5,6 +5,7 @@
 //! Exact repository ownership policy; not complete REUSE or SPDX certification.
 pub mod check_ownership;
 mod inspect_ownership_file;
+mod license_text_identifiers;
 mod load_annotations;
 mod notice_markers;
 pub mod types;

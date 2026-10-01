@@ -14,6 +14,14 @@ Every first-party file needs its valid inline notice or exact `REUSE.toml` assoc
 
 ## Required language
 
+The owner additionally requires that future GitHub publications, after the current
+owner-paused B3 checkpoint PR and when development resumes, contain no `.md` file
+except `README.md`. This checkpoint is explicitly exempt by the owner's timing
+choice. Before the next publication, migrate other Markdown documents without
+losing instructions/specifications/evidence, repair references/gate inputs and
+implement the corresponding publication check. Migration is NOT_IMPLEMENTED now;
+do not claim the current tree satisfies the future filename rule.
+
 Use English for all first-party shared documentation, code comments, API descriptions, operator messages, configuration explanations, test descriptions, commit messages, pull requests, and issue text. Use descriptive English names where naming conventions allow. Preserve protocol identifiers, proper names, canonical test-vector bytes, and attributed upstream material without changing their meaning.
 
 ## Local tests and shared tests

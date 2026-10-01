@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+use super::upstream_license::upstream_license;
 use crate::structure::{
     inspection::compute_source_digest::compute_source_digest, types::policy_types::StructurePolicy,
 };
@@ -30,6 +31,9 @@ pub(super) fn verify_upstream_digest(
     }
     if (path.starts_with("validator/components/consensus-comet/vendor/cometbft/")
         || path.starts_with("validator/components/consensus-comet/vendor/gogoproto/")
+        || (path
+            .starts_with("validator/components/consensus-comet/tests/fixtures/zip215-upstream/")
+            && upstream_license(path).is_some())
         || matches!(
             path,
             "validator/components/authentication/tests/fixtures/nist-acvp/prompt.json"

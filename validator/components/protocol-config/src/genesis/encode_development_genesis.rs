@@ -68,6 +68,7 @@ pub fn encode_development_genesis(
         })
         .collect::<Vec<_>>();
     let gas = NATIVE_GAS_V1;
+    let limits = super::development_consensus_limits();
     Ok(encode_list(&[
         alloy_rlp::encode(b"EVE_GENESIS_V1".as_slice()),
         alloy_rlp::encode(genesis.schema_version),
@@ -77,10 +78,10 @@ pub fn encode_development_genesis(
         alloy_rlp::encode(genesis.initial_timestamp),
         alloy_rlp::encode(genesis.profile as u8),
         encode_list(&[
-            alloy_rlp::encode(30_000_000_u64),
-            alloy_rlp::encode(4_194_304_u64),
-            alloy_rlp::encode(1_000_u64),
-            alloy_rlp::encode(86_400_u64),
+            alloy_rlp::encode(limits.block_gas_limit),
+            alloy_rlp::encode(limits.maximum_block_bytes),
+            alloy_rlp::encode(limits.evidence_max_age_blocks),
+            alloy_rlp::encode(limits.evidence_max_age_seconds),
             alloy_rlp::encode(86_400_u64),
             alloy_rlp::encode(10_000_u64),
             alloy_rlp::encode(86_400_u64),

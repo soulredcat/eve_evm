@@ -8,6 +8,8 @@ mod artifacts;
 mod catalog;
 #[path = "verification/commands.rs"]
 mod commands;
+#[path = "verification/features.rs"]
+mod features;
 #[path = "verification/inventory.rs"]
 mod inventory;
 #[path = "verification/requirements.rs"]

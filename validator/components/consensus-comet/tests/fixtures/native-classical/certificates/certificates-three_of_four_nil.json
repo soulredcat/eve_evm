@@ -1,0 +1,99 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "certificates": [
+    {
+      "commit": {
+        "block_id": {
+          "hash": "3cca1b482bc77e42e2b589f41519f55bf36f8cb3206351d023f2eadeb1f0f8bd",
+          "parts": {
+            "hash": "4444444444444444444444444444444444444444444444444444444444444444",
+            "total": 1
+          }
+        },
+        "height": 3,
+        "round": 2,
+        "signatures": [
+          {
+            "address": "4bef04ecbfa5021174b7d931dacb2a0ea4b13805",
+            "flag": 2,
+            "signature": "87ad6137aa4f4e29845a6cec07701817764dc7c472136dc934a8e4998b8cbe1e49e5ff7d14b5fbe2dfaec2b1c0e32e1d9b09ae01daf877e27174dad16e305605",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          },
+          {
+            "address": "74a5e1fb5226d9dbb9db2055a0f1c3971a4eb573",
+            "flag": 2,
+            "signature": "1a1c2cecb29e1742db758940abc33a5ff227793a6eb6625704e7d666e6484d5dbf619e893036657bbeda9c87922aa931a2303425194ab8e65ea8226a84fccf0d",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          },
+          {
+            "address": "9bd3b688818d0382e0ceadb1e096f46d330e9093",
+            "flag": 2,
+            "signature": "10291bed06afa6b8b15dd521ef5c6a52498775ca05897a7174542842968bd031b4d4f1f89e2567eeae8417da007c29ae20803dc2183189a3a177c37bff861604",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          },
+          {
+            "address": "a236dba256cd4d6a803a4163fc6756e026446ef3",
+            "flag": 3,
+            "signature": "21dc42016416cd54a19d53e0097773c805fa12cc141bbf7970b9c60b43f720e23d334fb063b04602ffd4b98dce0cad8fcedd97422bcba2bb33a43434d9d1260e",
+            "timestamp": {
+              "nanos": 123456789,
+              "seconds": 1790812800
+            }
+          }
+        ]
+      },
+      "header": {
+        "app_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+        "chain_id": "eve-local-v1",
+        "consensus_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+        "data_hash": "9999999999999999999999999999999999999999999999999999999999999999",
+        "evidence_hash": "",
+        "height": 3,
+        "last_block_id": null,
+        "last_commit_hash": "",
+        "last_results_hash": "",
+        "next_validators_hash": "e6eac6deba49937feece4c7dd9fd13b02c61e1e4b5553ddfb26cfe9e76b24ebd",
+        "proposer_address": "4bef04ecbfa5021174b7d931dacb2a0ea4b13805",
+        "time": {
+          "nanos": 123456789,
+          "seconds": 1790812800
+        },
+        "validators_hash": "e6eac6deba49937feece4c7dd9fd13b02c61e1e4b5553ddfb26cfe9e76b24ebd",
+        "version": {
+          "app": 1,
+          "block": 11
+        }
+      },
+      "name": "three_of_four_nil",
+      "native_outcome": "PASS",
+      "native_reason": "",
+      "validators": [
+        {
+          "public_key": "1aaab2675bced1a30d638d768da05e59b4371f6ebfc9fca7d4028aa2c4d31bea",
+          "voting_power": 10
+        },
+        {
+          "public_key": "74b5cb14e193be23e0ec97a55bbddba1439c676a76d6f9f4cfe395217e8e2dc6",
+          "voting_power": 10
+        },
+        {
+          "public_key": "d7de4cdf1a93760a1739b0119f6caff29a1f6e277f09fb44a47c34d434c765e0",
+          "voting_power": 10
+        },
+        {
+          "public_key": "04cbe88cffc8d34cecbdab70ea83440022cf2459b3b1c0c6d0a2aa85b6b896e9",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

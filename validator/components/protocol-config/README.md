@@ -23,8 +23,10 @@ Read plans [13](../../../docs/plan/13-transaction-and-gas-spec.md),
 
 `LaunchMode::Production` is rejected. The supported immutable development profile
 is `eve-local-v1`, EVM chain 31337, schema/protocol 1, Shanghai, CLASSICAL_DEV and
-four distinct equal-power Ed25519 validators. Keys must decode and not be weak;
-owners/accounts/keys are unique; declared self-bonds are funded by owner allocations.
+four distinct equal-power Ed25519 validators. Enrollment requires canonical
+nonidentity prime-order points through the existing pinned Dalek API; generic
+native ZIP215 verification remains separate. See D44 and its preserved vectors.
+Owners/accounts/keys are unique; declared self-bonds are funded by owner allocations.
 Reserved f100/f101/f102 user allocations and user code there are rejected.
 
 The encoder subtracts each self-bond from its funded owner's spendable balance

@@ -1,0 +1,18 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "zip215_cases": [
+    {
+      "comet_zip215_accepts": false,
+      "message": "85e241a07d148b41e47d62c63f830dc7a6851a0b1f33ae4bb2f507fb6cffec40",
+      "name": "upstream_speccheck_6",
+      "provenance": "Oasis Labs BSD-3-Clause preserved test data; Taming the many EdDSAs, novifinancial/ed25519-speccheck 336651ba7f1c1ae90b7deac7d175290863a00b66",
+      "public_key": "442aad9f089ad9e14647b1ef9099a1ff4798d78589e66f28eca69c11f582a623",
+      "public_key_canonical": true,
+      "public_key_small_order": false,
+      "public_key_torsion_free": true,
+      "r_canonical": true,
+      "signature": "e96f66be976d82e60150baecff9906684aebb1ef181f67a7189ac78ea23b6c0e547f7690a0e2ddcd04d87dbc3490dc19b3b3052f7ff0538cb68afb369ba3a514",
+      "upstream_compressed_sha256": "642794e72d13b11e19730019741c400f646696c03e55949f4bc4ae7204ee79e2"
+    }
+  ]
+}

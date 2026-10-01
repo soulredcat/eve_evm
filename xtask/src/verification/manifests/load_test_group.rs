@@ -19,5 +19,21 @@ pub fn load_test_group(root: &Path, path: &str) -> Result<TestGroup> {
             && !group.requirements.is_empty(),
         "Empty or unsupported test group {path}"
     );
+    let features = group
+        .features
+        .iter()
+        .collect::<std::collections::BTreeSet<_>>();
+    ensure!(
+        features.len() == group.features.len()
+            && group.features.iter().all(|name| name
+                .as_bytes()
+                .first()
+                .is_some_and(|byte| byte.is_ascii_alphanumeric() || *byte == b'_')
+                && name.len() <= 64
+                && name
+                    .bytes()
+                    .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'_'))),
+        "Invalid or duplicate Cargo feature in test group {path}"
+    );
     Ok(group)
 }

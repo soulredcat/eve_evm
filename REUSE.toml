@@ -67,6 +67,7 @@ path = [
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/abci/types.proto",
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/crypto/keys.proto",
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/crypto/proof.proto",
+    "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/privval/types.proto",
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/canonical.proto",
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/params.proto",
     "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/types/types.proto",
@@ -104,3 +105,72 @@ precedence = "closest"
 SPDX-FileCopyrightText = "NOASSERTION"
 SPDX-License-Identifier = "LicenseRef-NIST-ACVP-Upstream"
 SPDX-FileComment = "No global copyright status or Redcat ownership is asserted for NIST material. NIST ACVP source revision a7f283cdc87d2d6dd93c1bac59e5622c5f9f8324 and the complete existing notice are preserved. The derived JSON's schema adaptation and case join remain attributed to NIST without a Redcat restriction on upstream inputs or outcomes."
+
+[[annotations]]
+path = [
+    "validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-exact_two_of_three_rejected.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-three_of_four_absent.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-three_of_four_nil.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/data/data_cases-native_transaction_ids.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/headers/header_cases-pinned_upstream_header_golden.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/headers/header_cases-supported_block_protocol_11.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-go_zero_timestamp.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-no_prior_round.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-previous_valid_round.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-five_unequal.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-four_equal.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-invalid_curve_point_native_hash.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-one.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-three_equal.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-weak_identity_native_hash.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-address_index_signature_extension_excluded.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-full_block_precommit.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-full_block_prevote.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-maximum_integer_height_round.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-nil_precommit_unix_epoch.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-nil_prevote_go_zero_time.json",
+    "validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-wrong_chain_domain_changes_sign_bytes.json",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 Redcat (original fixture assembly and schema only)"
+SPDX-License-Identifier = "LicenseRef-Redcat-Permission-Only"
+SPDX-FileComment = "Use of original project-specific assembly requires prior written permission from Redcat. Public native outputs, protocol facts and upstream rights remain unrestricted; no private signing material is included."
+
+[[annotations]]
+path = [
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/NOTICE",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_0.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_1.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_10.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_11.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_2.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_3.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_4.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_5.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_6.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_7.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_8.json",
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_9.json",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = ["Novi Financial contributors", "2020-2021 Oasis Labs Inc."]
+SPDX-License-Identifier = "Apache-2.0 AND BSD-3-Clause"
+SPDX-FileComment = "Projected public ZIP-215 cases retain original Novi Apache-2.0 and Oasis BSD-3-Clause conditions. Preserve adjacent original licenses and source notice; no Redcat permission condition applies."
+
+[[annotations]]
+path = [
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "Oasis Labs Inc. and the preserved upstream copyright holders"
+SPDX-License-Identifier = "BSD-3-Clause"
+SPDX-FileComment = "Exact Oasis curve25519-voi upstream license; retain every original notice."
+
+[[annotations]]
+path = [
+    "validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE-NOVI",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "NOASSERTION"
+SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileComment = "Exact original Novi ed25519-speccheck license at revision 336651ba7f1c1ae90b7deac7d175290863a00b66. No global copyright holder is invented."

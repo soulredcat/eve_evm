@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+version = 1
+package = "eve-validator-consensus-acceptance"
+requirements = ["B3", "T-C01", "T-C02", "T-C03", "T-C04", "T-C05", "T-C06", "T-C07", "T-C08", "T-C09", "T-C10"]
+
+tests = [
+    "cases::certificate_faults::t_c04_actual_native_certificate_rejects_wrong_context_weight_and_signatures",
+    "cases::crash_recovery::t_c06_actual_signer_and_application_crashes_preserve_signatures_and_single_fees",
+    "cases::forged_roots::t_c08_forged_master_roots_and_changed_header_cannot_replace_actual_certificate",
+    "cases::height_binding::t_c09_execution_commitment_at_h_is_bound_by_actual_native_header_h_plus_one",
+    "cases::partition::t_c03_real_two_plus_two_partition_closes_links_and_heals_one_history",
+    "cases::proposal_revert::t_c05_native_invalid_proposal_is_nil_voted_while_valid_evm_revert_commits",
+    "cases::quorum::t_c02_three_of_four_progress_two_of_four_halt_without_quorum_lowering",
+    "cases::rotation_history::t_c01_four_actual_engines_rotate_proposers_and_replay_one_history",
+    "cases::rpc_load::t_c10_native_rpc_connection_quota_pressure_preserves_progress_with_master_absent",
+    "cases::transitions::t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_boundaries",
+    "support::native_decoding::tests::actual_native_json_header_shape_preserves_pinned_upstream_header_hash",
+    "support::native_decoding::tests::explicit_native_block_container_binds_actual_header_transactions_and_rejects_evidence",
+    "support::native_decoding::tests::native_commit_absent_signature_zero_time_and_validator_identity_decode_strictly",
+    "support::rpc::tests::partial_http_progress_does_not_reset_absolute_read_deadline",
+    "support::rpc::tests::real_http_content_length_and_chunked_return_only_rpc_result",
+    "support::rpc::tests::untrusted_http_lengths_transfer_coding_truncation_and_rpc_errors_reject",
+]

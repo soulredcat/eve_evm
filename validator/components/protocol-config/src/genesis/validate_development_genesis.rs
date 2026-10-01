@@ -5,9 +5,10 @@
 use std::collections::BTreeSet;
 
 use alloy_primitives::U256;
-use ed25519_dalek::VerifyingKey;
 
-use super::{DevelopmentGenesis, GenesisError, development_economics};
+use super::{
+    DevelopmentGenesis, GenesisError, development_economics, validate_classical_enrollment_key,
+};
 use crate::{
     native::{NODE_POOL_ADDRESS, SYSTEM_INTERFACE_ADDRESS, VALIDATOR_POOL_ADDRESS},
     network::{LaunchMode, SecurityProfile, validate_security_profile},
@@ -70,11 +71,7 @@ pub fn validate_development_genesis(
         {
             return Err(GenesisError::InvalidValidators);
         }
-        let key = VerifyingKey::from_bytes(&validator.classical_public_key)
-            .map_err(|_| GenesisError::InvalidKey)?;
-        if key.is_weak() {
-            return Err(GenesisError::InvalidKey);
-        }
+        validate_classical_enrollment_key(&validator.classical_public_key)?;
         let funding = genesis
             .accounts
             .iter()

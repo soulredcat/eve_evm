@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::{
+    license_text_identifiers::license_text_identifiers,
     types::{AnnotationInventory, REDCAT_LICENSE},
     upstream_license::upstream_license,
 };
@@ -15,23 +16,22 @@ pub(super) fn validate_license_texts(
     inventory: &AnnotationInventory,
 ) -> Vec<String> {
     let mut violations = Vec::new();
-    let mut licenses: BTreeSet<&str> = inventory
+    let mut expressions: BTreeSet<&str> = inventory
         .annotations
         .values()
         .map(|entry| entry.license.as_str())
         .collect();
-    licenses.insert(REDCAT_LICENSE);
-    for license in &licenses {
-        if license.is_empty()
-            || !license
-                .bytes()
-                .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'-' | b'.'))
-        {
-            violations.push(format!(
-                "Unsupported ownership license expression: {license}"
-            ));
-            continue;
+    expressions.insert(REDCAT_LICENSE);
+    let mut licenses = BTreeSet::new();
+    for expression in expressions {
+        match license_text_identifiers(expression) {
+            Some(identifiers) => licenses.extend(identifiers),
+            None => violations.push(format!(
+                "Unsupported ownership license expression: {expression}"
+            )),
         }
+    }
+    for license in &licenses {
         let path = format!("LICENSES/{license}.txt");
         if !sources.contains(&path)
             || resolve_source_path(root, &path)

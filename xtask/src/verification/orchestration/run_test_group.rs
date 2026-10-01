@@ -21,32 +21,19 @@ pub(super) fn run_test_group(
     report: &mut VerificationReport,
     group: TestGroup,
 ) -> Result<()> {
-    let listing = require_command_success(
-        root,
-        artifacts,
-        report,
-        env!("CARGO"),
-        &[
-            "test",
-            "--locked",
-            "--all-targets",
-            "-p",
-            &group.package,
-            "--",
-            "--list",
-        ],
-    )?;
+    let feature_names = group.features.join(",");
+    let mut inventory = vec!["test", "--locked", "--all-targets", "-p", &group.package];
+    if !group.features.is_empty() {
+        inventory.extend(["--features", &feature_names]);
+    }
+    inventory.extend(["--", "--list"]);
+    let listing = require_command_success(root, artifacts, report, env!("CARGO"), &inventory)?;
     let tests = parse_test_inventory(&listing, &group.tests)?;
-    let mut execution = vec![
-        "test",
-        "--locked",
-        "--all-targets",
-        "-p",
-        &group.package,
-        "--",
-        "--test-threads=1",
-        "--nocapture",
-    ];
+    let mut execution = vec!["test", "--locked", "--all-targets", "-p", &group.package];
+    if !group.features.is_empty() {
+        execution.extend(["--features", &feature_names]);
+    }
+    execution.extend(["--", "--test-threads=1", "--nocapture"]);
     let program = if group.package == "eve-storage" {
         execution.insert(0, env!("CARGO"));
         execution.insert(0, "-v");
@@ -62,6 +49,7 @@ pub(super) fn run_test_group(
             report,
             &group.package,
             &group.doc_tests,
+            &group.features,
         )?;
     report.test_count += passed;
     report.groups.push(GroupEvidence {

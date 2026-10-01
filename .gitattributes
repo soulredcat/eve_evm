@@ -4,3 +4,43 @@
 
 # Keep source and pinned textual fixtures identical across supported hosts.
 * text=auto eol=lf
+
+# Exact immutable fixture bytes must survive Git line-ending conversion.
+# These attributes preserve data/licence inputs; source and ownership checks still apply.
+validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-exact_two_of_three_rejected.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-three_of_four_absent.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/certificates/certificates-three_of_four_nil.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/data/data_cases-native_transaction_ids.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/headers/header_cases-pinned_upstream_header_golden.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/headers/header_cases-supported_block_protocol_11.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-go_zero_timestamp.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-no_prior_round.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/proposals/proposal_cases-previous_valid_round.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-five_unequal.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-four_equal.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-invalid_curve_point_native_hash.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-one.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-three_equal.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/sets/validator_sets-weak_identity_native_hash.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-address_index_signature_extension_excluded.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-full_block_precommit.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-full_block_prevote.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-maximum_integer_height_round.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-nil_precommit_unix_epoch.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-nil_prevote_go_zero_time.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/native-classical/votes/vote_cases-wrong_chain_domain_changes_sign_bytes.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE-NOVI -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/NOTICE -text whitespace=blank-at-eol,space-before-tab,cr-at-eol,-blank-at-eof
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_0.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_1.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_10.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_11.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_2.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_3.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_4.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_5.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_6.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_7.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_8.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_9.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

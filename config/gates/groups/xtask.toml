@@ -6,6 +6,17 @@ version = 1
 package = "xtask"
 requirements = ["B0.4","B0.5","B0.6","T-L01","T-L02","T-L03","T-L04","T-L05","T-L06"]
 tests = [
+    "features::test_group_features_are_explicit_bounded_unique_cargo_names",
+    "dual_license::zip215_exact_conjunction_requires_both_separate_license_texts",
+    "dual_license::zip215_conjunction_rejects_either_missing_component_text",
+    "dual_license::zip215_conjunction_rejects_either_empty_component_text",
+    "dual_license::zip215_combined_filename_cannot_replace_separate_license_texts",
+    "dual_license::zip215_reversed_nested_or_unknown_license_expressions_are_rejected",
+    "dual_license::zip215_first_party_annotation_cannot_use_upstream_conjunction",
+    "dual_license::zip215_only_twelve_exact_vector_filenames_are_classified_upstream",
+    "dual_license::zip215_readme_remains_first_party_and_cannot_be_reclassified_by_annotation",
+    "dual_license::zip215_upstream_inputs_cannot_pass_without_exact_source_digest",
+    "dual_license::zip215_notice_and_original_license_files_preserve_their_distinct_licenses",
     "catalog::deferred_programs_cannot_be_added_to_core_or_block_secure_capacity",
     "annotations::rejects_annotation_used_to_hide_commentable_source",
     "annotations::rejects_changed_first_party_license",

@@ -14,3 +14,6 @@ mod license_texts;
 mod support;
 #[path = "ownership/upstream.rs"]
 mod upstream;
+
+#[path = "ownership/dual_license.rs"]
+mod dual_license;

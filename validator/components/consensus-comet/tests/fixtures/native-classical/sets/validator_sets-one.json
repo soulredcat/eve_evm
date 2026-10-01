@@ -1,0 +1,18 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "validator_sets": [
+    {
+      "addresses": [
+        "183eb782b2d299fc5b9853f0c5e5f579b8809867"
+      ],
+      "hash": "93f17fd5eb18856f73f99522dbe114ed3bebf016cd846f7d5793e3556eab9a99",
+      "name": "one",
+      "validators": [
+        {
+          "public_key": "0598cd72f2c3d5f949f8853db872d354fa20af898c54dbd66d23ae9958a5cb74",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

@@ -97,6 +97,10 @@ Before a commit or authorized push, inspect the Git index and all outgoing commi
 
 ## Boundaries and continuity
 
+Current owner stop boundary: development is paused during incomplete B3 because the development PC runs other programs. Publish the explicitly authorized current-state checkpoint to its branch and create a draft PR to main without merging, then stop. Do not resume builds, tests, diagnosis, B4 or another bulk without new owner input. This overrides automatic advancement; preserve the failed gate and remaining goals.
+
+After this checkpoint PR, when development resumes, future GitHub publications may contain `.md` files only named `README.md`. The owner explicitly defers that migration for this checkpoint. Preserve instructions/specifications/evidence in other formats, update all references/gate inputs and implement filename enforcement before the next publication; current migration/enforcement is NOT_IMPLEMENTED.
+
 No real funds, mainnet launch, paid provisioning, production signing/custody, repository-visibility change, license grant, or irreversible genesis decision without explicit owner approval. Continue unrelated unblocked development when one boundary is reached.
 
 At each completed bulk or session limit, update STATUS, EVIDENCE and HANDOFF with verified facts and the exact next command. Never claim background work, automatic resumption, tests run by somebody else, or a target achieved without evidence. A genuine infrastructure/permission/context limitation is a checkpoint, not DONE.

@@ -3,7 +3,7 @@
 # Use requires prior written permission from Redcat.
 
 version = 1
-current_bulk = 2
+current_bulk = 3
 
 [[exclusions]]
 path = "LICENSES/BSD-3-Clause.txt"
@@ -185,8 +185,162 @@ reason = "Exact upstream protobuf/license input; generator checks pinned bytes b
 path = "validator/components/consensus-comet/src/wire/tendermint/mod.rs"
 generator = "validator/components/consensus-comet/src/generation/generate_upstream_bindings.rs"
 source_manifest = "validator/components/consensus-comet/vendor/SHA256SUMS"
-source_sha256 = "07d8345c5b59eb63356a2a211d14f066b404fddb5a2b215f774747b216eb6be3"
-generator_sha256 = "1982e680c1a65dc30d3a4910ab7b6f919f744b58e6a2643e4405687278e970f9"
-manifest_sha256 = "5a20e5f3aa8e570e2e6c58dec87765c33b2755c22289a492c25a37c891f98262"
-reason = "Only four exact prost OUT_DIR package declarations; the Rust generator and vendor manifests remain fully checked."
+source_sha256 = "2f8153fb306f9fd5c8fe8252fe180bdd8b36a0e7a6d4217d53e87f29040c15ed"
+generator_sha256 = "661ff97ad3c33314f7db92372dc8f1dedd35c79e6c1f59e22cc7e29af95b347d"
+manifest_sha256 = "65b3be0880cc7eb9925a0c0721c0647144d41bcd32d4f7affe3b643e62bd975f"
+reason = "Only five exact prost OUT_DIR package declarations; the Rust generator and vendor manifests remain fully checked."
+reviewer = "integrator"
+
+[[exclusions]]
+path = "validator/components/consensus-comet/vendor/cometbft/proto/tendermint/privval/types.proto"
+kind = "vendor"
+source = "https://github.com/cometbft/cometbft/blob/0880b4d378f347ab16e54ec677ff50d803f37d62/proto/tendermint/privval/types.proto"
+sha256 = "905d45f3c11aac1ea18254fee1eefc830f54f40926f1cc75b1b46974591b8976"
+reason = "Exact pinned upstream remote-signer declarations; copied bytes match the digest-verified archive, not handwritten EVE behavior."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_0.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "aa2184b2dbbf45768c445a9812ccbdf751b4fa0293bd9aa256ad696ad22b8b8a"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_1.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "1375a9f86887502c7b13b0b05771e32bb33a78c86e07b8eb1e9c24d7a44fab6e"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_10.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "7a8aa358c7566e9d788f29062c9334fd7ea7f2a1aab49107e77c4ce8cc86f865"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_11.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "b0adacb244fbddada5f3a3e74ce097d44d6f8473e187f29c5820fe9b8306a7ed"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_2.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "52a5f40a46a7ab1f418b76f3b0df3e5fc6c7235e5265b3d9cab7699e7104b8f3"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_3.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "b68a22bdbb2347e952a6b6a63f1c430ff932994d148304386fa7079a30138c47"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_4.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "d90e3dc489440f060a7aa6c9ee64fd614c73808cd638334bfd367d012af26865"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_5.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "0454de1eb32aae6d938d3b2968c4e35e542be51be5d02a2436ff88d865f46c9b"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_6.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "242445ac26f3652ee9fab8aa0aeaba90c189798b9280c4f5d3c027ece37271a2"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_7.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "99c461b51914ccd330d4259698dbc3c11a37f83269b96f8cc61ac120057afe45"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_8.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "569356e82faae1a9c233579fd03e923cf7016557c950f39af09e8cbc6aa90fa1"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/zip215_cases-upstream_speccheck_9.json"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "bca019f34c39ee788e2790326775e8c6a3723c764c45f06b2068235b430bfa8c"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "46d4a3f0dcf172e75c70456ee9945ae69f2cfa0ba0cba7eacb9434eafea778dc"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/NOTICE"
+kind = "vendor"
+source = "https://github.com/oasisprotocol/curve25519-voi/tree/1f23a7beb09a"
+sha256 = "0ba1c53dd4ba1b0b1f63c8d55eed45098476b3e485a4357edaa17c55084a511a"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[exclusions]]
+path = "validator/components/consensus-comet/tests/fixtures/zip215-upstream/LICENSE-NOVI"
+kind = "vendor"
+source = "https://github.com/novifinancial/ed25519-speccheck/blob/336651ba7f1c1ae90b7deac7d175290863a00b66/LICENSE"
+sha256 = "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+reason = "Exact reviewed upstream public vector or original legal notice; preserve the applicable Novi/Oasis conditions without first-party behavioral exclusions."
+
+[[size_reviews]]
+path = "config/structure-policy.toml"
+lines = 346
+reason = "Decomposition reviewed for B3: explicit per-file upstream digests and adapter/generator registrations form one declarative policy contract. Keep auditable exact rows below 400; no glob, source-code exclusion or raised ceiling is introduced. Partition the schema by policy responsibility if further growth requires it."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/consensus/transport/framing/reader_adapter.rs"
+external_trait = "std::io::Read"
+reason = "The standard stream trait delegates to one named authenticated-peer read operation with an absolute deadline."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/consensus/transport/framing/writer_adapter.rs"
+external_trait = "std::io::Write"
+reason = "Write and flush only delegate to named authenticated-peer deadline operations; no framing or business policy is hidden."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/development/engine/lifecycle/owned_engine_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The destructor delegates only to finish_owned_engine, which invokes stop_engine for the owned child and its designated ephemeral socket."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/development/engine/home/engine_lease_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The destructor delegates only to finish_engine_lease, which invokes release_engine_lease for the owned home lock despite inherited duplicate descriptors."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/consensus/runtime/supervision/listener/drop.rs"
+external_trait = "std::ops::Drop"
+reason = "The destructor delegates only to finish_application_listener for its leased, owned application socket; explicit cleanup retains error reporting."
+reviewer = "integrator"
+
+[[adapters]]
+path = "validator/src/consensus/runtime/supervision/worker/drop.rs"
+external_trait = "std::ops::Drop"
+reason = "The destructor delegates only to handle_channel_worker_drop so an unexpected owned worker termination triggers bounded shutdown."
 reviewer = "integrator"

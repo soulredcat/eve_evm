@@ -30,15 +30,17 @@ safe path resolver, policy reader and digest operation in structure tooling.
 Production role packages do not depend on this module. Tests live under
 `xtask/tests/ownership/` and create isolated disposable Git repositories.
 
-Supported annotations use exact paths, `closest` precedence, single license
-identifiers and the reviewed first-party/upstream scopes. Supported inline formats
+Supported annotations use exact paths, `closest` precedence and single license
+identifiers, with one reviewed ZIP-215 upstream Apache/BSD conjunction. Its two
+separate license texts are required; reversed/OR/nested expressions fail. First-party
+material still requires the single Redcat identifier. Supported inline formats
 are Rust, TypeScript, Solidity, TOML, YAML, Markdown and the two Git configuration
 files. New formats or upstream families require a reviewed extension; unknown
 formats fail. This is a repository policy gate, not full REUSE conformance,
 arbitrary SPDX-expression validation, copyright adjudication or legal approval.
 
 Known immutable Comet/gogoproto files, copied Apache/BSD license texts and original
-NIST input/result JSON require exact vendor pins. All additional vendor pins in
+NIST input/result JSON and exact ZIP-215 upstream files require vendor pins. All additional vendor pins in
 the structure policy are also checked. The NIST derived-case join and adjacent
 provenance notice remain upstream-attributed; no hash guarantee is claimed for an
 unregistered upstream file. Complete distribution dependency notices remain a

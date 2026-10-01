@@ -1,0 +1,22 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "validator_sets": [
+    {
+      "addresses": [
+        "75877bb41d393b5fb8455ce60ecd8dda001d0631"
+      ],
+      "curve_point_decodable": false,
+      "hash": "2bad045ccc03790d96cb70b1cc9853bac2767256c82fbf61c37017740d39af56",
+      "name": "invalid_curve_point_native_hash",
+      "native_validate_basic_accepts": true,
+      "small_order": false,
+      "torsion_free": false,
+      "validators": [
+        {
+          "public_key": "0202020202020202020202020202020202020202020202020202020202020202",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

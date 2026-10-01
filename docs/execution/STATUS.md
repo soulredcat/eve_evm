@@ -6,9 +6,15 @@
 
 Updated: 2026-10-01. B0/SEC0 foundations and B1 have complete passing local gates.
 The latest B1 repair also passes hosted CI with 273 cases. B2's complete local
-gate passes 348 cases, including ownership and D40 scope. Hosted B2 is separate.
+gate passes 348 cases, including ownership and D40 scope. [Hosted B2](CI-20261001-B2.md)
+also passes 348 at b5f98df; that separately observed run is not B3 acceptance.
 
 ## Current owner scope
+
+Development is PAUSED_BY_OWNER during incomplete B3. The owner authorizes a
+current-state checkpoint branch and draft PR to main, without merge, followed
+by stopping work. The PC runs other programs. New owner input is required before
+further development/checks; B4 remains NOT_STARTED. Read [the checkpoint](B3-checkpoint-20261001.md).
 
 EVE develops its own chain first. [D40](../plan/24-decision-register.md) defers
 SEC2/INT0–INT3, bridge and external-chain programs until EVE testnet and a later
@@ -56,7 +62,7 @@ no dependency on a remote chain, its RPC, consensus or confirmation speed.
 | B0 | DONE | Historical verified foundations; retain all current core regressions |
 | B1 | DONE | Verified complete local state/recovery; retain regressions in B2 |
 | B2 | DONE | Verified serial RPC/client/resource/ownership/scope gate; retain regressions |
-| B3 | NOT_STARTED | Four validators, executed proposals, signing durability and quorum |
+| B3 | PAUSED_BY_OWNER / INCOMPLETE | Complete gate failed at all-node crash recovery; draft checkpoint is not accepted integration |
 | B4 | NOT_STARTED | Authenticated followers/recovery and isolated public persistence |
 | B5 | NOT_STARTED | Native staking/work/rewards/slashing and supply invariants |
 | B6 | NOT_STARTED | P2P, eligible endpoints and independent copied role distributions |
@@ -88,8 +94,9 @@ DEVNET_ACCEPTED, CONSENSUS_RESILIENCE_TESTED, PQ_PROFILE_VERIFIED,
 SECURITY_PROFILE_ACCEPTED and SCALE_TARGET_VERIFIED remain NOT_ACHIEVED.
 The classical baseline assumes less than one-third Byzantine weighted power and
 strictly more than two-thirds unique valid power. 51_PERCENT_CONTINUITY remains
-UNSATISFIED_BY_BASELINE. Actual signing durability, authenticated network recovery,
-native lifecycle, standalone packaging and sustained capacity are unfinished.
+UNSATISFIED_BY_BASELINE. Signer/native lifecycle has scoped passing development
+evidence and awaits the complete B3 gate. Authenticated network recovery,
+standalone packaging and sustained capacity remain unfinished.
 No mainnet, real funds/custody, paid provisioning or visibility change is authorized.
 
 Every DONE entry needs implementation and reviewed passing evidence. Ownership

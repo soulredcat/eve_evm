@@ -1,0 +1,37 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+version = 1
+id = "B3"
+profile = "CLASSICAL_FOUR_VALIDATOR_BFT_DURABLE_SIGNER_NOT_PQ_OR_SECURED_TPS"
+groups = [
+    "config/gates/groups/xtask.toml",
+    "config/gates/groups/authentication.toml",
+    "config/gates/groups/consensus.toml",
+    "config/gates/groups/execution.toml",
+    "config/gates/groups/node-policy.toml",
+    "config/gates/groups/protocol-config.toml",
+    "config/gates/groups/master-b1.toml",
+    "config/gates/groups/state-b1.toml",
+    "config/gates/groups/storage-b1.toml",
+    "config/gates/groups/state-recovery-acceptance-b1.toml",
+    "config/gates/groups/public-b2.toml",
+    "config/gates/groups/serial-rpc-b2.toml",
+    "config/gates/groups/validator-runtime-b3.toml",
+    "config/gates/groups/validator-consensus-b3.toml",
+]
+required_inputs = [
+    "Cargo.lock", "rust-toolchain.toml", "config/tool-pins.toml",
+    "config/test-corpora.toml", "config/structure-policy.toml",
+    "LICENSE", "REUSE.toml", "LICENSES/LicenseRef-Redcat-Permission-Only.txt",
+    "public/README.md", "master/README.md", "validator/README.md",
+    "validator/src/development/acceptance/README.md",
+    "tests/acceptance/validator-consensus/README.md",
+    "tests/acceptance/validator-consensus/tests/fixtures/AcceptanceValidatorTransitions.sol",
+    "public/components/recovery-store/README.md",
+    "tests/acceptance/serial-rpc/README.md",
+    "tests/acceptance/serial-rpc/client/package.json",
+    "tests/acceptance/serial-rpc/client/package-lock.json",
+    "tests/acceptance/serial-rpc/client/tsconfig.json",
+]

@@ -4,4 +4,5 @@
 
 pub mod client;
 pub mod prepare_b2_acceptance;
+pub mod prepare_b3_acceptance;
 pub mod shanghai;

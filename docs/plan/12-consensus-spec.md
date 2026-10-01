@@ -26,6 +26,13 @@ Follow the engine's canonical sign bytes, block ID and signature verification. D
 
 ## C03 — Proposal validation and application lifecycle
 
+The B3 classical development adapter uses the existing complete genesis state's
+`StateVersion.content_digest` as the initial Comet `AppHash`. This explicitly
+binds execution/config/genesis identity before height one. It is not an
+`ApplicationCommitment(0)`: that type remains absent at genesis, and the normal
+`ApplicationCommitment(H)` rule applies for H >= 1. See D41. This development
+choice does not freeze or authorize an irreversible mainnet genesis.
+
 `CheckTx` checks a local mempool candidate without mutating finalized state. Different peers may have different mempools.
 
 `PrepareProposal` selects and orders admissible transactions under block byte/gas limits. `ProcessProposal` deterministically validates the block environment and transaction sequence, including execution against an isolated parent-state overlay. A locally missing mempool transaction is not a rejection reason if the proposal supplies its bytes. Reject invalid envelopes, invalid nonce progression, unavailable required state/data, invalid parameters and gas-limit violations. A valid transaction that reverts in the EVM remains includable with a failed receipt and charged gas.

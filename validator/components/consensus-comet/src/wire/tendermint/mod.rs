@@ -19,3 +19,6 @@ pub mod types {
 pub mod version {
     include!(concat!(env!("OUT_DIR"), "/tendermint.version.rs"));
 }
+pub mod privval {
+    include!(concat!(env!("OUT_DIR"), "/tendermint.privval.rs"));
+}

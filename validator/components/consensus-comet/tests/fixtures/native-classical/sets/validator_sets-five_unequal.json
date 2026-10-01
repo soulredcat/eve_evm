@@ -1,0 +1,38 @@
+{
+  "source_revision": "0880b4d378f347ab16e54ec677ff50d803f37d62",
+  "validator_sets": [
+    {
+      "addresses": [
+        "566bf7995db4fcae1e16e492923b98b00dd2d9f4",
+        "08875fb60bd9f7e59e4b29f1ac23a9cc5338d7e1",
+        "314550e2be6740be64342fefb022845b87940e06",
+        "0ba52d9d78312ad27be926155965d55b9e563728",
+        "183eb782b2d299fc5b9853f0c5e5f579b8809867"
+      ],
+      "hash": "0249eee640ec7448d02e9e8cae6e8e791d7e4e7f45bc41edee63dc091e6b2bfb",
+      "name": "five_unequal",
+      "validators": [
+        {
+          "public_key": "b6f96ac1650bfe4c06d0b815b4b305d1202e1b6315b9a87e8fc99f93cb929c05",
+          "voting_power": 40
+        },
+        {
+          "public_key": "4d096ab93cca0107818006aef768232b0fea13e96293a1f3486d6c36051c14a2",
+          "voting_power": 30
+        },
+        {
+          "public_key": "3013f282d3c7b1983c0ccabb3baa54df5870d6b2cba57d5e86c6a885ce3dce18",
+          "voting_power": 20
+        },
+        {
+          "public_key": "ebdc3f68b15186769c571da6aec1ec61c8ab36053b423344c7303f53e005e9c1",
+          "voting_power": 10
+        },
+        {
+          "public_key": "0598cd72f2c3d5f949f8853db872d354fa20af898c54dbd66d23ae9958a5cb74",
+          "voting_power": 10
+        }
+      ]
+    }
+  ]
+}

@@ -4,9 +4,11 @@
 
 # Validator runtime
 
-Planning only; the runtime is not implemented yet.
+The runtime implements the classical Linux development consensus path. Complete
+B3 acceptance is still pending; scoped tests and an exploratory four-node smoke
+are not a completed bulk or production security claim.
 
-Role ownership and standalone distribution are absolute requirements. Components own deterministic execution, logical state, authentication, pinned consensus and immutable EVE genesis/native/header contracts. Validator signing/consensus wiring stays here; public readiness/source/persistence stays public-owned. A copy-ready validator must contain all dependencies, locks/toolchain, sanitized configuration and notices and build/run after copying this directory alone. Private master implementation and unresolved outside paths are forbidden. Current components do not yet prove a complete validator or standalone distribution. External programs are deferred until testnet under D40.
+Role ownership and standalone distribution are absolute requirements. Components own deterministic execution, logical state, authentication, pinned consensus and immutable EVE genesis/native/header contracts. Validator signing/consensus wiring stays here; public readiness/source/persistence stays public-owned. A copy-ready validator must contain all dependencies, locks/toolchain, sanitized configuration and notices and build/run after copying this directory alone. Private master implementation and unresolved outside paths are forbidden. Standalone copied distribution remains B6 work and is not established by a monorepo package build. External programs are deferred until testnet under D40.
 
 Owns transaction execution/replay, proposal validation, consensus participation, finality and validator lifecycle integration. Uses shared EVM/protocol/state modules and a reviewed BFT adapter; no private master database dependency.
 
@@ -21,3 +23,31 @@ Carry `zone_id` as operational routing/failure-domain metadata from the start, s
 Public nodes have RAM working state plus durable verified block/checkpoint recovery data by default. Their persistence policy cannot replace validator WAL, anti-double-sign records or recent independently recoverable state/data. An authenticated master transport identity is never a substitute for validator history and finality proofs.
 
 Read plans 12–17 and 20–22, plus [32](../docs/plan/32-regional-masters-and-public-persistence.md). A co-located public RPC process does not receive consensus keys. Never clone live signing keys into an active standby.
+
+`eve-validator init-dev` initializes one private development namespace and prints
+public identity metadata. `serve-dev` runs the application/signer actors and the
+owned pinned engine in the foreground, with bounded shutdown on SIGTERM/Ctrl-C.
+Both require `--genesis`, `--data`, `--signing-seed`, `--comet-binary`,
+`--comet-sha256` and `--acknowledge-unsafe-development`. The seed file is exactly
+32 binary bytes, owned by the current Linux user with mode 0600; the data parent
+is a private Linux directory. Do not place either in Git or use production keys.
+The expected engine digest comes from the verified task tool receipt. Native
+init's generated dummy signer is outside the active roster and receives no EVE
+signing secret. The EVE signer synchronizes complete anti-double-sign history
+before releasing each new signature.
+
+RPC/P2P defaults bind loopback. `--rpc-address`, `--p2p-address`,
+`--persistent-peers`, optional loopback `--advertised-p2p-address` and `--zone-id`
+configure the disposable topology. An advertised proxy endpoint supports honest
+fault injection; zone/endpoint configuration grants no voting power. Readiness
+requires actual authenticated native handshakes and safe recovered application/
+signer state. Its metadata alone does not prove finality; verify the real native
+commit certificate and the appropriate next-height application anchor.
+
+The [runtime](src/consensus/runtime/README.md), [application](src/consensus/application/README.md),
+[signer](src/consensus/signing/README.md), [approval](src/consensus/approval/README.md)
+and [engine](src/development/engine/README.md) documents define ownership and limits.
+[Temporary acceptance adapters](src/development/acceptance/README.md) require the
+explicit `development-acceptance` feature and a genesis-bound manifest; normal
+builds reject that mode. B5 replaces this test-only lifecycle path. No master,
+remote chain or production signing/custody authority is introduced.
