@@ -14,10 +14,10 @@ current EVE core gates; reaching testnet requires subsequent owner scope before
 a separate program may begin. Deferral is neither a current core failure nor a
 completed route. No replacement adapter prototype or scaffolding is authorized.
 
-- [Version-one encoding and fixture identities](encoding-and-fixtures.md)
-- [Exact source and tool pins](source-and-tool-pins.md)
-- [Per-direction proof feasibility and blockers](source-proof-feasibility.md)
-- [Acceptance outcomes and coverage](gate-outcomes.md)
+- Version-one encoding and fixture identities (local-only: `encoding-and-fixtures.md`)
+- Exact source and tool pins (local-only: `source-and-tool-pins.md`)
+- Per-direction proof feasibility and blockers (local-only: `source-proof-feasibility.md`)
+- Acceptance outcomes and coverage (local-only: `gate-outcomes.md`)
 
 Historical source paths were `public/components/interop/` for metadata and
 `validator/components/bridge-protocol/` for disabled bridge-profile contracts.

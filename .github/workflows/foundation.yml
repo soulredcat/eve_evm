@@ -39,6 +39,15 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 1
+      - name: Reject tracked Markdown other than README.md
+        shell: bash
+        run: |
+          while IFS= read -r -d '' path; do
+            if [[ "${path##*/}" != README.md ]]; then
+              printf 'Forbidden tracked Markdown: %s\n' "$path" >&2
+              exit 1
+            fi
+          done < <(git ls-files -z -- '*.[mM][dD]')
       - name: Check exact Rust compiler and install matching check components
         shell: bash
         run: |

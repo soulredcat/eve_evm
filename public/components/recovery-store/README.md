@@ -8,12 +8,12 @@ Canonical owner: the public role's durable recovery-storage component. Validator
 and master development/follower integrations may reuse its contracts. It owns no
 private master orchestration, consensus finality, signing authority or route approval.
 
-Read plans [02](../../../docs/plan/02-state-and-storage.md),
-[14](../../../docs/plan/14-block-and-state-commitment-spec.md),
-[15](../../../docs/plan/15-network-and-sync-protocol.md),
-[16](../../../docs/plan/16-genesis-upgrade-and-recovery.md),
-[22](../../../docs/plan/22-code-layout-and-dependency-policy.md) and
-[32](../../../docs/plan/32-regional-masters-and-public-persistence.md).
+Read plans 02 (local-only: `../../../docs/plan/02-state-and-storage.md`),
+14 (local-only: `../../../docs/plan/14-block-and-state-commitment-spec.md`),
+15 (local-only: `../../../docs/plan/15-network-and-sync-protocol.md`),
+16 (local-only: `../../../docs/plan/16-genesis-upgrade-and-recovery.md`),
+22 (local-only: `../../../docs/plan/22-code-layout-and-dependency-policy.md`) and
+32 (local-only: `../../../docs/plan/32-regional-masters-and-public-persistence.md`).
 
 ## Full-state repository — B1
 

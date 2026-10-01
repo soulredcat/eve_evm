@@ -14,6 +14,10 @@ so packaging does not depend on a repository-external test directory. Reusable
 source included in public/master distributions must be generated reproducibly
 from this canonical component; no divergent handwritten implementation is allowed.
 
+The complete NIST terms remain in extensionless `tests/fixtures/nist-acvp/NOTICE`
+with the exact REUSE association. README-only publication does not remove upstream
+rights or alter official/derived cryptographic fixture bytes.
+
 The default shared workspace currently supplies build metadata. Complete role
 distributions still need standalone manifests/lockfiles and isolated copy/build/run
 verification; their runtime/package acceptance is not yet implemented.

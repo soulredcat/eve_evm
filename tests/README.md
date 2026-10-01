@@ -6,11 +6,11 @@
 
 This directory currently contains planning guidance only. No tests have passed merely because this file exists.
 
-Implement the traceability matrix and golden/property/integration/fault cases in [plan 20](../docs/plan/20-test-vectors-and-acceptance.md). B0 pins upstream fixture revisions, creates the executable gate manifest and rejects empty/missing test selections. Runtime modules may own unit tests; shared regression fixtures and cross-runtime tests belong here or in the documented integration workspace.
+Implement the traceability matrix and golden/property/integration/fault cases in plan 20 (local-only: `../docs/plan/20-test-vectors-and-acceptance.md`). B0 pins upstream fixture revisions, creates the executable gate manifest and rejects empty/missing test selections. Runtime modules may own unit tests; shared regression fixtures and cross-runtime tests belong here or in the documented integration workspace.
 
 Save minimized counterexamples for real defects. Never make expected roots/signatures equal to unchecked outputs of the function under test. Keep production secrets and live database contents out of fixtures.
 
-Implement the public-persistence and regional-master cases from plans [15](../docs/plan/15-network-and-sync-protocol.md) and [32](../docs/plan/32-regional-masters-and-public-persistence.md) as shared reproducible tests:
+Implement the public-persistence and regional-master cases from plans 15 (local-only: `../docs/plan/15-network-and-sync-protocol.md`) and 32 (local-only: `../docs/plan/32-regional-masters-and-public-persistence.md`) as shared reproducible tests:
 
 - T-N09 (B4): storage-worker/compaction/fsync stalls, bounded queues/resources/lag, no global RAM lock across IO, truthful durable markers and predeclared readiness transitions.
 - T-N10 (B4): all masters offline, continued verified public persistence, public power-loss/unsynced-tail recovery from complete local records and authenticated durable peers, exact roots/receipts, and NOT_READY when required copies are missing.
@@ -23,4 +23,4 @@ This is the shared, versioned test area. Required reproducible tests and sanitiz
 
 Put exploratory tests, debugging scripts, raw logs, disposable databases, and other local-only output in root `local-tests/`, which is ignored and must never be staged, committed, force-added, or pushed. Keep raw run artifacts and coverage reports in ignored output directories. Publish only compact reviewed evidence summaries and reproduction instructions under `docs/execution/`.
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for the absolute publication rules. Local experiments cannot replace a mandatory shared test or acceptance gate.
+See CONTRIBUTING.md (local-only: `../CONTRIBUTING.md`) for the absolute publication rules. Local experiments cannot replace a mandatory shared test or acceptance gate.

@@ -28,6 +28,7 @@ rights that upstream licenses already grant. Public repository hosting terms
 may require rights to view or fork the repository; these notices do not override
 those terms or applicable law. They do not prevent downloading or copying.
 
-See docs/development/ownership.md for scope, formats and preservation rules.
+See README.md and REUSE.toml for public scope and preservation guidance;
+the detailed docs/development/ownership.md policy remains local-only.
 These notices are ownership and permission statements, not digital signatures
 or proof of identity. Individual written permissions may define additional rights.

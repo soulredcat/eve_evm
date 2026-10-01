@@ -165,6 +165,6 @@ exact owner sources, lockfile/toolchain, sanitized examples and notices, then bu
 and run after copying only this role directory to an unrelated clean location.
 No private master implementation or unresolved parent path may remain there.
 
-Read [plan18](../docs/plan/18-rpc-mempool-and-developer-experience.md),
-[plan25](../docs/plan/25-folder-hierarchy-and-file-function-policy.md) and
-[plan32](../docs/plan/32-regional-masters-and-public-persistence.md).
+Read plan18 (local-only: `../docs/plan/18-rpc-mempool-and-developer-experience.md`),
+plan25 (local-only: `../docs/plan/25-folder-hierarchy-and-file-function-policy.md`) and
+plan32 (local-only: `../docs/plan/32-regional-masters-and-public-persistence.md`).

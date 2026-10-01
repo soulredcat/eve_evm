@@ -4,3 +4,6 @@
 
 # Keep source and pinned textual fixtures identical across supported hosts.
 * text=auto eol=lf
+
+# Preserve the complete copied NIST notice bytes.
+validator/components/authentication/tests/fixtures/nist-acvp/NOTICE -text
