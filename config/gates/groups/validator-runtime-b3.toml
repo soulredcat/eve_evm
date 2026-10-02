@@ -9,6 +9,8 @@ features = ["development-acceptance"]
 
 tests = [
     "development::engine::tests::image_binding::process_image_binding_rejects_unreadable_and_different_executables_with_fixed_codes",
+    "development::engine::tests::image_binding::caller_image_that_never_leaves_exec_times_out_as_incomplete",
+    "development::engine::tests::image_binding::completed_exec_returns_the_spawned_image_without_waiting_for_the_limit",
     "cli::tests::cli_failure_summary_reports_fixed_stage_and_errno_without_secret_text",
     "consensus::transport::dispatch::tests::refusal_recovery::missing_retained_proposal_abstains_without_signing",
     "consensus::transport::dispatch::tests::refusal_recovery::retained_reexecution_resource_failure_stays_fatal_without_signing",

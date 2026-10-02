@@ -8,6 +8,16 @@ fn cli_failure_summary_reports_fixed_stage_and_errno_without_secret_text() {
         super::summarize_cli_failure(&anyhow::anyhow!("ENGINE_PROCESS_CTIME_MISMATCH")),
         "ENGINE_PROCESS_CTIME_MISMATCH"
     );
+    let error = anyhow::Error::from(std::io::Error::new(
+        std::io::ErrorKind::TimedOut,
+        "ENGINE_PROCESS_EXEC_INCOMPLETE",
+    ))
+    .context("ENGINE_IMAGE_BINDING_FAILED")
+    .context("NODE_ENGINE_LAUNCH_FAILED");
+    assert_eq!(
+        super::summarize_cli_failure(&error),
+        "ENGINE_IMAGE_BINDING_FAILED,ENGINE_PROCESS_EXEC_INCOMPLETE,IO_TIMED_OUT,NODE_ENGINE_LAUNCH_FAILED"
+    );
     let error = anyhow::Error::from(rustix::io::Errno::PERM)
         .context("ENGINE_PIDFD_OPEN_FAILED")
         .context("NODE_ENGINE_LAUNCH_FAILED");

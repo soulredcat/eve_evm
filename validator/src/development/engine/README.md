@@ -27,6 +27,11 @@ buffer and a 512 MiB file/work cap; executable bytes are checked again after the
 version probe. The sealed `VerifiedEngineImage` retains that descriptor and exact
 device/inode/length/mtime/ctime identity. The launched `/proc/PID/exe` must match
 immediately, without a post-launch byte scan that delays native signer connection.
+A vfork-style spawn can resume the launcher before the kernel installs the child's
+new address space, so the launched process may briefly still show the launcher's
+own executable. `start_engine` alone polls for at most two seconds while it shows
+exactly that image, then applies the unchanged strict binding; a persistent caller
+image fails as `ENGINE_PROCESS_EXEC_INCOMPLETE` and any other image still fails.
 Every authenticated channel binds to this same prehashed image; changed identity
 fails closed. This is a local launch
 binding, not in-memory attestation or protection from a privileged or trusted local

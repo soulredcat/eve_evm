@@ -9,7 +9,8 @@ use crate::development::{
         home::acquire_engine_lease,
         types::OwnedEngine,
         verification::{
-            validate_engine_image_binding, validate_engine_namespace, verify_engine_binary,
+            await_engine_exec, validate_engine_image_binding, validate_engine_namespace,
+            verify_engine_binary,
         },
     },
 };
@@ -18,6 +19,7 @@ use std::{
     fs::OpenOptions,
     path::Path,
     process::{Command, Stdio},
+    time::Duration,
 };
 
 pub(crate) fn start_engine(
@@ -78,6 +80,15 @@ pub(crate) fn start_engine(
         rustix::process::pidfd_open(pid, rustix::process::PidfdFlags::empty())
             .context("ENGINE_PIDFD_OPEN_FAILED")?,
     );
+    await_engine_exec(
+        child.id(),
+        Duration::from_millis(crate::development::engine::types::ENGINE_EXEC_TRANSITION_MILLIS),
+    )
+    .map_err(|error| match error.kind() {
+        std::io::ErrorKind::TimedOut => error,
+        kind => std::io::Error::new(kind, "ENGINE_PROCESS_IMAGE_UNREADABLE"),
+    })
+    .context("ENGINE_IMAGE_BINDING_FAILED")?;
     validate_engine_image_binding(&engine.image, child.id())
         .context("ENGINE_IMAGE_BINDING_FAILED")?;
     ensure!(

@@ -27,6 +27,7 @@ pub fn summarize_cli_failure(error: &anyhow::Error) -> String {
             "ENGINE_PROCESS_LENGTH_MISMATCH" => "ENGINE_PROCESS_LENGTH_MISMATCH",
             "ENGINE_PROCESS_MTIME_MISMATCH" => "ENGINE_PROCESS_MTIME_MISMATCH",
             "ENGINE_PROCESS_CTIME_MISMATCH" => "ENGINE_PROCESS_CTIME_MISMATCH",
+            "ENGINE_PROCESS_EXEC_INCOMPLETE" => "ENGINE_PROCESS_EXEC_INCOMPLETE",
             _ => continue,
         };
         codes.insert(code);
