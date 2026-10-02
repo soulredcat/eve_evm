@@ -305,7 +305,7 @@ reason = "Exact reviewed upstream public vector or original legal notice; preser
 
 [[size_reviews]]
 path = "config/structure-policy.toml"
-lines = 346
+lines = 352
 reason = "Decomposition reviewed for B3: explicit per-file upstream digests and adapter/generator registrations form one declarative policy contract. Keep auditable exact rows below 400; no glob, source-code exclusion or raised ceiling is introduced. Partition the schema by policy responsibility if further growth requires it."
 reviewer = "integrator"
 
@@ -337,6 +337,12 @@ reviewer = "integrator"
 path = "validator/src/consensus/runtime/supervision/listener/drop.rs"
 external_trait = "std::ops::Drop"
 reason = "The destructor delegates only to finish_application_listener for its leased, owned application socket; explicit cleanup retains error reporting."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/persistence/handoff/drop_reservation_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates only to the named operation that releases its exact owned handoff reservation."
 reviewer = "integrator"
 
 [[adapters]]

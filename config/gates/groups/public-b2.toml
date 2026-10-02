@@ -4,8 +4,24 @@
 
 version = 1
 package = "eve-public"
-requirements = ["B2", "T-A01", "T-A03", "T-A05", "T-A06"]
+requirements = ["B2", "T-A01", "T-A03", "T-A05", "T-A06", "B4-handoff-worker-slice"]
 tests = [
+    "persistence::handoff::tests::payload_limit_checks_actual_allocation_and_releases_cancelled_reservations",
+    "persistence::handoff::tests::count_limit_rejects_one_more_even_when_bytes_remain",
+    "persistence::handoff::tests::encoded_overflow_is_atomic_and_incomplete_seal_releases_charge",
+    "persistence::handoff::tests::cloned_inflight_payload_retains_charge_until_last_owner_drops",
+    "persistence::handoff::tests::concurrent_reservations_never_overcommit_count_or_bytes",
+    "persistence::handoff::tests::invalid_budget_fails_before_reservation_and_age_covers_construction",
+    "persistence::handoff::tests::allocation_capacity_error_releases_the_reserved_item_and_bytes",
+    "persistence::worker::tests::recovery::record_worker_sync_reopen_and_exact_replay_preserve_bytes_and_cursor",
+    "persistence::worker::tests::recovery::bad_cursor_latches_worker_failure_and_reopen_preserves_durable_prefix",
+    "persistence::worker::tests::recovery::cancelled_ticket_retains_payload_until_paused_real_append_finishes",
+    "persistence::worker::tests::admission::foreign_pool_submission_returns_original_charged_payload",
+    "persistence::worker::tests::admission::concurrent_clone_submission_cannot_bypass_charged_batch_count",
+    "persistence::worker::tests::admission::shutdown_drains_bounded_admitted_queue_including_exact_replay",
+    "persistence::worker::tests::resources::scratch_rejection_occurs_before_io_without_failing_healthy_worker",
+    "persistence::worker::tests::resources::worker_rejects_scratch_above_profile_slack_and_incompatible_db_knobs",
+    "persistence::worker::tests::resources::full_public_payload_is_rejected_when_actual_repository_record_limit_is_smaller",
     "rpc::tests::cancellation::ta05_cancelled_real_evm_call_keeps_leases_until_blocking_execution_exits",
     "rpc::tests::log_range::ta05_real_retained_history_accepts_1000_blocks_and_rejects_1001_block_log_scan",
     "rpc::tests::query_bounds::ta05_proof_slot_simulation_gas_calldata_and_log_range_bounds_are_enforced",

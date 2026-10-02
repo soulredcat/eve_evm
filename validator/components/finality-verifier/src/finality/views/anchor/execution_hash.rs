@@ -1,0 +1,12 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
+use crate::finality::AuthenticatedApplicationAnchor;
+use eve_state::ExecutionBlockHash;
+
+impl AuthenticatedApplicationAnchor {
+    pub fn execution_hash(&self) -> ExecutionBlockHash {
+        self.execution_hash
+    }
+}

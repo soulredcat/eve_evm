@@ -7,4 +7,4 @@ mod opening;
 mod reading;
 pub use append::compare_and_append_opaque_records;
 pub use opening::open_opaque_record_repository;
-pub use reading::{opaque_record_cursor, read_opaque_record};
+pub use reading::{opaque_record_budget, opaque_record_cursor, read_opaque_record};

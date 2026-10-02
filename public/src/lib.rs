@@ -8,5 +8,6 @@
 
 pub mod development;
 pub mod mempool;
+pub mod persistence;
 pub mod rpc;
 pub mod runtime;
