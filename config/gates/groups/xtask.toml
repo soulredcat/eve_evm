@@ -6,7 +6,7 @@ version = 1
 package = "xtask"
 requirements = ["B0.4","B0.5","B0.6","T-L01","T-L02","T-L03","T-L04","T-L05","T-L06"]
 tests = [
-    "verification::results::fixed_case_phases_require_error_context_lines_and_redact_unknown_data",
+    "results::fixed_case_phases_require_error_context_lines_and_redact_unknown_data",
     "catalog::implemented_gates_share_complete_package_inventories_for_each_feature_set",
     "failure_identifiers::failure_identifiers_are_registered_exact_deduplicated_and_sorted",
     "failure_identifiers::failure_identifiers_never_echo_unknown_messages_paths_or_control_characters",
