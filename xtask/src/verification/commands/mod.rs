@@ -4,6 +4,7 @@
 
 pub mod require_command_success;
 pub mod run_recorded_command;
+mod summarize_case_phase_failures;
 pub mod summarize_command_failure;
 pub mod summarize_registered_test_failures;
 mod summarize_runtime_failure_categories;
