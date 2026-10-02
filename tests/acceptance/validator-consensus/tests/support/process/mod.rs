@@ -15,7 +15,9 @@ pub(crate) use node_command::node_command;
 pub(crate) use signal_owned_process::signal_owned_process;
 pub(crate) use wait_child::wait_child;
 pub(crate) use write_private_file::write_private_file;
+mod summarize_cli_failure;
 mod summarize_node_failure;
+pub(crate) use summarize_cli_failure::summarize_cli_failure;
 pub(crate) use summarize_node_failure::summarize_node_failure;
 
 #[cfg(test)]

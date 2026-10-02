@@ -8,26 +8,28 @@ use super::{
     types::{ChannelShutdown, HandshakeProgress, RunningNode},
 };
 use crate::development::{config::DevelopmentValidatorConfig, engine::start_engine};
-use anyhow::Result;
+use anyhow::{Context, Result};
 use std::sync::{Mutex, atomic::AtomicBool};
 
 /// Run only this owned classical development child and its authenticated foreground actors.
 pub fn run_development_validator(config: DevelopmentValidatorConfig) -> Result<()> {
-    let assembly = assemble_development_node(config)?;
+    let assembly = assemble_development_node(config).context("NODE_ASSEMBLY_FAILED")?;
     let suffix = std::process::id().to_string();
     let application_socket = assembly
         .config
         .data
         .join(format!("application-{suffix}.sock"));
     let signer_socket = assembly.config.data.join(format!("signer-{suffix}.sock"));
-    let listener = bind_application_listener(&application_socket)?;
+    let listener =
+        bind_application_listener(&application_socket).context("NODE_APPLICATION_BIND_FAILED")?;
     let engine = start_engine(
         &assembly.config,
         &assembly.config.data.join("engine"),
         &application_socket,
         &signer_socket,
         assembly.digest,
-    )?;
+    )
+    .context("NODE_ENGINE_LAUNCH_FAILED")?;
     let node = RunningNode {
         assembly,
         engine: Mutex::new(engine),

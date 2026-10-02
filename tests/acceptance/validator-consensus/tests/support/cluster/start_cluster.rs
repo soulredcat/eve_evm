@@ -5,7 +5,7 @@
 use super::{Cluster, wait_for_height};
 use crate::support::process::{identify_engine, node_command};
 use anyhow::{Context, Result, ensure};
-use std::{fs::OpenOptions, process::Stdio};
+use std::{fs::OpenOptions, os::unix::fs::OpenOptionsExt, process::Stdio};
 
 impl Cluster {
     pub(super) fn initialize(&mut self) -> Result<()> {
@@ -77,12 +77,14 @@ impl Cluster {
             OpenOptions::new()
                 .create(true)
                 .append(true)
+                .mode(0o600)
                 .open(self.artifact.join(format!("node-{index}.stdout")))?,
         ));
         command.stderr(Stdio::from(
             OpenOptions::new()
                 .create(true)
                 .append(true)
+                .mode(0o600)
                 .open(self.artifact.join(format!("node-{index}.stderr")))?,
         ));
         let child = command.spawn()?;
@@ -91,15 +93,14 @@ impl Cluster {
     }
 
     fn register_engine(&mut self, index: usize) -> Result<()> {
-        let parent_pid = self.nodes[index]
-            .child
-            .as_ref()
-            .context("owned validator missing")?
-            .id();
+        let node = &mut self.nodes[index];
+        let parent = node.child.as_mut().context("owned validator missing")?;
         let (engine_pid, start) = identify_engine(
-            parent_pid,
+            parent,
             &self.comet,
-            &self.nodes[index].data.join("engine"),
+            &node.data.join("engine"),
+            &node.data,
+            &self.artifact.join(format!("node-{index}.stderr")),
         )?;
         self.proxies.register(index, engine_pid);
         self.nodes[index].engine_pid = Some(engine_pid);

@@ -3,8 +3,12 @@
 // Use requires prior written permission from Redcat.
 
 fn main() {
-    if eve_validator::cli::run_cli().is_err() {
-        eprintln!("EVE_DEVELOPMENT_VALIDATOR_FAILED: inspect task-local sanitized diagnostics");
+    if let Err(error) = eve_validator::cli::run_cli() {
+        eprintln!(
+            "EVE_DEVELOPMENT_VALIDATOR_FAILED {}: {}",
+            std::process::id(),
+            eve_validator::cli::summarize_cli_failure(&error)
+        );
         std::process::exit(1);
     }
 }

@@ -8,6 +8,7 @@ requirements = ["B3", "T-C05", "T-C06", "T-C07"]
 features = ["development-acceptance"]
 
 tests = [
+    "cli::tests::cli_failure_summary_reports_fixed_stage_and_errno_without_secret_text",
     "consensus::transport::dispatch::tests::refusal_recovery::missing_retained_proposal_abstains_without_signing",
     "consensus::transport::dispatch::tests::refusal_recovery::retained_reexecution_resource_failure_stays_fatal_without_signing",
     "consensus::transport::dispatch::tests::refusal_response::contextual_internal_error_with_policy_root_remains_fatal",

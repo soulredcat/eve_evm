@@ -21,6 +21,10 @@ pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
         ("B3_PHASE_NODE_SPAWN", "B3_PHASE_NODE_SPAWN"),
         ("B3_PHASE_ENGINE_DISCOVERY", "B3_PHASE_ENGINE_DISCOVERY"),
         (
+            "owned validator exited during engine discovery",
+            "VALIDATOR_EXITED_DURING_ENGINE_DISCOVERY",
+        ),
+        (
             "owned native engine child not found",
             "ENGINE_DISCOVERY_DEADLINE",
         ),

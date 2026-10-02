@@ -69,6 +69,13 @@ fn compact_failure_categories_never_echo_raw_keys_paths_or_untrusted_text() {
     );
     assert_eq!(
         summarize_command_failure(
+            "owned validator exited during engine discovery; failure categories ENGINE_PIDFD_OPEN_FAILED,IO_UNSUPPORTED,NODE_ENGINE_LAUNCH_FAILED; artifacts /private/path",
+            ""
+        ),
+        "VALIDATOR_EXITED_DURING_ENGINE_DISCOVERY, ENGINE_PIDFD_OPEN_FAILED, IO_UNSUPPORTED, NODE_ENGINE_LAUNCH_FAILED"
+    );
+    assert_eq!(
+        summarize_command_failure(
             "validator 1 exited before height 9; failure categories SIGNER_PARENT_HEIGHT,IO_TIMED_OUT,private-key=secret; artifacts /private/path",
             ""
         ),

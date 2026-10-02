@@ -13,7 +13,7 @@ use crate::development::{
         },
     },
 };
-use anyhow::{Result, ensure};
+use anyhow::{Context, Result, ensure};
 use std::{
     fs::OpenOptions,
     path::Path,
@@ -27,10 +27,12 @@ pub(crate) fn start_engine(
     signer_socket: &Path,
     expected_sha256: [u8; 32],
 ) -> Result<OwnedEngine> {
-    validate_engine_namespace(config, home)?;
-    let lease = acquire_engine_lease(&config.data)?;
-    let binary = verify_engine_binary(config, expected_sha256)?;
-    configure_engine_home(config, home, application_socket, signer_socket, &binary)?;
+    validate_engine_namespace(config, home).context("ENGINE_NAMESPACE_FAILED")?;
+    let lease = acquire_engine_lease(&config.data).context("ENGINE_LEASE_FAILED")?;
+    let binary =
+        verify_engine_binary(config, expected_sha256).context("ENGINE_BINARY_VALIDATION_FAILED")?;
+    configure_engine_home(config, home, application_socket, signer_socket, &binary)
+        .context("ENGINE_CONFIGURATION_FAILED")?;
     let prefix = crate::development::engine::home::engine_artifact_prefix("run")?;
     let output_log = config.data.join(format!("{prefix}.stdout.log"));
     let error_log = config.data.join(format!("{prefix}.stderr.log"));
@@ -50,7 +52,8 @@ pub(crate) fn start_engine(
         .stdin(Stdio::null())
         .stdout(Stdio::from(output))
         .stderr(Stdio::from(error))
-        .spawn()?;
+        .spawn()
+        .context("ENGINE_PROCESS_SPAWN_FAILED")?;
     let mut engine = OwnedEngine {
         child: Some(child),
         image: binary.image,
@@ -71,11 +74,12 @@ pub(crate) fn start_engine(
     );
     let pid = rustix::process::Pid::from_raw(i32::try_from(child.id())?)
         .ok_or_else(|| anyhow::anyhow!("invalid spawned engine PID"))?;
-    engine.process = Some(rustix::process::pidfd_open(
-        pid,
-        rustix::process::PidfdFlags::empty(),
-    )?);
-    validate_engine_image_binding(&engine.image, child.id())?;
+    engine.process = Some(
+        rustix::process::pidfd_open(pid, rustix::process::PidfdFlags::empty())
+            .context("ENGINE_PIDFD_OPEN_FAILED")?,
+    );
+    validate_engine_image_binding(&engine.image, child.id())
+        .context("ENGINE_IMAGE_BINDING_FAILED")?;
     ensure!(
         child.try_wait()?.is_none(),
         "owned engine exited during image verification"

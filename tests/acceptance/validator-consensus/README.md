@@ -30,6 +30,15 @@ exact process identity, refuses symlinks and nonregular files, and redacts unkno
 fields/codes. Raw panic output, key material, paths and detailed diagnostics remain
 local. This summary supplies diagnosis, never execution or finality authority.
 
+Engine discovery checks whether its owned validator has exited before waiting
+for the unchanged discovery deadline. Startup failures carry only fixed CLI
+stage/I/O categories stamped with that exact PID. The harness reads only a
+bounded private regular stderr file, rejects links and permission/identity
+mismatches, and redacts arbitrary text. A live validator that reaches the deadline
+reports fixed child/image/argument observations plus available runtime categories.
+The executable path and command checks remain mandatory; no failed startup is
+treated as a passing process scenario.
+
 The Cargo integration packet contains these actual process scenarios:
 
 | Gate | Observable assertion |
