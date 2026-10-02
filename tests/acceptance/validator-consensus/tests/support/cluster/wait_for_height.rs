@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::Cluster;
-use crate::support::process::summarize_node_failure;
+use crate::support::process::summarize_exited_validator;
 use crate::support::rpc::rpc_json;
 use anyhow::{Context, Result, ensure};
 use std::time::{Duration, Instant};
@@ -27,7 +27,11 @@ pub(crate) fn wait_for_height(cluster: &mut Cluster, nodes: &[usize], height: i6
                 ensure!(
                     child.try_wait()?.is_none(),
                     "validator {index} exited before height {height}; failure categories {}; artifacts {}",
-                    summarize_node_failure(&node.data, child.id()),
+                    summarize_exited_validator(
+                        &node.data,
+                        &node.data.join("validator.stderr.log"),
+                        child.id()
+                    ),
                     cluster.artifact.display()
                 );
             }

@@ -39,6 +39,12 @@ reports fixed child/image/argument observations plus available runtime categorie
 The executable path and command checks remain mandatory; no failed startup is
 treated as a passing process scenario.
 
+Private validator CLI stdout/stderr stays in its owned native Linux node
+namespace, where mode 0600 can be enforced even when the repository is mounted
+from Windows. Discovery and readiness share the same exact-PID diagnostic path.
+The failure summary is captured before namespace cleanup; retained failed C06
+namespaces also retain those private logs. This does not relax file permissions.
+
 The Cargo integration packet contains these actual process scenarios:
 
 | Gate | Observable assertion |

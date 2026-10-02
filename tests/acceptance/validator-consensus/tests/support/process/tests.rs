@@ -6,6 +6,26 @@ use super::{summarize_node_failure, write_private_file};
 use std::os::unix::fs::{PermissionsExt, symlink};
 
 #[test]
+fn readiness_exit_preserves_cli_startup_category_without_runtime_record() {
+    let _lease = crate::support::cluster_lease();
+    let mut cluster =
+        crate::support::Cluster::create("cli-exit", crate::support::ClusterOptions::default())
+            .unwrap();
+    let mut child = std::process::Command::new("/bin/false").spawn().unwrap();
+    let process_id = child.id();
+    child.wait().unwrap();
+    write_private_file(&cluster.nodes[0].data.join("validator.stderr.log"),
+        format!("EVE_DEVELOPMENT_VALIDATOR_FAILED {process_id}: ENGINE_PIDFD_OPEN_FAILED,IO_PERMISSION_DENIED,NODE_ENGINE_LAUNCH_FAILED\n").as_bytes()).unwrap();
+    cluster.nodes[0].child = Some(child);
+    let error = crate::support::cluster::wait_for_height(&mut cluster, &[0], 2).unwrap_err();
+    assert!(
+        error
+            .to_string()
+            .contains("ENGINE_PIDFD_OPEN_FAILED,IO_PERMISSION_DENIED,NODE_ENGINE_LAUNCH_FAILED")
+    );
+}
+
+#[test]
 fn cli_failure_metadata_binds_exact_pid_and_redacts_unknown_values() {
     let data = tempfile::tempdir().unwrap();
     let path = data.path().join("node.stderr");

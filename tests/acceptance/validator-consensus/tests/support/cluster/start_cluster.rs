@@ -78,14 +78,14 @@ impl Cluster {
                 .create(true)
                 .append(true)
                 .mode(0o600)
-                .open(self.artifact.join(format!("node-{index}.stdout")))?,
+                .open(self.nodes[index].data.join("validator.stdout.log"))?,
         ));
         command.stderr(Stdio::from(
             OpenOptions::new()
                 .create(true)
                 .append(true)
                 .mode(0o600)
-                .open(self.artifact.join(format!("node-{index}.stderr")))?,
+                .open(self.nodes[index].data.join("validator.stderr.log"))?,
         ));
         let child = command.spawn()?;
         self.nodes[index].child = Some(child);
@@ -100,7 +100,7 @@ impl Cluster {
             &self.comet,
             &node.data.join("engine"),
             &node.data,
-            &self.artifact.join(format!("node-{index}.stderr")),
+            &node.data.join("validator.stderr.log"),
         )?;
         self.proxies.register(index, engine_pid);
         self.nodes[index].engine_pid = Some(engine_pid);

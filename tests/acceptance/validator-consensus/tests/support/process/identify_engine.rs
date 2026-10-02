@@ -36,9 +36,8 @@ pub(crate) fn identify_engine(
     loop {
         if parent.try_wait()?.is_some() {
             bail!(
-                "owned validator exited during engine discovery; failure categories {},{}; artifacts {}",
-                super::summarize_node_failure(data, parent_pid),
-                super::summarize_cli_failure(stderr, parent_pid),
+                "owned validator exited during engine discovery; failure categories {}; artifacts {}",
+                super::summarize_exited_validator(data, stderr, parent_pid),
                 data.display()
             );
         }
