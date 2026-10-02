@@ -12,7 +12,7 @@ all-node crash recovery, strict lint/format and the release build.
 Diagnostic commit `50ba0f7` subsequently passed the complete local B3 gate with
 525 cases (19 consensus, 99 validator, 148 tooling); its hosted PR run failed
 engine discovery, and its hosted push run remained unclassified. Further startup
-diagnostics are under review; the current 530-case inventory is not yet accepted.
+diagnostics are under review; the current 531-case inventory is not yet accepted.
 Standalone distributions, activated PQ, security-profile acceptance and measured
 1M TPS remain unachieved. Hosted CI at that checkpoint failed the consensus packet;
 diagnosis and repair are in progress before B4.**

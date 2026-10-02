@@ -83,7 +83,7 @@ fn t_c05_native_invalid_proposal_is_nil_voted_while_valid_evm_revert_commits() -
         hex::encode(validator_address(&cluster.nodes[selected].public_key))
     );
     let traces: Vec<_> = (0..4)
-        .map(|node| std::fs::read_to_string(cluster.artifact.join(format!("node-{node}.stderr"))))
+        .map(|node| std::fs::read_to_string(cluster.nodes[node].data.join("validator.stderr.log")))
         .collect::<std::io::Result<_>>()?;
     ensure!(
         traces

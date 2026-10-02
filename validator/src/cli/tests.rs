@@ -4,6 +4,10 @@
 
 #[test]
 fn cli_failure_summary_reports_fixed_stage_and_errno_without_secret_text() {
+    assert_eq!(
+        super::summarize_cli_failure(&anyhow::anyhow!("ENGINE_PROCESS_CTIME_MISMATCH")),
+        "ENGINE_PROCESS_CTIME_MISMATCH"
+    );
     let error = anyhow::Error::from(rustix::io::Errno::PERM)
         .context("ENGINE_PIDFD_OPEN_FAILED")
         .context("NODE_ENGINE_LAUNCH_FAILED");

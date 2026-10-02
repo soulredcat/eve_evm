@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 mod configuration;
+mod image_binding;
 mod lifecycle;
 mod provenance;
 mod support;
