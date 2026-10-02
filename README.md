@@ -6,16 +6,16 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: B0/B1, B2 and classical B3 have verified development gates. The complete
-B3 local gate passed 518 tests, including all 16 consensus acceptance cases and T-C06
-all-node crash recovery, strict lint/format and the release build.
-Diagnostic commit `50ba0f7` subsequently passed the complete local B3 gate with
-525 cases (19 consensus, 99 validator, 148 tooling); its hosted PR run failed
-engine discovery, and its hosted push run remained unclassified. Further startup
-diagnostics are under review; the current 531-case inventory is not yet accepted.
-Standalone distributions, activated PQ, security-profile acceptance and measured
-1M TPS remain unachieved. Hosted CI at that checkpoint failed the consensus packet;
-diagnosis and repair are in progress before B4.**
+**Status: the published checkpoint `c2f9b2a` passes the complete local B3 gate
+with 531 tests and zero failed/ignored/pending cases. Hosted B3 acceptance remains
+unresolved: one failed run reports `ENGINE_PROCESS_INODE_MISMATCH` during native
+engine startup. Repair this prerequisite before B4. Standalone distributions,
+activated PQ, security-profile acceptance and measured 1M TPS remain unachieved.**
+
+Start with the [shared documentation](docs/README.md),
+[contribution contract](docs/development/README.md) and
+[verified execution status](docs/execution/README.md). These are available to
+GitHub-only collaborators; private local plans are not needed to read this context.
 
 ## Main objective
 
@@ -45,7 +45,7 @@ A validator needs durable signing-safety and recovery records even when its work
 
 Default public nodes keep active verified state in RAM and finalized recovery blocks/checkpoints durable through a separate bounded storage worker. Execution/current-state reads do not hold state locks while waiting for disk; applied and durable heights remain distinct. Storage still consumes resources, so latency interference and lag must be measured. Public restart recovery must work from retained verified data while masters are offline.
 
-One regional master can serve several public nodes through a preferred nearby eligible sync endpoint with fallback peers. Public does not require private master topology or database access. The planned evolution is two masters synchronizing independently verified finalized history, then ten regional masters; this is not launch authorization or a throughput claim. `zone_id` affects routing/placement only. See plan 32 (local-only: `docs/plan/32-regional-masters-and-public-persistence.md`).
+One regional master can serve several public nodes through a preferred nearby eligible sync endpoint with fallback peers. Public does not require private master topology or database access. The planned evolution is two masters synchronizing independently verified finalized history, then ten regional masters; this is not launch authorization or a throughput claim. `zone_id` affects routing/placement only. See the [public architecture contract](docs/architecture/README.md).
 
 ## Source layout
 
@@ -60,15 +60,16 @@ One regional master can serve several public nodes through a preferred nearby el
 - `validator/components/protocol-config/`: development genesis, native ABI/gas and canonical record/header contracts.
 - `validator/components/state/`: complete logical state, canonical roots, journals and structural recovery commits.
 - `xtask/`: structure, ownership, verification, evidence and pinned local tools.
-- `docs/plan/`: normative development specifications and dependency-ordered work.
+- `docs/`: shared public architecture, development, roadmap and execution READMEs.
+- `docs/plan/`: public roadmap and local-only detailed specifications.
 - `docs/agents/`: role-specific execution responsibilities.
-- `docs/execution/`: persistent progress, evidence and resumption state.
+- `docs/execution/`: public verified status and local-only detailed evidence/handoff.
 - `tests/`: reviewed reproducible test source and sanitized regression fixtures.
 - `tests/acceptance/state-recovery/`: independent B1 root, execution, durable, corruption, snapshot and process-recovery acceptance.
 - `tests/acceptance/serial-rpc/`: independent B2 EVM corpus, RPC/contract/client, limits and process-restart acceptance.
 - `local-tests/`: ignored machine-local experiments and test output; never published.
 
-The validator development entry point is implemented. Complete public/follower integration and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; current gate results and limitations are recorded in execution status (local-only: `docs/execution/STATUS.md`). Follow verification instructions (local-only: `docs/development/verification.md`) to provision the local reference tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
+The validator development entry point is implemented. Complete public/follower integration and independent copy/build/run acceptance remain unfinished. Reference tools and component interfaces are pinned; [execution status](docs/execution/README.md) records current results and limitations. Follow the [development instructions](docs/development/README.md) to provision tools and run a registered gate. These foundations are not a promise of 1M TPS. The execution component targets Shanghai; subsequent fork support is an explicit upgrade.
 
 ## Economics
 
@@ -76,18 +77,19 @@ Collected transaction fees: **40% burn / 30% node rewards / 30% validator reward
 
 ## Current work boundary
 
-The owner-authorized B3 integration includes [PR #2](https://github.com/soulredcat/eve_evm/pull/2)
-and review corrections that preserve fatal internal faults. The complete frozen
-gate passes 518 cases: 16 consensus, 99 validator and all retained foundation/RPC/
-storage/tooling cases, with zero ignored or failed. Signing refusals return a
-native error without releasing a signature; durability and fencing remain required.
+The latest owner-authorized checkpoint includes
+[PR #3](https://github.com/soulredcat/eve_evm/pull/3), observed merged/closed.
+Its complete local gate passes 531 cases; hosted verification remains unresolved.
+Signing refusals return a native error without releasing a signature; durability,
+fencing and executable authentication remain required.
 The owner resumed sequential core work on 2026-10-02 and forbids subagents for now.
 Resolve the hosted B3 failure before advancing to B4; keep the failed evidence visible.
 
-Public contributor context is in this README, [the planning index](docs/plan/README.md),
-[the security inventory](docs/security/inventory/README.md) and each component
-README. Owner instructions, goals, detailed plans and execution evidence stay
-local in their existing organized paths; a fresh clone does not contain them.
+Public contributor context is indexed in [docs](docs/README.md), including the
+roadmap, architecture, development rules, verified status and security inventory.
+Read each affected component README. Detailed owner instructions, plans and raw
+evidence remain local; their absence from a clone does not grant permission to
+invent requirements or claim missing acceptance.
 
 To reproduce verification, provision the exact reference tools with
 `cargo xtask provision-tools --jobs 2`, then run `cargo xtask verify --bulk B3`
@@ -95,13 +97,14 @@ with the pinned Linux environment. A failed or skipped mandatory check is not
 acceptance. Tool source/artifact pins and required cases are in `config/`; this
 verification must use the registered complete gate and preserve failed evidence.
 Use the receipt environment exported in the [CI workflow](.github/workflows/foundation.yml).
-Raw output and detailed execution records stay local-only. The accepted frozen
-source bundle is `23fcccfe428472d886ba0ad4d17716f503d7b587c814ba249738f861f4862193`;
-final README status updates are checked separately without changing tested code/configuration.
+Raw output and detailed execution records stay local-only. The exact tested
+revision, frozen source identity and local/hosted outcomes are recorded together
+in [execution status](docs/execution/README.md). Documentation updates do not
+change or extend the recorded runtime test result.
 
 ## Collaboration and publication
 
-Read CONTRIBUTING.md (local-only: `CONTRIBUTING.md`) before making changes. Shared source comments, documentation, configuration explanations, test descriptions, commit messages, and GitHub discussions must use English.
+Read the [public contribution contract](docs/development/README.md) before making changes. Shared source comments, documentation, configuration explanations, test descriptions, commit messages, and GitHub discussions must use English. CONTRIBUTING.md remains a local-only owner document.
 
 Keep GitHub clean: `local-tests/`, raw artifacts, build output, temporary databases, secrets, and personal configuration must never be committed or pushed. Required reproducible tests remain versioned so every collaborator can verify the implementation. Inspect the index and all outgoing commits before an authorized push; never force-add ignored local files.
 
