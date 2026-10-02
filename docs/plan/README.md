@@ -11,7 +11,8 @@ Public component contracts and the security inventory remain in tracked READMEs.
 The published B3 checkpoint passes its complete local 531-case gate; hosted
 acceptance remains unresolved. See [verified execution status](../execution/README.md)
 for revision-bound results and the current repair. The owner resumed sequential
-work without subagents. Repair hosted B3 before B4 or another dependent bulk.
+work and now permits subagents again with explicit file ownership. Repair hosted
+B3 before B4 or another dependent bulk.
 
 ## Public core roadmap
 

@@ -43,9 +43,12 @@ target at most 200; 201–400 requires decomposition review and a recorded ratio
 
 ## Collaboration workflow
 
-The current owner instruction forbids subagents. Perform protocol, state/network,
-security and integration review responsibilities sequentially. Separate human or
-external-AI contributions require an explicit scoped task and owned paths.
+The latest owner instruction permits subagents again. Assign explicit task and
+file ownership before parallel work. The integrator owns shared manifests,
+lockfiles and final commits; perform responsibilities sequentially when parallel
+work is unavailable or would conflict. Reviews during a frozen gate are read-only:
+do not edit its source, rebuild authenticated executables or control its processes.
+Separate human or external-AI contributions require a scoped task and owned paths.
 
 1. Inspect branch, HEAD and dirty files; preserve unrelated work.
 2. State the exact base revision, problem, owned paths, dependencies, forbidden

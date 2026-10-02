@@ -82,7 +82,8 @@ The latest owner-authorized checkpoint includes
 Its complete local gate passes 531 cases; hosted verification remains unresolved.
 Signing refusals return a native error without releasing a signature; durability,
 fencing and executable authentication remain required.
-The owner resumed sequential core work on 2026-10-02 and forbids subagents for now.
+The owner resumed dependency-ordered core work on 2026-10-02 and now permits
+subagents again. Assign file ownership before parallel work and protect frozen gates.
 Resolve the hosted B3 failure before advancing to B4; keep the failed evidence visible.
 
 Public contributor context is indexed in [docs](docs/README.md), including the
