@@ -100,6 +100,12 @@ Never rebuild an authenticated running executable during a test.
 
 ## Publication review
 
+Work locally first and keep coherent local commits for completed steps. After
+the bulk's required local gates pass, publish its source, required tests and
+reviewed English progress/performance summaries together. Batch GitHub pushes
+by completed bulk rather than publishing each small fix or documentation edit.
+Required hosted acceptance still precedes main runtime integration.
+
 Only Markdown files named `README.md` may be tracked. Keep `AGENTS.md`, `goal.md`,
 `CONTRIBUTING.md`, detailed plans/evidence and exploratory files local. Required
 reproducible tests and sanitized fixtures belong in tracked test modules or `tests/`.
