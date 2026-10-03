@@ -3,12 +3,13 @@
 // Use requires prior written permission from Redcat.
 
 use crate::support::{
-    Cluster, ClusterOptions, cluster::wait_for_height, cluster_lease, collect_certified_history,
-    compare_stopped_stores, fixture::TRANSITION_ADDRESS, replay_history, signed_transaction,
-    submit_transaction, transitions::verify_default_build_guards,
+    Cluster, ClusterOptions,
+    cluster::wait_for_height,
+    cluster_lease, collect_certified_history, compare_stopped_stores,
+    fixture::TRANSITION_ADDRESS,
+    replay_history, signed_transaction,
+    transitions::{submit_transition, verify_default_build_guards, verify_transition_receipt},
 };
-use alloy_consensus::ReceiptEnvelope;
-use alloy_eips::eip2718::Decodable2718;
 use alloy_primitives::{Address, Bytes, keccak256};
 use anyhow::{Context, Result, ensure};
 use eve_consensus_comet::consensus::certificates::validator_address;
@@ -54,7 +55,7 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             200_000,
             Bytes::from(input),
         );
-        let height = submit_transaction(&cluster, 3, &tx).context("B3_TC07_SUBMIT")?;
+        let height = submit_transition(&cluster, &tx, action)?;
         let retained = collect_certified_history(&cluster, 3, height, &changes)
             .context("B3_TC07_CERTIFICATE_HISTORY")?;
         let executed = replay_history(&cluster, &retained).context("B3_TC07_REPLAY")?;
@@ -67,20 +68,11 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             .iter()
             .position(|raw| raw == &tx)
             .context("B3_TC07_TRANSACTION_MISSING")?;
-        let mut receipt_bytes = commit.block.receipts[index].as_ref();
-        let receipt = ReceiptEnvelope::decode_2718(&mut receipt_bytes)
-            .map_err(|_| anyhow::anyhow!("B3_TC07_RECEIPT"))?;
-        ensure!(
-            receipt.is_success()
-                && receipt_bytes.is_empty()
-                && receipt.logs().iter().any(|log| log.address
-                    == Address::from_slice(&hex::decode(TRANSITION_ADDRESS).unwrap())
-                    && log
-                        .topics()
-                        .get(1)
-                        .is_some_and(|topic| topic.as_slice() == cluster.fixture_digest)),
-            "B3_TC07_RECEIPT: native update source has no successful canonical fixture receipt"
-        );
+        verify_transition_receipt(
+            commit.block.receipts[index].as_ref(),
+            cluster.fixture_digest,
+        )
+        .context("B3_TC07_RECEIPT")?;
         if action == 1 {
             roster.retain(|validator| validator.public_key != cluster.nodes[0].public_key);
             roster.push(ClassicalValidator {

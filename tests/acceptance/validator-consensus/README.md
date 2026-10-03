@@ -60,8 +60,9 @@ The Cargo integration packet contains these actual process scenarios:
 | T-C09 | Execution commitment at H is bound by actual native header H+1; H0 uses the documented development content-digest anchor |
 | T-C10 | Native RPC quota is occupied by bounded slow connections and overflow requests while consensus progresses without master |
 
-Six HTTP/native decoding regression cases execute once within the same integration
-test. They exercise actual local TCP framing and native JSON input validation;
+Eleven HTTP/native/submission regression cases execute once within the same integration
+test: five RPC, three native decoding and three committed-submission cases.
+They exercise actual local TCP framing, native JSON input and strict code/hash/height validation;
 they do not replace the process scenarios. Test results and full-gate acceptance
 are recorded by the integrator only after the complete frozen source is tested.
 

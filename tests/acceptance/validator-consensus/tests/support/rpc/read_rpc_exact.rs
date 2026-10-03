@@ -13,7 +13,7 @@ pub(super) fn read_rpc_exact(
     while position < bytes.len() {
         let count =
             super::read_rpc_bytes::read_rpc_bytes(stream, deadline, &mut bytes[position..])?;
-        ensure!(count != 0, "truncated native HTTP response");
+        ensure!(count != 0, "B3_RPC_IO_DISCONNECTED");
         position += count;
     }
     Ok(())

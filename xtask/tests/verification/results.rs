@@ -19,6 +19,20 @@ fn fixed_case_phases_require_error_context_lines_and_redact_unknown_data() {
     assert_eq!(
         summarize_command_failure(
             "",
+            "Error: B3_TC07_SUBMIT_JAIL\nCaused by:\n    0: B3_RPC_READ\n    1: B3_RPC_IO_TIMEOUT\n    2: private-sensitive-value"
+        ),
+        "B3_RPC_IO_TIMEOUT, B3_RPC_READ, B3_TC07_SUBMIT_JAIL"
+    );
+    assert_eq!(
+        summarize_command_failure(
+            "",
+            "Error: B3_SUBMIT_CHECK_TX_CODE: private-sensitive-value"
+        ),
+        "B3_SUBMIT_CHECK_TX_CODE"
+    );
+    assert_eq!(
+        summarize_command_failure(
+            "",
             "Error: B3_TC07_CALLBACK_MISSING: private-sensitive-value"
         ),
         "B3_TC07_CALLBACK_MISSING"

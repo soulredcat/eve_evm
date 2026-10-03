@@ -4,20 +4,13 @@
 
 use crate::support::{Cluster, rpc::rpc_json};
 use alloy_primitives::Bytes;
-use anyhow::{Context, Result, ensure};
+use anyhow::Result;
+use sha2::{Digest, Sha256};
 pub(crate) fn submit_transaction(cluster: &Cluster, node: usize, bytes: &Bytes) -> Result<i64> {
     let result = rpc_json(
         cluster.nodes[node].rpc,
         &format!("/broadcast_tx_commit?tx=0x{}", hex::encode(bytes)),
     )?;
-    ensure!(
-        result["check_tx"]["code"].as_u64().unwrap_or(0) == 0
-            && result["tx_result"]["code"].as_u64().unwrap_or(0) == 0,
-        "native transaction admission/execution rejected"
-    );
-    result["height"]
-        .as_str()
-        .context("committed transaction height missing")?
-        .parse()
-        .context("committed transaction height invalid")
+    let expected_hash = Sha256::digest(bytes).into();
+    super::decode_committed_submission::decode_committed_submission(&result, &expected_hash)
 }
