@@ -28,11 +28,13 @@ eve-protocol-config = { path = "../validator/components/protocol-config" }
 eve-evm = { path = "../validator/components/execution" }
 eve-storage = { path = "components/recovery-store" }
 eve-node-policy = { path = "components/node-policy" }
+eve-finality-verifier = { path = "../validator/components/finality-verifier" }
 
 [dev-dependencies]
 tempfile.workspace = true
 ed25519-dalek.workspace = true
 k256.workspace = true
+eve-consensus-comet = { path = "../validator/components/consensus-comet" }
 
 [lints]
 workspace = true

@@ -6,6 +6,15 @@ version = 1
 package = "eve-state"
 requirements = ["B1", "B2", "T-S01", "T-S03", "T-S04", "T-S08", "T-A06"]
 tests = [
+    "block_codec_roundtrips_existing_states_and_preserves_original_commit_block_wire",
+    "block_codec_preserves_ordered_opaque_rows_without_execution_authority",
+    "block_codec_preserves_existing_literal_header_golden_wire",
+    "block_decoder_rejects_malformed_truncated_trailing_and_nonminimal_list_wire",
+    "block_decoder_rejects_noncanonical_single_byte_payload_string",
+    "block_codec_enforces_exact_encoded_size_and_transaction_count_boundaries",
+    "block_codec_bounds_each_opaque_transaction_and_receipt_before_copying",
+    "block_codec_bounds_aggregate_raw_payload_and_large_header_encoding",
+    "block_codec_rejects_transaction_receipt_count_mismatch",
     "account_and_storage_inclusion_absence_proofs_match_independent_literal_roots",
     "captured_views_do_not_mix_versions_and_missing_code_is_explicit",
     "delete_recreate_and_explicit_clear_reset_storage_without_partial_parent_writes",

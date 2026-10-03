@@ -1741,11 +1741,14 @@ dependencies = [
 name = "eve-finality-verifier"
 version = "0.1.0"
 dependencies = [
+ "alloy-primitives",
+ "alloy-rlp",
  "ed25519-dalek",
  "eve-consensus-comet",
  "eve-evm",
  "eve-protocol-config",
  "eve-state",
+ "prost",
  "prost-types",
  "sha2 0.11.0",
 ]
@@ -1806,7 +1809,9 @@ dependencies = [
  "anyhow",
  "clap",
  "ed25519-dalek",
+ "eve-consensus-comet",
  "eve-evm",
+ "eve-finality-verifier",
  "eve-node-policy",
  "eve-protocol-config",
  "eve-state",

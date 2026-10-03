@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 mod admission;
+mod nonblocking_ack;
 mod recovery;
 mod resources;
 

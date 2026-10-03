@@ -15,9 +15,7 @@ fn pool() -> Arc<HandoffPool> {
     budget.maximum_batch_bytes = 8;
     budget.queue_bytes = 32;
     budget.queue_batches = 4;
-    create_handoff_pool(budget)
-        .ok()
-        .expect("valid bounded test pool")
+    create_handoff_pool(budget).expect("valid bounded test pool")
 }
 
 #[test]

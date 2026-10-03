@@ -5,7 +5,7 @@
 use crate::records::{
     OpaqueRecord, OpaqueRecordCursor, OpaqueRecordRepository,
     encoding::{encode_opaque_cursor, encode_opaque_record, opaque_record_key},
-    hashing::hash_opaque_record,
+    prospective_opaque_record_cursor,
     types::schema::HEAD_KEY,
 };
 use anyhow::{Result, ensure};
@@ -19,11 +19,14 @@ pub(in crate::records) fn build_opaque_batch(
     let mut batch = WriteBatch::default();
     let mut parent = expected;
     for payload in payloads {
-        let sequence = parent
-            .sequence
-            .checked_add(1)
-            .ok_or_else(|| anyhow::anyhow!("opaque sequence overflow"))?;
-        let content_hash = hash_opaque_record(store.identity, parent, sequence, payload);
+        let next = prospective_opaque_record_cursor(
+            store.identity,
+            parent,
+            payload,
+            store.budget.maximum_record_bytes,
+        )?;
+        let sequence = next.sequence;
+        let content_hash = next.content_hash;
         let record = OpaqueRecord {
             sequence,
             parent,
@@ -38,10 +41,7 @@ pub(in crate::records) fn build_opaque_batch(
             batch.size_in_bytes() <= store.budget.maximum_batch_bytes,
             "opaque batch exceeds physical byte limit"
         );
-        parent = OpaqueRecordCursor {
-            sequence,
-            content_hash,
-        };
+        parent = next;
     }
     batch.put(HEAD_KEY, encode_opaque_cursor(parent));
     ensure!(

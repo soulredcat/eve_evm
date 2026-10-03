@@ -147,24 +147,37 @@ the repair SHA, and verify hosted CI. Report results separately by exact revisio
 See [development instructions](../development/README.md) for tooling and review.
 B4 foundations are developed separately; they do not close B3 or its prerequisites.
 
-## B4 partial local checkpoint
+## B4 local development
 
-Local-only commit `c6376c5cf5cd6534fa8fd572e291f1e9444c70ab` contains canonical
-validator-owned native history and EVE application-anchor components, plus
-public-owned bounded handoff and a storage-only record worker. It is not pushed
-or integrated; its source is not available from the main branch.
+B4 foundations at `c6376c5cf5cd6534fa8fd572e291f1e9444c70ab` were merged locally
+with accepted B3 main at `463975bc10d4f5eb43b3810827bdb414f127d66e`. They remain
+unpublished and do not constitute full B4 acceptance.
 
-Verified scoped evidence: 15 native signed-history tests, 11 EVE wrapper tests
-and 16 persistence tests pass. The wrapper fixtures execute actual empty Shanghai
-blocks and enforce private capability construction through downstream compiler
-tests. Format/strict scoped Clippy pass; structure checks 1,645 files and ownership
-checks 1,679 files with zero violations.
+The current local recovery slice adds canonical block-payload encoding, exact
+prospective opaque cursors, nonblocking synced acknowledgements, and validator-
+owned compact recovery replay. Replay derives context from certified H, executes
+real signed transactions, compares complete results and authenticates them at H+1.
+Fixed genesis owners/set/profile are enforced; unsupported transitions reject.
 
-Missing B4 work includes authenticated recovery envelopes, coherent applied RAM
-views/watermarks, real public/master followers, peer-tail/snapshot recovery and
-integrated resource/fault gates. T-N09/T-N10 and full B4 acceptance remain
-unfinished. An uncompiled RPC draft is preserved in ignored local-only storage.
-
+Affected package evidence covers 81 state/storage cases, 28 executor cases and
+47 finality-verifier cases. Public verification passed a full 38-case packet,
+then all 14 applied-service cases after adding one metadata regression. Their
+union matches all 39 discovered public cases; zero failed or ignored cases.
+Format, strict all-target Clippy for five affected packages, and their release
+build passed; the release build took 49.59 seconds on the local development host.
+This is build timing, not a throughput measurement. Corrected structure covered
+1,819 files and ownership 1,853 files, both with zero violations. The earlier
+structure check rejected an unqualified Drop adapter; it now matches the exact
+reviewed std::ops::Drop registration. Independent source review found no remaining
+blocker in the repaired queue accounting, age check and charge lifetimes.
+These are local development results, not a complete B4 or hosted gate.
+The local empty-block applied RAM service is implemented and verified. Memory admission remains estimated
+logical accounting; executor allocations on rejected candidates require further
+bounds. Versioned fragmentation, snapshots/deltas, durable peer-tail recovery,
+public/master followers, retention and full T-N09/T-N10 resource/fault acceptance
+remain required. The compact record cap is 4,198,312 bytes; valid larger protocol
+payloads require fragmentation rather than an increased unreviewed limit.
+Raw evidence stays in ignored local-tests; publish one reviewed completed bulk.
 ## Remaining acceptance
 
 | Scope | Status |

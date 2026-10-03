@@ -99,6 +99,9 @@ reservation uses the canonical conservative two-oracle estimate and rejects befo
 construction. Public must also charge interpreter memory, retained original views,
 request/result bytes and concurrency to its global admission budget. Logical
 charges are not allocator/RSS measurements or a production throughput guarantee.
+The actual-state clone estimator and StateBudget ceiling share one canonical cost
+calculation. The ceiling grants no reservation or transaction-growth bound; the
+default maxima exceed a 256 MiB public working pool and require explicit admission.
 No state lock spans disk/network I/O; execution itself invokes neither.
 
 ## Explicitly inactive native system interface

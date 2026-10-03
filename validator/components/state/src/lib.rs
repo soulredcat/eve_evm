@@ -21,8 +21,8 @@ pub use state::commitments::{
     compute_commit_identity, compute_evm_root, compute_state_content_digest, compute_system_root,
 };
 pub use state::encoding::{
-    decode_state_commit, decode_state_version, decode_system_record, encode_state_commit,
-    encode_state_version,
+    decode_block_payload, decode_state_commit, decode_state_version, decode_system_record,
+    encode_block_payload, encode_state_commit, encode_state_version,
 };
 pub use state::genesis::initialize_development_state;
 pub use state::journals::{apply_state_journal, encode_state_journal, project_state_journal};

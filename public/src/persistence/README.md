@@ -37,9 +37,11 @@ reporting unexpected logical Vec spare capacity is rejected. This does not claim
 an OS-enforced memory cap, zero overhead or T-N09/T-N10 acceptance.
 
 The durable `StateService` and synchronous development producer retain their
-existing semantics. Public applied RAM views, authenticated compact replay,
-durable markers and master-independent recovery are not implemented by the
-handoff resource primitive.
+existing semantics. Validator-owned compact replay is integrated by the
+[public applied service](../sync/applied/README.md) for its limited empty-block
+capability. That service owns RAM publication and ordered durable-prefix markers.
+Full master-independent recovery remains unfinished. This handoff primitive's
+resource charge alone grants no authentication or recovery completeness.
 
 ## Dedicated opaque record worker
 

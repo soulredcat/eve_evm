@@ -6,8 +6,8 @@
 
 Canonical validator-owned pure verification consumed by role runtimes. This
 component depends on native consensus verification, protocol configuration and
-canonical logical state. It contains no master authority, database, signer, live
-transport or execution engine.
+canonical logical state and the canonical deterministic execution component.
+It contains no master authority, database, signer or live transport.
 
 Initialization consumes a locally selected DevelopmentGenesis and an actual state
 budget. The existing initialize_development_state validates canonical genesis,
@@ -40,9 +40,23 @@ roots; independent replay executes ordered authenticated transactions.
 This first slice supports the existing classical development protocol only. Its
 fixed profile/epoch comes from canonical genesis; native set hashes do not encode
 EVM owners or key epochs. Dynamic owner/profile/key-epoch evolution, checkpoint
-trust-period verification, replay and conflicting-history quarantine require their
+trust-period verification and conflicting-history quarantine require their
 actual subsequent implementation. There is no EVE checkpoint-import constructor
 that pretends a downloaded anchor is trusted or fresh.
+
+The recovery capability replays bounded compact records from a locally initialized
+genesis and a private verified parent. It derives execution context from certified
+H, compares the complete replayed target/block, and anchors it through H+1.
+Only fixed genesis owners/set/profile/epoch are supported; announced set changes
+fail before publication. The exact immutable envelope remains attached to the
+private transition. Public RAM publication and actual storage acknowledgement
+are separate responsibilities. The [public applied service](../../../public/src/sync/applied/README.md)
+integrates an explicitly limited empty-block capability; full B4 remains unfinished.
+
+The codec uses canonical state payloads and native Prost messages, with bounded
+preflight and exact reencoding. Its payload cap is 4,198,312 bytes under the
+current opaque storage profile; some valid maximum-size blocks require later
+versioned fragmented storage. No limit is raised or complete B4 acceptance claimed.
 
 The baseline assumes less than one-third Byzantine voting power and strict
 3*S > 2*T. These APIs do not provide PQ security, majority-attack immunity, fresh
