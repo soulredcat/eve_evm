@@ -38,9 +38,17 @@ the target. Transfer-only evidence cannot establish arbitrary mixed-EVM capacity
 ## Measurements that must agree
 
 Fix the workload, topology, active security profile, resource budgets, latency SLO
-and error budget before execution. Run at least 60 measured sustained minutes
-after warm-up; the strongest sustained claim also requires a 24-hour soak.
-Retain W0–W6 results and post-run deterministic verification/recovery evidence.
+and error budget in the run manifest before execution. The development default
+is p99 admission-to-finality latency <= 5 seconds outside deliberately injected
+faults. Declare the SLO and fault profile before measurement. This is a development
+default, not a measured result, and does not alter R12/mainnet acceptance.
+
+[R12](../../config/gates/requirements/core.toml)/1M `SCALE_TARGET_VERIFIED`
+acceptance requires a passing mixed-EVM W5 run of at least 60 measured sustained
+minutes after warm-up **and a 24-hour soak**. Both are mandatory, alongside the
+active secure profile, bounded backlog and post-run deterministic verification
+and recovery evidence. Retain W0–W6 results, including the separate W3 test of one
+hot pool, with the predeclared workload cardinality and contention.
 
 Report:
 
