@@ -9,6 +9,9 @@ mod framing;
 mod preflight;
 mod types;
 mod views;
+pub(in crate::recovery::import) use preflight::{
+    scan_import_execution_stats_with_limit, scan_import_lookahead_stats, scan_import_native_stats,
+};
 
 pub use decoding::decode_authenticated_import_wire;
 pub use encoding::{encode_authenticated_import_wire, measure_authenticated_import_wire};

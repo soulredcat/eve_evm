@@ -7,6 +7,20 @@ package = "eve-finality-verifier"
 requirements = ["B4-EVE-application-anchor-slice", "D41"]
 
 tests = [
+    "logical_wire::boundaries::each_component_ceiling_and_overflowing_declared_lengths_reject_before_decode",
+    "logical_wire::boundaries::exact_aggregate_upper_gate_and_next_byte_are_distinct_without_claiming_valid_maxima",
+    "logical_wire::boundaries::local_count_and_byte_policies_remain_effective_for_v2",
+    "logical_wire::boundaries::raw_transaction_and_receipt_limits_are_preserved_in_full_transport",
+    "logical_wire::full_components::full_journal_and_execution_components_exceed_compact_cap_without_raising_data_limits",
+    "logical_wire::malformed::every_truncated_prefix_trailing_bytes_and_wrong_transport_domain_reject",
+    "logical_wire::malformed::mismatched_receipt_counts_reject_in_borrowed_shared_execution_scan",
+    "logical_wire::malformed::reordered_components_and_truncated_native_fields_reject",
+    "logical_wire::privacy::downstream_cannot_construct_v2_preflight_from_detached_counts",
+    "logical_wire::privacy::downstream_cannot_decode_v2_from_statistics_or_a_v1_preflight",
+    "logical_wire::privacy::downstream_cannot_mutate_v2_source_bytes_while_preflight_is_used",
+    "logical_wire::roundtrip::exact_auxiliary_parent_survives_wire_but_wrong_local_parent_still_rejects",
+    "logical_wire::roundtrip::frozen_budget_and_bound_bytes_survive_detached_stats_and_slice_changes",
+    "logical_wire::roundtrip::normal_v1_and_v2_decode_and_prepare_the_same_canonical_import",
     "recovery_import::wire::boundaries::complete_aggregate_preflight_refuses_large_components_without_raising_record_cap",
     "recovery_import::wire::boundaries::complete_compact_limit_accepts_exact_boundary_and_rejects_one_more_byte",
     "recovery_import::wire::boundaries::local_journal_and_execution_limits_are_enforced_before_any_decoded_input",

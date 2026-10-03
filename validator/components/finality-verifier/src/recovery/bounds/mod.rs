@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+pub(in crate::recovery) mod scan_execution_payload_with_limit;
+
 pub(in crate::recovery) mod validate_empty_recovery_envelope_bytes;
 
 pub(in crate::recovery) mod measure_execution_payload_bytes;

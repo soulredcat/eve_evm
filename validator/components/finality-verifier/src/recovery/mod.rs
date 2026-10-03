@@ -19,11 +19,15 @@ pub use encoding::encode_compact_recovery_envelope::encode_compact_recovery_enve
 pub use import::{
     AuthenticatedImportInput, ImportError, ImportExecutionWireStats, ImportLookaheadWireStats,
     ImportNativeWireStats, ImportWireError, ImportWirePreflight, ImportWireSlices, ImportWireStats,
-    ImportedState, ImportedTransition, MAXIMUM_IMPORT_WIRE_BYTES, decode_authenticated_import_wire,
-    encode_authenticated_import_wire, import_wire_budget, import_wire_bytes, import_wire_slices,
-    import_wire_stats, imported_state_anchor, imported_state_commit, imported_transition_input,
+    ImportedState, ImportedTransition, LogicalImportWirePreflight, MAXIMUM_IMPORT_WIRE_BYTES,
+    MAXIMUM_LOGICAL_IMPORT_WIRE_BYTES, decode_authenticated_import_wire,
+    decode_logical_import_wire, encode_authenticated_import_wire, encode_logical_import_wire,
+    import_wire_budget, import_wire_bytes, import_wire_slices, import_wire_stats,
+    imported_state_anchor, imported_state_commit, imported_transition_input,
     imported_transition_state, initialize_authenticated_import, into_imported_state,
-    measure_authenticated_import_wire, preflight_authenticated_import_wire,
+    logical_import_wire_budget, logical_import_wire_bytes, logical_import_wire_slices,
+    logical_import_wire_stats, measure_authenticated_import_wire, measure_logical_import_wire,
+    preflight_authenticated_import_wire, preflight_logical_import_wire,
     prepare_authenticated_import,
 };
 pub use initialization::initialize_development_recovery::initialize_development_recovery;

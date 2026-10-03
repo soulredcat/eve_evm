@@ -4,6 +4,7 @@
 
 //! Certified state import is distinct from independent canonical EVM replay.
 mod initialize_authenticated_import;
+mod logical_wire;
 mod prepare_authenticated_import;
 mod types;
 mod validate_import_execution_context;
@@ -12,6 +13,12 @@ mod validate_import_input_bounds;
 mod validate_import_parent;
 mod views;
 mod wire;
+pub use logical_wire::{
+    LogicalImportWirePreflight, MAXIMUM_LOGICAL_IMPORT_WIRE_BYTES, decode_logical_import_wire,
+    encode_logical_import_wire, logical_import_wire_budget, logical_import_wire_bytes,
+    logical_import_wire_slices, logical_import_wire_stats, measure_logical_import_wire,
+    preflight_logical_import_wire,
+};
 
 pub use initialize_authenticated_import::initialize_authenticated_import;
 pub use prepare_authenticated_import::prepare_authenticated_import;
