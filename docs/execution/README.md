@@ -59,7 +59,8 @@ native committed-submission validation. Shared main documentation is retained.
 | `7d1ae09`: hosted PR run 36988343126 | CANCELLED; cancellation is not acceptance |
 | Submission source committed as `09a22b9`: complete consensus packet | PASS: 28 passed, zero failed/ignored/filtered; 796.83 seconds |
 | `09a22b9`: scoped validation before commit | Format and strict acceptance/tooling Clippy PASS; structure 1,557 / ownership 1,591 files, zero violations |
-| Current candidate: complete 539-case B3 and hosted gate | Pending; no complete acceptance claimed |
+| `9362b22`: complete local B3 gate | PASS: 539 tests, zero failed/ignored/pending; 2581.231 seconds |
+| `9362b22`: hosted PR/push runs 37086416848 / 37086413900 | IN_PROGRESS at last observation; no hosted acceptance claimed |
 
 The [latest observed failed push](https://github.com/soulredcat/eve_evm/actions/runs/36988335828)
 locates the remaining failure at transaction submission. It does not establish
@@ -77,6 +78,15 @@ Local `bc6c390` source identity was
 `f98eff89db5fd4db92529555fd4e1716142d3a40025d782bc33681c5d55bb9e6`,
 unchanged across its 2579.064-second gate. Raw reports and intermediate failures
 remain local-only. The new candidate has not been integrated into main.
+
+The complete local `9362b22` gate tested a clean checkout with frozen source
+identity `f078f05217f7effd440a4f5465bc3c530c9aca6bf629a0a0b52881dd2f177a56`,
+unchanged before/after verification. It includes 259 retained foundation cases,
+28 consensus cases, 103 validator cases and 149 tooling cases. Format, strict
+workspace Clippy, structure/ownership and workspace release build pass. The raw
+report remains local-only at
+`local-tests/verify-227-1790991119710668573/report.json`; GitHub clones do not
+contain it. Hosted verification remains required before main runtime integration.
 
 ### Historical executable-binding diagnosis
 

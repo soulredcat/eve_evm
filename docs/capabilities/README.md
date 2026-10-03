@@ -31,8 +31,9 @@ acceptance material and cannot substitute for those modules.
 The current B3 review candidate also checks native submission codes, exact
 transaction hash identity and canonical positive height. Fixed diagnostic codes
 identify the failing action and RPC stage without publishing private payloads.
-Its 28-case local consensus packet passes; complete and hosted candidate acceptance
-remain pending. These checks improve validation and diagnosis, not throughput.
+Its complete local B3 gate passes 539 cases at `9362b22`; hosted candidate
+acceptance remains pending. These checks improve validation and diagnosis,
+not throughput.
 
 ## Partial foundations under development
 
