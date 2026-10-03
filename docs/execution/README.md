@@ -7,7 +7,20 @@
 Updated: 2026-10-03. This public summary records verified facts at the checkpoint
 below. Documentation edits do not rerun or extend its runtime acceptance.
 
-## Runtime verification baseline
+## Accepted B3 classical development gate
+
+The complete local gate passes 545 cases at clean `28ffac3`, and
+[hosted PR run 37096714168](https://github.com/soulredcat/eve_evm/actions/runs/37096714168)
+passes 545 at `9d3e1d5`. Job 111128025705 succeeds in every required step.
+The separate push run 37096712477 is cancelled; it supplies no passing evidence.
+The verified B3 source is integrated with documentation-only acceptance updates.
+B4 is the next dependency-ready bulk; its full gate remains unfinished.
+
+This accepts the classical development B3 contract, including real consensus,
+execution, signer durability and historical transitions. It does not accept PQ,
+stronger adversary continuity, secured capacity or independent-host deployment.
+
+## Historical runtime verification baseline
 
 Owner-authorized main checkpoint:
 `c2f9b2ad22c69ea52c6b65a027e0bea5929412c8`.
@@ -41,10 +54,10 @@ and [main run](https://github.com/soulredcat/eve_evm/actions/runs/36961090642).
 The failed runs reached 259 preceding accepted cases before all ten real-node
 scenarios failed. Do not infer that every run has an identical root cause.
 
-## Current B3 candidate and repair
+## B3 repair and revision-bound evidence
 
-Owner resumed work on 2026-10-03. B3 remains incomplete; dependent B4 integration
-requires accepted B3. Current [draft PR #5](https://github.com/soulredcat/eve_evm/pull/5)
+Owner resumed work on 2026-10-03. B3 local and hosted acceptance are verified.
+[PR #5](https://github.com/soulredcat/eve_evm/pull/5)
 is based on the runtime baseline and includes bounded executable-transition
 handling, direct test-process signaling, safe T-C07 phase diagnostics and strict
 native committed-submission validation. Shared main documentation is retained.
@@ -63,7 +76,8 @@ native committed-submission validation. Shared main documentation is retained.
 | `9362b22`: hosted push run 37086413900 | PASS: 539 cases; every required job step succeeds |
 | `9362b22`: hosted PR run 37086416848 | FAILURE after 259 preceding accepted cases; T-C07 rotation reports RPC read timeout |
 | `28ffac3`: complete local B3 repair gate | PASS: 545 tests, zero failed/ignored/pending; 2492.479 seconds |
-| New repair: fresh hosted acceptance | Pending; not yet main-integrated |
+| `9d3e1d5`: hosted PR run 37096714168 | PASS: 545 cases; every required job step succeeds |
+| `9d3e1d5`: hosted push run 37096712477 | CANCELLED; not a pass |
 
 The [classified failed PR](https://github.com/soulredcat/eve_evm/actions/runs/37086416848)
 reports `B3_TC07_SUBMIT_ROTATION`, `B3_RPC_READ` and `B3_RPC_IO_TIMEOUT`.
@@ -82,8 +96,8 @@ continues through H+3; per-RPC limits and all certificate/replay/receipt asserti
 remain. Generic scenarios retain their original broadcast-commit path. Scoped
 transaction tests pass 9/9, RPC 5/5 and tooling-result tests 2/2; strict scoped
 Clippy/format and source review pass. Exact live T-C07 passes 1/1 in 88.95 seconds.
-Complete local `28ffac3` verification passes 545 cases; fresh hosted acceptance
-remains pending. Raw outputs stay local.
+Complete local `28ffac3` and hosted PR `9d3e1d5` verification pass 545 cases.
+Raw outputs stay local.
 
 The clean `28ffac3` gate binds source
 `0c33f0b1a16a14201edddc0f83613076b10b836cf1fa1521f24f7917a4e21c85`, unchanged
@@ -96,7 +110,7 @@ single-host development evidence; it does not accept PQ or secured capacity.
 Local `bc6c390` source identity was
 `f98eff89db5fd4db92529555fd4e1716142d3a40025d782bc33681c5d55bb9e6`,
 unchanged across its 2579.064-second gate. Raw reports and intermediate failures
-remain local-only. The new candidate has not been integrated into main.
+remain local-only. Earlier failed candidates do not replace accepted repair evidence.
 
 The complete local `9362b22` gate tested a clean checkout with frozen source
 identity `f078f05217f7effd440a4f5465bc3c530c9aca6bf629a0a0b52881dd2f177a56`,
@@ -156,7 +170,7 @@ unfinished. An uncompiled RPC draft is preserved in ignored local-only storage.
 | Scope | Status |
 |---|---|
 | B0/SEC0, B1 and B2 | Historical complete local development gates passed; retain regressions |
-| B3 | Current hosted submission failure unresolved; NOT_DONE |
+| B3 | DONE for the classical development contract: local and hosted 545-case gates pass |
 | B4 | Partial local foundations verified; full runtime/gate unfinished |
 | B5–B11 | NOT_STARTED |
 | SEC1 / SEC3 | NOT_STARTED; core security requirements remain mandatory |

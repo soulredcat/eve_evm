@@ -61,8 +61,8 @@ Separate human or external-AI contributions require a scoped task and owned path
 5. The integrator reviews the diff, required gates, publication policy and evidence
    before owner-authorized main integration. A draft PR is not gate acceptance.
 
-Current work is the unresolved hosted B3 T-C07 submission failure. B4 foundations
-exist in a separate local checkpoint; dependent integration requires accepted B3.
+The B3 classical local and hosted gates pass 545 cases. Current work continues
+B4 from its separate local foundations; complete B4 integration remains required.
 Preserve quorum, signing durability and executable identity checks. No destructive
 reset, forced push, history rewrite, unsolicited
 dependency upgrades or changes to unrelated processes are permitted.

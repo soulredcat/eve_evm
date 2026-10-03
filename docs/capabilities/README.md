@@ -18,7 +18,7 @@ network. See [revision-bound progress](../execution/README.md) for results.
 | Canonical complete state | [Validator state component](../../validator/components/state/README.md) | EVM/system roots, execution identities and replay/journal agreement; a root alone grants no finality |
 | Atomic durable storage and snapshots | [Public recovery store](../../public/components/recovery-store/README.md) | Real sync/reopen, corruption rejection, exact replay and staged local snapshots; distributed recovery remains B4 work |
 | Public Ethereum-style RPC | [Public runtime](../../public/README.md) | Actual RPC/client/Solidity flows, bounded admission/query/worker resources and restart tests; documented EVE compatibility/economic differences apply |
-| Native consensus integration | [Validator runtime](../../validator/README.md) and [Comet boundary](../../validator/components/consensus-comet/README.md) | Actual separate native engines and execution-before-vote with strict weighted quorum; current hosted T-C07 remains unresolved |
+| Native consensus integration | [Validator runtime](../../validator/README.md) and [Comet boundary](../../validator/components/consensus-comet/README.md) | Actual separate native engines and execution-before-vote with strict weighted quorum; local/hosted B3 passes 545 cases |
 | Durable signing safety | [Validator acceptance](../../tests/acceptance/validator-consensus/README.md) | Real signer/application crash recovery and signature-prefix checks; four processes on one host are not independent failure domains |
 | Public resource contracts | [Node policy](../../public/components/node-policy/README.md) | Typed budgets, readiness/watermarks and source eligibility predicates; caller metadata is not verification authority or OS enforcement |
 | Pinned verification infrastructure | [Testing contract](../testing/README.md) | Exact tools/source identities, registered tests, structure/ownership, strict lint and release gates; missing or skipped coverage fails |
@@ -31,8 +31,8 @@ acceptance material and cannot substitute for those modules.
 The current B3 review candidate also checks native submission codes, exact
 transaction hash identity and canonical positive height. Fixed diagnostic codes
 identify the failing action and RPC stage without publishing private payloads.
-Its complete local B3 repair gate passes 545 cases at `28ffac3`; fresh hosted candidate
-acceptance remains pending. These checks improve validation and diagnosis,
+Its complete local B3 repair gate passes 545 cases at `28ffac3`; hosted PR
+verification passes 545 at `9d3e1d5`. These checks improve validation and diagnosis,
 not throughput.
 
 ## Partial foundations under development
