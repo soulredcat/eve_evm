@@ -6,16 +6,21 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: the published checkpoint `c2f9b2a` passes the complete local B3 gate
-with 531 tests and zero failed/ignored/pending cases. Hosted B3 acceptance remains
-unresolved: one failed run reports `ENGINE_PROCESS_INODE_MISMATCH` during native
-engine startup. Repair this prerequisite before B4. Standalone distributions,
+**Status: runtime checkpoint `c2f9b2a` passes the complete local B3 gate
+with 531 tests and zero failed/ignored/pending cases. Candidate PR #5 has newer
+revision-bound evidence; its latest observed CI failure is T-C07 transaction
+submission. Hosted B3 acceptance remains unresolved. B4 has separate local
+foundations and awaits prerequisite/integrated gates. Standalone distributions,
 activated PQ, security-profile acceptance and measured 1M TPS remain unachieved.**
 
 Start with the [shared documentation](docs/README.md),
 [contribution contract](docs/development/README.md) and
 [verified execution status](docs/execution/README.md). These are available to
 GitHub-only collaborators; private local plans are not needed to read this context.
+Shared [testing](docs/testing/README.md) and [performance](docs/performance/README.md)
+contracts define reproduction, required workloads and honest evidence boundaries.
+The [capability overview](docs/capabilities/README.md) explains what works today,
+what is partial and what still requires verification.
 
 ## Main objective
 

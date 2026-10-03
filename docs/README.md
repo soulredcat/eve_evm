@@ -10,11 +10,14 @@ clone. Read the following documents before proposing an implementation change.
 | Document | Responsibility |
 |---|---|
 | [Architecture](architecture/README.md) | Runtime ownership, authority, persistence and topology contracts |
+| [Capabilities](capabilities/README.md) | Implemented engineering capabilities, partial slices and unachieved release targets |
 | [Development](development/README.md) | Contribution rules, file organization, verification and publication |
+| [Testing](testing/README.md) | Reproducible test ownership, gate commands, fault scope and evidence |
+| [Performance](performance/README.md) | Workloads, finalized TPS, latency, persistence and target acceptance |
 | [Execution status](execution/README.md) | Verified checkpoint, failed hosted evidence and the next repair |
 | [Core roadmap](plan/README.md) | Dependency order, remaining requirements and deferred scope |
 | [Security inventory](security/inventory/README.md) | Core authentication coverage, assumptions and required security gates |
-| [Specialist responsibilities](agents/README.md) | Review responsibilities, currently performed sequentially |
+| [Specialist responsibilities](agents/README.md) | Scoped agent ownership and integration review responsibilities |
 
 The execution status is the public authority for measured progress. Architecture
 and roadmap requirements describe intended behavior; they do not claim that an

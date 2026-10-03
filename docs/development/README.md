@@ -61,9 +61,10 @@ Separate human or external-AI contributions require a scoped task and owned path
 5. The integrator reviews the diff, required gates, publication policy and evidence
    before owner-authorized main integration. A draft PR is not gate acceptance.
 
-Current work is the unresolved hosted B3 executable binding failure. Do not start
-B4, lower quorum, relax signing durability or remove executable identity checks
-to make CI pass. No destructive reset, forced push, history rewrite, unsolicited
+Current work is the unresolved hosted B3 T-C07 submission failure. B4 foundations
+exist in a separate local checkpoint; dependent integration requires accepted B3.
+Preserve quorum, signing durability and executable identity checks. No destructive
+reset, forced push, history rewrite, unsolicited
 dependency upgrades or changes to unrelated processes are permitted.
 
 ## Reproduce verification

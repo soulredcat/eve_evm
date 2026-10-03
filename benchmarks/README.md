@@ -6,7 +6,10 @@
 
 Planning only. No EVE TPS or latency result exists yet.
 
-Implement W0–W6 profiles, generators, manifests and reports from plans 08 (local-only: `../docs/plan/08-benchmark-and-acceptance.md`), 20 (local-only: `../docs/plan/20-test-vectors-and-acceptance.md`), 21 (local-only: `../docs/plan/21-capacity-and-regional-scaling.md`) and 32 (local-only: `../docs/plan/32-regional-masters-and-public-persistence.md`).
+Use the shared [performance contract](../docs/performance/README.md) and
+[testing contract](../docs/testing/README.md) to implement W0–W6 generators,
+manifests and reports. Detailed owner plans remain local in their existing paths;
+the public contracts expose the required measurement and evidence boundaries.
 
 Count unique valid finalized user transactions. Report reverts, failures, retries, replication and local emulation separately. Preserve workload seeds/configs, hardware/topology, raw measurements, state/IO/network growth, queue slopes and post-run recovery evidence. A smaller or easier changed workload is a different result, not an improved score on the original test.
 
