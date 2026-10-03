@@ -10,17 +10,17 @@ storage acknowledgements. Validator-owned finality-verifier authenticates native
 history and performs canonical execution replay. Public code does not decide
 finality, import private master behavior or copy the EVM implementation.
 
-The applied service is a locally verified B4 implementation slice. Its
-temporary admission capability accepts empty execution and lookahead transaction
-lists only. The canonical validator recovery verifier supports bounded real
-transactions; the service restriction is local resource policy, not protocol
-validity. Full-transaction resource admission remains mandatory before B4 closes.
-
+The applied service has explicit EmptyReplay and AuthenticatedImport modes.
+The legacy constructor preserves empty execution/lookahead admission and its
+existing namespace. Import authenticates reconstructed nonempty outcomes at H/H+1
+without REVM; private imported capabilities never substitute for independent replay.
+See the [applied contract](applied/README.md) for actual leases and namespace binding.
+Both are local B4 implementation slices; full runtime/recovery acceptance remains.
 Encoded input capacity is reserved before copying or decoding. Working-state
 charges use checked conservative logical estimates and remain held by captured
 immutable views. They do not prove allocator capacity, physical RSS or OS memory
-enforcement. The unchanged default StateBudget maxima do not fit the public
-256 MiB working pool; incompatible configurations reject explicitly. Small local
+enforcement. Legacy replay default StateBudget maxima do not fit the public
+256 MiB working pool. Import sizes actual genesis/candidates before allocation; local
 test profiles do not establish default production capacity.
 
 One owner prepares outside the publication lock and submits immutable bytes to

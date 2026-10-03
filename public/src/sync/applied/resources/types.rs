@@ -24,6 +24,12 @@ pub(in crate::sync::applied) struct EstimatedReplayCharge {
     pub(in crate::sync::applied) total: usize,
 }
 
+pub(in crate::sync::applied) struct EstimatedImportCharge {
+    pub(in crate::sync::applied) candidate: usize,
+    pub(in crate::sync::applied) retained: usize,
+    pub(in crate::sync::applied) total: usize,
+}
+
 /// Reserved logical estimates, not allocated bytes, RSS, CPU or OS-cache enforcement.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct EstimatedWorkingObservation {

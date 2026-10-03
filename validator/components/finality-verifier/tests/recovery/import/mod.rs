@@ -12,3 +12,4 @@ mod proofs;
 mod resources;
 mod support;
 mod transitions;
+mod wire;

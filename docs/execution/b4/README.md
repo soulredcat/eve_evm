@@ -73,11 +73,38 @@ not independently certified fields. An explicit outside-assumption fixture certi
 a nonce-invalid outcome: import accepts that certified outcome while real replay
 rejects execution. This is the documented mode distinction, not stronger security.
 
+## Compact wire and explicit public modes
+
+The next local source integrates EVE_IMPORT_V1 with sealed borrowed preflight over
+one immutable input and frozen budget. Exact aggregate sizing precedes component
+output; decoding compares complete canonical reencoding against those same bytes.
+The compact limit remains 4,198,312 bytes. State-owned typed/wire candidate estimates
+share one cost calculation and count transient/repeated writes before decoding.
+
+Public application has explicit EmptyReplay and AuthenticatedImport modes. The
+legacy constructor/domain remain unchanged. Import uses a separate SHA-256 storage
+domain, actual-genesis sizing and actual wire counts; it does not charge REVM maxima.
+Wrong-mode opening rejects even at genesis. Captured publications expose the mode
+and retain charged private state; synced-prefix/tail/age behavior remains shared.
+
+| Verified scope | Result |
+|---|---|
+| State | 61 cases passed, including 15 measurement/wire-sizing and three genesis cases |
+| Finality verifier | 85 cases passed, including 17 new wire cases |
+| Public | 48 cases passed, including nine new imported application cases |
+| Format / strict five-package Clippy / release | Passed; local release build 26.79 seconds |
+
+All executed cases above have zero failures or ignored cases. Actual signed
+nonempty import is tested with paused append, two admissions, RAM capture, exact
+reopen and fee equality. The pause is a functional fixture, not hardware stall or
+power-loss proof. Independent production review found no remaining blocker in
+mode, wire binding, estimate/lease ordering or failure retention. Build time is
+not throughput. Full source gates/checkpoint review remain separate obligations.
 ## Required continuation
 
-Implement bounded import wire/storage/public admission, authenticated snapshots,
-fragmented large records and complete logical durable markers, live public/master
-followers, retained peer-tail retrieval and master-offline recovery. Preserve all
+Implement fragmented large-record import and complete logical durable markers,
+authenticated snapshots, live public/master followers, retention and peer-tail
+master-offline recovery. Preserve all
 T-N01–T-N07, T-N09/T-N10, T-S04–T-S08 and T-G04/T-G06 gates. No valid maximum payload
 may be made to fit by silently raising limits or omitting data.
 

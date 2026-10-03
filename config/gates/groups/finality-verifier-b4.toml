@@ -7,6 +7,23 @@ package = "eve-finality-verifier"
 requirements = ["B4-EVE-application-anchor-slice", "D41"]
 
 tests = [
+    "recovery_import::wire::boundaries::complete_aggregate_preflight_refuses_large_components_without_raising_record_cap",
+    "recovery_import::wire::boundaries::complete_compact_limit_accepts_exact_boundary_and_rejects_one_more_byte",
+    "recovery_import::wire::boundaries::local_journal_and_execution_limits_are_enforced_before_any_decoded_input",
+    "recovery_import::wire::malformed::bounded_component_preflight_does_not_claim_a_complete_typed_header_is_valid",
+    "recovery_import::wire::malformed::each_nested_component_must_be_complete_and_canonical",
+    "recovery_import::wire::malformed::import_wire_rejects_wrong_domain_every_truncation_and_trailing_bytes",
+    "recovery_import::wire::malformed::journal_unknown_tags_nonminimal_tag_and_wrong_domain_are_rejected_before_decode",
+    "recovery_import::wire::native_frames::canonical_transport_bytes_do_not_authenticate_altered_certificate_or_native_data",
+    "recovery_import::wire::native_frames::excessive_native_signatures_and_lookahead_counts_reject_before_materialization",
+    "recovery_import::wire::native_frames::native_unknown_duplicate_or_nonminimal_fields_are_rejected_by_existing_scanner",
+    "recovery_import::wire::privacy::downstream_cannot_construct_wire_preflight_from_unbound_counts_and_slices",
+    "recovery_import::wire::privacy::downstream_cannot_decode_a_detached_stats_copy_as_a_preflight_capability",
+    "recovery_import::wire::privacy::downstream_cannot_mutate_the_raw_input_while_its_bound_preflight_is_used",
+    "recovery_import::wire::roundtrip::frozen_wire_budget_and_immutable_component_binding_survive_detached_copy_changes",
+    "recovery_import::wire::roundtrip::honest_nonempty_signed_import_wire_roundtrips_and_prepares_the_same_canonical_outcome",
+    "recovery_import::wire::roundtrip::ordered_lookahead_data_has_exact_count_bytes_and_distinct_canonical_wire_identity",
+    "recovery_import::wire::roundtrip::wire_preserves_exact_auxiliary_parent_but_does_not_turn_it_into_import_authority",
     "recovery_import::auxiliary::exact_local_parent_refuses_digest_time_identity_profile_epoch_or_height_substitution",
     "recovery_import::auxiliary::unused_hash_checked_code_changes_only_local_content_identity_and_requires_exact_next_parent",
     "recovery_import::context::execution_time_proposer_mix_hash_base_fee_gas_limit_and_parent_are_certified_context",

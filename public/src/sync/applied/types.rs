@@ -7,7 +7,7 @@ use crate::persistence::{
     handoff::{HandoffError, HandoffPool, RecoveryPayload},
     worker::{RecordTicket, RecordWorker, RecordWorkerError},
 };
-use eve_finality_verifier::{DevelopmentRecoveryState, RecoveryError};
+use eve_finality_verifier::{ImportError, ImportWireError, RecoveryError};
 use eve_node_policy::{AppliedHeight, PublicBudget, PublicWatermarks};
 use eve_state::{StateBudget, StateVersion};
 use eve_storage::records::{
@@ -30,6 +30,13 @@ pub struct AppliedConfig {
     pub maximum_recovery_payload_bytes: usize,
 }
 
+/// Import authenticates certified outcomes; replay independently executes its supported inputs.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum AppliedMode {
+    EmptyReplay,
+    AuthenticatedImport,
+}
+
 #[derive(Debug)]
 pub enum AppliedError {
     InvalidConfiguration,
@@ -45,19 +52,22 @@ pub enum AppliedError {
     InvalidDurablePrefix,
     UnexpectedAcknowledgement,
     Closed,
+    WrongMode,
     Recovery(RecoveryError),
+    Import(ImportError),
+    ImportWire(ImportWireError),
     Handoff(HandoffError),
     Worker(RecordWorkerError),
 }
 
-pub(super) struct ChargedRecoveryState {
-    pub(super) recovery: Arc<DevelopmentRecoveryState>,
+pub(super) struct ChargedAppliedState {
+    pub(super) state: super::state::AppliedState,
     pub(super) _lease: EstimatedWorkingLease,
 }
 
 /// One coherent immutable state and markers. Captures retain its estimated state charge.
 pub struct AppliedPublication {
-    pub(super) generation: Arc<ChargedRecoveryState>,
+    pub(super) generation: Arc<ChargedAppliedState>,
     pub(super) markers: PublicWatermarks,
     pub(super) durable_cursor: OpaqueRecordCursor,
     pub(super) admitted_cursor: OpaqueRecordCursor,
@@ -81,6 +91,7 @@ pub(super) struct PendingRecord {
 /// Exclusive admission/acknowledgement owner. The sole writer never reads mutable RAM state.
 pub struct AppliedOwner {
     pub(super) config: AppliedConfig,
+    pub(super) effective_storage_identity: OpaqueRecordIdentity,
     pub(super) worker: Option<RecordWorker>,
     pub(super) pool: Arc<HandoffPool>,
     pub(super) reader: AppliedReader,

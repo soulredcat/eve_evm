@@ -152,7 +152,8 @@ B4 foundations are developed separately; they do not close B3 or its prerequisit
 Local checkpoint `d9c0c0fe84b3bdb3eb98ad5ac8e660dd0d25e11d` implements compact
 replay and bounded empty-block public RAM application. It remains unpublished.
 The next locally verified foundation adds bounded journal decoding and distinct
-H/H+1-authenticated import; public transaction import is not integrated yet.
+H/H+1-authenticated import and explicit public application modes. Live public/master
+follower entry points, large-record and peer recovery remain unfinished.
 See [B4 implementation and exact local checks](b4/README.md) for scope, counts,
 historical checkpoints, resource qualifications and required continuation.
 Full B4, T-N09/T-N10 and hosted acceptance remain unfinished.

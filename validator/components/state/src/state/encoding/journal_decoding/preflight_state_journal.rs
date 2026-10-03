@@ -48,7 +48,10 @@ pub fn preflight_state_journal(
         let operation = decode_borrowed_operation(&mut operations, budget)?;
         let operation_bytes = match operation {
             BorrowedJournalOperation::PutCode { code, .. } => {
-                counts.code_operations += 1;
+                counts.code_operations = counts
+                    .code_operations
+                    .checked_add(1)
+                    .ok_or(StateError::ArithmeticOverflow)?;
                 counts.code_bytes = counts
                     .code_bytes
                     .checked_add(code.len())
@@ -62,7 +65,10 @@ pub fn preflight_state_journal(
             }
             BorrowedJournalOperation::PutSystem { record, .. } => {
                 let (payload_bytes, leaves) = scan_record_allocations(record)?;
-                counts.system_operations += 1;
+                counts.system_operations = counts
+                    .system_operations
+                    .checked_add(1)
+                    .ok_or(StateError::ArithmeticOverflow)?;
                 counts.system_encoded_bytes = counts
                     .system_encoded_bytes
                     .checked_add(record.len())
@@ -85,11 +91,33 @@ pub fn preflight_state_journal(
                     .checked_add(64)
                     .ok_or(StateError::ArithmeticOverflow)?
             }
-            BorrowedJournalOperation::PutAccount { .. }
-            | BorrowedJournalOperation::PutStorage { .. } => 128,
+            BorrowedJournalOperation::PutAccount { .. } => {
+                counts.account_operations = counts
+                    .account_operations
+                    .checked_add(1)
+                    .ok_or(StateError::ArithmeticOverflow)?;
+                128
+            }
+            BorrowedJournalOperation::PutStorage { .. } => {
+                counts.storage_operations = counts
+                    .storage_operations
+                    .checked_add(1)
+                    .ok_or(StateError::ArithmeticOverflow)?;
+                128
+            }
+            BorrowedJournalOperation::SetExecutionBlockHash { .. } => {
+                counts.execution_hash_operations = counts
+                    .execution_hash_operations
+                    .checked_add(1)
+                    .ok_or(StateError::ArithmeticOverflow)?;
+                64
+            }
             _ => 64,
         };
-        counts.operation_count += 1;
+        counts.operation_count = counts
+            .operation_count
+            .checked_add(1)
+            .ok_or(StateError::ArithmeticOverflow)?;
         counts.conservative_journal_bytes = counts
             .conservative_journal_bytes
             .checked_add(operation_bytes)

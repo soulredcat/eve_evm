@@ -3,9 +3,9 @@
 // Use requires prior written permission from Redcat.
 
 use crate::sync::applied::AppliedPublication;
-use eve_finality_verifier::recovery_state_commit;
+use crate::sync::applied::state::applied_state_commit;
 use eve_state::StateCommit;
 
 pub fn applied_commit(publication: &AppliedPublication) -> &StateCommit {
-    recovery_state_commit(&publication.generation.recovery)
+    applied_state_commit(&publication.generation.state)
 }

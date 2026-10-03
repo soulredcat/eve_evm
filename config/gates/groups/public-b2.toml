@@ -6,6 +6,15 @@ version = 1
 package = "eve-public"
 requirements = ["B2", "T-A01", "T-A03", "T-A05", "T-A06", "B4-handoff-worker-slice", "B4-empty-applied-state-slice"]
 tests = [
+    "sync::applied::tests::import_age::imported_candidate_aged_after_preparation_rejects_final_admission_and_releases_its_leases",
+    "sync::applied::tests::import_failures::failed_import_preflight_proof_and_parent_preserve_all_published_state_and_charges",
+    "sync::applied::tests::import_failures::failed_import_storage_keeps_exact_tail_and_its_charge_through_shutdown",
+    "sync::applied::tests::import_failures::imported_queue_refusal_preserves_the_verified_parent_and_admitted_cursor",
+    "sync::applied::tests::import_modes::changing_mode_rejects_the_existing_namespace_at_genesis_in_both_directions",
+    "sync::applied::tests::import_modes::imported_namespace_rejects_compact_replay_wire_on_admission_and_reopen_without_reset",
+    "sync::applied::tests::import_publication::default_budget_imports_signed_nonempty_state_without_double_fees_during_paused_append_and_reopen",
+    "sync::applied::tests::import_resources::actual_import_count_charge_has_exact_reservation_boundaries_and_checked_overflow",
+    "sync::applied::tests::import_resources::captured_import_generation_backpressures_then_releases_only_after_the_last_view_drops",
     "sync::applied::tests::admission::bounded_queue_rejection_preserves_the_last_complete_view_and_cursor",
     "sync::applied::tests::admission::execution_and_lookahead_transactions_reject_before_handoff_or_replay",
     "sync::applied::tests::admission::invalid_proof_or_execution_leaves_publication_and_admitted_cursor_unchanged",

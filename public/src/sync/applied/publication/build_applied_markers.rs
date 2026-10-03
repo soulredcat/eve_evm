@@ -3,20 +3,18 @@
 // Use requires prior written permission from Redcat.
 
 use crate::sync::applied::AppliedError;
-use eve_finality_verifier::{
-    DevelopmentRecoveryState, recovery_state_anchor, recovery_state_commit,
-};
+use crate::sync::applied::state::{AppliedState, applied_state_anchor, applied_state_commit};
 use eve_node_policy::{
     AppliedHeight, AuthenticatedStateHeight, CheckpointHeight, DurableRecoveryHeight,
     FinalizedHeight, PublicWatermarks, StateAuthentication, validate_watermarks,
 };
 
 pub(in crate::sync::applied) fn build_applied_markers(
-    recovery: &DevelopmentRecoveryState,
+    state: &AppliedState,
     durable: u64,
 ) -> Result<PublicWatermarks, AppliedError> {
-    let height = recovery_state_commit(recovery).target.height;
-    let (finalized, authentication) = match recovery_state_anchor(recovery) {
+    let height = applied_state_commit(state).target.height;
+    let (finalized, authentication) = match applied_state_anchor(state) {
         Some(anchor) => {
             let certified = u64::try_from(anchor.consensus_height())
                 .map_err(|_| AppliedError::InvalidDurablePrefix)?;

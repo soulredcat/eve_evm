@@ -63,7 +63,8 @@ bounded typed journals and authenticates reconstructed roots/header through H+1
 without REVM. Its private imported state/transition cannot substitute for replay
 capabilities. Both modes share one canonical history operation; imported fees are
 not applied again. The exact-local-parent and auxiliary representation contract
-remains explicit. Public wire, storage and RAM import integration is still required.
+remains explicit. Compact wire and public RAM modes are integrated locally; live
+followers, fragmented records, snapshots and peer recovery still require acceptance.
 
 The baseline assumes less than one-third Byzantine voting power and strict
 3*S > 2*T. These APIs do not provide PQ security, majority-attack immunity, fresh

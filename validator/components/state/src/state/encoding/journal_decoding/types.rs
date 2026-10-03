@@ -11,6 +11,12 @@ pub struct JournalDecodePreflight {
     pub operation_count: usize,
     /// Exact requested Vec element storage, excluding allocator metadata/alignment.
     pub operation_allocation_bytes: usize,
+    /// Exact PutAccount occurrences, including repeated or later deleted writes.
+    pub account_operations: usize,
+    /// Exact PutStorage occurrences, including repeated writes and zero values.
+    pub storage_operations: usize,
+    /// Exact SetExecutionBlockHash occurrences; final-state validity is separate.
+    pub execution_hash_operations: usize,
     pub code_operations: usize,
     pub code_bytes: usize,
     pub system_operations: usize,

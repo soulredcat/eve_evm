@@ -3,8 +3,9 @@
 // Use requires prior written permission from Redcat.
 
 use crate::sync::applied::AppliedPublication;
-use eve_finality_verifier::{AuthenticatedApplicationAnchor, recovery_state_anchor};
+use crate::sync::applied::state::applied_state_anchor;
+use eve_finality_verifier::AuthenticatedApplicationAnchor;
 
 pub fn applied_anchor(publication: &AppliedPublication) -> Option<&AuthenticatedApplicationAnchor> {
-    recovery_state_anchor(&publication.generation.recovery)
+    applied_state_anchor(&publication.generation.state)
 }

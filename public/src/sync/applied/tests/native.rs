@@ -17,7 +17,7 @@ use eve_consensus_comet::{
     },
 };
 use eve_finality_verifier::NativeFrame;
-use eve_state::DevelopmentGenesis;
+use eve_state::{Bytes, DevelopmentGenesis};
 
 /// Actual canonical certificates signed by publicly known unsafe test identities.
 pub(super) fn native_frame(
@@ -25,6 +25,16 @@ pub(super) fn native_frame(
     height: i64,
     parent: Option<BlockId>,
     app: [u8; 32],
+) -> NativeFrame {
+    native_frame_with_transactions(genesis, height, parent, app, &[])
+}
+
+pub(super) fn native_frame_with_transactions(
+    genesis: &DevelopmentGenesis,
+    height: i64,
+    parent: Option<BlockId>,
+    app: [u8; 32],
+    transactions: &[Bytes],
 ) -> NativeFrame {
     let validators = canonicalize_validator_set(
         &genesis
@@ -44,9 +54,7 @@ pub(super) fn native_frame(
         height,
         time: Some(Default::default()),
         last_block_id: parent,
-        data_hash: hash_transaction_data(&Vec::<Vec<u8>>::new())
-            .unwrap()
-            .to_vec(),
+        data_hash: hash_transaction_data(transactions).unwrap().to_vec(),
         validators_hash: set_hash.clone(),
         next_validators_hash: set_hash,
         consensus_hash: vec![0x43; 32],

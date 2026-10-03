@@ -3,13 +3,12 @@
 // Use requires prior written permission from Redcat.
 
 use super::{
+    calculate_journal_candidate_reservation::calculate_journal_candidate_reservation,
     estimate_operation_bytes::estimate_operation_bytes,
+    journal_candidate_growth::JournalCandidateGrowth,
     validate_journal_budget::validate_journal_budget,
 };
-use crate::{
-    CompleteState, JournalOperation, StateBudget, StateError, StateJournal,
-    measure_complete_state_bytes,
-};
+use crate::{CompleteState, JournalOperation, StateBudget, StateError, StateJournal};
 
 /// Conservative logical clone/root/encoding charge; not an allocator/RSS bound.
 /// Count every possible insertion even if later removed or overwritten. Final-state
@@ -22,68 +21,33 @@ pub fn estimate_journal_candidate_reservation(
 ) -> Result<usize, StateError> {
     crate::state::validation::validate_state_identity(&parent.identity)?;
     validate_journal_budget(journal, budget)?;
-    let mut accounts = parent.accounts.len();
-    let mut slots = parent
-        .accounts
-        .values()
-        .try_fold(0_usize, |sum, account| {
-            sum.checked_add(account.storage.len())
-        })
-        .ok_or(StateError::ArithmeticOverflow)?;
-    let mut codes = parent.codes.len();
-    let mut code_bytes = parent
-        .codes
-        .values()
-        .try_fold(0_usize, |sum, code| sum.checked_add(code.len()))
-        .ok_or(StateError::ArithmeticOverflow)?;
-    let mut system = parent.system.len();
-    let mut history = parent.block_hashes.len();
-    let mut growth = 1_024_usize;
+    let mut growth = JournalCandidateGrowth {
+        operation_count: journal.operations.len(),
+        journal_bytes: 1_024,
+        ..JournalCandidateGrowth::default()
+    };
     for operation in &journal.operations {
-        growth = growth
+        growth.journal_bytes = growth
+            .journal_bytes
             .checked_add(estimate_operation_bytes(operation, budget)?)
             .ok_or(StateError::ArithmeticOverflow)?;
         let counter = match operation {
-            JournalOperation::PutAccount { .. } => Some(&mut accounts),
-            JournalOperation::PutStorage { .. } => Some(&mut slots),
+            JournalOperation::PutAccount { .. } => Some(&mut growth.accounts),
+            JournalOperation::PutStorage { .. } => Some(&mut growth.slots),
             JournalOperation::PutCode { code, .. } => {
-                code_bytes = code_bytes
+                growth.code_bytes = growth
+                    .code_bytes
                     .checked_add(code.len())
                     .ok_or(StateError::ArithmeticOverflow)?;
-                Some(&mut codes)
+                Some(&mut growth.codes)
             }
-            JournalOperation::PutSystem { .. } => Some(&mut system),
-            JournalOperation::SetExecutionBlockHash { .. } => Some(&mut history),
+            JournalOperation::PutSystem { .. } => Some(&mut growth.system),
+            JournalOperation::SetExecutionBlockHash { .. } => Some(&mut growth.history),
             _ => None,
         };
         if let Some(count) = counter {
             *count = count.checked_add(1).ok_or(StateError::ArithmeticOverflow)?;
         }
     }
-    // Extra per-operation framing covers changed nested list headers. Four full
-    // content envelopes cover candidate serialization/root scratch and journal
-    // encoding intermediates; map/node allowances include temporary growth.
-    let framing = journal
-        .operations
-        .len()
-        .checked_mul(64)
-        .ok_or(StateError::ArithmeticOverflow)?;
-    let serialized = measure_complete_state_bytes(parent, budget)?
-        .checked_add(growth)
-        .and_then(|bytes| bytes.checked_add(framing))
-        .ok_or(StateError::ArithmeticOverflow)?;
-    [
-        (accounts, 512),
-        (slots, 256),
-        (codes, 256),
-        (code_bytes, 4),
-        (system, 512),
-        (history, 128),
-        (serialized, 4),
-    ]
-    .into_iter()
-    .try_fold(2_097_152_usize, |sum, (count, factor)| {
-        sum.checked_add(count.checked_mul(factor)?)
-    })
-    .ok_or(StateError::ArithmeticOverflow)
+    calculate_journal_candidate_reservation(parent, &growth, budget)
 }

@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::super::{
-    AppliedConfig, AppliedError,
+    AppliedConfig, AppliedError, AppliedMode,
     resources::{
         estimate_pending_metadata, estimate_replay_charge, estimated_clone_ceiling,
         estimated_repository_read_charge,
@@ -12,7 +12,10 @@ use super::super::{
 use eve_node_policy::validate_public_budget;
 use eve_storage::records::validate_opaque_record_budget;
 
-pub(super) fn validate_applied_configuration(config: &AppliedConfig) -> Result<(), AppliedError> {
+pub(super) fn validate_applied_configuration(
+    config: &AppliedConfig,
+    mode: AppliedMode,
+) -> Result<(), AppliedError> {
     validate_public_budget(config.public_budget).map_err(|_| AppliedError::InvalidConfiguration)?;
     validate_opaque_record_budget(&config.repository_budget)
         .map_err(|_| AppliedError::InvalidConfiguration)?;
@@ -55,22 +58,28 @@ pub(super) fn validate_applied_configuration(config: &AppliedConfig) -> Result<(
     {
         return Err(AppliedError::InvalidConfiguration);
     }
-    let charge = estimate_replay_charge(
-        &state,
-        config.maximum_recovery_payload_bytes,
-        estimated_clone_ceiling(&state)?,
-    )?;
     let queue_count = usize::try_from(config.public_budget.queue_batches)
         .map_err(|_| AppliedError::ArithmeticOverflow)?;
     let metadata = estimate_pending_metadata(queue_count)?
         .checked_mul(2)
         .ok_or(AppliedError::ArithmeticOverflow)?;
-    let with_parent = charge
-        .total
-        .checked_add(charge.retained)
-        .and_then(|bytes| {
-            bytes.checked_add(estimated_repository_read_charge(&config.repository_budget).ok()?)
-        })
+    let read = estimated_repository_read_charge(&config.repository_budget)?;
+    let baseline = match mode {
+        AppliedMode::EmptyReplay => {
+            let charge = estimate_replay_charge(
+                &state,
+                config.maximum_recovery_payload_bytes,
+                estimated_clone_ceiling(&state)?,
+            )?;
+            charge
+                .total
+                .checked_add(charge.retained)
+                .ok_or(AppliedError::ArithmeticOverflow)?
+        }
+        AppliedMode::AuthenticatedImport => eve_state::BOUNDED_STATE_CODEC_SCRATCH_BYTES,
+    };
+    let with_parent = baseline
+        .checked_add(read)
         .and_then(|bytes| bytes.checked_add(metadata))
         .ok_or(AppliedError::ArithmeticOverflow)?;
     if u64::try_from(with_parent).map_err(|_| AppliedError::ArithmeticOverflow)?

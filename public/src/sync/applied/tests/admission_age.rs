@@ -13,7 +13,8 @@ use crate::{
         publication::build_applied_markers,
         recovery::prepare_empty_recovery,
         resources::{estimate_replay_charge, reserve_estimated_working, split_estimated_working},
-        types::ChargedRecoveryState,
+        state::{AppliedState, applied_state_commit},
+        types::ChargedAppliedState,
         *,
     },
 };
@@ -37,7 +38,7 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
         .reserved_estimated_bytes;
     let cursor = owner.admitted_cursor;
     let oracle =
-        estimate_clone_reservation(&recovery_state_commit(&original.generation.recovery).state)
+        estimate_clone_reservation(&applied_state_commit(&original.generation.state).state)
             .unwrap();
     let charge = estimate_replay_charge(
         &owner.config.state_budget,
@@ -49,8 +50,11 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
     let mut reservation = reserve_recovery_payload(&owner.pool, chain.records[0].len()).unwrap();
     write_reserved_payload(&mut reservation, &chain.records[0]).unwrap();
     let payload = seal_recovery_payload(reservation).unwrap();
+    let AppliedState::EmptyReplay(parent) = &original.generation.state else {
+        panic!("explicit replay fixture");
+    };
     let prepared = prepare_empty_recovery(
-        &original.generation,
+        parent,
         recovery_payload_bytes(&payload),
         &owner.config.state_budget,
         oracle,
@@ -58,7 +62,8 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
     .unwrap();
     let recovery = into_recovery_state(prepared);
     let target = recovery_state_commit(&recovery).target.clone();
-    let markers = build_applied_markers(&recovery, 0).unwrap();
+    let state = AppliedState::EmptyReplay(recovery);
+    let markers = build_applied_markers(&state, 0).unwrap();
     let next = prospective_opaque_record_cursor(
         owner.config.identity,
         cursor,
@@ -68,8 +73,8 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
     .unwrap();
     let (retained, transient) = split_estimated_working(lease, charge.retained).unwrap();
     let publication = Arc::new(AppliedPublication {
-        generation: Arc::new(ChargedRecoveryState {
-            recovery,
+        generation: Arc::new(ChargedAppliedState {
+            state,
             _lease: retained,
         }),
         markers,
