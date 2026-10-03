@@ -11,8 +11,8 @@ use anyhow::Result;
 use serde_json::Value;
 
 pub(super) fn decode_committed_submission(result: &Value, expected_hash: &[u8; 32]) -> Result<i64> {
-    validate_submission_code(result, SubmissionStage::CheckTx)?;
-    validate_submission_code(result, SubmissionStage::Execution)?;
+    validate_submission_code(&result["check_tx"], SubmissionStage::CheckTx)?;
+    validate_submission_code(&result["tx_result"], SubmissionStage::Execution)?;
     validate_submission_hash(result, expected_hash)?;
     validate_submission_height(result)
 }

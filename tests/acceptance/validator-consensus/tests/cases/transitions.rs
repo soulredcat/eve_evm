@@ -4,7 +4,7 @@
 
 use crate::support::{
     Cluster, ClusterOptions,
-    cluster::wait_for_height,
+    cluster::wait_for_height_until,
     cluster_lease, collect_certified_history, compare_stopped_stores,
     fixture::TRANSITION_ADDRESS,
     replay_history, signed_transaction,
@@ -17,6 +17,7 @@ use eve_consensus_comet::consensus::certificates::{
     ClassicalValidator, canonicalize_validator_set, hash_validator_set,
 };
 use std::collections::BTreeMap;
+use std::time::{Duration, Instant};
 
 #[test]
 fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_boundaries()
@@ -45,6 +46,7 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
     let mut changes = BTreeMap::new();
     let mut triggers = Vec::new();
     for action in 1..=3_u8 {
+        let deadline = Instant::now() + Duration::from_secs(90);
         let mut input = keccak256(b"transition(uint8)")[..4].to_vec();
         input.extend_from_slice(&[0; 31]);
         input.push(action);
@@ -55,7 +57,7 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             200_000,
             Bytes::from(input),
         );
-        let height = submit_transition(&cluster, &tx, action)?;
+        let height = submit_transition(&cluster, &tx, action, deadline)?;
         let retained = collect_certified_history(&cluster, 3, height, &changes)
             .context("B3_TC07_CERTIFICATE_HISTORY")?;
         let executed = replay_history(&cluster, &retained).context("B3_TC07_REPLAY")?;
@@ -94,7 +96,8 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
                 .map_err(|error| anyhow::anyhow!("updated set hash: {error:?}"))
                 .context("B3_TC07_ROSTER_HASH")?,
         ));
-        wait_for_height(&mut cluster, &[1, 2, 3, 4], height + 3).context("B3_TC07_PROGRESS")?;
+        wait_for_height_until(&mut cluster, &[1, 2, 3, 4], height + 3, deadline)
+            .context("B3_TC07_PROGRESS")?;
     }
     let through = triggers.last().unwrap().0 + 3;
     let history = collect_certified_history(&cluster, 3, through, &changes)

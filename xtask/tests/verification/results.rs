@@ -33,6 +33,13 @@ fn fixed_case_phases_require_error_context_lines_and_redact_unknown_data() {
     assert_eq!(
         summarize_command_failure(
             "",
+            "Error: B3_PROGRESS_DEADLINE: private-sensitive-value\nCaused by:\n    0: B3_SUBMIT_BLOCK_RESULTS_COUNT: private-sensitive-value"
+        ),
+        "B3_PROGRESS_DEADLINE, B3_SUBMIT_BLOCK_RESULTS_COUNT"
+    );
+    assert_eq!(
+        summarize_command_failure(
+            "",
             "Error: B3_TC07_CALLBACK_MISSING: private-sensitive-value"
         ),
         "B3_TC07_CALLBACK_MISSING"

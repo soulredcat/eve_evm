@@ -60,19 +60,27 @@ native committed-submission validation. Shared main documentation is retained.
 | Submission source committed as `09a22b9`: complete consensus packet | PASS: 28 passed, zero failed/ignored/filtered; 796.83 seconds |
 | `09a22b9`: scoped validation before commit | Format and strict acceptance/tooling Clippy PASS; structure 1,557 / ownership 1,591 files, zero violations |
 | `9362b22`: complete local B3 gate | PASS: 539 tests, zero failed/ignored/pending; 2581.231 seconds |
-| `9362b22`: hosted PR/push runs 37086416848 / 37086413900 | IN_PROGRESS at last observation; no hosted acceptance claimed |
+| `9362b22`: hosted push run 37086413900 | PASS: 539 cases; every required job step succeeds |
+| `9362b22`: hosted PR run 37086416848 | FAILURE after 259 preceding accepted cases; T-C07 rotation reports RPC read timeout |
 
-The [latest observed failed push](https://github.com/soulredcat/eve_evm/actions/runs/36988335828)
-locates the remaining failure at transaction submission. It does not establish
-whether the inner failure is a transport deadline, native RPC error, admission
-rejection or decoding fault. At `7d1ae09`, the three action calls share the marker.
+The [classified failed PR](https://github.com/soulredcat/eve_evm/actions/runs/37086416848)
+reports `B3_TC07_SUBMIT_ROTATION`, `B3_RPC_READ` and `B3_RPC_IO_TIMEOUT`.
+This establishes a rotation RPC read timeout, not the underlying host slowness.
 The new candidate supplies separate fixed rotation/leave/jail and inner RPC
 categories without exposing raw payloads. It requires explicit successful native
 admission/execution codes, the expected transaction SHA-256 hash and a canonical
 positive height. Five new negative/deadline tests supplement the existing packet.
 No deadline, quorum, durability or receipt assertion is waived. The unchanged
-three-second absolute RPC deadline is tested; a timeout hypothesis does not prove
-the hosted failure's cause.
+three-second absolute RPC deadline is tested.
+
+The local repair uses one-shot CheckTx admission for T-C07, then observes exact
+transaction bytes in native/application-covered blocks and validates the matching
+native execution result by height/count/index/code. One existing 90-second budget
+continues through H+3; per-RPC limits and all certificate/replay/receipt assertions
+remain. Generic scenarios retain their original broadcast-commit path. Scoped
+transaction tests pass 9/9, RPC 5/5 and tooling-result tests 2/2; strict scoped
+Clippy/format and source review pass. Exact live T-C07 passes 1/1 in 88.95 seconds.
+The new complete 545-case and hosted gates remain pending. Raw outputs stay local.
 
 Local `bc6c390` source identity was
 `f98eff89db5fd4db92529555fd4e1716142d3a40025d782bc33681c5d55bb9e6`,

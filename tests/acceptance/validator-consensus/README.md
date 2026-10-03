@@ -60,11 +60,20 @@ The Cargo integration packet contains these actual process scenarios:
 | T-C09 | Execution commitment at H is bound by actual native header H+1; H0 uses the documented development content-digest anchor |
 | T-C10 | Native RPC quota is occupied by bounded slow connections and overflow requests while consensus progresses without master |
 
-Eleven HTTP/native/submission regression cases execute once within the same integration
-test: five RPC, three native decoding and three committed-submission cases.
+Seventeen HTTP/native/submission regression cases execute once within the same integration
+test: five RPC, three native decoding, three committed-submission and six observation cases.
 They exercise actual local TCP framing, native JSON input and strict code/hash/height validation;
 they do not replace the process scenarios. Test results and full-gate acceptance
 are recorded by the integrator only after the complete frozen source is tested.
+
+T-C07 submits its transition once through native CheckTx admission and separately
+locates the exact transaction bytes in ordered native/application-covered blocks.
+The native result must match the block height, transaction count and index with
+explicit execution code zero. One existing 90-second action-progress budget starts
+before admission and continues through verified history/replay and H+3 progress;
+late success is rejected. Per-RPC three-second and connect one-second limits stay
+unchanged. Other scenarios retain their original bounded broadcast-commit path.
+Block discovery and native result fields do not replace certificates or replay.
 
 Native certificate verification uses the pinned canonical codec, RFC6962 hashes
 and individual ZIP215 Ed25519 verifier. Applicable sets start from canonical
