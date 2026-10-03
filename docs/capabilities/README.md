@@ -28,6 +28,12 @@ accounting. Native staking, delegation, work rewards, slashing and user lifecycl
 integration remain B5 requirements; the B3 transition fixture is temporary
 acceptance material and cannot substitute for those modules.
 
+The current B3 review candidate also checks native submission codes, exact
+transaction hash identity and canonical positive height. Fixed diagnostic codes
+identify the failing action and RPC stage without publishing private payloads.
+Its 28-case local consensus packet passes; complete and hosted candidate acceptance
+remain pending. These checks improve validation and diagnosis, not throughput.
+
 ## Partial foundations under development
 
 The local B4 checkpoint adds source-independent native set/header succession,

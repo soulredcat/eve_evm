@@ -46,7 +46,8 @@ scenarios failed. Do not infer that every run has an identical root cause.
 Owner resumed work on 2026-10-03. B3 remains incomplete; dependent B4 integration
 requires accepted B3. Current [draft PR #5](https://github.com/soulredcat/eve_evm/pull/5)
 is based on the runtime baseline and includes bounded executable-transition
-handling, direct test-process signaling and safe T-C07 phase diagnostics.
+handling, direct test-process signaling, safe T-C07 phase diagnostics and strict
+native committed-submission validation. Shared main documentation is retained.
 
 | Candidate evidence | Actual result |
 |---|---|
@@ -56,13 +57,21 @@ handling, direct test-process signaling and safe T-C07 phase diagnostics.
 | `7d1ae09`: corrected tooling inventory | PASS: 149 tooling cases; complete corrected 534-case local gate NOT_RUN |
 | `7d1ae09`: hosted push run 36988335828 | FAILURE after 259 preceding accepted cases; T-C07 reports `B3_TC07_SUBMIT` |
 | `7d1ae09`: hosted PR run 36988343126 | CANCELLED; cancellation is not acceptance |
+| Submission source committed as `09a22b9`: complete consensus packet | PASS: 28 passed, zero failed/ignored/filtered; 796.83 seconds |
+| `09a22b9`: scoped validation before commit | Format and strict acceptance/tooling Clippy PASS; structure 1,557 / ownership 1,591 files, zero violations |
+| Current candidate: complete 539-case B3 and hosted gate | Pending; no complete acceptance claimed |
 
 The [latest observed failed push](https://github.com/soulredcat/eve_evm/actions/runs/36988335828)
 locates the remaining failure at transaction submission. It does not establish
 whether the inner failure is a transport deadline, native RPC error, admission
-rejection or decoding fault. The three action calls currently share the marker.
-Fixed inner/action diagnostics and submission-response validation are under
-development; no deadline, quorum, durability or receipt assertion is waived.
+rejection or decoding fault. At `7d1ae09`, the three action calls share the marker.
+The new candidate supplies separate fixed rotation/leave/jail and inner RPC
+categories without exposing raw payloads. It requires explicit successful native
+admission/execution codes, the expected transaction SHA-256 hash and a canonical
+positive height. Five new negative/deadline tests supplement the existing packet.
+No deadline, quorum, durability or receipt assertion is waived. The unchanged
+three-second absolute RPC deadline is tested; a timeout hypothesis does not prove
+the hosted failure's cause.
 
 Local `bc6c390` source identity was
 `f98eff89db5fd4db92529555fd4e1716142d3a40025d782bc33681c5d55bb9e6`,
