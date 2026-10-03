@@ -8,9 +8,46 @@ The detailed `.md` plans listed here are local-only owner documents, preserved
 in these paths and ignored by Git. This public index describes responsibilities;
 its local-only references are intentionally plain text, not broken GitHub links.
 Public component contracts and the security inventory remain in tracked READMEs.
-Classical B3 passes its complete 518-case gate and is accepted for integration.
-The owner resumed sequential work without subagents. Hosted B3 consensus failure
-must be diagnosed and repaired before B4 or another dependent bulk.
+The published B3 checkpoint passes its complete local 531-case gate; hosted
+acceptance remains unresolved. See [verified execution status](../execution/README.md)
+for revision-bound results and the current repair. The owner resumed sequential
+work and now permits subagents again with explicit file ownership. Repair hosted
+B3 before B4 or another dependent bulk.
+
+## Public core roadmap
+
+GitHub-only contributors should start with [shared documentation](../README.md),
+[architecture](../architecture/README.md) and [development rules](../development/README.md).
+The local detailed plans below retain owner history; the public contracts expose
+the current invariants and work boundary without requiring those private files.
+
+| Bulk | Required outcome |
+|---|---|
+| B0 / SEC0 | Pinned tools/interfaces, structure/ownership gates and core crypto inventory |
+| B1 | Complete canonical state, atomic durable commits and recovery |
+| B2 | Serial EVM execution, usable RPC and actual client/contract acceptance |
+| B3 | Validator execution-before-vote, quorum, signer durability and real-node consensus tests |
+| B4 | Authenticated follower/sync, bounded public persistence and master-offline recovery |
+| B5 | Staking, verified work, 40/30/30 rewards, slashing and conservation |
+| B6 | P2P, eligible regional endpoints and independent copied role distributions |
+| B7 | Parallel execution equivalent to the serial oracle |
+| B8 | Master replication/failover, migrations, release and operations safety |
+| B9 | Integrated regional functional devnet/testnet acceptance |
+| B10 | Sustained capacity measurement with real persistence/security |
+| B11 | Verified 1M aggregate finalized TPS release target |
+| SEC1 / SEC3 | Actual hybrid core enforcement, adversarial tests and secure-profile recovery/release/capacity |
+
+Dependency order is B0 -> B1 -> B2 -> B3 -> B4. B5 follows B3 and shared B1/B2
+interfaces; B6 needs B3/B4; B7 needs B2/B3/B4; B8 needs B4/B5/B6;
+B9 needs B6/B7/B8; B10/B11 follow B9. SEC0 belongs to B0 and later secure-profile
+requirements remain mandatory. Complete each prerequisite before dependent work.
+Current accepted implementation coverage is recorded only in execution status.
+
+Every bulk includes implementation, positive/negative tests, integration,
+documentation, review and revision-bound evidence. A compiling scaffold or skipped
+test is not completion. Retain all core T-M/T-P/T-N and R requirements in the
+versioned gate registry. D40 defers SEC2/INT0–INT3 and external programs until EVE
+testnet and later explicit scope; do not create runtime scaffolds now.
 
 Status: **historical B0 including SEC0/INT0 passed its complete local foundation gate**. Current D40 scope is EVE ownchain: B0–B11 and SEC0/SEC1/SEC3 remain mandatory; SEC2 and INT0–INT3 are `DEFERRED_UNTIL_EVE_TESTNET` for separately authorized programs. Complete runtimes, standalone packages, core security and capacity acceptance remain unfinished. Specifications and historical foundation tests do not prove route availability, security certification or target throughput.
 
