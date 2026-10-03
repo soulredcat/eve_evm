@@ -62,6 +62,8 @@ native committed-submission validation. Shared main documentation is retained.
 | `9362b22`: complete local B3 gate | PASS: 539 tests, zero failed/ignored/pending; 2581.231 seconds |
 | `9362b22`: hosted push run 37086413900 | PASS: 539 cases; every required job step succeeds |
 | `9362b22`: hosted PR run 37086416848 | FAILURE after 259 preceding accepted cases; T-C07 rotation reports RPC read timeout |
+| `28ffac3`: complete local B3 repair gate | PASS: 545 tests, zero failed/ignored/pending; 2492.479 seconds |
+| New repair: fresh hosted acceptance | Pending; not yet main-integrated |
 
 The [classified failed PR](https://github.com/soulredcat/eve_evm/actions/runs/37086416848)
 reports `B3_TC07_SUBMIT_ROTATION`, `B3_RPC_READ` and `B3_RPC_IO_TIMEOUT`.
@@ -80,7 +82,16 @@ continues through H+3; per-RPC limits and all certificate/replay/receipt asserti
 remain. Generic scenarios retain their original broadcast-commit path. Scoped
 transaction tests pass 9/9, RPC 5/5 and tooling-result tests 2/2; strict scoped
 Clippy/format and source review pass. Exact live T-C07 passes 1/1 in 88.95 seconds.
-The new complete 545-case and hosted gates remain pending. Raw outputs stay local.
+Complete local `28ffac3` verification passes 545 cases; fresh hosted acceptance
+remains pending. Raw outputs stay local.
+
+The clean `28ffac3` gate binds source
+`0c33f0b1a16a14201edddc0f83613076b10b836cf1fa1521f24f7917a4e21c85`, unchanged
+before/after testing. All 64 registered commands exit zero, including format,
+strict lint and release build. Counts are 259 foundation, 34 consensus, 103
+validator and 149 tooling cases, with zero ignored or pending. Local-only report:
+`local-tests/verify-233-1790998425726437402/report.json`. This is classical
+single-host development evidence; it does not accept PQ or secured capacity.
 
 Local `bc6c390` source identity was
 `f98eff89db5fd4db92529555fd4e1716142d3a40025d782bc33681c5d55bb9e6`,
