@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-#[path = "../support/compiler.rs"]
-mod compiler;
+use crate::compiler;
 
 #[test]
 fn downstream_consumer_cannot_construct_verified_recovery_state() {

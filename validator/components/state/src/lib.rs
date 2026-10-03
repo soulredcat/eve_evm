@@ -21,11 +21,15 @@ pub use state::commitments::{
     compute_commit_identity, compute_evm_root, compute_state_content_digest, compute_system_root,
 };
 pub use state::encoding::{
-    decode_block_payload, decode_state_commit, decode_state_version, decode_system_record,
-    encode_block_payload, encode_state_commit, encode_state_version,
+    JournalDecodePreflight, decode_block_payload, decode_state_commit, decode_state_journal,
+    decode_state_version, decode_system_record, encode_block_payload, encode_state_commit,
+    encode_state_version, preflight_state_journal,
 };
 pub use state::genesis::initialize_development_state;
-pub use state::journals::{apply_state_journal, encode_state_journal, project_state_journal};
+pub use state::journals::{
+    apply_state_journal, apply_state_journal_reserved, encode_state_journal,
+    estimate_journal_candidate_reservation, project_state_journal,
+};
 pub use state::limits::{development_state_budget, measure_complete_state_bytes};
 pub use state::validation::{
     build_state_commit, build_state_version, validate_block_hash_history, validate_block_payload,

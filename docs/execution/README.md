@@ -149,35 +149,13 @@ B4 foundations are developed separately; they do not close B3 or its prerequisit
 
 ## B4 local development
 
-B4 foundations at `c6376c5cf5cd6534fa8fd572e291f1e9444c70ab` were merged locally
-with accepted B3 main at `463975bc10d4f5eb43b3810827bdb414f127d66e`. They remain
-unpublished and do not constitute full B4 acceptance.
-
-The current local recovery slice adds canonical block-payload encoding, exact
-prospective opaque cursors, nonblocking synced acknowledgements, and validator-
-owned compact recovery replay. Replay derives context from certified H, executes
-real signed transactions, compares complete results and authenticates them at H+1.
-Fixed genesis owners/set/profile are enforced; unsupported transitions reject.
-
-Affected package evidence covers 81 state/storage cases, 28 executor cases and
-47 finality-verifier cases. Public verification passed a full 38-case packet,
-then all 14 applied-service cases after adding one metadata regression. Their
-union matches all 39 discovered public cases; zero failed or ignored cases.
-Format, strict all-target Clippy for five affected packages, and their release
-build passed; the release build took 49.59 seconds on the local development host.
-This is build timing, not a throughput measurement. Corrected structure covered
-1,819 files and ownership 1,853 files, both with zero violations. The earlier
-structure check rejected an unqualified Drop adapter; it now matches the exact
-reviewed std::ops::Drop registration. Independent source review found no remaining
-blocker in the repaired queue accounting, age check and charge lifetimes.
-These are local development results, not a complete B4 or hosted gate.
-The local empty-block applied RAM service is implemented and verified. Memory admission remains estimated
-logical accounting; executor allocations on rejected candidates require further
-bounds. Versioned fragmentation, snapshots/deltas, durable peer-tail recovery,
-public/master followers, retention and full T-N09/T-N10 resource/fault acceptance
-remain required. The compact record cap is 4,198,312 bytes; valid larger protocol
-payloads require fragmentation rather than an increased unreviewed limit.
-Raw evidence stays in ignored local-tests; publish one reviewed completed bulk.
+Local checkpoint `d9c0c0fe84b3bdb3eb98ad5ac8e660dd0d25e11d` implements compact
+replay and bounded empty-block public RAM application. It remains unpublished.
+The next locally verified foundation adds bounded journal decoding and distinct
+H/H+1-authenticated import; public transaction import is not integrated yet.
+See [B4 implementation and exact local checks](b4/README.md) for scope, counts,
+historical checkpoints, resource qualifications and required continuation.
+Full B4, T-N09/T-N10 and hosted acceptance remain unfinished.
 ## Remaining acceptance
 
 | Scope | Status |

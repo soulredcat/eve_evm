@@ -58,6 +58,13 @@ preflight and exact reencoding. Its payload cap is 4,198,312 bytes under the
 current opaque storage profile; some valid maximum-size blocks require later
 versioned fragmented storage. No limit is raised or complete B4 acceptance claimed.
 
+The [authenticated import capability](src/recovery/import/README.md) applies
+bounded typed journals and authenticates reconstructed roots/header through H+1
+without REVM. Its private imported state/transition cannot substitute for replay
+capabilities. Both modes share one canonical history operation; imported fees are
+not applied again. The exact-local-parent and auxiliary representation contract
+remains explicit. Public wire, storage and RAM import integration is still required.
+
 The baseline assumes less than one-third Byzantine voting power and strict
 3*S > 2*T. These APIs do not provide PQ security, majority-attack immunity, fresh
 head availability, durable storage or B4 acceptance by themselves. Private fields

@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+#[path = "support/compiler.rs"]
+mod compiler;
+
 #[path = "recovery/codec_mutation.rs"]
 mod codec_mutation;
 #[path = "support/genesis.rs"]
@@ -20,6 +23,8 @@ mod recovery_encoding;
 mod recovery_execution_validation;
 #[path = "recovery/history_guards.rs"]
 mod recovery_history_guards;
+#[path = "recovery/import/mod.rs"]
+mod recovery_import;
 #[path = "recovery/initialization.rs"]
 mod recovery_initialization;
 #[path = "recovery/parent_guards.rs"]

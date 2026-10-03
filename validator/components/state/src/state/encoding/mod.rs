@@ -2,6 +2,11 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+mod decode_state_journal;
+mod journal_decoding;
+pub use decode_state_journal::decode_state_journal;
+pub use journal_decoding::{JournalDecodePreflight, preflight_state_journal};
+
 mod decode_accounts;
 mod decode_block_payload;
 mod decode_block_payload_from;

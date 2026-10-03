@@ -7,38 +7,27 @@ use crate::recovery::{
     types::capability::PreparedRecoveryHistory,
 };
 
-use super::verify_recovery_frame::verify_recovery_frame;
+use super::verify_authenticated_recovery_history::{
+    RecoveryHistoryInput, RecoveryHistoryParent, verify_authenticated_recovery_history,
+};
 
 /// Stage H/H+1 on a clone; failures never advance the accepted parent's history.
 pub(in crate::recovery) fn verify_recovery_history(
     parent: &DevelopmentRecoveryState,
     envelope: &CompactRecoveryEnvelopeV1,
 ) -> Result<PreparedRecoveryHistory, RecoveryError> {
-    let mut finality = parent.finality.clone();
-    let finalized = match (&parent.lookahead, &parent.lookahead_header) {
-        (None, None) if parent.commit.target.height == 0 => verify_recovery_frame(
-            &mut finality,
-            &envelope.finalized,
-            &envelope.execution.transactions,
-            &parent.policy,
-        )?,
-        (Some(previous), Some(header))
-            if envelope.finalized == previous.frame
-                && envelope.execution.transactions == previous.transactions =>
-        {
-            header.clone()
-        }
-        _ => return Err(RecoveryError::WrongLookahead),
-    };
-    let lookahead = verify_recovery_frame(
-        &mut finality,
-        &envelope.lookahead.frame,
-        &envelope.lookahead.transactions,
-        &parent.policy,
-    )?;
-    Ok(PreparedRecoveryHistory {
-        finality,
-        finalized,
-        lookahead,
-    })
+    verify_authenticated_recovery_history(
+        &RecoveryHistoryParent {
+            finality: &parent.finality,
+            height: parent.commit.target.height,
+            lookahead: parent.lookahead.as_deref(),
+            lookahead_header: parent.lookahead_header.as_ref(),
+            policy: &parent.policy,
+        },
+        &RecoveryHistoryInput {
+            finalized: &envelope.finalized,
+            transactions: &envelope.execution.transactions,
+            lookahead: &envelope.lookahead,
+        },
+    )
 }
