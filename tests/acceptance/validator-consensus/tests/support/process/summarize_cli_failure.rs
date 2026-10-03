@@ -63,6 +63,7 @@ pub(crate) fn summarize_cli_failure(path: &Path, process_id: u32) -> String {
                     "ENGINE_PROCESS_LENGTH_MISMATCH" => "ENGINE_PROCESS_LENGTH_MISMATCH",
                     "ENGINE_PROCESS_MTIME_MISMATCH" => "ENGINE_PROCESS_MTIME_MISMATCH",
                     "ENGINE_PROCESS_CTIME_MISMATCH" => "ENGINE_PROCESS_CTIME_MISMATCH",
+                    "ENGINE_PROCESS_EXEC_INCOMPLETE" => "ENGINE_PROCESS_EXEC_INCOMPLETE",
                     "IO_PERMISSION_DENIED" => "IO_PERMISSION_DENIED",
                     "IO_NOT_FOUND" => "IO_NOT_FOUND",
                     "IO_UNSUPPORTED" => "IO_UNSUPPORTED",

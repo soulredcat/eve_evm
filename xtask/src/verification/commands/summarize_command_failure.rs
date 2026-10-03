@@ -81,6 +81,9 @@ pub fn summarize_command_failure(stdout: &str, stderr: &str) -> String {
             stdout, stderr,
         ),
     );
+    categories.extend(
+        super::summarize_case_phase_failures::summarize_case_phase_failures(stdout, stderr),
+    );
     if categories.is_empty() {
         "UNCLASSIFIED_FAILURE; inspect ignored command evidence".into()
     } else {

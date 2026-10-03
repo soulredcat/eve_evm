@@ -13,13 +13,14 @@ pub(super) fn write_rpc_bytes(
     let mut position = 0;
     while position < bytes.len() {
         let remaining = deadline.saturating_duration_since(Instant::now());
-        ensure!(
-            !remaining.is_zero(),
-            "native RPC absolute write deadline exceeded"
-        );
-        stream.set_write_timeout(Some(remaining))?;
-        let count = stream.write(&bytes[position..])?;
-        ensure!(count > 0, "native RPC request write disconnected");
+        ensure!(!remaining.is_zero(), "B3_RPC_IO_TIMEOUT");
+        stream
+            .set_write_timeout(Some(remaining))
+            .map_err(super::sanitize_rpc_io_error::sanitize_rpc_io_error)?;
+        let count = stream
+            .write(&bytes[position..])
+            .map_err(super::sanitize_rpc_io_error::sanitize_rpc_io_error)?;
+        ensure!(count > 0, "B3_RPC_IO_DISCONNECTED");
         position += count;
     }
     Ok(())

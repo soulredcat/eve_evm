@@ -6,16 +6,19 @@
 
 An engineering project for an EVM-compatible network with separate public access, validator execution/consensus, and developer-operated durable synchronization infrastructure.
 
-**Status: the published checkpoint `c2f9b2a` passes the complete local B3 gate
-with 531 tests and zero failed/ignored/pending cases. Hosted B3 acceptance remains
-unresolved: one failed run reports `ENGINE_PROCESS_INODE_MISMATCH` during native
-engine startup. Repair this prerequisite before B4. Standalone distributions,
+**Status: B3 classical development acceptance passes all 545 cases locally at
+`28ffac3` and in hosted PR verification at `9d3e1d5`. B4 has separate local
+foundations and is the next integration bulk. Standalone distributions,
 activated PQ, security-profile acceptance and measured 1M TPS remain unachieved.**
 
 Start with the [shared documentation](docs/README.md),
 [contribution contract](docs/development/README.md) and
 [verified execution status](docs/execution/README.md). These are available to
 GitHub-only collaborators; private local plans are not needed to read this context.
+Shared [testing](docs/testing/README.md) and [performance](docs/performance/README.md)
+contracts define reproduction, required workloads and honest evidence boundaries.
+The [capability overview](docs/capabilities/README.md) explains what works today,
+what is partial and what still requires verification.
 
 ## Main objective
 
@@ -77,14 +80,15 @@ Collected transaction fees: **40% burn / 30% node rewards / 30% validator reward
 
 ## Current work boundary
 
-The latest owner-authorized checkpoint includes
-[PR #3](https://github.com/soulredcat/eve_evm/pull/3), observed merged/closed.
-Its complete local gate passes 531 cases; hosted verification remains unresolved.
+The verified B3 source from
+[PR #5](https://github.com/soulredcat/eve_evm/pull/5) passes 545 local and hosted
+cases. The earlier PR #3 checkpoint and failed intermediate runs remain recorded
+as historical evidence in the execution summary.
 Signing refusals return a native error without releasing a signature; durability,
 fencing and executable authentication remain required.
 The owner resumed dependency-ordered core work on 2026-10-02 and now permits
 subagents again. Assign file ownership before parallel work and protect frozen gates.
-Resolve the hosted B3 failure before advancing to B4; keep the failed evidence visible.
+Continue B4 in dependency order; keep historical failures and profile limits visible.
 
 Public contributor context is indexed in [docs](docs/README.md), including the
 roadmap, architecture, development rules, verified status and security inventory.

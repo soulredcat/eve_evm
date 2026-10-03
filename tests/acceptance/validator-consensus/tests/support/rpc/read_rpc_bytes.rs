@@ -10,10 +10,11 @@ pub(super) fn read_rpc_bytes(
     bytes: &mut [u8],
 ) -> Result<usize> {
     let remaining = deadline.saturating_duration_since(Instant::now());
-    ensure!(
-        !remaining.is_zero(),
-        "native RPC absolute deadline exceeded"
-    );
-    stream.set_read_timeout(Some(remaining))?;
-    Ok(stream.read(bytes)?)
+    ensure!(!remaining.is_zero(), "B3_RPC_IO_TIMEOUT");
+    stream
+        .set_read_timeout(Some(remaining))
+        .map_err(super::sanitize_rpc_io_error::sanitize_rpc_io_error)?;
+    Ok(stream
+        .read(bytes)
+        .map_err(super::sanitize_rpc_io_error::sanitize_rpc_io_error)?)
 }

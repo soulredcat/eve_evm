@@ -3,8 +3,9 @@
 // Use requires prior written permission from Redcat.
 
 use super::process_start;
-use anyhow::{Result, ensure};
-use std::{io::ErrorKind, path::Path, process::Command};
+use anyhow::{Context, Result, ensure};
+use rustix::process::{Pid, Signal, kill_process};
+use std::{io::ErrorKind, path::Path};
 pub(crate) fn signal_owned_process(
     pid: u32,
     signal: &str,
@@ -37,13 +38,16 @@ pub(crate) fn signal_owned_process(
             "refuse signal after owned child identity changed"
         );
     }
-    ensure!(["TERM", "KILL"].contains(&signal), "invalid task signal");
-    let status = Command::new("kill")
-        .arg(format!("-{signal}"))
-        .arg(pid.to_string())
-        .status()?;
+    // Signal directly: minimal hosts and CI containers need not ship a `kill` executable.
+    let signal = match signal {
+        "TERM" => Signal::TERM,
+        "KILL" => Signal::KILL,
+        _ => anyhow::bail!("invalid task signal"),
+    };
+    let target = Pid::from_raw(i32::try_from(pid)?).context("invalid owned child PID")?;
+    let delivered = kill_process(target, signal);
     ensure!(
-        status.success() || !Path::new(&format!("/proc/{pid}")).exists(),
+        delivered.is_ok() || !Path::new(&format!("/proc/{pid}")).exists(),
         "owned child signal failed"
     );
     Ok(())

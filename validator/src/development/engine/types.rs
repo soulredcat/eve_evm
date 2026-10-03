@@ -37,4 +37,6 @@ pub(super) struct EngineHomeMarker {
 
 pub(super) const EXPECTED_NATIVE_VERSION: &str = "0.39.0+0880b4d378f347ab16e54ec677ff50d803f37d62";
 pub(super) const MAXIMUM_ENGINE_BINARY_BYTES: u64 = 512 * 1_048_576;
+/// Bound for a spawned engine to leave the caller image during its exec transition.
+pub(super) const ENGINE_EXEC_TRANSITION_MILLIS: u64 = 2_000;
 pub(super) const MARKER_NAME: &str = ".eve-engine.json";

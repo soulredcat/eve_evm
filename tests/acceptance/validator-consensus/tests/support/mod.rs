@@ -11,6 +11,7 @@ pub(crate) mod process;
 mod proxy;
 pub(crate) mod rpc;
 mod transactions;
+pub(crate) mod transitions;
 
 pub(crate) use cluster::{Cluster, ClusterOptions, cluster_lease};
 pub(crate) use history::{collect_certified_history, compare_stopped_stores, replay_history};

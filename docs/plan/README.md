@@ -8,11 +8,10 @@ The detailed `.md` plans listed here are local-only owner documents, preserved
 in these paths and ignored by Git. This public index describes responsibilities;
 its local-only references are intentionally plain text, not broken GitHub links.
 Public component contracts and the security inventory remain in tracked READMEs.
-The published B3 checkpoint passes its complete local 531-case gate; hosted
-acceptance remains unresolved. See [verified execution status](../execution/README.md)
-for revision-bound results and the current repair. The owner resumed sequential
-work and now permits subagents again with explicit file ownership. Repair hosted
-B3 before B4 or another dependent bulk.
+B3 classical development acceptance passes 545 cases locally and in hosted PR
+verification. See [verified execution status](../execution/README.md) for exact
+revisions, historical failures and profile limits. Continue B4 in dependency
+order with explicit subagent file ownership and required local-first bulk gates.
 
 ## Public core roadmap
 

@@ -9,7 +9,7 @@ are local-only and ignored. A fresh clone contains this role summary but not tho
 private documents. The latest owner instruction permits subagents again; assign
 task/file ownership before parallel work and use sequential review when needed.
 Keep a running frozen gate isolated from edits, builds and process control by
-other agents. Repair hosted B3 verification before advancing to B4.
+other agents. B3 local/hosted acceptance is verified; continue B4 with its full gates.
 
 These are role instructions for the available coding-agent runtime, not a claim that five agents have already been started. The lead explicitly reads/assigns them. When parallel subagents are unavailable, perform the responsibilities sequentially with the same gates; do not invent tool calls or claim independent agents ran.
 

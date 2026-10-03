@@ -3,12 +3,13 @@
 // Use requires prior written permission from Redcat.
 
 use crate::support::{
-    Cluster, ClusterOptions, cluster::wait_for_height, cluster_lease, collect_certified_history,
-    compare_stopped_stores, fixture::TRANSITION_ADDRESS, replay_history, signed_transaction,
-    submit_transaction,
+    Cluster, ClusterOptions,
+    cluster::wait_for_height_until,
+    cluster_lease, collect_certified_history, compare_stopped_stores,
+    fixture::TRANSITION_ADDRESS,
+    replay_history, signed_transaction,
+    transitions::{submit_transition, verify_default_build_guards, verify_transition_receipt},
 };
-use alloy_consensus::ReceiptEnvelope;
-use alloy_eips::eip2718::Decodable2718;
 use alloy_primitives::{Address, Bytes, keccak256};
 use anyhow::{Context, Result, ensure};
 use eve_consensus_comet::consensus::certificates::validator_address;
@@ -16,6 +17,7 @@ use eve_consensus_comet::consensus::certificates::{
     ClassicalValidator, canonicalize_validator_set, hash_validator_set,
 };
 use std::collections::BTreeMap;
+use std::time::{Duration, Instant};
 
 #[test]
 fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_boundaries()
@@ -28,45 +30,10 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             observer: true,
             poison: false,
         },
-    )?;
-    let normal = std::env::var_os("EVE_VALIDATOR_NORMAL_BINARY")
-        .context("default validator binary required")?;
-    let command = crate::support::process::node_command(&cluster, 0, "init-dev", "");
-    let arguments: Vec<_> = command
-        .get_args()
-        .map(|argument| argument.to_owned())
-        .collect();
-    let rejected = std::process::Command::new(&normal)
-        .args(&arguments)
-        .output()?;
-    ensure!(
-        !rejected.status.success(),
-        "default build accepted temporary adapter genesis"
-    );
-    let flag = arguments
-        .iter()
-        .position(|argument| argument == "--acceptance-fixture")
-        .context("fixture CLI flag missing")?;
-    let without_fixture: Vec<_> = arguments
-        .iter()
-        .enumerate()
-        .filter(|(index, _)| *index != flag && *index != flag + 1)
-        .map(|(_, argument)| argument)
-        .collect();
-    ensure!(
-        !std::process::Command::new(&normal)
-            .args(&without_fixture)
-            .output()?
-            .status
-            .success()
-            && !std::process::Command::new(&cluster.binary)
-                .args(&without_fixture)
-                .output()?
-                .status
-                .success(),
-        "marked genesis ran with missing acceptance manifest or default application rules"
-    );
-    cluster.start()?;
+    )
+    .context("B3_TC07_CREATE")?;
+    verify_default_build_guards(&cluster).context("B3_TC07_BUILD_GUARDS")?;
+    cluster.start().context("B3_TC07_START")?;
     let mut roster: Vec<_> = cluster
         .nodes
         .iter()
@@ -79,6 +46,7 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
     let mut changes = BTreeMap::new();
     let mut triggers = Vec::new();
     for action in 1..=3_u8 {
+        let deadline = Instant::now() + Duration::from_secs(90);
         let mut input = keccak256(b"transition(uint8)")[..4].to_vec();
         input.extend_from_slice(&[0; 31]);
         input.push(action);
@@ -89,30 +57,24 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             200_000,
             Bytes::from(input),
         );
-        let height = submit_transaction(&cluster, 3, &tx)?;
-        let retained = collect_certified_history(&cluster, 3, height, &changes)?;
-        let executed = replay_history(&cluster, &retained)?;
-        let commit = &executed[height as usize];
+        let height = submit_transition(&cluster, &tx, action, deadline)?;
+        let retained = collect_certified_history(&cluster, 3, height, &changes)
+            .context("B3_TC07_CERTIFICATE_HISTORY")?;
+        let executed = replay_history(&cluster, &retained).context("B3_TC07_REPLAY")?;
+        let commit = executed
+            .get(height as usize)
+            .context("B3_TC07_EXECUTION_MISSING")?;
         let index = commit
             .block
             .transactions
             .iter()
             .position(|raw| raw == &tx)
-            .context("transition source transaction missing")?;
-        let mut receipt_bytes = commit.block.receipts[index].as_ref();
-        let receipt = ReceiptEnvelope::decode_2718(&mut receipt_bytes)
-            .map_err(|_| anyhow::anyhow!("actual transition receipt invalid"))?;
-        ensure!(
-            receipt.is_success()
-                && receipt_bytes.is_empty()
-                && receipt.logs().iter().any(|log| log.address
-                    == Address::from_slice(&hex::decode(TRANSITION_ADDRESS).unwrap())
-                    && log
-                        .topics()
-                        .get(1)
-                        .is_some_and(|topic| topic.as_slice() == cluster.fixture_digest)),
-            "native update source has no successful canonical fixture receipt"
-        );
+            .context("B3_TC07_TRANSACTION_MISSING")?;
+        verify_transition_receipt(
+            commit.block.receipts[index].as_ref(),
+            cluster.fixture_digest,
+        )
+        .context("B3_TC07_RECEIPT")?;
         if action == 1 {
             roster.retain(|validator| validator.public_key != cluster.nodes[0].public_key);
             roster.push(ClassicalValidator {
@@ -125,54 +87,90 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             });
         }
         roster = canonicalize_validator_set(&roster)
-            .map_err(|error| anyhow::anyhow!("updated canonical roster: {error:?}"))?;
+            .map_err(|error| anyhow::anyhow!("updated canonical roster: {error:?}"))
+            .context("B3_TC07_ROSTER")?;
         changes.insert(height + 2, roster.clone());
         triggers.push((
             height,
             hash_validator_set(&roster)
-                .map_err(|error| anyhow::anyhow!("updated set hash: {error:?}"))?,
+                .map_err(|error| anyhow::anyhow!("updated set hash: {error:?}"))
+                .context("B3_TC07_ROSTER_HASH")?,
         ));
-        wait_for_height(&mut cluster, &[1, 2, 3, 4], height + 3)?;
+        wait_for_height_until(&mut cluster, &[1, 2, 3, 4], height + 3, deadline)
+            .context("B3_TC07_PROGRESS")?;
     }
     let through = triggers.last().unwrap().0 + 3;
-    let history = collect_certified_history(&cluster, 3, through, &changes)?;
+    let history = collect_certified_history(&cluster, 3, through, &changes)
+        .context("B3_TC07_FINAL_HISTORY")?;
     for &(trigger, hash) in &triggers {
         ensure!(
-            history[trigger as usize].block.header.next_validators_hash == hash,
-            "H+1 next-set hash missing"
+            history
+                .get(trigger as usize)
+                .context("B3_TC07_HISTORY_MISSING")?
+                .block
+                .header
+                .next_validators_hash
+                == hash,
+            "B3_TC07_NEXT_SET_HASH: H+1 next-set hash missing"
         );
         ensure!(
-            history[(trigger + 1) as usize].block.header.validators_hash == hash,
-            "H+2 active-set hash missing"
+            history
+                .get((trigger + 1) as usize)
+                .context("B3_TC07_HISTORY_MISSING")?
+                .block
+                .header
+                .validators_hash
+                == hash,
+            "B3_TC07_ACTIVE_SET_HASH: H+2 active-set hash missing"
         );
-        let last = history[(trigger + 2) as usize]
+        let last = history
+            .get((trigger + 2) as usize)
+            .context("B3_TC07_HISTORY_MISSING")?
             .block
             .last_commit
             .as_ref()
-            .context("H+3 previous commit missing")?;
+            .context("B3_TC07_PREVIOUS_COMMIT_MISSING")?;
         ensure!(
             last.height == trigger + 2
-                && last.block_id == history[(trigger + 1) as usize].commit.block_id,
-            "H+3 previous-commit history was rebound to wrong height"
+                && last.block_id
+                    == history
+                        .get((trigger + 1) as usize)
+                        .context("B3_TC07_HISTORY_MISSING")?
+                        .commit
+                        .block_id,
+            "B3_TC07_PREVIOUS_COMMIT: H+3 previous-commit history was rebound to wrong height"
         );
     }
-    let replay = replay_history(&cluster, &history)?;
+    let replay = replay_history(&cluster, &history).context("B3_TC07_FINAL_REPLAY")?;
     ensure!(
-        replay.last().unwrap().state.accounts[&cluster.authority_address].nonce == 3,
-        "transition sequence was not executed exactly once"
+        replay
+            .last()
+            .context("B3_TC07_REPLAY_EMPTY")?
+            .state
+            .accounts
+            .get(&cluster.authority_address)
+            .context("B3_TC07_AUTHORITY_MISSING")?
+            .nonce
+            == 3,
+        "B3_TC07_NONCE: transition sequence was not executed exactly once"
     );
-    cluster.stop()?;
-    let callbacks = crate::support::history::read_finalized_callbacks(&cluster, 3)?;
+    cluster.stop().context("B3_TC07_STOP")?;
+    let callbacks = crate::support::history::read_finalized_callbacks(&cluster, 3)
+        .context("B3_TC07_CALLBACKS")?;
     for (trigger, _) in triggers {
-        let previous = &history[(trigger + 1) as usize];
-        let callback = &callbacks[&(trigger + 3)];
+        let previous = history
+            .get((trigger + 1) as usize)
+            .context("B3_TC07_HISTORY_MISSING")?;
+        let callback = callbacks
+            .get(&(trigger + 3))
+            .context("B3_TC07_CALLBACK_MISSING")?;
         let votes = callback
             .decided_last_commit
             .as_ref()
-            .context("persisted H+3 native decided_last_commit missing")?;
+            .context("B3_TC07_DECIDED_COMMIT_MISSING")?;
         ensure!(
             votes.round == previous.commit.round && votes.votes.len() == previous.validators.len(),
-            "H+3 callback uses wrong historical round/roster"
+            "B3_TC07_CALLBACK_ROSTER: H+3 callback uses wrong historical round/roster"
         );
         for ((vote, validator), signature) in votes
             .votes
@@ -183,15 +181,15 @@ fn t_c07_authenticated_fixture_rotates_leaves_and_jails_at_native_historical_bou
             let info = vote
                 .validator
                 .as_ref()
-                .context("persisted native vote validator missing")?;
+                .context("B3_TC07_VOTE_VALIDATOR_MISSING")?;
             ensure!(
                 info.address == validator_address(&validator.public_key)
                     && info.power == validator.voting_power
                     && vote.block_id_flag == signature.block_id_flag,
-                "H+3 actual callback differs from applicable H+2 roster/commit"
+                "B3_TC07_CALLBACK_VOTE: H+3 callback differs from applicable H+2 roster/commit"
             );
         }
     }
-    compare_stopped_stores(&cluster, &[1, 2, 3, 4], &replay)?;
+    compare_stopped_stores(&cluster, &[1, 2, 3, 4], &replay).context("B3_TC07_STORES")?;
     Ok(())
 }

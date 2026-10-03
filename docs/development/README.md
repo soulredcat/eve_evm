@@ -61,9 +61,10 @@ Separate human or external-AI contributions require a scoped task and owned path
 5. The integrator reviews the diff, required gates, publication policy and evidence
    before owner-authorized main integration. A draft PR is not gate acceptance.
 
-Current work is the unresolved hosted B3 executable binding failure. Do not start
-B4, lower quorum, relax signing durability or remove executable identity checks
-to make CI pass. No destructive reset, forced push, history rewrite, unsolicited
+The B3 classical local and hosted gates pass 545 cases. Current work continues
+B4 from its separate local foundations; complete B4 integration remains required.
+Preserve quorum, signing durability and executable identity checks. No destructive
+reset, forced push, history rewrite, unsolicited
 dependency upgrades or changes to unrelated processes are permitted.
 
 ## Reproduce verification
@@ -98,6 +99,12 @@ local; publish reviewed compact summaries in [execution status](../execution/REA
 Never rebuild an authenticated running executable during a test.
 
 ## Publication review
+
+Work locally first and keep coherent local commits for completed steps. After
+the bulk's required local gates pass, publish its source, required tests and
+reviewed English progress/performance summaries together. Batch GitHub pushes
+by completed bulk rather than publishing each small fix or documentation edit.
+Required hosted acceptance still precedes main runtime integration.
 
 Only Markdown files named `README.md` may be tracked. Keep `AGENTS.md`, `goal.md`,
 `CONTRIBUTING.md`, detailed plans/evidence and exploratory files local. Required
