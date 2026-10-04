@@ -21,6 +21,7 @@ fn unacknowledged_or_nonlocal_follower_is_refused_before_genesis_or_namespace_io
         node_name: "bounded-test".into(),
         zone_id: 1,
         poll_interval_ms: 100,
+        checkpoint_height: None,
     };
     let failure = open_development_follower(&config).err().unwrap();
     assert!(failure.to_string().contains("acknowledgment"));

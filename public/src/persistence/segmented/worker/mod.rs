@@ -2,7 +2,10 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-mod append_segmented_record;
+pub(in crate::persistence::segmented) mod append_segmented_record;
+pub(in crate::persistence::segmented) mod cpu_budget;
+pub(in crate::persistence::segmented) mod create_segmented_worker_state;
+mod dispatch_segmented_batch_request;
 mod finish_segmented_worker;
 mod observe_segmented_worker;
 mod persist_segmented_batch;
@@ -11,10 +14,12 @@ mod required_segment_scratch;
 mod reserve_scratch;
 mod run_segmented_worker;
 mod scratch_drop_adapter;
+pub(in crate::persistence::segmented) mod spawn_segmented_worker;
 mod start_segmented_worker;
 mod try_receive_segmented_ack;
 mod try_submit_segmented_batch;
 mod verify_startup_marker_membership;
+pub use cpu_budget::{SegmentedWorkerCpuObservation, observe_segmented_worker_cpu};
 pub use finish_segmented_worker::finish_segmented_worker;
 pub use observe_segmented_worker::observe_segmented_worker;
 pub(super) use required_segment_scratch::required_segment_scratch;

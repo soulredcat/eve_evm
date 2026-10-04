@@ -2,6 +2,11 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+mod checkpoint_admission;
+mod checkpoint_fixtures;
+mod checkpoint_persistence;
+mod checkpoint_startup;
+mod checkpoint_tails;
 mod fixtures;
 mod limits;
 mod persistence;

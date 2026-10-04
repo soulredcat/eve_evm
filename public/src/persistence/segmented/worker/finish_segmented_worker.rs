@@ -32,6 +32,19 @@ pub fn finish_segmented_worker(worker: SegmentedWorker) -> SegmentedWorkerShutdo
             });
         }
     }
+    let checkpoint_tail =
+        admission
+            .checkpoint
+            .as_ref()
+            .map(|slot| super::super::checkpoints::CheckpointTail {
+                record: slot.record.clone(),
+                last_acknowledged_physical_cursor: slot.acknowledged,
+                complete: slot.complete,
+            });
     drop(admission);
-    SegmentedWorkerShutdown { repository, tails }
+    SegmentedWorkerShutdown {
+        repository,
+        tails,
+        checkpoint_tail,
+    }
 }

@@ -3,7 +3,8 @@
 // Use requires prior written permission from Redcat.
 
 use crate::consensus::application::{
-    ConsensusApplication, application_delta_serving_budget, serve_state_delta_query,
+    ConsensusApplication, application_delta_serving_budget, application_snapshot_serving_budget,
+    serve_checkpoint_query, serve_state_delta_query,
 };
 use anyhow::{Result, bail};
 use eve_consensus_comet::wire::tendermint::abci::{
@@ -23,7 +24,10 @@ pub(super) fn dispatch_auxiliary_application_request(
         }),
         RequestValue::Flush(_) => ResponseValue::Flush(ResponseFlush {}),
         RequestValue::Query(input) => {
-            ResponseValue::Query(if input.path.starts_with("/eve/recovery/") {
+            ResponseValue::Query(if input.path == "/eve/recovery/v1/checkpoint" {
+                let budget = application_snapshot_serving_budget(application);
+                serve_checkpoint_query(application, &input, budget)
+            } else if input.path.starts_with("/eve/recovery/") {
                 let budget = application_delta_serving_budget(application);
                 serve_state_delta_query(application, &input, budget)
             } else {

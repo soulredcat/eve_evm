@@ -34,8 +34,10 @@ pub use state::encoding::{
     JournalDecodePreflight, StateCommitDecodeStats, StateCommitPreflight, decode_block_payload,
     decode_preflight_state_commit, decode_state_commit, decode_state_journal, decode_state_version,
     decode_system_record, encode_block_payload, encode_state_commit, encode_state_version,
-    preflight_state_commit, preflight_state_journal, required_state_commit_decode_reservation,
-    state_commit_preflight_budget, state_commit_preflight_bytes, state_commit_preflight_stats,
+    preflight_state_commit, preflight_state_journal, preflight_state_version,
+    required_state_commit_decode_reservation, state_commit_preflight_budget,
+    state_commit_preflight_bytes, state_commit_preflight_stats,
+    state_commit_preflight_target_bytes,
 };
 pub use state::genesis::{
     estimate_genesis_initialization_reservation, initialize_development_state,
@@ -47,6 +49,7 @@ pub use state::journals::{
 };
 pub use state::limits::{
     BOUNDED_STATE_CODEC_SCRATCH_BYTES, development_state_budget, measure_complete_state_bytes,
+    validate_state_budget,
 };
 pub use state::validation::{
     build_state_commit, build_state_version, validate_block_hash_history, validate_block_payload,

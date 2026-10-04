@@ -9,8 +9,7 @@ use super::{
     validate_license_texts::validate_license_texts,
 };
 use crate::structure::{
-    discovery::discover_sources::discover_sources,
-    inspection::resolve_source_path::resolve_source_path, policy::load_policy::load_policy,
+    discovery::discover_sources::discover_sources, policy::load_policy::load_policy,
 };
 use anyhow::{Context, Result};
 use std::path::Path;
@@ -22,7 +21,7 @@ pub fn check_ownership(root: &Path) -> Result<OwnershipReport> {
         .context("Resolve ownership repository root")?;
     let sources = discover_sources(&root)?;
     let inventory = load_annotations(&root, &sources)?;
-    let policy = load_policy(&resolve_source_path(&root, "config/structure-policy.toml")?)?;
+    let policy = load_policy(&root, Path::new("config/structure-policy.toml"), &sources)?;
     let mut report = OwnershipReport {
         policy_version: 1,
         violations: inventory.violations.clone(),

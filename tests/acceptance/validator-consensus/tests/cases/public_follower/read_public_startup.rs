@@ -11,7 +11,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-pub(super) fn read_public_startup(
+pub(in crate::cases) fn read_public_startup(
     follower: &mut PublicFollower,
     deadline: Instant,
 ) -> Result<Value> {

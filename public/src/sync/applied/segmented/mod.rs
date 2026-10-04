@@ -4,7 +4,10 @@
 
 mod admit_segmented_publication;
 mod bind_local_state_version;
+mod derive_segmented_storage_identity;
+mod map_legacy_segmented_open_error;
 mod open_segmented_applied_state_service;
+mod open_segmented_applied_state_service_with_recovery;
 mod recover_segmented_applied_prefix;
 mod retained_tail_part_bytes;
 mod retained_tail_progress;
@@ -15,6 +18,8 @@ mod types;
 mod validate_segmented_applied_ack;
 pub(super) use bind_local_state_version::bind_local_state_version;
 pub use open_segmented_applied_state_service::open_segmented_applied_state_service;
+pub(super) use open_segmented_applied_state_service_with_recovery::open_segmented_applied_state_service_with_recovery;
+pub(super) use recover_segmented_applied_prefix::recover_segmented_applied_prefix;
 pub use retained_tail_part_bytes::retained_tail_part_bytes;
 pub use retained_tail_progress::retained_tail_progress;
 pub(super) use try_apply_segmented_import::try_apply_segmented_import;

@@ -6,6 +6,8 @@ pub mod follower;
 mod run_development_public;
 mod run_public_runtime;
 mod start_rpc_servers;
+#[cfg(test)]
+pub(crate) use start_rpc_servers::start_rpc_servers;
 mod status_types;
 mod types;
 pub use run_development_public::run_development_public;

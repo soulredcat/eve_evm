@@ -6,8 +6,10 @@
 
 mod accept_segmented_recovery;
 mod append_segmented_recovery_candidate;
+mod begin_segmented_checkpoint_recovery;
 mod begin_segmented_recovery;
 mod complete_segmented_recovery_candidate;
+mod required_segmented_checkpoint_recovery_reservation;
 mod required_segmented_recovery_reservation;
 mod scan_next_segmented_recovery;
 mod segmented_recovery_bundle_anchor;
@@ -23,7 +25,9 @@ mod verify_segmented_recovery_anchor;
 mod head_read_failure;
 
 pub use accept_segmented_recovery::accept_segmented_recovery;
+pub use begin_segmented_checkpoint_recovery::begin_segmented_checkpoint_recovery;
 pub use begin_segmented_recovery::begin_segmented_recovery;
+pub use required_segmented_checkpoint_recovery_reservation::required_segmented_checkpoint_recovery_reservation;
 pub use required_segmented_recovery_reservation::required_segmented_recovery_reservation;
 pub use scan_next_segmented_recovery::scan_next_segmented_recovery;
 pub use segmented_recovery_bundle_anchor::segmented_recovery_bundle_anchor;

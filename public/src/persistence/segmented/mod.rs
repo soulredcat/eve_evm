@@ -4,6 +4,7 @@
 
 //! Version 2 retained part buffers and exclusive sequential physical persistence.
 //! Local markers do not authenticate execution, finality or peer availability.
+pub mod checkpoints;
 mod planning;
 mod pool;
 mod reservation;
@@ -36,6 +37,7 @@ pub use views::{
     segmented_batch_references, segmented_batch_target_binding, segmented_part_bytes,
 };
 pub use worker::{
-    finish_segmented_worker, observe_segmented_worker, start_segmented_worker,
-    try_receive_segmented_ack, try_submit_segmented_batch,
+    SegmentedWorkerCpuObservation, finish_segmented_worker, observe_segmented_worker,
+    observe_segmented_worker_cpu, start_segmented_worker, try_receive_segmented_ack,
+    try_submit_segmented_batch,
 };

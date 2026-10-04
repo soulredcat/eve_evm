@@ -12,6 +12,7 @@ mod required_checkpoint_reservation;
 mod types;
 mod validate_checkpoint_witness_bounds;
 mod verify_checkpoint_witness;
+mod wire;
 pub use begin_authenticated_checkpoint::begin_authenticated_checkpoint;
 pub use checkpoint_anchor::checkpoint_anchor;
 pub use checkpoint_commit::checkpoint_commit;
@@ -23,3 +24,12 @@ pub use types::{
     CheckpointSession, CheckpointWitness,
 };
 pub use verify_checkpoint_witness::verify_checkpoint_witness;
+pub use wire::{
+    CheckpointWitnessWireError, CheckpointWitnessWireKind, CheckpointWitnessWirePreflight,
+    CheckpointWitnessWireStats, MAXIMUM_CHECKPOINT_WITNESS_WIRE_BYTES,
+    checkpoint_witness_wire_budget, checkpoint_witness_wire_bytes, checkpoint_witness_wire_kind,
+    checkpoint_witness_wire_limits, checkpoint_witness_wire_stats,
+    checkpoint_witness_wire_version_bytes, decode_checkpoint_witness_wire,
+    encode_checkpoint_witness_wire, measure_checkpoint_witness_wire,
+    preflight_checkpoint_witness_wire, required_checkpoint_witness_decode_reservation,
+};

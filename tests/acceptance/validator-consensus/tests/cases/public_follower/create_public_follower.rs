@@ -7,7 +7,7 @@ use crate::support::Cluster;
 use anyhow::{Context, Result, ensure};
 use std::{net::TcpListener, path::PathBuf};
 
-pub(super) fn create_public_follower(cluster: &Cluster) -> Result<PublicFollower> {
+pub(in crate::cases) fn create_public_follower(cluster: &Cluster) -> Result<PublicFollower> {
     let repository_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .ancestors()
         .nth(3)
@@ -39,5 +39,6 @@ pub(super) fn create_public_follower(cluster: &Cluster) -> Result<PublicFollower
         launch_count: 0,
         child: None,
         process_start: None,
+        checkpoint_height: None,
     })
 }

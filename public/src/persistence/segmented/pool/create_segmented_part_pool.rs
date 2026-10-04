@@ -74,6 +74,7 @@ pub fn create_segmented_part_pool(
         return Err(SegmentedError::InvalidConfiguration);
     }
     Ok(Arc::new(SegmentedPartPool {
+        worker_cpu_basis_points: base.worker_cpu_basis_points,
         policy,
         codec,
         repository,

@@ -4,6 +4,7 @@
 
 //! Durable local record storage. Stored inputs are not finality certificates.
 
+pub mod checkpoints;
 pub mod records;
 pub mod recovery;
 pub mod spike;

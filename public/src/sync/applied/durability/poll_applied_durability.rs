@@ -16,6 +16,9 @@ use std::{collections::VecDeque, sync::Arc};
 
 /// Poll only the ordered front. A pending ticket never advances the durable marker.
 pub fn poll_applied_durability(owner: &mut AppliedOwner) -> Result<PublicWatermarks, AppliedError> {
+    if owner.checkpoint.is_some() {
+        return Err(AppliedError::CheckpointPending);
+    }
     if owner.storage_failed {
         return Err(AppliedError::StorageFailed);
     }

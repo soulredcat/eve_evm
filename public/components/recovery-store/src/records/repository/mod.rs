@@ -3,10 +3,14 @@
 // Use requires prior written permission from Redcat.
 
 pub(super) mod append;
+mod maintenance;
 mod opening;
 mod prospective;
 mod reading;
 pub use append::compare_and_append_opaque_records;
+pub use maintenance::{
+    OpaqueCompactionRequest, compact_opaque_records, required_opaque_compaction_reservation,
+};
 pub use opening::open_opaque_record_repository;
 pub use prospective::prospective_opaque_record_cursor;
 pub use reading::{

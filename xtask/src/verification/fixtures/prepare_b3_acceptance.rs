@@ -34,7 +34,15 @@ pub fn prepare_b3_acceptance(
         artifacts,
         report,
         env!("CARGO"),
-        &["build", "--release", "--locked", "-p", "eve-public"],
+        &[
+            "build",
+            "--release",
+            "--locked",
+            "-p",
+            "eve-public",
+            "-p",
+            "eve-master",
+        ],
     )?;
     let configured = std::env::var_os("CARGO_TARGET_DIR")
         .map(PathBuf::from)
@@ -46,6 +54,7 @@ pub fn prepare_b3_acceptance(
     };
     let validator = target.join("debug/eve-validator");
     let public_follower = target.join("release/eve-public");
+    let master_follower = target.join("release/eve-master");
     ensure!(
         public_follower.is_file(),
         "actual public follower executable missing"
@@ -55,6 +64,17 @@ pub fn prepare_b3_acceptance(
         public_follower
             .to_str()
             .context("UTF-8 public follower executable")?
+            .into(),
+    );
+    ensure!(
+        master_follower.is_file(),
+        "actual master follower executable missing"
+    );
+    report.tool_environment.insert(
+        "EVE_MASTER_BINARY".into(),
+        master_follower
+            .to_str()
+            .context("UTF-8 master follower executable")?
             .into(),
     );
     let normal = artifacts.join("eve-validator-normal");
@@ -149,6 +169,10 @@ pub fn prepare_b3_acceptance(
         evidence.insert(
             "public_follower_binary_sha256".into(),
             compute_artifact_digest(&public_follower)?.into(),
+        );
+        evidence.insert(
+            "master_follower_binary_sha256".into(),
+            compute_artifact_digest(&master_follower)?.into(),
         );
     }
     report.topology = "Single-host four independent classical EVE validator processes, distinct disposable signing keys/stores, pinned native engines, bounded owned peer proxies and real durable application execution; independent machine failure domains and PQ activation are not demonstrated".into();

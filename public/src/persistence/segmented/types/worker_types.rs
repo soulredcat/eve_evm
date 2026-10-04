@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+use super::super::checkpoints::types::{AdmittedCheckpoint, CheckpointRequest, CheckpointTail};
 use super::{
     BATCHES, MetadataLease, SEGMENTS, SealedSegmentedBatch, SegmentedError, SegmentedPartPool,
     WorkerLifetimeLease,
@@ -36,8 +37,10 @@ pub(in crate::persistence::segmented) struct Admission {
     pub(in crate::persistence::segmented) cursor: OpaqueRecordCursor,
     pub(in crate::persistence::segmented) logical: SegmentedRecoveryAnchor,
     pub(in crate::persistence::segmented) slots: [Option<AdmittedBatch>; BATCHES],
+    pub(in crate::persistence::segmented) checkpoint: Option<AdmittedCheckpoint>,
 }
 pub(in crate::persistence::segmented) struct WorkerState {
+    pub(in crate::persistence::segmented) cpu: super::super::worker::cpu_budget::WorkerCpuBudget,
     pub(in crate::persistence::segmented) pool: Arc<SegmentedPartPool>,
     pub(in crate::persistence::segmented) admission: Mutex<Admission>,
     pub(in crate::persistence::segmented) failed: AtomicBool,
@@ -54,6 +57,10 @@ pub(in crate::persistence::segmented) struct Request {
     pub(in crate::persistence::segmented) reply:
         SyncSender<Result<SegmentedLogicalAck, SegmentedError>>,
 }
+pub(in crate::persistence::segmented) enum WorkerRequest {
+    Segmented(Request),
+    Checkpoint(CheckpointRequest),
+}
 pub struct SegmentedTicket {
     pub(in crate::persistence::segmented) receiver:
         Receiver<Result<SegmentedLogicalAck, SegmentedError>>,
@@ -62,7 +69,7 @@ pub struct SegmentedTicket {
     pub(in crate::persistence::segmented) id: u64,
 }
 pub struct SegmentedWorker {
-    pub(in crate::persistence::segmented) sender: SyncSender<Request>,
+    pub(in crate::persistence::segmented) sender: SyncSender<WorkerRequest>,
     pub(in crate::persistence::segmented) state: Arc<WorkerState>,
     pub(in crate::persistence::segmented) thread: JoinHandle<OpaqueRecordRepository>,
 }
@@ -85,6 +92,7 @@ pub struct SegmentedTail {
 pub struct SegmentedWorkerShutdown {
     pub repository: Result<OpaqueRecordRepository, SegmentedError>,
     pub tails: [Option<SegmentedTail>; BATCHES],
+    pub checkpoint_tail: Option<CheckpointTail>,
 }
 pub(in crate::persistence::segmented) struct ScratchLease {
     pub(in crate::persistence::segmented) state: Arc<WorkerState>,

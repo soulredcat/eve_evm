@@ -18,6 +18,8 @@ pub struct StructurePolicy {
     #[serde(default)]
     pub adapters: Vec<AdapterReview>,
     #[serde(default)]
+    pub adapter_files: Vec<String>,
+    #[serde(default)]
     pub generated_modules: Vec<GeneratedModuleReview>,
 }
 

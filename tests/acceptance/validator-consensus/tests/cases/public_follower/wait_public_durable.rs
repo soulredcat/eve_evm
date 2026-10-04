@@ -7,7 +7,7 @@ use anyhow::{Result, ensure};
 use serde_json::{Value, json};
 use std::time::{Duration, Instant};
 
-pub(super) fn wait_public_durable(
+pub(in crate::cases) fn wait_public_durable(
     follower: &mut PublicFollower,
     height: u64,
     deadline: Instant,

@@ -6,7 +6,7 @@ use super::types::PublicFollower;
 use crate::support::process::{signal_owned_process, wait_child};
 use anyhow::{Result, ensure};
 
-pub(super) fn stop_public_follower(follower: &mut PublicFollower) -> Result<()> {
+pub(in crate::cases) fn stop_public_follower(follower: &mut PublicFollower) -> Result<()> {
     if let Some(child) = follower.child.as_mut() {
         if child.try_wait()?.is_none() {
             signal_owned_process(

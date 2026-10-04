@@ -2,156 +2,184 @@
 <!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
 <!-- Use requires prior written permission from Redcat. -->
 
-# B4 local implementation and verification
+# B4 authenticated followers and durable checkpoint progress
 
-The latest [follower foundation evidence](follower-foundation/README.md) records actual local public CLI recovery, master archive and authenticated snapshot prerequisites. B4 remains IN_PROGRESS. Its complete gate is NOT_IMPLEMENTED; no hosted B4,
-master-offline recovery, default public capacity or full bulk acceptance is claimed.
-Local-first publication batches remain required. Accepted B3 main is `c41ba2f`.
+Status on 2026-10-04: IN_PROGRESS. Accepted B3 classical development main remains
+`c41ba2f351f17ad349efccb1e447e49822480c99`. The local B4 foundation baseline is
+`88e7c82215873f65d346c211d704dc12f151b033`; later source awaits frozen verification.
+B4 has not been pushed or integrated into main. Component results below describe
+executed local source packets, not one frozen revision accepted by the complete gate.
 
-## Compact replay and public RAM checkpoint
+The B4 manifest, registry entry and hosted workflow are now executable source.
+The complete local `cargo xtask verify --bulk B4` packet is NOT_RUN.
+Hosted B4 acceptance and bulk publication are NOT_RUN. T-N09/T-N10 executable
+coverage is IMPLEMENTED; complete B4 acceptance remains pending its frozen gate.
+Preserve local-first completed-bulk publication and mandatory
+hosted acceptance before main integration.
 
-Local commit `d9c0c0fe84b3bdb3eb98ad5ac8e660dd0d25e11d` has tree
-`839345fedecd9e657a52557121de736bd59cf20f`; it is unpublished. It follows local
-foundation `c6376c5` and the accepted-B3 merge `463975b`.
+## Implemented source capabilities
 
-It implements canonical block/recovery codecs, actual sealed transaction replay,
-prospective opaque cursors, nonblocking synced acknowledgements and a public-owned
-immutable applied-state service. The public service admits empty blocks only.
-Captured views and unacknowledged tails retain their logical resource charges.
+The [follower foundation](follower-foundation/README.md) records the earlier compact
+and segmented integration. Public retains one immutable charged RAM publication;
+finalized recovery bytes follow an isolated, ordered, bounded WAL/sync path.
+Actual marker acknowledgment advances logical durability. Physical record sequence
+is distinct from execution height. Orphans and failed tails retain their bytes and
+leases; queue admission, age, lag and storage errors preserve truthful watermarks.
 
-| Verified scope | Result |
+Public and master use one bounded own-chain download component and canonical
+native H/H+1 verification. Master remains a private authenticated archive follower,
+outside the mandatory transaction path and without validator voting authority.
+Public/validator source does not depend on private master implementation.
+
+The [checkpoint application](../../../public/src/sync/applied/checkpoints/README.md)
+authenticates complete state against locally configured genesis and ordered native
+execution witnesses through H+1. [Content/proof storage](../../../public/components/recovery-store/src/checkpoints/README.md)
+supports resumable private staging, immutable completed content, bounded safe-file
+checks and conservative repair. Unknown, foreign, future or oversized staging
+metadata cannot be deleted as a benign retry. Checksums establish local integrity;
+they do not establish finality.
+
+A typed base record uses the existing sole writer's real synced acknowledgment.
+Conditional activation preserves the old usable charged publication until the
+complete replacement is durable and the captured parent still matches.
+Checkpoint-aware reopen reauthenticates retained content/proofs from local genesis,
+then verifies the actual base and ordered suffix. Nonzero checkpoint height cannot
+be paired with a fabricated bootstrap cursor. Missing/corrupt artifacts refuse.
+
+[Validator snapshot queries](../../../validator/src/consensus/application/serving/snapshots/README.md)
+use current RAM cache first and one matching durable repository snapshot; historical
+decode is charged from the actual retained encoded length. Manifest/chunk/execution
+responses remain untrusted. The [shared client](../../../public/components/sync-client/src/checkpoints/README.md)
+retains actual caller capacity, exact source identities and one absolute deadline.
+
+The [public CLI](../../../public/src/runtime/follower/README.md) accepts an explicit
+development checkpoint height and otherwise reopens checkpoint-aware storage.
+It uses 32 KiB chunks, bounded proof passes, a 300-second whole deadline and
+five-second request ceilings. Its current loopback native JSON profile may refuse
+larger valid responses. Ordinary queries capture one coherent applied version;
+unavailable old history and independently unknown freshness remain explicit.
+
+Owner-bound storage admission enforces two active storage jobs and 16 MiB raw
+staging, retaining a real working-pool control lease. The controller size helper
+includes its body and Arc counters. Linux thread CPU accounting cooperatively
+paces the sole writer at 2500 basis points after each bounded physical record,
+without banking idle credit. Database background work and other roles remain
+outside that writer CPU scope.
+
+## Executed local regression and process evidence
+
+All successful packets listed here had zero failed or ignored cases. Full-source
+format, structure, ownership, release and complete B4 verification must still be
+rerun on the final frozen source and recorded with exact identities.
+
+| Executed scope | Recorded result |
 |---|---|
-| State/storage packages | 81 cases passed |
-| Executor package | 28 cases passed |
-| Finality verifier | 47 cases passed |
-| Public package | Full 38-case packet, then 14 applied cases; union covers all 39 discovered cases |
-| Format / strict scoped Clippy / release | Passed; local release build 49.59 seconds |
-| Structure / ownership | 1,819 / 1,853 files; zero violations |
+| Full public release, after controller repair and maintenance extension | 150 passed; 9.71 seconds; strict all-target Clippy passed |
+| Earlier full public attempt | 148 passed, two failed; repaired and superseded by the 150-case rerun |
+| Finality verifier checkpoint/import packet | 125 passed; strict lint passed at that source stage |
+| Snapshot messages / validator snapshot serving | Nine / five passed |
+| Shared nonempty-tail fixture addition | Two new cases passed; previous three cases preserved |
+| Real storage admission / writer CPU cases | Four / two passed |
+| Simulated signed nonempty-tail recovery | Two passed; 0.24 seconds |
+| Targeted T-N09 measurement | One passed; 0.27 seconds |
 
-All case results above have zero failures or ignored cases. Independent review
-cleared the index and outgoing local history. Only README.md Markdown is tracked;
-raw outputs stay in ignored local-tests/b4-preparation. Build timing is not TPS.
+The actual process cases use four real validator/native-engine processes and
+release public/master executables with pinned executable identities. No master
+serves public recovery in the public cases.
 
-Review repaired queue-count accounting, shutdown tail charge transfer, final exact
-Duration age checks and decoded-row/read-lease lifetime. The Drop adapter now
-matches its exact reviewed standard-trait registration. This service uses estimated
-logical accounting, without allocator/RSS, physical disk-stall or power-loss proof.
-
-## Authenticated import foundation
-
-The subsequent local source adds bounded journal decoding and a private authenticated
-import capability distinct from independent replay. Complete borrowed preflight
-precedes operation-vector/code/system allocation. It preserves all ten operation
-tags and repeated/delete-recreate order, with a fixed-depth system-record scanner.
-Aggregate decode limits are operator policy; fitting final state does not imply
-every journal fits those same decode limits.
-
-Candidate reservation counts transient insertions even when later deleted. Parent
-identity is checked before encoding/measurement. Imported roots and execution hash
-must match certified H+1; native H/H+1 data, fixed enrolled owners, execution header
-context, receipt roots and exact current execution-history entry are checked.
-Fees are contained in the delta and are not applied again.
-
-| Verified scope | Result |
+| Actual single-host development case | Result and scope |
 |---|---|
-| State | Full 42-case packet, then four reservation cases after repair; 43 distinct cases covered |
-| Journal codec / reservation | 18 / four new cases passed |
-| Finality verifier | 68 cases passed, including 21 new import cases |
-| Capability privacy | Six cases rerun after sharing one compiler fixture; passed |
-| Public applied regression | 14 cases passed |
-| Format / strict five-package Clippy / release | Passed; local release build 24.40 seconds |
+| Public bootstrap and graceful restart | Passed; 75.21 seconds; nonempty roots/receipts/nonce/balance versus replay |
+| Public SIGKILL and later validator-tail retrieval | Passed; 75.51 seconds; same namespace and authenticated durable peer data |
+| Checkpoint bootstrap, nonempty tail and default restart | Passed; 68.77 seconds; actual completed checkpoint and reopened suffix |
+| Interrupted checkpoint and same-content resume | Passed; 81.09 seconds; old prefix preserved before activation |
+| All configured public replicas lost, masters absent | Passed; 87.66 seconds; rebuilt from retained durable validator data |
+| Master absent during another transaction, same-archive restart | Passed; 68.07 seconds; complete retained commits/proofs versus replay |
 
-These are local checks on the new source, with zero failed/ignored cases. Full B4
-source gates and revision-bound checkpoint review remain separate obligations.
-See [import contract](../../../validator/components/finality-verifier/src/recovery/import/README.md)
-and [public applied contract](../../../public/src/sync/applied/README.md).
+The nonempty loss unit cases explicitly model SIMULATED_UNSYNCED_LOSS: H1 data and
+marker are acknowledged at physical rows 1/2, H2 data at row 3, and its marker is
+unwritten. A new real WAL namespace receives only those actual acknowledged rows.
+Original data is preserved. Recovery reads a separate real peer WAL, verifies
+signed H/H+1 input, reproduces the whole canonical H2 commit/receipts/nonce-two/fee
+state, rejects duplicate effects, and reopens exactly. Missing/corrupt-only selected
+peer data preserves H1, missing-from height 2 and NOT_READY. Thirty-two repeated
+bad/stale reads preserve baseline leases and zero pending queue/parts.
 
-The initial import contract requires the exact local parent, including auxiliary
-digest. A matching-root snapshot with another auxiliary representation may refuse.
-Unused hash-checked code and reconstructed content_digest are local representation,
-not independently certified fields. An explicit outside-assumption fixture certifies
-a nonce-invalid outcome: import accepts that certified outcome while real replay
-rejects execution. This is the documented mode distinction, not stronger security.
+These simulations and real process cases are distinct evidence. Combining them
+does not establish hardware power-loss behavior, independent operator/failure
+domains, unlimited retention or impossible recovery after every valid copy is lost.
 
-## Compact wire and explicit public modes
+## T-N09 measured local contract
 
-The next local source integrates EVE_IMPORT_V1 with sealed borrowed preflight over
-one immutable input and frozen budget. Exact aggregate sizing precedes component
-output; decoding compares complete canonical reencoding against those same bytes.
-The compact limit remains 4,198,312 bytes. State-owned typed/wire candidate estimates
-share one cost calculation and count transient/repeated writes before decoding.
+The versioned [measurement contract](../../../config/gates/measurement-b4.toml)
+was frozen before the targeted CLASSICAL_DEV_LOCAL run. It uses 128 baseline
+rounds and 128 pressure rounds, each with two concurrent real production loopback
+HTTP calls: eth_getBalance and eth_call. Pressure performs 128 actual checkpoint
+content/proof sync jobs while the real public WAL writer is paused. Oracle values,
+old/new captured views, shutdown and reopen are checked.
 
-Public application has explicit EmptyReplay and AuthenticatedImport modes. The
-legacy constructor/domain remain unchanged. Import uses a separate SHA-256 storage
-domain, actual-genesis sizing and actual wire counts; it does not charge REVM maxima.
-Wrong-mode opening rejects even at genesis. Captured publications expose the mode
-and retain charged private state; synced-prefix/tail/age behavior remains shared.
+Declared limits are 100 ms small-fixture RPC p99, one-second operation deadline,
+512 MiB observed process peak RSS, 256 MiB estimated working capacity, 16 MiB raw
+staging, two storage jobs, four retained parts, 32 MiB encoded queue, two-second
+queue age and two-block logical lag. This is a local interference contract.
 
-| Verified scope | Result |
+| Metric from that targeted run | Recorded value |
 |---|---|
-| State | 61 cases passed, including 15 measurement/wire-sizing and three genesis cases |
-| Finality verifier | 85 cases passed, including 17 new wire cases |
-| Public | 48 cases passed, including nine new imported application cases |
-| Format / strict five-package Clippy / release | Passed; local release build 26.79 seconds |
+| Baseline balance / call p99 | 0.275687 / 0.845390 ms |
+| Pressure balance / call p99 | 0.313717 / 0.821512 ms |
+| Sampled peak RSS / process lifetime HWM | 20,447,232 / 20,447,232 bytes |
+| Peak storage jobs / raw staging | Two / 16,777,216 bytes |
+| Peak estimated working reservation | 32,374,217 bytes |
+| Writer measured CPU / elapsed wall | 152,679 / 149,236,597 ns |
+| Writer pacing sleep / largest record CPU burst | 100,949 / 144,209 ns |
+| Writer physical record operations / observed queue age | Two / 150 ms |
 
-All executed cases above have zero failures or ignored cases. Actual signed
-nonempty import is tested with paused append, two admissions, RAM capture, exact
-reopen and fee equality. The pause is a functional fixture, not hardware stall or
-power-loss proof. Independent production review found no remaining blocker in
-mode, wire binding, estimate/lease ordering or failure retention. Build time is
-not throughput. Full source gates/checkpoint review remain separate obligations.
-## Segmented persistence foundation — 2026-10-04
+The RSS samples and lifetime HWM belong to this small targeted process workload.
+Logical leases are separately enforced admission estimates. No OS memory or CPU
+hard quota is claimed. Writer pacing excludes RocksDB background threads, public
+verification and RPC CPU. The bounded pause is a test fault, not hardware fsync
+stall or instantaneous CPU enforcement. No finalized TPS result is measured here.
 
-An explicit part-buffer policy v2 preserves numerical 8 MiB encoded parts,
-32 MiB queue bytes and four retained parts. It does not rename v1 batches.
-The derived classical logical bound is 21,025,569 bytes; six physical segments,
-three data parts and one marker part retain at most 21,027,288 encoded bytes.
-Physical opaque records keep their original 4,198,400-byte record/read ceiling.
-Every actual database transaction writes one physical record.
+The extended standalone release measurement passes in 2.10 seconds with 128 actual
+checkpoint jobs, 128 KEEP_ALL compactions and 128 secondary-index jobs, alongside
+production HTTP RPC and the paused sole WAL. Compaction/index namespaces are
+separate; one auxiliary DB opens at a time within the unchanged combined cache,
+buffer, job and file limits. Retained payloads/cursors/indexed state remain exact.
+Balance p99 is 0.263691/0.443699 ms; eth_call is 0.758976/1.080138 ms
+(baseline/pressure). Sampled RSS and process HWM are 22,716,416 bytes.
+Reads peak at 2, staging at 16,777,216 bytes and working estimates at 32,374,217.
+Writer CPU/wall/sleep are 95,019/1,984,855,491/43,585 ns; its maximum record
+CPU burst is 85,499 ns across 2 records. Queue age is 1,985 ms. These newer
+metrics attest only this declared local fixture, not sustained network capacity.
 
-Canonical segment records use 177-byte headers and 32-byte hashes. Marker size
-is 225 bytes plus 40 per reference, at most 465 bytes. Checksums/local anchors
-establish local integrity, never finality. A complete logical acknowledgement is
-emitted only after all actual segment syncs and the marker sync match the planned
-cursor chain. Physical sequence is distinct from execution height.
+## Reproduction, gates and remaining acceptance
 
-Atomic part reservations include encoded capacities, count slots and metadata.
-Cancelled tickets, failed writes and worker panics retain full owned tails.
-A pool-owned worker lifetime lease fences duplicate scratch reservations across
-repository paths and remains active through retained tickets and detached threads.
-Startup validates actual marker membership; tighter segment and logical-lag
-limits reject before admission. No publication lock spans repository I/O.
+Use the repository-pinned toolchain, Cargo.lock, tool/binary identities and complete
+versioned test inventories. Preserve the explicit release profile for timed public
+tests. Native process cases require the actual pinned Comet binary/digest and
+development/normal validator plus release public/master binaries prepared by xtask.
 
-| Verified scope | Result |
-|---|---|
-| Node policy | Full 26 cases passed; ten new segmented cases rerun after lint correction |
-| Segment codec | 16 cases passed |
-| Segmented worker | 19 cases passed after startup, cap, lag and worker-fence repairs |
-| Finality verifier | 99 cases passed, including 14 logical V2 transport cases |
-| Strict four-package Clippy / release | Passed; local release build 21.12 seconds |
+```text
+cargo xtask check-structure
+cargo xtask check-ownership
+cargo xtask verify --bulk B4
+```
 
-All executed cases above have zero failures or ignored cases. Full logical V2
-transport keeps every original component/transaction/header/consensus bound;
-its larger envelope is explicit. Decoder input and budgets remain sealed together.
-The large transport fixture claims no certificate or execution validity.
-Privacy compilation now selects an actually compatible verifier/state rlib pair
-with a successful dependency probe before checking the required compiler error;
-an unrelated duplicate-crate error cannot satisfy a privacy test.
+The last command is the required final packet, presently NOT_RUN. An executable
+manifest is not acceptance. Complete remaining T-N01–T-N07, T-N09/T-N10,
+T-S04–T-S08 and T-G04/T-G06 coverage, retention/last-copy refusal and truthful
+freshness/readiness/resource behavior before marking B4 complete. Preserve all
+prior classical/core/security/role gates; no test omission or budget increase
+may manufacture success.
 
-At this historical checkpoint, these foundations were not yet connected to complete logical-prefix replay or public applied publication. Orphan reconciliation, authenticated reconstruction,
-snapshots, live follower entry points, peer-tail recovery and full B4 gates remain
-mandatory. Source/publication checks and a coherent local checkpoint follow these
-scoped results. Build timing is not throughput or physical fault evidence.
-## Required continuation
+Raw logs, seeds, databases, executables and machine configuration remain ignored
+local-only artifacts under local-tests/b4-preparation. This reviewed summary and
+reproduction inputs may be published in the completed bulk; raw artifacts may not.
+Audit the index and every outgoing commit, record the frozen local gate, push one
+completed batch, require hosted acceptance, then integrate normally into main.
 
-Finish authenticated snapshot transfer, resume and atomic activation, master-offline
-missing-tail recovery, retention/last-copy policy, independently observed readiness
-and resource/fault acceptance. The linked scoped follower foundation is implemented
-locally. Preserve all
-T-N01–T-N07, T-N09/T-N10, T-S04–T-S08 and T-G04/T-G06 gates. No valid maximum payload
-may be made to fit by silently raising limits or omitting data.
-
-Fixed-genesis classical assumptions remain explicit. Dynamic authority, secure
-profile acceptance, standalone copies, physical resource/fault evidence and 1M
-aggregate finalized TPS remain unfinished. Continue existing bulks in dependency
-order; this document does not authorize mainnet, real funds or external programs.
+Classical development success does not satisfy PQ SECURITY_PROFILE_ACCEPTED,
+standalone role-copy build/run, independent master HA, production transport,
+mainnet readiness or the 1M aggregate finalized TPS goal. External-chain and
+bridge programs remain deferred until EVE testnet; EVE core has no remote-chain
+runtime dependency.

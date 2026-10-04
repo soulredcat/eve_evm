@@ -13,6 +13,10 @@ license-file.workspace = true
 [dependencies]
 ed25519-dalek.workspace = true
 prost-types.workspace = true
+alloy-consensus.workspace = true
+alloy-eips.workspace = true
+alloy-primitives.workspace = true
+k256.workspace = true
 eve-state = { path = "../state" }
 eve-evm = { path = "../execution" }
 eve-consensus-comet = { path = "../consensus-comet" }

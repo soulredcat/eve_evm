@@ -36,8 +36,8 @@ prerequisites = ["B2"]
 
 [[gates]]
 id = "B4"
-manifest = ""
-implemented = false
+manifest = "config/gates/B4.toml"
+implemented = true
 prerequisites = ["B3"]
 
 [[gates]]

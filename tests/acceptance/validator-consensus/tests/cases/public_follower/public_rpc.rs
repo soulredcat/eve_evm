@@ -11,7 +11,11 @@ use std::{
 };
 
 /// Actual bounded POST against the launched product server, using shared framing.
-pub(super) fn public_rpc(address: SocketAddr, method: &str, params: Value) -> Result<Value> {
+pub(in crate::cases) fn public_rpc(
+    address: SocketAddr,
+    method: &str,
+    params: Value,
+) -> Result<Value> {
     ensure!(
         address.ip().is_loopback() && address.port() != 0,
         "PUBLIC_FOLLOWER_RPC_ENDPOINT"

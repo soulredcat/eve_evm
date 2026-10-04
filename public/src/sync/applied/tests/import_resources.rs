@@ -7,6 +7,7 @@ use crate::sync::applied::{
     resources::{
         create_estimated_working_pool, estimate_import_charge, estimate_pending_metadata,
         reserve_estimated_working,
+        storage_admission::required_storage_admission_control_reservation,
     },
     *,
 };
@@ -84,8 +85,10 @@ fn captured_import_generation_backpressures_then_releases_only_after_the_last_vi
     .unwrap();
     let charge = estimate_import_charge(stats, candidate).unwrap();
     let metadata = estimate_pending_metadata(config.public_budget.queue_batches as usize).unwrap();
+    let control = required_storage_admission_control_reservation().unwrap();
+    // This fixture freezes the exact minimum, including the real owner controller allocation.
     config.public_budget.maximum_working_state_bytes =
-        (genesis + metadata + BOUNDED_STATE_CODEC_SCRATCH_BYTES + charge.total) as u64;
+        (genesis + metadata + control + BOUNDED_STATE_CODEC_SCRATCH_BYTES + charge.total) as u64;
     drop(scratch);
     let (mut owner, reader) = open_applied_state_service_with_mode(
         config,
@@ -121,13 +124,31 @@ fn captured_import_generation_backpressures_then_releases_only_after_the_last_vi
     drop(first);
     drop(shutdown);
     let last = capture_applied_state(&reader).unwrap();
+    let retained = observe_estimated_working(&reader)
+        .unwrap()
+        .reserved_estimated_bytes
+        .checked_sub(control as u64)
+        .unwrap() as usize;
     let limit = observe_estimated_working(&reader).unwrap().limit as usize;
     let working = Arc::clone(&reader.working);
     drop(reader);
+    // The same pool proves exact controller release while the actual last generation survives.
+    let remainder = reserve_estimated_working(&working, limit - retained).unwrap();
+    assert!(matches!(
+        reserve_estimated_working(&working, 1),
+        Err(AppliedError::EstimatedCapacity)
+    ));
+    drop(remainder);
     assert!(matches!(
         reserve_estimated_working(&working, limit),
         Err(AppliedError::EstimatedCapacity)
     ));
     drop(last);
+    let full = reserve_estimated_working(&working, limit).unwrap();
+    assert!(matches!(
+        reserve_estimated_working(&working, 1),
+        Err(AppliedError::EstimatedCapacity)
+    ));
+    drop(full);
     assert!(reserve_estimated_working(&working, limit).is_ok());
 }

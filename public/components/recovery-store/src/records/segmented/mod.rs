@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 //! Bounded segmented-record integrity and local recovery. No consensus finality.
+pub mod checkpoints;
 mod decoding;
 mod encoding;
 mod framing;

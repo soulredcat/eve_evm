@@ -11,7 +11,7 @@ use eve_state::{
 use eve_storage::state::{commit_state, read_state_service};
 
 /// Actual durable canonical storage fixture; no native finality/execution claim.
-pub(super) fn advance(fixture: &mut TestApplication) -> StateCommit {
+pub(in crate::consensus::application) fn advance(fixture: &mut TestApplication) -> StateCommit {
     let parent = read_state_service(&fixture.application.service).unwrap();
     let mut header = parent.commit().block.header.clone();
     header.number += 1;

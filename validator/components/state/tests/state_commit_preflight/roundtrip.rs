@@ -5,8 +5,9 @@
 use crate::fixtures::fixture;
 use eve_state::{
     decode_preflight_state_commit, development_state_budget, encode_state_commit,
-    preflight_state_commit, required_state_commit_decode_reservation,
+    encode_state_version, preflight_state_commit, required_state_commit_decode_reservation,
     state_commit_preflight_budget, state_commit_preflight_bytes, state_commit_preflight_stats,
+    state_commit_preflight_target_bytes,
 };
 
 #[test]
@@ -19,6 +20,22 @@ fn sealed_full_commit_roundtrip_reports_actual_materialization_counts_without_ne
         bytes.as_ptr()
     );
     assert_eq!(stats.encoded_bytes, bytes.len());
+    let target_bytes = state_commit_preflight_target_bytes(&preflight);
+    assert_eq!(
+        target_bytes,
+        encode_state_version(&commit.target).unwrap().as_ref()
+    );
+    let offset = target_bytes.as_ptr() as usize - bytes.as_ptr() as usize;
+    assert_eq!(
+        eve_state::preflight_state_version(target_bytes).unwrap(),
+        commit.target.identity.network_name.len()
+    );
+    assert!(eve_state::preflight_state_version(&target_bytes[..target_bytes.len() - 1]).is_err());
+    let mut trailing = target_bytes.to_vec();
+    trailing.push(0);
+    assert!(eve_state::preflight_state_version(&trailing).is_err());
+    assert!(eve_state::preflight_state_version(&[0; 4_097]).is_err());
+    assert!(offset.checked_add(target_bytes.len()).unwrap() <= bytes.len());
     assert_eq!(stats.accounts, commit.state.accounts.len());
     assert_eq!(
         stats.storage_slots,

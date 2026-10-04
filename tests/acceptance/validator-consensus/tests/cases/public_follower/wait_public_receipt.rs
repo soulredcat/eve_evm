@@ -8,7 +8,7 @@ use anyhow::{Result, ensure};
 use serde_json::{Value, json};
 use std::time::{Duration, Instant};
 
-pub(super) fn wait_public_receipt(
+pub(in crate::cases) fn wait_public_receipt(
     follower: &mut PublicFollower,
     hash: B256,
     deadline: Instant,

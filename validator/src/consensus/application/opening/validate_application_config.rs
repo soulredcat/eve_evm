@@ -16,6 +16,8 @@ use eve_state::{SecurityProfile, validate_state_commit};
 pub(super) fn validate_application_config(config: &ApplicationConfig) -> Result<()> {
     super::super::serving::validate_delta_serving_budget(config.delta_serving_budget)
         .map_err(|_| anyhow::anyhow!("invalid retained delta serving budget"))?;
+    super::super::serving::validate_snapshot_serving_budget(config.snapshot_serving_budget)
+        .map_err(|_| anyhow::anyhow!("invalid retained snapshot serving budget"))?;
     validate_state_commit(&config.genesis, &config.logical_budget)
         .map_err(|_| anyhow::anyhow!("invalid canonical application genesis"))?;
     ensure!(

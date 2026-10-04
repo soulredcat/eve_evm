@@ -20,6 +20,10 @@ prost.workspace = true
 eve-state = { path = "../../../validator/components/state" }
 eve-consensus-comet = { path = "../../../validator/components/consensus-comet" }
 eve-finality-verifier = { path = "../../../validator/components/finality-verifier" }
+eve-storage = { path = "../recovery-store" }
+
+[dev-dependencies]
+eve-development-fixtures = { path = "../../../validator/components/development-fixtures" }
 
 [lints]
 workspace = true

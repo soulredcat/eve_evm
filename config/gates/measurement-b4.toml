@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+# Frozen before measurement: new local development interference objective, not historical acceptance.
+version = 1
+profile = "CLASSICAL_DEV_LOCAL"
+scenario = "T-N09_RAM_RPC_WITH_PAUSED_WAL_CHECKPOINT_AND_ARCHIVE_MAINTENANCE"
+baseline_samples = 128
+pressure_samples = 128
+rpc_concurrency = 2
+rpc_methods = ["eth_getBalance", "eth_call"]
+rpc_transport = "production_http_loopback"
+simulation_arena_bytes = 8388608
+rpc_operation_timeout_ms = 1000
+small_fixture_rpc_p99_limit_ms = 100
+observed_process_peak_rss_limit_bytes = 536870912
+working_estimate_limit_bytes = 268435456
+snapshot_staging_limit_bytes = 16777216
+concurrent_storage_read_limit = 2
+worker_cpu_basis_points = 2500
+worker_cpu_scope = "sole_writer_bounded_record_operation_cooperative_pacing"
+worker_burst_policy = "one_physical_record_without_idle_credit"
+maximum_physical_payload_bytes = 4194304
+retained_parts = 4
+encoded_queue_limit_bytes = 33554432
+queue_age_admission_limit_ms = 2000
+logical_lag_limit_blocks = 2
+pressure_requires_actual_wal_pause = true
+pressure_requires_actual_checkpoint_chunk_io = true
+pressure_requires_actual_checkpoint_proof_io = true
+pressure_requires_actual_archive_compaction = true
+pressure_requires_actual_secondary_index_lookup = true
+archive_compaction_operations = 128
+archive_index_lookup_jobs = 128
+archive_maintenance_scope = "separate_keep_all_and_canonical_history_namespaces"
+primary_database_block_cache_bytes = 4128768
+primary_database_write_buffer_bytes = 4128768
+primary_database_write_buffer_count = 1
+primary_database_background_jobs = 1
+primary_database_open_files = 24
+auxiliary_database_block_cache_bytes = 65536
+auxiliary_database_write_buffer_bytes = 65536
+auxiliary_database_write_buffer_count = 1
+auxiliary_database_background_jobs = 1
+auxiliary_database_open_files = 8
+maximum_concurrent_auxiliary_databases = 1
+auxiliary_job_working_reservation_bytes = 2097152
+auxiliary_job_staging_reservation_bytes = 524288
+compare_old_and_new_view_oracles = true
+verify_shutdown_and_reopen = true
+os_memory_enforcement = false
+os_cpu_enforcement = false
+database_background_cpu_included_in_writer_pacing = false
+throughput_or_mainnet_acceptance = false

@@ -7,16 +7,16 @@ version = 1
 [[cases]]
 id = "T-N09"
 owner_gate = "B4"
-status = "NOT_IMPLEMENTED"
+status = "IMPLEMENTED"
 expected = "Slow/failing disk and simultaneous snapshot/index work cannot hold RAM state locks; queue/memory/lag limits and declared readiness/backpressure behavior remain enforced, with measured RPC/execution interference"
-fixture = "Slow/failing isolated disk with simultaneous RPC, execution, snapshot and indexing under declared queue/memory/lag budgets."
+fixture = "Frozen CLASSICAL_DEV_LOCAL production HTTP balance/eth_call with paused sole WAL, 128 checkpoint jobs, 128 KEEP_ALL compactions and 128 actual secondary-index jobs under combined resource limits; separate actual/simulated storage-failure cases."
 
 [[cases]]
 id = "T-N10"
 owner_gate = "B4"
-status = "NOT_IMPLEMENTED"
+status = "IMPLEMENTED"
 expected = "Public process/power-loss recovery with masters offline restores a complete durable prefix, retrieves the unsynced tail from authenticated durable peers, and reproduces roots/receipts without duplicate effects; an unavailable tail is explicit and readiness remains false"
-fixture = "Abrupt public-process exit and host power-loss fixture with masters offline, missing tail and authenticated peer replay."
+fixture = "Actual Linux public SIGKILL with masters absent plus explicitly simulated loss of a nonempty unsynced marker; actual authenticated peer WAL replay, exact roots/receipts/fees and unavailable/corrupt-tail refusal. Physical power-loss testing is not claimed."
 
 [[cases]]
 id = "T-N11"

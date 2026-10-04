@@ -74,8 +74,8 @@ batch to 160 MiB, a complete export to 512 MiB, concurrent snapshots to 8 and
 snapshot references to 16,384. Rocks cache/write-buffer/job/file settings are
 explicit. These are local reference bounds, not consensus-invalidity rules, strict
 whole-process RAM caps, mainnet capacity evidence or zero storage interference.
-The initial baseline retains complete commits and duplicates narrow indices;
-scaling/checkpoint compaction and asynchronous public workers remain later work.
+The B1 baseline retains complete commits and narrow indices. Public asynchronous
+workers and checkpoint bases use separate B4 contracts; production scaling remains unaccepted.
 
 Linux/WSL is the verified storage/snapshot platform. Directory fsync is implemented
 on Unix; native Windows snapshot-durability acceptance is not claimed. Process
@@ -99,9 +99,8 @@ The fixed-width `EVESTR01` metadata is local storage, not consensus RLP. Opaque
 payloads retain their selected serialization; records/cursor use a sync-enabled
 WAL batch. Its cursor is a locally synced prefix, not authenticated post-state.
 
-Physical B0 checkpoints are local recovery artifacts. The complete public
-storage worker, authenticated network import, master-offline peer recovery,
-retention/chaos and secure-profile/mainnet throughput gates remain unfinished.
+Physical B0 checkpoints remain local artifacts. B4 follower storage is described
+below; retention/fault, secure-profile and production-capacity acceptance remain unfinished.
 ## Derived history index — B2
 
 The auxiliary `EVEHISTORY01` schema is separately versioned from `EVESTATE01`.
@@ -186,3 +185,15 @@ no-destructor child exits and exclusive owners from labelled simulated failures.
 A coherent older checkpoint is deliberately shown to remain locally valid: this
 repository cannot prove full-backup rollback protection or hardware power-loss
 durability. Validator signing policy must supply the stronger continuity rules.
+
+## Authenticated follower storage — B4
+
+Segmented records now support immutable bounded batches and actual complete-marker
+ACKs. [Checkpoint content/proof storage](src/checkpoints/README.md) adds resumable
+private staging, immutable completion, conservative repair and typed durable bases.
+Membership/checksums grant no finality: public reauthenticates genesis through H+1
+before base/suffix publication. Conditional activation preserves the old usable view.
+Public bounds two storage jobs, 16 MiB staging and cooperative 2500-basis-point
+writer pacing; these are logical admission/pacing, not OS memory/CPU quotas.
+See [B4 scoped evidence](../../../docs/execution/b4/README.md). The complete B4 gate,
+hosted acceptance and publication are NOT_RUN; no production or PQ result is claimed.
