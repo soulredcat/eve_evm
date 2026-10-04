@@ -15,7 +15,7 @@ passes 545 at `9d3e1d5`. Job 111128025705 succeeds in every required step.
 The separate push run 37096712477 is cancelled; it supplies no passing evidence.
 The verified B3 source is integrated with documentation-only acceptance updates.
 B3 is integrated on main at c41ba2f351f17ad349efccb1e447e49822480c99.
-B4 is actively in progress; its complete gate remains unpassed.
+B4 is paused by the owner; its complete gate remains unpassed.
 
 This accepts the classical development B3 contract, including real consensus,
 execution, signer durability and historical transitions. It does not accept PQ,
@@ -150,8 +150,8 @@ B4 foundations are developed separately; they do not close B3 or its prerequisit
 
 ## B4 local development
 
-Status on 2026-10-04: B4 IN_PROGRESS, local HEAD 88e7c82 with subsequent uncommitted
-source, not pushed or integrated into main. Canonical public/master followers,
+Status on 2026-10-04: B4 PAUSED_BY_OWNER, frozen candidate f10482e. Its unfinished
+checkpoint is authorized for a draft PR without runtime integration. Canonical public/master followers,
 segmented recovery, private authenticated checkpoint import, resumable content/proof
 storage, typed durable-base activation and default public checkpoint restart now
 exist locally. Fixed genesis owners/profile are explicit; dynamic transitions
@@ -161,7 +161,8 @@ four-validator process cases, nonempty simulated tail loss, bounded N09 measurem
 and remaining requirements. Public storage limits are two jobs, 16 MiB staging
 and cooperative 2500-basis-point writer pacing, not OS hard quotas.
 The B4 manifest/registry/workflow is executable source; complete local/hosted B4
-verification and publication are NOT_RUN. T-N09/T-N10 completion remains pending
+verification is unaccepted: the local packet failed before tests due to a missing
+tool receipt; provisioning was stopped at the owner pause. T-N09/T-N10 completion remains pending
 full-scope review. Retain all prerequisites and require hosted acceptance before main.
 ## Remaining acceptance
 
@@ -169,7 +170,7 @@ full-scope review. Retain all prerequisites and require hosted acceptance before
 |---|---|
 | B0/SEC0, B1 and B2 | Historical complete local development gates passed; retain regressions |
 | B3 | DONE for the classical development contract: local and hosted 545-case gates pass |
-| B4 | IN_PROGRESS; implemented runtime/checkpoint slices; complete local/hosted gate NOT_RUN |
+| B4 | PAUSED_BY_OWNER; source checkpoint in draft; local gate failed before tests; hosted acceptance pending |
 | B5–B11 | NOT_STARTED |
 | SEC1 / SEC3 | NOT_STARTED; core security requirements remain mandatory |
 | Independent copied public/validator distributions | NOT_IMPLEMENTED / NOT_RUN |

@@ -4,18 +4,24 @@
 
 # B4 authenticated followers and durable checkpoint progress
 
-Status on 2026-10-04: IN_PROGRESS. Accepted B3 classical development main remains
-`c41ba2f351f17ad349efccb1e447e49822480c99`. The local B4 foundation baseline is
-`88e7c82215873f65d346c211d704dc12f151b033`; later source awaits frozen verification.
-B4 has not been pushed or integrated into main. Component results below describe
-executed local source packets, not one frozen revision accepted by the complete gate.
+Status on 2026-10-04: PAUSED_BY_OWNER. Accepted B3 classical development runtime
+remains on main at `c41ba2f351f17ad349efccb1e447e49822480c99`.
+The frozen B4 implementation candidate is `f10482e3f7cbf9557e682929cc459d421cb8c24c`.
+The owner authorizes publishing this unfinished checkpoint as a draft PR, without
+B4 runtime integration into main. Resume development only when the owner asks.
 
-The B4 manifest, registry entry and hosted workflow are now executable source.
-The complete local `cargo xtask verify --bulk B4` packet is NOT_RUN.
-Hosted B4 acceptance and bulk publication are NOT_RUN. T-N09/T-N10 executable
-coverage is IMPLEMENTED; complete B4 acceptance remains pending its frozen gate.
-Preserve local-first completed-bulk publication and mandatory
-hosted acceptance before main integration.
+The complete local `cargo xtask verify --bulk B4` attempt at clean `f10482e`
+failed before executing tests: the worktree toolchain receipt was missing.
+Its structure/ownership checks passed; the packet executed zero tests.
+Canonical provisioning then completed Go/Comet extraction, Comet build/module
+verification, OpenSSL configuration/build and Node extraction. The owner pause
+stopped provisioning during client installation. No complete tool receipt or
+passing full B4 packet is claimed. Task-owned local actors have ended.
+
+Component results below are executed local source packets, not complete B4
+acceptance. The executable manifest and T-N09/T-N10 coverage are IMPLEMENTED;
+hosted B4 acceptance remains NOT_RUN. Keep mandatory gates before runtime merge.
+No background monitoring or automatic resumption is scheduled.
 
 ## Implemented source capabilities
 
@@ -165,7 +171,8 @@ cargo xtask check-ownership
 cargo xtask verify --bulk B4
 ```
 
-The last command is the required final packet, presently NOT_RUN. An executable
+The last command failed before tests on this checkpoint; rerun after completing
+canonical tool provisioning. An executable
 manifest is not acceptance. Complete remaining T-N01–T-N07, T-N09/T-N10,
 T-S04–T-S08 and T-G04/T-G06 coverage, retention/last-copy refusal and truthful
 freshness/readiness/resource behavior before marking B4 complete. Preserve all
@@ -175,8 +182,9 @@ may manufacture success.
 Raw logs, seeds, databases, executables and machine configuration remain ignored
 local-only artifacts under local-tests/b4-preparation. This reviewed summary and
 reproduction inputs may be published in the completed bulk; raw artifacts may not.
-Audit the index and every outgoing commit, record the frozen local gate, push one
-completed batch, require hosted acceptance, then integrate normally into main.
+The owner-authorized draft checkpoint is an explicit publication exception to
+completed-bulk batching. Audit its index and every outgoing commit; do not merge
+unfinished B4 runtime code. Resume, pass local/hosted gates, then integrate into main.
 
 Classical development success does not satisfy PQ SECURITY_PROFILE_ACCEPTED,
 standalone role-copy build/run, independent master HA, production transport,
