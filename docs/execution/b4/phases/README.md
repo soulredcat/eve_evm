@@ -28,6 +28,22 @@ The inherited B3 workflow on P1/P2 is a retained regression packet; it does not
 by itself select every new finality/sync component test and cannot certify the
 whole phase. Complete applicable inventories and bind evidence before merge.
 
+These are the ordered execution phases that exhaust B4, not optional review
+labels. Complete P1 before P2 and P2 before P3. A phase is DONE only after its
+implementation, required tests/integration/docs, exact-revision local/hosted gate
+and main integration are complete. P3 includes the full integrated B4 closure
+gate; that gate is part of P3, not a fourth phase. Once P1-P3 are DONE and the
+full B4 packet passes, mark B4 DONE and proceed to the next existing bulk only
+when the owner resumes. Do not invent additional B4 phases or omit requirements.
+
+| Required B4 coverage | Owning phase |
+|---|---|
+| Canonical trust/identity/history, replay/import and commitment mutation guards | P1, retained and rerun through P3 |
+| Actual public bootstrap and master-offline catch-up, segmented WAL and coherent RAM/durable markers | P2, retained and rerun through P3 |
+| Resumable checkpoints, interruption, bounded hostile inputs and KEEP_ALL retention | P3 |
+| Slow/failing storage interference, unsynced-tail recovery, complete replica-loss and commit-boundary faults | P3 |
+| Complete T-N01-T-N07, T-N09/T-N10, T-S04-T-S08 and T-G04/T-G06 integrated closure | P3 |
+
 ## What is already verified
 
 The source packets combined into f10482e have these integrator-run local results.
