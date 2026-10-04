@@ -4,7 +4,7 @@
 
 # Verified execution status
 
-Updated: 2026-10-03. This public summary records verified facts at the checkpoint
+Updated: 2026-10-04. This public summary records verified facts at the checkpoint
 below. Documentation edits do not rerun or extend its runtime acceptance.
 
 ## Accepted B3 classical development gate
@@ -183,3 +183,12 @@ unfinished. An uncompiled RPC draft is preserved in ignored local-only storage.
 
 The classical development baseline is not a production, PQ, majority-immunity,
 audit or capacity claim. No mainnet launch or real-value deployment is authorized.
+
+## Owner pause and B4 phase drafts
+
+B4 is PAUSED_BY_OWNER. Reviewed completed results and remaining work are recorded
+in the [B4 phase checkpoint](b4/phases/README.md): P1 PR #6, P2 PR #7 and P3 PR #8.
+Implementation/component checks are distinct from phase acceptance. None of these
+B4 phases has a complete accepted local/hosted packet, so runtime integration
+remains pending. Main records this documentation checkpoint while its accepted
+runtime remains B3. Task-owned local background actors have stopped.
