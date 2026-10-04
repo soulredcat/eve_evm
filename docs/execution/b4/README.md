@@ -23,6 +23,8 @@ acceptance. The executable manifest and T-N09/T-N10 coverage are IMPLEMENTED;
 hosted B4 acceptance remains NOT_RUN. Keep mandatory gates before runtime merge.
 No background monitoring or automatic resumption is scheduled.
 
+Review and remaining work are split into [three phase drafts](phases/README.md).
+
 ## Implemented source capabilities
 
 The [follower foundation](follower-foundation/README.md) records the earlier compact
