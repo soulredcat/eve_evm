@@ -12,6 +12,7 @@ use std::{
 };
 
 pub struct SegmentedPartPool {
+    pub(in crate::persistence::segmented) worker_cpu_basis_points: u64,
     pub(in crate::persistence::segmented) policy: SegmentedRecoveryPolicy,
     pub(in crate::persistence::segmented) codec: SegmentedCodecLimits,
     pub(in crate::persistence::segmented) repository: OpaqueRecordBudget,

@@ -10,7 +10,7 @@ use crate::support::{Cluster, collect_certified_history, replay_history};
 use anyhow::{Context, Result, ensure};
 use std::{collections::BTreeMap, time::Instant};
 
-pub(super) fn verify_public_current_state(
+pub(in crate::cases) fn verify_public_current_state(
     cluster: &Cluster,
     follower: &mut PublicFollower,
     deadline: Instant,

@@ -4,7 +4,7 @@
 
 use crate::{StateBudget, StateError};
 
-pub(crate) fn validate_state_budget(budget: &StateBudget) -> Result<(), StateError> {
+pub fn validate_state_budget(budget: &StateBudget) -> Result<(), StateError> {
     if [
         budget.maximum_accounts,
         budget.maximum_storage_slots,

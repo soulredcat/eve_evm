@@ -4,6 +4,7 @@
 
 mod advance_development_follower;
 mod build_segmented_follower_configuration;
+mod checkpoints;
 mod open_development_follower;
 mod run_development_follower;
 mod run_follower_actor;

@@ -4,42 +4,27 @@
 
 use super::{
     super::{
-        SegmentedError,
-        types::{Request, WorkerState},
+        checkpoints::dispatch_checkpoint_request,
+        types::{WorkerRequest, WorkerState},
     },
-    persist_segmented_batch::persist_segmented_batch,
+    dispatch_segmented_batch_request::dispatch_segmented_batch_request,
 };
 use eve_storage::records::OpaqueRecordRepository;
-use std::sync::{Arc, atomic::Ordering, mpsc::Receiver};
+use std::sync::{Arc, mpsc::Receiver};
 pub(super) fn run_segmented_worker(
     mut repository: OpaqueRecordRepository,
     state: Arc<WorkerState>,
-    receiver: Receiver<Request>,
+    receiver: Receiver<WorkerRequest>,
 ) -> OpaqueRecordRepository {
     for request in receiver {
-        let result = if state.failed.load(Ordering::Acquire) {
-            Err(SegmentedError::StorageFailed)
-        } else {
-            persist_segmented_batch(&mut repository, &state, &request)
-        };
-        let result = match result {
-            Ok(ack) => match state.admission.lock() {
-                Ok(mut admission) => match admission.slots[request.slot].as_mut() {
-                    Some(slot) if slot.batch.0.id == request.batch.0.id => {
-                        slot.complete = Some(ack);
-                        Ok(ack)
-                    }
-                    _ => Err(SegmentedError::AckMismatch),
-                },
-                Err(_) => Err(SegmentedError::AccountingUnavailable),
-            },
-            Err(error) => Err(error),
-        };
-        if result.is_err() {
-            state.failed.store(true, Ordering::Release);
+        match request {
+            WorkerRequest::Segmented(request) => {
+                dispatch_segmented_batch_request(&mut repository, &state, request)
+            }
+            WorkerRequest::Checkpoint(request) => {
+                dispatch_checkpoint_request(&mut repository, &state, request)
+            }
         }
-        // State slots retain the full batch through failed/panicked/cancelled deliveries.
-        let _ = request.reply.try_send(result);
     }
     repository
 }

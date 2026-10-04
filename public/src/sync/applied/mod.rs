@@ -6,6 +6,7 @@
 //! Compact and segmented persistence share one owner; full B4 and peer recovery remain unfinished.
 
 mod admission;
+pub mod checkpoints;
 mod durability;
 mod opening;
 mod publication;
@@ -27,6 +28,11 @@ pub use publication::{
     capture_applied_state,
 };
 pub use publication::{applied_readiness, applied_segmented_position};
+pub use resources::storage_admission::{
+    AppliedSnapshotStagingReservation, AppliedStorageObservation, AppliedStorageReadReservation,
+    StorageAdmissionError, observe_applied_storage, reserve_applied_snapshot_staging,
+    reserve_applied_storage_read,
+};
 pub use resources::{
     AppliedWorkingReservation, EstimatedWorkingObservation, observe_estimated_working,
     reserve_applied_working,

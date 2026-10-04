@@ -3,7 +3,8 @@
 # Use requires prior written permission from Redcat.
 
 version = 1
-current_bulk = 3
+current_bulk = 4
+adapter_files = ["config/structure/adapters.toml"]
 
 [[exclusions]]
 path = "LICENSES/BSD-3-Clause.txt"
@@ -12,36 +13,12 @@ source = "https://github.com/cosmos/gogoproto/blob/cf5213e4dcbf1fea203185c0af008
 sha256 = "369124fea6f5c2a4eb29ce462519a2d06c4e6e4ba27ba8116534d454faccf823"
 reason = "Byte-identical upstream license text preserves exact third-party rights under file-level ownership associations."
 
-[[adapters]]
-path = "xtask/src/structure/syntax/pattern_matching/parse_matches_arguments_adapter.rs"
-external_trait = "syn::parse::Parse"
-reason = "The external parser trait delegates one named bounded matches grammar; opaque patterns and executable argument bodies remain rejected."
-reviewer = "integrator"
-
 [[exclusions]]
 path = "LICENSES/Apache-2.0.txt"
 kind = "vendor"
 source = "https://github.com/cometbft/cometbft/blob/0880b4d378f347ab16e54ec677ff50d803f37d62/LICENSE"
 sha256 = "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
 reason = "Byte-identical upstream license text is preserved for exact file-level third-party associations; first-party code remains permission-only."
-
-[[adapters]]
-path = "public/components/recovery-store/src/state/history/reading/drop_history_snapshot_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor only delegates release of the bounded history snapshot lease to its named operation."
-reviewer = "integrator"
-
-[[adapters]]
-path = "xtask/src/structure/syntax/async_selection/parse_select_arguments_adapter.rs"
-external_trait = "syn::parse::Parse"
-reason = "The external parser trait delegates to one named bounded Tokio branch grammar; all branch expressions receive normal Rust AST inspection."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/components/execution/src/execution/native/provider_adapter.rs"
-external_trait = "revm::handler::PrecompileProvider"
-reason = "The maintained EVM provider delegates inactive native dispatch and refresh, while exposing its immutable warmed-address set."
-reviewer = "integrator"
 
 [[exclusions]]
 path = "tests/acceptance/serial-rpc/client/package-lock.json"
@@ -51,12 +28,6 @@ generator = "Node 24.21.0 / npm 11.19.0 install --package-lock-only --ignore-scr
 sha256 = "09870d5c5ab1449a12080f8d0d67007bcaf4747bacefcc1345e41d717302ec8e"
 reason = "Exact private viem/TypeScript/EthereumJS and Node type fixture dependency graph; npm ci validates pinned integrity."
 
-[[adapters]]
-path = "public/components/recovery-store/src/state/snapshots/drop_state_snapshot_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates only the bounded snapshot lease release to its named operation."
-reviewer = "integrator"
-
 [[exclusions]]
 path = "xtask/tests/provisioning_client_fixture/package-lock.json"
 kind = "generated"
@@ -65,30 +36,12 @@ generator = "Node 24.21.0 / npm 11.19.0 install --package-lock-only --ignore-scr
 sha256 = "a7037971456231c2e08383627f51d66fe8ecb73d77cce79738ef88e7dd8ee400"
 reason = "Exact private TypeScript 6.0.3 and viem 2.57.1 API probe dependency graph; npm ci validates integrity, not published SDK implementation."
 
-[[adapters]]
-path = "xtask/src/structure/checking/source_edges/source_edge_inventory_adapter.rs"
-external_trait = "syn::visit::Visit"
-reason = "Each module callback delegates explicit source-edge recording with lexical module context."
-reviewer = "integrator"
-
 [[exclusions]]
 path = "Cargo.lock"
 kind = "generated"
 source = "https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html"
 generator = "Cargo 1.97.1 generate-lockfile"
 reason = "Cargo resolves and records exact dependency identities and checksums."
-
-[[adapters]]
-path = "xtask/src/structure/syntax/syntax_inventory_adapter.rs"
-external_trait = "syn::visit::Visit"
-reason = "Each trait callback delegates to one separately named AST operation."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/components/execution/src/execution/serial/fees/handler/fee_handler_adapter.rs"
-external_trait = "revm::handler::Handler"
-reason = "One fee callback delegates to its named operation; default validation/gas/refund behavior is retained."
-reviewer = "integrator"
 
 [[exclusions]]
 path = "validator/components/authentication/tests/fixtures/nist-acvp/prompt.json"
@@ -305,89 +258,6 @@ reason = "Exact reviewed upstream public vector or original legal notice; preser
 
 [[size_reviews]]
 path = "config/structure-policy.toml"
-lines = 393
-reason = "Decomposition reviewed through the B4 applied-state slice: exact upstream digests and adapter/generator registrations form one declarative policy contract. The applied and four segmented Drop adapters delegate named lease releases; one mempool Deref adapter delegates a borrowed commit getter, and one listener From adapter delegates an address projection. Keep auditable exact rows below 400; no glob, source exclusion or raised ceiling. Partition the schema if further growth requires it."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/consensus/transport/framing/reader_adapter.rs"
-external_trait = "std::io::Read"
-reason = "The standard stream trait delegates to one named authenticated-peer read operation with an absolute deadline."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/consensus/transport/framing/writer_adapter.rs"
-external_trait = "std::io::Write"
-reason = "Write and flush only delegate to named authenticated-peer deadline operations; no framing or business policy is hidden."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/development/engine/lifecycle/owned_engine_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The destructor delegates only to finish_owned_engine, which invokes stop_engine for the owned child and its designated ephemeral socket."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/development/engine/home/engine_lease_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The destructor delegates only to finish_engine_lease, which invokes release_engine_lease for the owned home lock despite inherited duplicate descriptors."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/consensus/runtime/supervision/listener/drop.rs"
-external_trait = "std::ops::Drop"
-reason = "The destructor delegates only to finish_application_listener for its leased, owned application socket; explicit cleanup retains error reporting."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/persistence/handoff/drop_reservation_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates only to the named operation that releases its exact owned handoff reservation."
-reviewer = "integrator"
-
-[[adapters]]
-path = "validator/src/consensus/runtime/supervision/worker/drop.rs"
-external_trait = "std::ops::Drop"
-reason = "The destructor delegates only to handle_channel_worker_drop so an unexpected owned worker termination triggers bounded shutdown."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/sync/applied/resources/drop_estimated_lease_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "Public-owned estimated working-memory lease delegates release to one operation; retained views preserve its charge until their last owner drops."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/persistence/segmented/pool/part_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/persistence/segmented/pool/metadata_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/persistence/segmented/worker/scratch_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/persistence/segmented/pool/worker_lifetime_drop_adapter.rs"
-external_trait = "std::ops::Drop"
-reason = "The standard destructor delegates release of the pool-owned single-worker lifetime lease after its last state owner drops."
-reviewer = "integrator"
-
-[[adapters]]
-path = "public/src/mempool/deref_mempool_head_adapter.rs"
-external_trait = "std::ops::Deref"
-reason = "Standard dereference only delegates to the named borrowed commit getter; an applied head retains its original charged publication across captures. No clone, policy or authority conversion is hidden."
-reviewer = "integrator"
-[[adapters]]
-path = "public/src/rpc/source/development_listener_adapter.rs"
-external_trait = "std::convert::From"
-reason = "Standard conversion only delegates to the named listener-address projection; runtime policy and server behavior remain in their named operations."
+lines = 263
+reason = "The root retains exact upstream digests, generator bindings and decomposition reviews in one bounded declarative policy. Thin adapter declarations are separated into a strict adapter-only fragment, preserving every existing exact path and trait check. The fragment grants no exclusions or size exceptions; no glob, minification or raised ceiling is used."
 reviewer = "integrator"

@@ -4,7 +4,7 @@
 
 use super::{REJECTED, STAGING, open_proof_file::open_proof_file, proof_file_name};
 use crate::sync::{MasterSyncConfig, types::ArchiveInventory};
-use anyhow::{Result, ensure};
+use anyhow::{Context, Result, ensure};
 use std::fs::File;
 
 /// Incremental bounded inventory; no listing Vec, filename sorting or trust in row count.
@@ -15,7 +15,8 @@ pub(in crate::sync) fn scan_proof_archive(
 ) -> Result<ArchiveInventory> {
     #[cfg(target_os = "linux")]
     {
-        let mut entries = rustix::fs::Dir::read_from(directory)?;
+        let mut entries = rustix::fs::Dir::read_from(directory)
+            .context("MASTER_PROOF_ARCHIVE_DIRECTORY_REOPEN")?;
         let mut inventory = ArchiveInventory {
             completed: 0,
             bytes: 0,
@@ -23,7 +24,7 @@ pub(in crate::sync) fn scan_proof_archive(
             rejected: false,
         };
         while let Some(entry) = entries.read() {
-            let entry = entry?;
+            let entry = entry.context("MASTER_PROOF_ARCHIVE_READ_ENTRY")?;
             let bytes = entry.file_name().to_bytes();
             if bytes == b"." || bytes == b".." {
                 continue;

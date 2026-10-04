@@ -41,8 +41,8 @@ This first slice supports the existing classical development protocol only. Its
 fixed profile/epoch comes from canonical genesis; native set hashes do not encode
 EVM owners or key epochs. Dynamic owner/profile/key-epoch evolution, checkpoint
 trust-period verification and conflicting-history quarantine require their
-actual subsequent implementation. There is no EVE checkpoint-import constructor
-that pretends a downloaded anchor is trusted or fresh.
+actual subsequent implementation. Checkpoint import now starts from an actual
+private locally anchored ImportedState, never a downloaded root selected as trust.
 
 The recovery capability replays bounded compact records from a locally initialized
 genesis and a private verified parent. It derives execution context from certified
@@ -51,20 +51,32 @@ Only fixed genesis owners/set/profile/epoch are supported; announced set changes
 fail before publication. The exact immutable envelope remains attached to the
 private transition. Public RAM publication and actual storage acknowledgement
 are separate responsibilities. The [public applied service](../../../public/src/sync/applied/README.md)
-integrates an explicitly limited empty-block capability; full B4 remains unfinished.
+integrates limited empty replay and distinct nonempty certified import. Neither
+publication nor an actual storage ACK creates fresh-head or independent replay authority.
 
-The codec uses canonical state payloads and native Prost messages, with bounded
-preflight and exact reencoding. Its payload cap is 4,198,312 bytes under the
-current opaque storage profile; some valid maximum-size blocks require later
-versioned fragmented storage. No limit is raised or complete B4 acceptance claimed.
+The compact codec uses canonical state payloads and native Prost messages, with
+bounded preflight and exact reencoding. Its cap remains 4,198,312 bytes. Explicit
+logical V2 transport now integrates with bounded segmented storage without raising
+the original physical-record limits or claiming complete B4 acceptance.
 
 The [authenticated import capability](src/recovery/import/README.md) applies
 bounded typed journals and authenticates reconstructed roots/header through H+1
 without REVM. Its private imported state/transition cannot substitute for replay
 capabilities. Both modes share one canonical history operation; imported fees are
 not applied again. The exact-local-parent and auxiliary representation contract
-remains explicit. Compact wire and public RAM modes are integrated locally; live
-followers, fragmented records, snapshots and peer recovery still require acceptance.
+remains explicit. Compact/V2 wire, public RAM modes and live follower/checkpoint
+integration are implemented locally; their full bulk acceptance remains separate.
+
+The [streaming checkpoint capability](src/recovery/import/checkpoint/README.md)
+validates a complete target and ordered canonical execution/native witnesses from
+the actual private parent through H+1. Its private AuthenticatedCheckpoint converts
+only to ImportedState; it cannot become independent EVM replay. The [witness codec](src/recovery/import/checkpoint/wire/README.md)
+seals exact immutable bytes, fixed limits and actual allocation counts before decode.
+Callers retain real leases through target/session/witness/result lifetimes. Numeric
+reservations grant no lease, allocator/RSS, durability, freshness or certificate authority.
+Resumable disk storage, typed base ACK and conditional runtime publication are
+consumer responsibilities. [B4 scoped evidence](../../../docs/execution/b4/README.md)
+records integration slices; the complete local/hosted B4 gate and publication are NOT_RUN.
 
 The baseline assumes less than one-third Byzantine voting power and strict
 3*S > 2*T. These APIs do not provide PQ security, majority-attack immunity, fresh

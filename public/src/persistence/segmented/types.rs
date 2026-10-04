@@ -14,7 +14,9 @@ pub(super) use pool_types::{
     MetadataLease, PartAccounting, PartLease, PartSlot, WorkerLifetimeLease,
 };
 pub use pool_types::{SegmentedPartObservation, SegmentedPartPool};
-pub(super) use worker_types::{Admission, AdmittedBatch, Request, ScratchLease, WorkerState};
+pub(super) use worker_types::{
+    Admission, AdmittedBatch, Request, ScratchLease, WorkerRequest, WorkerState,
+};
 pub use worker_types::{
     RejectedSegmentedBatch, SegmentedLogicalAck, SegmentedTail, SegmentedTicket, SegmentedWorker,
     SegmentedWorkerObservation, SegmentedWorkerShutdown,

@@ -4,7 +4,7 @@
 
 use super::super::{
     AppliedAdmission, AppliedError, AppliedOwner, AppliedPublication,
-    publication::{build_applied_markers, capture_applied_state},
+    publication::{build_next_applied_markers, capture_applied_state},
     recovery::prepare_charged_import,
     resources::reserve_estimated_working,
     state::{AppliedState, applied_state_commit},
@@ -29,6 +29,9 @@ pub(in crate::sync::applied) fn try_apply_segmented_import(
     bytes: &[u8],
     expected_target: Option<&StateVersion>,
 ) -> Result<AppliedAdmission, AppliedError> {
+    if owner.checkpoint.is_some() {
+        return Err(AppliedError::CheckpointPending);
+    }
     if owner.storage_failed {
         return Err(AppliedError::StorageFailed);
     }
@@ -107,7 +110,7 @@ pub(in crate::sync::applied) fn try_apply_segmented_import(
         cursor: marker,
         state_binding: binding,
     };
-    let markers = build_applied_markers(&generation.state, position.durable.height)?;
+    let markers = build_next_applied_markers(&generation.state, position.durable.height, &parent)?;
     let publication = Arc::new(AppliedPublication {
         generation,
         markers,

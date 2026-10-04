@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::{STAGING, open_proof_file::open_proof_file, proof_file_name};
-use anyhow::Result;
+use anyhow::{Context, Result};
 use std::fs::File;
 
 /// Re-sync and publish without replacement, then sync the actual directory before DB commit.
@@ -13,16 +13,21 @@ pub(in crate::sync) fn promote_staged_proof(directory: &File, height: u64) -> Re
     #[cfg(target_os = "linux")]
     {
         use std::os::unix::fs::PermissionsExt;
-        staging.set_permissions(std::fs::Permissions::from_mode(0o400))?;
-        staging.sync_all()?;
+        staging
+            .set_permissions(std::fs::Permissions::from_mode(0o400))
+            .context("MASTER_STAGING_PERMISSION")?;
+        staging.sync_all().context("MASTER_STAGING_SYNC")?;
         rustix::fs::renameat_with(
             directory,
             STAGING,
             directory,
             name.as_str(),
             rustix::fs::RenameFlags::NOREPLACE,
-        )?;
-        directory.sync_all()?;
+        )
+        .context("MASTER_PROOF_PROMOTION_NOREPLACE")?;
+        directory
+            .sync_all()
+            .context("MASTER_PROMOTED_DIRECTORY_SYNC")?;
         Ok(())
     }
     #[cfg(not(target_os = "linux"))]

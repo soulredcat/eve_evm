@@ -38,6 +38,7 @@ pub struct StateCommitDecodeStats {
 #[derive(Debug)]
 pub struct StateCommitPreflight<'a> {
     pub(super) bytes: &'a [u8],
+    pub(super) target_bytes: &'a [u8],
     pub(super) budget: StateBudget,
     pub(super) stats: StateCommitDecodeStats,
 }

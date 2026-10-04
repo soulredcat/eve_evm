@@ -23,6 +23,24 @@ selects the highest locally applied durable execution in this development profil
 heights separately. Production and master-sync-only modes cannot activate this
 producer. Classical account signatures are not post-quantum authentication.
 
+## Authenticated development follower — B4
+
+The separate [follow-dev runtime](src/runtime/follower/README.md) now runs non-voting
+public RAM application, actual H/H+1 authentication, segmented durable recovery,
+resumable checkpoint bootstrap and checkpoint-aware default restart. Locally
+configured genesis/fixed owners/profile remain mandatory. A typed synced base ACK
+and conditional publication preserve the old usable view until activation succeeds.
+Applied, durable and authenticated watermarks remain distinct; independently unknown
+freshness is NOT_READY. Older applied history and proof export remain explicitly limited.
+
+[Checkpoint application](src/sync/applied/checkpoints/README.md) retains actual
+generation, ingress, staging and failed-tail leases. Its public storage controller
+bounds two jobs and 16 MiB staging; sole-writer 2500-basis-point cooperative pacing
+is not an OS quota or a database-background CPU cap. Follower resource/RPC limits
+are separate from the B2 producer defaults below. [B4 evidence](../docs/execution/b4/README.md)
+records actual checkpoint/process/tail-recovery slices; complete local/hosted B4
+verification and publication remain NOT_RUN. No PQ or production acceptance is claimed.
+
 ## Development invocation and lifecycle
 
 Use the pinned toolchain and a public genesis specification produced by the
@@ -152,12 +170,13 @@ history. Delivery to a stalled/disconnected peer is not guaranteed.
 
 ## Remaining production requirements
 
-Authenticated validator finality, production P2P/relay, nearby eligible endpoint
-discovery, independently authenticated bootstrap, master-offline tail recovery,
-isolated asynchronous finalized persistence, retention/compaction and measured
-regional/capacity acceptance remain later bulks. The development synchronous
-repository path does not satisfy those production-worker gates or BFT starvation
-evidence.
+Classical follower authentication, checkpoint bootstrap, master-offline recovery
+and isolated finalized persistence now have implemented B4 source and scoped tests.
+Complete B4 resource/fault/retention acceptance remains unpassed. Production P2P/relay,
+eligible-source discovery, independently known freshness, dynamic profile/owner
+transitions, regional/HA and secured capacity require their owning later gates.
+The B2 synchronous producer path does not establish BFT starvation or production
+worker acceptance, and the B4 logical limits are not whole-process OS enforcement.
 
 Standalone copy-ready distribution remains NOT_IMPLEMENTED/NOT_RUN: current
 manifests use canonical sibling validator components. B6 must reproducibly package

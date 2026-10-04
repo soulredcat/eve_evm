@@ -125,6 +125,7 @@ pub(super) fn reopen_application(
             proposer_owners: owners,
             logical_budget: development_state_budget(),
             delta_serving_budget: super::super::development_delta_serving_budget(),
+            snapshot_serving_budget: super::super::development_snapshot_serving_budget(),
             reserved_clone_bytes: 64 * 1_048_576,
             maximum_cached_candidates: 2,
             maximum_cached_bytes: 128 * 1_048_576,

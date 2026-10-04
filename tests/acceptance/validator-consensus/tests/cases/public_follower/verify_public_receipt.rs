@@ -9,7 +9,7 @@ use anyhow::{Context, Result, ensure};
 use eve_state::StateCommit;
 use serde_json::{Value, json};
 
-pub(super) fn verify_public_receipt(
+pub(in crate::cases) fn verify_public_receipt(
     receipt: &Value,
     commit: &StateCommit,
     transaction: &Bytes,

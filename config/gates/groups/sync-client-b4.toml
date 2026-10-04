@@ -4,15 +4,29 @@
 
 version = 1
 package = "eve-sync-client"
-requirements = ["B4-bounded-source-download", "T-N03", "T-N06"]
+requirements = ["B4", "T-N03", "T-N04", "T-N06"]
 
 tests = [
     "actual_chunk_download_binds_exact_parent_order_and_complete_body_identity",
     "changed_rehashed_chunk_identity_order_and_full_body_hash_refuse",
-    "exact_parent_and_full_requested_chunk_width_refuse_before_next_request",
-    "unsafe_path_endpoint_missing_reservation_and_overflow_refuse_before_connect",
-    "real_content_length_and_chunked_transports_return_the_same_untrusted_result",
-    "oversized_length_conflicting_framing_compression_and_remote_errors_refuse",
-    "slow_actual_peer_stops_at_the_declared_total_deadline",
+    "checkpoint_download::deadlines::preserved_caller_deadline_refuses_http_and_native_before_connect_after_delayed_admission",
+    "checkpoint_download::deadlines::snapshot_initial_caller_reservation_delay_cannot_receive_a_new_transport_timeout",
+    "checkpoint_download::outer_deadlines::expired_outer_checkpoint_deadline_refuses_before_any_caller_reservation_or_connect",
+    "checkpoint_download::outer_deadlines::future_outer_checkpoint_deadline_cannot_extend_configured_callback_budget",
+    "checkpoint_download::outer_deadlines::future_outer_deadline_cannot_extend_configured_http_or_native_io_budget",
+    "checkpoint_download::resources::actual_reservation_denial_precedes_connect_or_owned_decode_and_releases_previous_charge",
+    "checkpoint_download::resources::real_query_refusals_report_fixed_categories_without_echoing_peer_text",
+    "checkpoint_download::resources::slow_peer_and_late_decode_admission_share_one_absolute_deadline",
+    "checkpoint_download::responses::actual_manifest_chunk_and_execution_queries_match_requests_and_hold_leases",
+    "checkpoint_download::responses::truncated_trailing_and_transport_oversize_refuse_without_leaked_leases",
+    "checkpoint_download::responses::wrong_height_kind_network_manifest_index_and_chunk_width_are_refused",
+    "checkpoint_download::witnesses::actual_execution_and_exact_closing_lookahead_return_only_untrusted_canonical_wire",
+    "checkpoint_download::witnesses::native_block_and_commit_fetch_do_not_reset_the_total_deadline",
+    "checkpoint_download::witnesses::wrong_witness_height_and_denied_final_codec_charge_refuse",
     "delta::tests::late_materialization::one_final_chunk_that_materializes_after_total_deadline_is_refused",
+    "exact_parent_and_full_requested_chunk_width_refuse_before_next_request",
+    "oversized_length_conflicting_framing_compression_and_remote_errors_refuse",
+    "real_content_length_and_chunked_transports_return_the_same_untrusted_result",
+    "slow_actual_peer_stops_at_the_declared_total_deadline",
+    "unsafe_path_endpoint_missing_reservation_and_overflow_refuse_before_connect",
 ]

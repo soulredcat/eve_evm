@@ -11,8 +11,12 @@ fn all_core_security_and_persistence_requirements_are_registered_without_claimin
         .unwrap();
     let cases = validate_requirement_registry(root).unwrap();
     assert_eq!(cases.len(), 24);
-    for id in ["T-M01", "T-M10", "T-P01", "T-P10", "T-N09", "T-N12"] {
+    for id in ["T-M01", "T-M10", "T-P01", "T-P10", "T-N11", "T-N12"] {
         assert_eq!(cases[id], "NOT_IMPLEMENTED");
+    }
+    // Executable B4 coverage is distinct from its revision-bound acceptance result.
+    for id in ["T-N09", "T-N10"] {
+        assert_eq!(cases[id], "IMPLEMENTED");
     }
 }
 

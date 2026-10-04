@@ -30,5 +30,11 @@ pub(super) fn validate_development_follower(config: &DevelopmentFollowerConfig) 
                 .all(|byte| byte.is_ascii_alphanumeric() || b"_-".contains(&byte)),
         "invalid follower namespace name"
     );
+    ensure!(
+        config
+            .checkpoint_height
+            .is_none_or(|height| (1..=super::checkpoints::CHECKPOINT_MAX_HEIGHT).contains(&height)),
+        "checkpoint height must be between 1 and 10000"
+    );
     Ok(())
 }

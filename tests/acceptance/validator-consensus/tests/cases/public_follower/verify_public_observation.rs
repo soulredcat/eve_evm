@@ -8,7 +8,7 @@ use anyhow::{Result, ensure};
 use eve_state::StateCommit;
 use serde_json::json;
 
-pub(super) fn verify_public_observation(
+pub(in crate::cases) fn verify_public_observation(
     observation: &PublicObservation,
     expected: &StateCommit,
     sender: Address,

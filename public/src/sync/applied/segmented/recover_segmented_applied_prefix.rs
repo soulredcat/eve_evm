@@ -25,7 +25,7 @@ use eve_storage::records::{
 };
 use std::sync::Arc;
 
-pub(super) fn recover_segmented_applied_prefix(
+pub(in crate::sync::applied) fn recover_segmented_applied_prefix(
     config: &AppliedConfig,
     repository: &OpaqueRecordRepository,
     codec: &SegmentedCodecLimits,

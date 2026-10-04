@@ -12,7 +12,7 @@ use serde_json::json;
 use std::time::{Duration, Instant};
 
 /// Explicit-height reads retry when a later immutable publication supersedes H.
-pub(super) fn capture_public_observation(
+pub(in crate::cases) fn capture_public_observation(
     follower: &mut PublicFollower,
     sender: Address,
     deadline: Instant,

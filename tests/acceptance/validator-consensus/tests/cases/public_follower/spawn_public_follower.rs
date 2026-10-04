@@ -10,8 +10,14 @@ use std::{
     process::{Command, Stdio},
 };
 
-pub(super) fn spawn_public_follower(follower: &mut PublicFollower) -> Result<()> {
+pub(in crate::cases) fn spawn_public_follower(follower: &mut PublicFollower) -> Result<()> {
     ensure!(follower.child.is_none(), "PUBLIC_FOLLOWER_ALREADY_RUNNING");
+    ensure!(
+        follower
+            .checkpoint_height
+            .is_none_or(|height| (1..=10_000).contains(&height)),
+        "PUBLIC_FOLLOWER_CHECKPOINT_HEIGHT_BOUND"
+    );
     let launch = follower
         .launch_count
         .checked_add(1)
@@ -26,7 +32,8 @@ pub(super) fn spawn_public_follower(follower: &mut PublicFollower) -> Result<()>
         .with_file_name(format!("public-follower-{launch}.stderr"));
     write_private_file(&follower.stdout, &[])?;
     write_private_file(&follower.stderr, &[])?;
-    let child = Command::new(&follower.binary)
+    let mut command = Command::new(&follower.binary);
+    command
         .arg("follow-dev")
         .arg("--root")
         .arg(&follower.repository_root)
@@ -46,7 +53,11 @@ pub(super) fn spawn_public_follower(follower: &mut PublicFollower) -> Result<()>
         .arg("--zone-id")
         .arg("1")
         .arg("--poll-interval-ms")
-        .arg("1000")
+        .arg("1000");
+    if let Some(height) = follower.checkpoint_height {
+        command.arg("--checkpoint-height").arg(height.to_string());
+    }
+    let child = command
         .stdin(Stdio::null())
         .stdout(File::create(&follower.stdout)?)
         .stderr(File::create(&follower.stderr)?)

@@ -19,12 +19,15 @@ eve-state = { path = "../../../validator/components/state" }
 alloy-primitives.workspace = true
 alloy-rlp.workspace = true
 sha2.workspace = true
+rustix.workspace = true
 
 [dev-dependencies]
 alloy-consensus.workspace = true
 alloy-eips.workspace = true
 k256.workspace = true
 eve-evm = { path = "../../../validator/components/execution" }
+eve-development-fixtures = { path = "../../../validator/components/development-fixtures" }
+eve-finality-verifier = { path = "../../../validator/components/finality-verifier" }
 tempfile.workspace = true
 
 [lints]

@@ -57,6 +57,7 @@ pub enum AppliedError {
     InvalidDurablePrefix,
     UnexpectedAcknowledgement,
     Closed,
+    CheckpointPending,
     WrongMode,
     Recovery(RecoveryError),
     Import(ImportError),
@@ -84,6 +85,7 @@ pub struct AppliedPublication {
 
 #[derive(Clone)]
 pub struct AppliedReader {
+    pub(super) storage: Arc<super::resources::storage_admission::StorageAdmissionPool>,
     pub(super) publication: Arc<RwLock<Arc<AppliedPublication>>>,
     pub(super) working: Arc<EstimatedWorkingPool>,
 }
@@ -127,6 +129,7 @@ pub struct AppliedOwner {
     pub(super) backend: AppliedBackend,
     pub(super) reader: AppliedReader,
     pub(super) pending: VecDeque<PendingRecord>,
+    pub(super) checkpoint: Option<Box<super::checkpoints::PendingCheckpointActivation>>,
     pub(super) admitted_cursor: OpaqueRecordCursor,
     pub(super) durable_cursor: OpaqueRecordCursor,
     pub(super) database_sequence: u64,
@@ -145,11 +148,14 @@ pub struct RetainedAppliedTail {
     pub(super) pending: VecDeque<PendingRecord>,
     pub(super) _metadata_lease: EstimatedWorkingLease,
     pub(super) segmented_tails: Option<[Option<crate::persistence::segmented::SegmentedTail>; 2]>,
+    pub(super) checkpoint: Option<Box<super::checkpoints::PendingCheckpointActivation>>,
+    pub(super) checkpoint_tail: Option<crate::persistence::segmented::checkpoints::CheckpointTail>,
 }
 
 pub struct AppliedShutdown {
     pub repository: Result<OpaqueRecordRepository, RecordWorkerError>,
     pub acknowledgement_error: Option<AppliedError>,
+    pub checkpoint_error: Option<super::checkpoints::CheckpointAppliedError>,
     pub unacknowledged_tail: RetainedAppliedTail,
     pub publication: Option<Arc<AppliedPublication>>,
 }

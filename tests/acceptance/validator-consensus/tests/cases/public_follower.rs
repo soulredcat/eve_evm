@@ -16,6 +16,19 @@ mod verify_public_receipt;
 mod wait_public_durable;
 mod wait_public_receipt;
 
+pub(super) use capture_public_observation::capture_public_observation;
+pub(super) use create_public_follower::create_public_follower;
+pub(super) use public_rpc::public_rpc;
+pub(super) use read_public_startup::read_public_startup;
+pub(super) use spawn_public_follower::spawn_public_follower;
+pub(super) use stop_public_follower::stop_public_follower;
+pub(super) use types::PublicFollower;
+pub(super) use verify_public_current_state::verify_public_current_state;
+pub(super) use verify_public_observation::verify_public_observation;
+pub(super) use verify_public_receipt::verify_public_receipt;
+pub(super) use wait_public_durable::wait_public_durable;
+pub(super) use wait_public_receipt::wait_public_receipt;
+
 use crate::support::{
     Cluster, ClusterOptions, cluster::wait_for_height, cluster_lease, collect_certified_history,
     replay_history, signed_transaction, submit_transaction,

@@ -13,7 +13,7 @@ use crate::{
     },
     sync::applied::{
         AppliedAdmission, AppliedError, AppliedMode, AppliedOwner, AppliedPublication,
-        publication::{applied_mode, build_applied_markers, capture_applied_state},
+        publication::{applied_mode, build_next_applied_markers, capture_applied_state},
         recovery::prepare_charged_generation,
         state::applied_state_commit,
     },
@@ -29,6 +29,9 @@ pub fn try_apply_recovery_bytes(
     owner: &mut AppliedOwner,
     bytes: &[u8],
 ) -> Result<AppliedAdmission, AppliedError> {
+    if owner.checkpoint.is_some() {
+        return Err(AppliedError::CheckpointPending);
+    }
     if matches!(
         &owner.backend,
         crate::sync::applied::types::AppliedBackend::Segmented { .. }
@@ -83,7 +86,11 @@ pub fn try_apply_recovery_bytes(
         &owner.reader.working,
     )?;
     let target = applied_state_commit(&generation.state).target.clone();
-    let markers = build_applied_markers(&generation.state, parent.markers.durable_recovery.0)?;
+    let markers = build_next_applied_markers(
+        &generation.state,
+        parent.markers.durable_recovery.0,
+        &parent,
+    )?;
     let cursor = prospective_opaque_record_cursor(
         owner.effective_storage_identity,
         owner.admitted_cursor,

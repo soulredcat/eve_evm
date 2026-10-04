@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-use anyhow::{Result, ensure};
+use anyhow::{Context, Result, ensure};
 use std::{fs::File, path::Path};
 
 /// Only a contained, non-symlink directory is accepted. Subsequent file operations
@@ -19,9 +19,12 @@ pub(in crate::sync) fn open_proof_directory(path: &Path) -> Result<File> {
             path,
             OFlags::RDONLY | OFlags::DIRECTORY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
             Mode::empty(),
-        )?;
+        )
+        .context("MASTER_PROOF_DIRECTORY_OPEN")?;
         let directory = File::from(fd);
-        directory.sync_all()?;
+        directory
+            .sync_all()
+            .context("MASTER_PROOF_DIRECTORY_SYNC")?;
         Ok(directory)
     }
     #[cfg(not(target_os = "linux"))]

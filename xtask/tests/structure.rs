@@ -8,6 +8,8 @@ mod checking;
 mod discovery;
 #[path = "structure/policy/mod.rs"]
 mod policy;
+#[path = "structure/policy_fragments.rs"]
+mod policy_fragments;
 #[path = "structure/size/mod.rs"]
 mod size;
 #[path = "structure/support/mod.rs"]

@@ -13,8 +13,8 @@ use std::path::Path;
 
 pub fn check_structure(root: &Path, policy_path: &Path) -> Result<StructureReport> {
     let root = root.canonicalize().context("Resolve repository root")?;
-    let policy = load_policy(&root.join(policy_path))?;
     let sources = discover_sources(&root)?;
+    let policy = load_policy(&root, policy_path, &sources)?;
     let mut report = StructureReport {
         policy_version: policy.version,
         current_bulk: policy.current_bulk,

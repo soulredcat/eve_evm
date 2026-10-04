@@ -5,8 +5,10 @@
 mod commit_preflight;
 mod decode_state_journal;
 mod journal_decoding;
+mod preflight_state_version;
 pub use decode_state_journal::decode_state_journal;
 pub use journal_decoding::{JournalDecodePreflight, preflight_state_journal};
+pub use preflight_state_version::preflight_state_version;
 
 mod decode_accounts;
 mod decode_block_payload;
@@ -55,4 +57,5 @@ pub use commit_preflight::{
     StateCommitDecodeStats, StateCommitPreflight, decode_preflight_state_commit,
     preflight_state_commit, required_state_commit_decode_reservation,
     state_commit_preflight_budget, state_commit_preflight_bytes, state_commit_preflight_stats,
+    state_commit_preflight_target_bytes,
 };

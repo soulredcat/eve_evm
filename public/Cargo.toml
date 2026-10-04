@@ -17,6 +17,7 @@ serde.workspace = true
 serde_json.workspace = true
 hex.workspace = true
 sha2.workspace = true
+rustix.workspace = true
 jsonrpsee.workspace = true
 tokio.workspace = true
 alloy-primitives.workspace = true
@@ -33,10 +34,13 @@ eve-sync-client = { path = "components/sync-client" }
 eve-finality-verifier = { path = "../validator/components/finality-verifier" }
 
 [dev-dependencies]
+toml.workspace = true
+jsonrpsee = { workspace = true, features = ["http-client"] }
 tempfile.workspace = true
 ed25519-dalek.workspace = true
 k256.workspace = true
 eve-consensus-comet = { path = "../validator/components/consensus-comet" }
+eve-development-fixtures = { path = "../validator/components/development-fixtures" }
 
 [lints]
 workspace = true

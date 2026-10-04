@@ -28,8 +28,9 @@ pub(in crate::consensus) use preparing::prepare_proposal;
 pub(in crate::consensus) use processing::{application_approval_registry, process_proposal};
 pub(in crate::consensus) use reading::application_info;
 pub(in crate::consensus) use serving::{
-    DeltaServingBudget, application_delta_serving_budget, development_delta_serving_budget,
-    serve_state_delta_query,
+    DeltaServingBudget, SnapshotServingBudget, application_delta_serving_budget,
+    application_snapshot_serving_budget, development_delta_serving_budget,
+    development_snapshot_serving_budget, serve_checkpoint_query, serve_state_delta_query,
 };
 pub(in crate::consensus) use types::{ApplicationConfig, ConsensusApplication};
 

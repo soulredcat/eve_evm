@@ -12,4 +12,4 @@ pub use codec_scratch::BOUNDED_STATE_CODEC_SCRATCH_BYTES;
 pub use development_state_budget::development_state_budget;
 pub(crate) use list_length::list_length;
 pub use measure_complete_state_bytes::measure_complete_state_bytes;
-pub(crate) use validate_state_budget::validate_state_budget;
+pub use validate_state_budget::validate_state_budget;

@@ -9,4 +9,6 @@ tests = [
     "deterministic_genesis_preserves_enrolled_development_keys_and_initial_canonical_state",
     "seeded_native_certificates_are_real_signatures_bound_to_header_and_chain",
     "three_height_chain_keeps_exact_serial_execution_roots_receipts_and_native_context",
+    "maintained_nonce_signer_preserves_exact_nonce_zero_golden_and_sender_identity",
+    "nonempty_tail_has_two_signed_effects_exact_roots_receipts_nonce_and_fee_conservation",
 ]

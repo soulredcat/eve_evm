@@ -48,7 +48,8 @@ pub fn preflight_state_commit<'a>(
     if !parent.is_empty() {
         return Err(StateError::MalformedEncoding);
     }
-    stats.target_network_bytes = scan_version_allocations(take_encoded_list(&mut commit, 4_096)?)?;
+    let target_bytes = take_encoded_list(&mut commit, 4_096)?;
+    stats.target_network_bytes = scan_version_allocations(target_bytes)?;
     let state_bytes = take_encoded_list(&mut commit, budget.maximum_state_bytes)?;
     stats.state_encoded_bytes = state_bytes.len();
     let mut state_remaining = state_bytes;
@@ -67,6 +68,7 @@ pub fn preflight_state_commit<'a>(
     }
     Ok(StateCommitPreflight {
         bytes,
+        target_bytes,
         budget: *budget,
         stats,
     })

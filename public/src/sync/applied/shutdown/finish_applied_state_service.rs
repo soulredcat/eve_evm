@@ -6,13 +6,15 @@ use crate::{
     persistence::worker::{RecordWorkerError, finish_record_worker},
     sync::applied::{
         AppliedOwner, AppliedShutdown, RetainedAppliedTail, capture_applied_state,
-        poll_applied_durability, types::AppliedBackend,
+        checkpoints::poll_applied_checkpoint_activation, poll_applied_durability,
+        types::AppliedBackend,
     },
 };
 
 /// Drain/join outside publication locks, then reconcile tickets and return every unacknowledged byte.
 pub fn finish_applied_state_service(mut owner: AppliedOwner) -> AppliedShutdown {
     let mut segmented_tails = None;
+    let mut checkpoint_tail = None;
     let repository = match &mut owner.backend {
         AppliedBackend::Compact { worker, .. } => match worker.take() {
             Some(worker) => finish_record_worker(worker),
@@ -22,6 +24,7 @@ pub fn finish_applied_state_service(mut owner: AppliedOwner) -> AppliedShutdown 
             Some(worker) => {
                 let shutdown = crate::persistence::segmented::finish_segmented_worker(worker);
                 segmented_tails = Some(shutdown.tails);
+                checkpoint_tail = shutdown.checkpoint_tail;
                 shutdown.repository.map_err(|error| match error {
                     crate::persistence::segmented::SegmentedError::WorkerPanicked => {
                         RecordWorkerError::WorkerPanicked
@@ -32,6 +35,7 @@ pub fn finish_applied_state_service(mut owner: AppliedOwner) -> AppliedShutdown 
             None => Err(RecordWorkerError::Closed),
         },
     };
+    let checkpoint_error = poll_applied_checkpoint_activation(&mut owner).err();
     let acknowledgement_error = poll_applied_durability(&mut owner).err();
     let publication = capture_applied_state(&owner.reader).ok();
     if let Some(tails) = &mut segmented_tails {
@@ -52,13 +56,25 @@ pub fn finish_applied_state_service(mut owner: AppliedOwner) -> AppliedShutdown 
             }
         }
     }
+    if owner.checkpoint.is_none()
+        && checkpoint_tail
+            .as_ref()
+            .and_then(|tail| tail.complete)
+            .is_some_and(|ack| ack.cursor == owner.durable_cursor)
+    {
+        // The same exclusive owner's activation validated this exact durable base ACK.
+        checkpoint_tail = None;
+    }
     AppliedShutdown {
         repository,
         acknowledgement_error,
+        checkpoint_error,
         unacknowledged_tail: RetainedAppliedTail {
             pending: owner.pending,
             _metadata_lease: owner.metadata_lease,
             segmented_tails,
+            checkpoint: owner.checkpoint,
+            checkpoint_tail,
         },
         publication,
     }

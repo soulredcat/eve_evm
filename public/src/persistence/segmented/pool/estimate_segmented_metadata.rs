@@ -14,7 +14,7 @@ pub(in crate::persistence::segmented) fn estimate_segmented_metadata() -> (usize
         + 8_192;
     let worker = size_of::<WorkerState>()
         + BATCHES
-            * (size_of::<Request>()
+            * (size_of::<WorkerRequest>()
                 + size_of::<SegmentedTicket>()
                 + size_of::<SegmentedLogicalAck>()
                 + 4_096)

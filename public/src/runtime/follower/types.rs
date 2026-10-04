@@ -27,4 +27,6 @@ pub struct DevelopmentFollowerConfig {
     pub zone_id: u16,
     #[arg(long, default_value_t = 100)]
     pub poll_interval_ms: u64,
+    #[arg(long)]
+    pub checkpoint_height: Option<u64>,
 }

@@ -5,7 +5,7 @@
 use super::super::{
     RejectedSegmentedBatch, SealedSegmentedBatch, SegmentedError, SegmentedTicket, SegmentedWorker,
     pool::observe_segmented_parts,
-    types::{AdmittedBatch, Request},
+    types::{AdmittedBatch, Request, WorkerRequest},
 };
 use eve_storage::records::OpaqueRecordCursor;
 use eve_storage::records::segmented::SegmentedRecoveryAnchor;
@@ -44,6 +44,9 @@ pub fn try_submit_segmented_batch(
         Ok(value) => value.oldest_age,
         Err(error) => return Err(reject(error, batch)),
     };
+    if admission.checkpoint.is_some() {
+        return Err(reject(SegmentedError::QueueFull, batch));
+    }
     if final_age > Duration::from_millis(worker.state.pool.policy.maximum_queue_age_ms) {
         return Err(reject(SegmentedError::QueueAged, batch));
     }
@@ -76,7 +79,7 @@ pub fn try_submit_segmented_batch(
         complete: None,
     });
     let request = Request { batch, slot, reply };
-    match worker.sender.try_send(request) {
+    match worker.sender.try_send(WorkerRequest::Segmented(request)) {
         Ok(()) => {
             let retained = &admission.slots[slot]
                 .as_ref()
@@ -105,6 +108,9 @@ pub fn try_submit_segmented_batch(
             let (error, request) = match error {
                 TrySendError::Full(request) => (SegmentedError::QueueFull, request),
                 TrySendError::Disconnected(request) => (SegmentedError::Closed, request),
+            };
+            let WorkerRequest::Segmented(request) = request else {
+                unreachable!("batch submission returned its same request")
             };
             Err(reject(error, request.batch))
         }

@@ -60,7 +60,7 @@ fn artifact_creation_requires_git_ignore_and_records_failed_future_gate() {
             .unwrap()
             .success()
     );
-    assert!(run_verify(fixture.path(), vec!["B4".into()], false).is_err());
+    assert!(run_verify(fixture.path(), vec!["B5".into()], false).is_err());
     let directories: Vec<_> = std::fs::read_dir(fixture.path().join("local-tests"))
         .unwrap()
         .map(|entry| entry.unwrap().path())

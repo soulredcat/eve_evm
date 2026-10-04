@@ -5,7 +5,7 @@
 use serde_json::Value;
 use std::{net::SocketAddr, path::PathBuf, process::Child};
 
-pub(super) struct PublicFollower {
+pub(in crate::cases) struct PublicFollower {
     pub binary: PathBuf,
     pub repository_root: PathBuf,
     pub data: PathBuf,
@@ -18,9 +18,10 @@ pub(super) struct PublicFollower {
     pub launch_count: u8,
     pub child: Option<Child>,
     pub process_start: Option<u64>,
+    pub checkpoint_height: Option<u64>,
 }
 
-pub(super) struct PublicObservation {
+pub(in crate::cases) struct PublicObservation {
     pub roots: Value,
     pub block: Value,
     pub sender_balance: Value,

@@ -1,0 +1,71 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
+//! Bounded immutable opaque checkpoint witnesses. No proof decoding, authentication or activation.
+mod begin_checkpoint_proof_stream_hash;
+mod begin_checkpoint_proof_transfer;
+mod checkpoint_proof_completion_bytes;
+mod checkpoint_proof_file_name;
+mod checkpoint_proof_initial_resume_observation;
+mod checkpoint_proof_manifest_id;
+mod checkpoint_proof_manifest_stats;
+mod checkpoint_proof_store_identity;
+mod checkpoint_proof_store_manifest_bytes;
+mod checkpoint_proof_witness_bytes;
+mod checkpoint_proof_witness_reference;
+mod complete_checkpoint_proof_transfer;
+mod create_checkpoint_proof_manifest;
+mod encode_checkpoint_proof_reference;
+mod finish_checkpoint_proof_stream_hash;
+mod is_valid_checkpoint_proof_pending;
+mod observe_checkpoint_proof_pending_metadata;
+mod observe_checkpoint_proof_witness;
+mod open_completed_checkpoint_proof_store;
+mod preflight_checkpoint_proof_manifest;
+mod read_checkpoint_proof_reference;
+mod read_checkpoint_proof_witness;
+mod repair_invalid_checkpoint_proof_pending;
+mod repair_invalid_checkpoint_proof_witness;
+mod required_checkpoint_proof_io_reservation;
+mod required_checkpoint_proof_metadata_reservation;
+mod required_checkpoint_proof_witness_reservation;
+mod scan_checkpoint_proof_resume;
+mod seed_checkpoint_proof_stream;
+mod types;
+mod update_checkpoint_proof_stream_hash;
+mod validate_checkpoint_proof_directory;
+mod validate_checkpoint_proof_limits;
+mod validate_checkpoint_proof_metadata;
+mod validate_checkpoint_proof_witnesses;
+mod write_checkpoint_proof_witness;
+pub use begin_checkpoint_proof_stream_hash::begin_checkpoint_proof_stream_hash;
+pub use begin_checkpoint_proof_transfer::begin_checkpoint_proof_transfer;
+pub use checkpoint_proof_initial_resume_observation::checkpoint_proof_initial_resume_observation;
+pub use checkpoint_proof_manifest_id::checkpoint_proof_manifest_id;
+pub use checkpoint_proof_manifest_stats::checkpoint_proof_manifest_stats;
+pub use checkpoint_proof_store_identity::CheckpointProofStoreIdentity;
+pub use checkpoint_proof_store_manifest_bytes::checkpoint_proof_store_manifest_bytes;
+pub use checkpoint_proof_witness_bytes::checkpoint_proof_witness_bytes;
+pub use checkpoint_proof_witness_reference::checkpoint_proof_witness_reference;
+pub use complete_checkpoint_proof_transfer::complete_checkpoint_proof_transfer;
+pub use create_checkpoint_proof_manifest::create_checkpoint_proof_manifest;
+pub use finish_checkpoint_proof_stream_hash::finish_checkpoint_proof_stream_hash;
+pub use observe_checkpoint_proof_pending_metadata::observe_checkpoint_proof_pending_metadata;
+pub use observe_checkpoint_proof_witness::observe_checkpoint_proof_witness;
+pub use open_completed_checkpoint_proof_store::open_completed_checkpoint_proof_store;
+pub use preflight_checkpoint_proof_manifest::preflight_checkpoint_proof_manifest;
+pub use read_checkpoint_proof_witness::read_checkpoint_proof_witness;
+pub use repair_invalid_checkpoint_proof_pending::repair_invalid_checkpoint_proof_pending;
+pub use repair_invalid_checkpoint_proof_witness::repair_invalid_checkpoint_proof_witness;
+pub use required_checkpoint_proof_io_reservation::required_checkpoint_proof_io_reservation;
+pub use required_checkpoint_proof_metadata_reservation::required_checkpoint_proof_metadata_reservation;
+pub use required_checkpoint_proof_witness_reservation::required_checkpoint_proof_witness_reservation;
+pub use types::{
+    CheckpointProofKind, CheckpointProofLimits, CheckpointProofManifestPreflight,
+    CheckpointProofManifestStats, CheckpointProofPendingKind, CheckpointProofReferenceInput,
+    CheckpointProofStreamHasher, CheckpointProofTransfer, CheckpointProofWitness,
+    CompletedCheckpointProofStore,
+};
+pub use update_checkpoint_proof_stream_hash::update_checkpoint_proof_stream_hash;
+pub use write_checkpoint_proof_witness::write_checkpoint_proof_witness;

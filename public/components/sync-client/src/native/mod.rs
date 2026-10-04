@@ -3,4 +3,6 @@
 // Use requires prior written permission from Redcat.
 
 mod fetch_native_frame;
+mod fetch_native_frame_before;
 pub use fetch_native_frame::fetch_native_frame;
+pub use fetch_native_frame_before::fetch_native_frame_before;

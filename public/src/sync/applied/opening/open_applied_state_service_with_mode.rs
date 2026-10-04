@@ -37,6 +37,11 @@ pub fn open_applied_state_service_with_mode(
     validate_applied_configuration(&config, mode)?;
     validate_local_genesis_resources(genesis, &config.state_budget)?;
     let working = create_estimated_working_pool(config.public_budget.maximum_working_state_bytes)?;
+    let storage = super::super::resources::storage_admission::create_storage_admission_pool(
+        config.public_budget,
+        &working,
+    )
+    .map_err(super::super::resources::storage_admission::map_storage_admission_error)?;
     let generation = initialize_charged_generation(&config, genesis, mode, &working)?;
     if applied_state_commit(&generation.state)
         .target
@@ -54,15 +59,22 @@ pub fn open_applied_state_service_with_mode(
         &working,
         estimated_repository_read_charge(&config.repository_budget)?,
     )?;
+    let _startup_read = super::super::resources::storage_admission::reserve_storage_read(&storage)
+        .map_err(super::super::resources::storage_admission::map_storage_admission_error)?;
     let repository = open_opaque_record_repository(
         &config.path,
         effective_storage_identity,
         config.repository_budget,
     )
     .map_err(|_| AppliedError::StorageUnavailable)?;
+    drop(_startup_read);
     let cursor = opaque_record_cursor(&repository).map_err(|_| AppliedError::StorageUnavailable)?;
     drop(read_lease);
-    let generation = recover_applied_prefix(&config, &repository, generation, &working)?;
+    let generation = {
+        let _read = super::super::resources::storage_admission::reserve_storage_read(&storage)
+            .map_err(super::super::resources::storage_admission::map_storage_admission_error)?;
+        recover_applied_prefix(&config, &repository, generation, &working)?
+    };
     let height = applied_state_commit(&generation.state).target.height;
     let markers = build_applied_markers(&generation.state, height)?;
     let publication = Arc::new(RwLock::new(Arc::new(AppliedPublication {
@@ -74,6 +86,7 @@ pub fn open_applied_state_service_with_mode(
         segmented_position: None,
     })));
     let reader = AppliedReader {
+        storage,
         publication,
         working,
     };
@@ -99,6 +112,7 @@ pub fn open_applied_state_service_with_mode(
         },
         reader: reader.clone(),
         pending,
+        checkpoint: None,
         admitted_cursor: cursor,
         durable_cursor: cursor,
         database_sequence: 0,

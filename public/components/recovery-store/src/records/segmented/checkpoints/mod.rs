@@ -1,0 +1,53 @@
+// SPDX-FileCopyrightText: 2026 Redcat
+// SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+// Use requires prior written permission from Redcat.
+
+//! Bounded checkpoint-base local framing and actual opaque membership. No finality authority.
+mod checkpoint_base_bytes;
+mod checkpoint_base_inspection_bytes;
+mod checkpoint_base_inspection_view;
+mod checkpoint_base_membership_record;
+mod checkpoint_base_membership_target_bytes;
+mod checkpoint_base_membership_view;
+mod checkpoint_base_view;
+mod encode_checkpoint_base;
+mod inspect_checkpoint_base;
+mod inspection_types;
+mod preflight_checkpoint_base;
+mod prepare_checkpoint_base_target;
+mod prepared_checkpoint_base_target_bytes;
+mod prepared_checkpoint_base_target_height;
+mod prepared_checkpoint_base_target_security_profile;
+mod read_checkpoint_base_array;
+mod read_checkpoint_base_membership;
+mod read_checkpoint_base_metadata;
+mod required_checkpoint_base_encoding_reservation;
+mod required_checkpoint_base_membership_reservation;
+mod types;
+mod validate_checkpoint_base_limits;
+mod validate_checkpoint_base_metadata;
+mod verify_checkpoint_base_cursor;
+
+pub use checkpoint_base_bytes::checkpoint_base_bytes;
+pub use checkpoint_base_inspection_bytes::checkpoint_base_inspection_bytes;
+pub use checkpoint_base_inspection_view::checkpoint_base_inspection_view;
+pub use checkpoint_base_membership_record::checkpoint_base_membership_record;
+pub use checkpoint_base_membership_target_bytes::checkpoint_base_membership_target_bytes;
+pub use checkpoint_base_membership_view::checkpoint_base_membership_view;
+pub use checkpoint_base_view::checkpoint_base_view;
+pub use encode_checkpoint_base::encode_checkpoint_base;
+pub use inspect_checkpoint_base::inspect_checkpoint_base;
+pub use inspection_types::CheckpointBaseInspection;
+pub use preflight_checkpoint_base::preflight_checkpoint_base;
+pub use prepare_checkpoint_base_target::prepare_checkpoint_base_target;
+pub use prepared_checkpoint_base_target_bytes::prepared_checkpoint_base_target_bytes;
+pub use prepared_checkpoint_base_target_height::prepared_checkpoint_base_target_height;
+pub use prepared_checkpoint_base_target_security_profile::prepared_checkpoint_base_target_security_profile;
+pub use read_checkpoint_base_membership::read_checkpoint_base_membership;
+pub use required_checkpoint_base_encoding_reservation::required_checkpoint_base_encoding_reservation;
+pub use required_checkpoint_base_membership_reservation::required_checkpoint_base_membership_reservation;
+pub use types::{
+    CHECKPOINT_BASE_MAX_PAYLOAD_BYTES, CHECKPOINT_BASE_MAX_VERSION_BYTES, CheckpointBaseError,
+    CheckpointBaseLimits, CheckpointBaseMembership, CheckpointBaseMetadata, CheckpointBaseMode,
+    CheckpointBasePreflight, CheckpointBaseView, PreparedCheckpointBaseTarget,
+};

@@ -16,6 +16,7 @@ mod scan_commit_system;
 mod state_commit_preflight_budget;
 mod state_commit_preflight_bytes;
 mod state_commit_preflight_stats;
+mod state_commit_preflight_target_bytes;
 mod types;
 pub use decode_preflight_state_commit::decode_preflight_state_commit;
 pub use preflight_state_commit::preflight_state_commit;
@@ -23,4 +24,5 @@ pub use required_state_commit_decode_reservation::required_state_commit_decode_r
 pub use state_commit_preflight_budget::state_commit_preflight_budget;
 pub use state_commit_preflight_bytes::state_commit_preflight_bytes;
 pub use state_commit_preflight_stats::state_commit_preflight_stats;
+pub use state_commit_preflight_target_bytes::state_commit_preflight_target_bytes;
 pub use types::{StateCommitDecodeStats, StateCommitPreflight};
