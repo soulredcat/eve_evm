@@ -6,7 +6,10 @@ mod batch_types;
 mod pool_types;
 mod worker_types;
 pub(super) use batch_types::{AllocatedPart, SealedBatch};
-pub use batch_types::{SealedSegmentedBatch, SegmentedBatchPlan, SegmentedBatchReservation};
+pub use batch_types::{
+    RejectedSegmentedReservation, SealedSegmentedBatch, SegmentedBatchLayout, SegmentedBatchPlan,
+    SegmentedBatchReservation, UnboundSegmentedReservation,
+};
 pub(super) use pool_types::{
     MetadataLease, PartAccounting, PartLease, PartSlot, WorkerLifetimeLease,
 };

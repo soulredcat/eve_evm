@@ -35,4 +35,5 @@ pub(crate) struct PublicCli {
 #[derive(Subcommand)]
 pub(crate) enum PublicCommand {
     ServeDev(DevelopmentPublicConfig),
+    FollowDev(super::follower::DevelopmentFollowerConfig),
 }

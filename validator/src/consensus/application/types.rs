@@ -35,6 +35,7 @@ pub(in crate::consensus) struct ApplicationConfig {
     pub expected_app_state: Value,
     pub proposer_owners: BTreeMap<[u8; 20], Address>,
     pub logical_budget: StateBudget,
+    pub delta_serving_budget: super::DeltaServingBudget,
     pub reserved_clone_bytes: usize,
     pub maximum_cached_candidates: usize,
     pub maximum_cached_bytes: usize,

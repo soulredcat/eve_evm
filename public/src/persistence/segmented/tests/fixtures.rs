@@ -98,7 +98,7 @@ pub(super) fn batch(
 ) -> SealedSegmentedBatch {
     let identity = SegmentedLogicalIdentity {
         mode: SegmentedRecoveryMode::AuthenticatedImport,
-        logical_id: [7; 32],
+        logical_id: eve_storage::records::segmented::hash_segmented_logical_body(data),
         parent,
         target_height: parent.height + 1,
         total_length: data.len() as u64,

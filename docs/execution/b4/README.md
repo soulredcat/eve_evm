@@ -4,7 +4,7 @@
 
 # B4 local implementation and verification
 
-B4 remains IN_PROGRESS. Its complete gate is NOT_IMPLEMENTED; no hosted B4,
+The latest [follower foundation evidence](follower-foundation/README.md) records actual local public CLI recovery, master archive and authenticated snapshot prerequisites. B4 remains IN_PROGRESS. Its complete gate is NOT_IMPLEMENTED; no hosted B4,
 master-offline recovery, default public capacity or full bulk acceptance is claimed.
 Local-first publication batches remain required. Accepted B3 main is `c41ba2f`.
 
@@ -138,16 +138,16 @@ Privacy compilation now selects an actually compatible verifier/state rlib pair
 with a successful dependency probe before checking the required compiler error;
 an unrelated duplicate-crate error cannot satisfy a privacy test.
 
-These foundations are not yet connected to complete logical-prefix replay or
-public applied publication. Orphan reconciliation, authenticated reconstruction,
+At this historical checkpoint, these foundations were not yet connected to complete logical-prefix replay or public applied publication. Orphan reconciliation, authenticated reconstruction,
 snapshots, live follower entry points, peer-tail recovery and full B4 gates remain
 mandatory. Source/publication checks and a coherent local checkpoint follow these
 scoped results. Build timing is not throughput or physical fault evidence.
 ## Required continuation
 
-Implement fragmented large-record import and complete logical durable markers,
-authenticated snapshots, live public/master followers, retention and peer-tail
-master-offline recovery. Preserve all
+Finish authenticated snapshot transfer, resume and atomic activation, master-offline
+missing-tail recovery, retention/last-copy policy, independently observed readiness
+and resource/fault acceptance. The linked scoped follower foundation is implemented
+locally. Preserve all
 T-N01–T-N07, T-N09/T-N10, T-S04–T-S08 and T-G04/T-G06 gates. No valid maximum payload
 may be made to fit by silently raising limits or omitting data.
 

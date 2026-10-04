@@ -4,8 +4,7 @@
 
 # Master runtime
 
-The B1 storage and B2 RPC development composition are implemented; the production master follower,
-network replication and authenticated source recovery remain later work.
+The B1/B2 development composition and local B4 classical authenticated archive follower are implemented. Production transport, replication and complete B4/security acceptance remain pending.
 
 ## Development composition
 
@@ -18,15 +17,14 @@ cargo run --locked -p eve-master -- serve-dev --mode DEV_ALL_IN_ONE --acknowledg
 
 Startup emits actual bound addresses and LOCAL_DEV_UNAUTHENTICATED status.
 Ctrl-C stops the owned producer and RPC listeners; restart reconciles the same
-durable namespace before serving. Production/sync-only/missing-acknowledgement
-paths reject. The actual developer fixture tests signed submission/receipt,
+durable namespace before serving. The serve-dev producer rejects production, MASTER_SYNC_ONLY and missing acknowledgement. The actual developer fixture tests signed submission/receipt,
 retained history and restart through this composition and two public processes.
 It establishes no validator finality. RPC, logical memory and separate transport
 limits follow [public's profile](../public/README.md); default external binding
 is disabled. Zone metadata grants no voting or shard ownership. B6 standalone
-packaging and B3/B4 production roles remain separate unimplemented gates.
+packaging and complete B4/core-security acceptance remain pending.
 
-The eve-master binary owns only local development orchestration. It reuses the
+The development composition owns its explicitly local producer; the separate follow-dev command owns the authenticated MASTER_SYNC_ONLY archive. It reuses the
 canonical validator state/execution/protocol components and public recovery
 repository. Init, inspect, real EVM block application, snapshot export and restore
 all require explicit DEV_ALL_IN_ONE and unsafe-development acknowledgement. A
@@ -76,3 +74,15 @@ Every master verifies validator finality, historical set transitions and commitm
 Expose logical sync endpoints/relays without public database/admin access or privileged master inventory. Public nodes select eligible sources by authenticated identity/network/profile/proofs and verified lag/data availability before measured service latency and verified-data throughput. Support bounded fallback and resume; no endpoint-anonymity guarantee or mandatory per-transaction master acknowledgement exists.
 
 Implement against shared `FinalityVerifier`, `StateStore`, `BlockStore` and sync interfaces. Read plans 02 (local-only: `../docs/plan/02-state-and-storage.md`), 10 (local-only: `../docs/plan/10-master-public-node-model.md`), 14 (local-only: `../docs/plan/14-block-and-state-commitment-spec.md`), 15 (local-only: `../docs/plan/15-network-and-sync-protocol.md`), 16 (local-only: `../docs/plan/16-genesis-upgrade-and-recovery.md`), 19 (local-only: `../docs/plan/19-security-and-release-engineering.md`), 22 (local-only: `../docs/plan/22-code-layout-and-dependency-policy.md`) and 32 (local-only: `../docs/plan/32-regional-masters-and-public-persistence.md`) before implementation.
+
+## Classical authenticated archive
+
+The separate [master follower contract](src/sync/README.md) describes ordered
+native-proof/state durability, exact canonical target checks, private descriptor
+access, bounded resource/count/byte admission and restart reauthentication.
+`follow-dev` requires MASTER_SYNC_ONLY, CLASSICAL_DEV and explicit development
+acknowledgement; it cannot produce or vote. Its shared source client assembles
+untrusted H/H+1 data, and canonical validator verification supplies authority.
+Seventeen focused local cases pass before the source-structure refactor; final
+integrated source checks and live catch-up acceptance remain separate evidence.
+No pruning, full retention-window, hardware power-loss or PQ claim is implied.

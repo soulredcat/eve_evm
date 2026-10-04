@@ -18,7 +18,7 @@ use eve_state::{
 };
 use std::sync::Arc;
 
-pub(super) fn initialize_charged_generation(
+pub(in crate::sync::applied) fn initialize_charged_generation(
     config: &AppliedConfig,
     genesis: &DevelopmentGenesis,
     mode: AppliedMode,

@@ -18,3 +18,6 @@ pub use create_segmented_part_pool::create_segmented_part_pool;
 pub(super) use estimate_segmented_metadata::estimate_segmented_metadata;
 pub use observe_segmented_parts::observe_segmented_parts;
 pub(super) use reserve_metadata::reserve_metadata;
+
+mod required_segmented_metadata_reservation;
+pub use required_segmented_metadata_reservation::required_segmented_metadata_reservation;

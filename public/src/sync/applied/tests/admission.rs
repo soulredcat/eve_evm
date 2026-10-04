@@ -46,7 +46,12 @@ fn invalid_proof_or_execution_leaves_publication_and_admitted_cursor_unchanged()
             &capture_applied_state(&reader).unwrap()
         ));
         assert_eq!(owner.admitted_cursor, original_cursor);
-        assert_eq!(observe_handoff(&owner.pool).unwrap().retained_bytes, 0);
+        assert_eq!(
+            observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap())
+                .unwrap()
+                .retained_bytes,
+            0
+        );
     }
     assert_eq!(
         try_apply_recovery_bytes(&mut owner, &chain.records[0])
@@ -91,7 +96,12 @@ fn execution_and_lookahead_transactions_reject_before_handoff_or_replay() {
             &before,
             &capture_applied_state(&reader).unwrap()
         ));
-        assert_eq!(observe_handoff(&owner.pool).unwrap().retained_batches, 0);
+        assert_eq!(
+            observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap())
+                .unwrap()
+                .retained_batches,
+            0
+        );
     }
     drop(finish_applied_state_service(owner));
 }
@@ -105,7 +115,9 @@ fn bounded_queue_rejection_preserves_the_last_complete_view_and_cursor() {
     let (mut owner, reader) = open_applied_state_service(config, &chain.genesis)
         .ok()
         .unwrap();
-    let (entered, resume) = install_record_append_pause(owner.worker.as_ref().unwrap());
+    let (entered, resume) = install_record_append_pause(
+        crate::sync::applied::admission::compact_worker(&owner).unwrap(),
+    );
     let admitted = try_apply_recovery_bytes(&mut owner, &chain.records[0]).unwrap();
     entered.recv_timeout(Duration::from_secs(5)).unwrap();
     let before = capture_applied_state(&reader).unwrap();

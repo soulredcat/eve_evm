@@ -3,6 +3,9 @@
 // Use requires prior written permission from Redcat.
 
 use super::resources::{EstimatedWorkingLease, EstimatedWorkingPool};
+use crate::persistence::segmented::{
+    SealedSegmentedBatch, SegmentedError, SegmentedPartPool, SegmentedTicket, SegmentedWorker,
+};
 use crate::persistence::{
     handoff::{HandoffError, HandoffPool, RecoveryPayload},
     worker::{RecordTicket, RecordWorker, RecordWorkerError},
@@ -10,6 +13,8 @@ use crate::persistence::{
 use eve_finality_verifier::{ImportError, ImportWireError, RecoveryError};
 use eve_node_policy::{AppliedHeight, PublicBudget, PublicWatermarks};
 use eve_state::{StateBudget, StateVersion};
+use eve_storage::records::segmented::recovery::SegmentedRecoveryError;
+use eve_storage::records::segmented::{SegmentedCodecLimits, SegmentedLogicalIdentity};
 use eve_storage::records::{
     OpaqueRecordBudget, OpaqueRecordCursor, OpaqueRecordIdentity, OpaqueRecordRepository,
 };
@@ -58,6 +63,8 @@ pub enum AppliedError {
     ImportWire(ImportWireError),
     Handoff(HandoffError),
     Worker(RecordWorkerError),
+    Segmented(SegmentedError),
+    SegmentedRecovery(SegmentedRecoveryError),
 }
 
 pub(super) struct ChargedAppliedState {
@@ -72,6 +79,7 @@ pub struct AppliedPublication {
     pub(super) durable_cursor: OpaqueRecordCursor,
     pub(super) admitted_cursor: OpaqueRecordCursor,
     pub(super) storage_failed: bool,
+    pub(super) segmented_position: Option<super::segmented::SegmentedAppliedPosition>,
 }
 
 #[derive(Clone)]
@@ -81,19 +89,42 @@ pub struct AppliedReader {
 }
 
 pub(super) struct PendingRecord {
-    pub(super) ticket: RecordTicket,
     pub(super) parent: OpaqueRecordCursor,
     pub(super) target_cursor: OpaqueRecordCursor,
     pub(super) target: StateVersion,
-    pub(super) payload: RecoveryPayload,
+    pub(super) payload: PendingPayload,
+}
+
+pub(super) enum PendingPayload {
+    Compact {
+        ticket: RecordTicket,
+        payload: RecoveryPayload,
+    },
+    Segmented {
+        ticket: SegmentedTicket,
+        payload: SealedSegmentedBatch,
+        identity: SegmentedLogicalIdentity,
+        target_binding: [u8; 32],
+    },
+}
+
+pub(super) enum AppliedBackend {
+    Compact {
+        worker: Option<RecordWorker>,
+        pool: Arc<HandoffPool>,
+    },
+    Segmented {
+        worker: Option<SegmentedWorker>,
+        pool: Arc<SegmentedPartPool>,
+        codec: SegmentedCodecLimits,
+    },
 }
 
 /// Exclusive admission/acknowledgement owner. The sole writer never reads mutable RAM state.
 pub struct AppliedOwner {
     pub(super) config: AppliedConfig,
     pub(super) effective_storage_identity: OpaqueRecordIdentity,
-    pub(super) worker: Option<RecordWorker>,
-    pub(super) pool: Arc<HandoffPool>,
+    pub(super) backend: AppliedBackend,
     pub(super) reader: AppliedReader,
     pub(super) pending: VecDeque<PendingRecord>,
     pub(super) admitted_cursor: OpaqueRecordCursor,
@@ -113,6 +144,7 @@ pub struct AppliedAdmission {
 pub struct RetainedAppliedTail {
     pub(super) pending: VecDeque<PendingRecord>,
     pub(super) _metadata_lease: EstimatedWorkingLease,
+    pub(super) segmented_tails: Option<[Option<crate::persistence::segmented::SegmentedTail>; 2]>,
 }
 
 pub struct AppliedShutdown {

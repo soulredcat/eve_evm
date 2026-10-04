@@ -3,6 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 pub(crate) mod commitments;
+pub(crate) mod deltas;
 pub(crate) mod encoding;
 pub(crate) mod genesis;
 pub(crate) mod journals;

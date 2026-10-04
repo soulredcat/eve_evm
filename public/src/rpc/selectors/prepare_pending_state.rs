@@ -16,6 +16,12 @@ use tokio::sync::oneshot;
 pub(crate) fn prepare_pending_state(
     context: &RpcContext,
 ) -> Result<Arc<StateCommit>, ErrorObjectOwned> {
+    if matches!(&context.source, crate::rpc::RpcStateSource::Applied { .. }) {
+        return Err(rpc_error(
+            -32001,
+            "NOT_READY: applied pending overlay unavailable",
+        ));
+    }
     let (sender, receiver) = oneshot::channel();
     context
         .pool

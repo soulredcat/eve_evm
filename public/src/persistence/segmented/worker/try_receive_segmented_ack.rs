@@ -26,7 +26,7 @@ pub fn try_receive_segmented_ack(
         || slot.complete != Some(ack)
         || ack.marker_cursor != batch.marker_cursor
         || ack.references != batch.references
-        || ack.segment_count != batch.plan.segment_count
+        || ack.segment_count != batch.plan.layout.segment_count
         || ack.identity != batch.plan.marker.identity
         || ack.target_state_binding != batch.plan.marker.target_state_binding
     {

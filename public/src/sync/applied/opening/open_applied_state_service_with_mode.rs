@@ -71,6 +71,7 @@ pub fn open_applied_state_service_with_mode(
         durable_cursor: cursor,
         admitted_cursor: cursor,
         storage_failed: false,
+        segmented_position: None,
     })));
     let reader = AppliedReader {
         publication,
@@ -92,8 +93,10 @@ pub fn open_applied_state_service_with_mode(
     let owner = AppliedOwner {
         config,
         effective_storage_identity,
-        worker: Some(worker),
-        pool,
+        backend: crate::sync::applied::types::AppliedBackend::Compact {
+            worker: Some(worker),
+            pool,
+        },
         reader: reader.clone(),
         pending,
         admitted_cursor: cursor,

@@ -22,17 +22,21 @@ pub(super) fn run_test_group(
     group: TestGroup,
 ) -> Result<()> {
     let feature_names = group.features.join(",");
-    let mut inventory = vec!["test", "--locked", "--all-targets", "-p", &group.package];
-    if !group.features.is_empty() {
-        inventory.extend(["--features", &feature_names]);
-    }
+    let mut inventory = super::cargo_test_arguments::cargo_test_arguments(
+        &group.package,
+        &feature_names,
+        false,
+        group.release,
+    );
     inventory.extend(["--", "--list"]);
     let listing = require_command_success(root, artifacts, report, env!("CARGO"), &inventory)?;
     let tests = parse_test_inventory(&listing, &group.tests)?;
-    let mut execution = vec!["test", "--locked", "--all-targets", "-p", &group.package];
-    if !group.features.is_empty() {
-        execution.extend(["--features", &feature_names]);
-    }
+    let mut execution = super::cargo_test_arguments::cargo_test_arguments(
+        &group.package,
+        &feature_names,
+        false,
+        group.release,
+    );
     execution.extend(["--", "--test-threads=1", "--nocapture"]);
     let program = if group.package == "eve-storage" {
         execution.insert(0, env!("CARGO"));
@@ -62,10 +66,12 @@ pub(super) fn run_test_group(
             &group.package,
             &group.doc_tests,
             &group.features,
+            group.release,
         )?;
     report.test_count += passed;
     report.groups.push(GroupEvidence {
         package: group.package,
+        cargo_profile: if group.release { "release" } else { "test" }.into(),
         requirements: group.requirements,
         discovered: tests.len() + group.doc_tests.len(),
         passed,

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+pub mod follower;
 mod run_development_public;
 mod run_public_runtime;
 mod start_rpc_servers;

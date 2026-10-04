@@ -30,14 +30,14 @@ use std::{
     sync::{Arc, Mutex},
 };
 
-pub(super) struct TestApplication {
+pub(in crate::consensus::application) struct TestApplication {
     pub root: tempfile::TempDir,
     pub genesis: Arc<StateCommit>,
     pub spec: DevelopmentGenesis,
     pub application: ConsensusApplication,
 }
 
-pub(super) fn test_application(revert: bool) -> TestApplication {
+pub(in crate::consensus::application) fn test_application(revert: bool) -> TestApplication {
     let allowed = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
@@ -124,6 +124,7 @@ pub(super) fn reopen_application(
             expected_app_state: serde_json::json!({"public_spec": "application-fixture"}),
             proposer_owners: owners,
             logical_budget: development_state_budget(),
+            delta_serving_budget: super::super::development_delta_serving_budget(),
             reserved_clone_bytes: 64 * 1_048_576,
             maximum_cached_candidates: 2,
             maximum_cached_bytes: 128 * 1_048_576,

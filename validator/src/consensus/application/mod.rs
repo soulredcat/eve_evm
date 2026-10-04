@@ -14,6 +14,7 @@ mod processing;
 mod reading;
 mod replay;
 mod safety;
+mod serving;
 mod types;
 
 pub(in crate::consensus) use admission::check_transaction;
@@ -26,6 +27,10 @@ pub(in crate::consensus) use opening::open_application;
 pub(in crate::consensus) use preparing::prepare_proposal;
 pub(in crate::consensus) use processing::{application_approval_registry, process_proposal};
 pub(in crate::consensus) use reading::application_info;
+pub(in crate::consensus) use serving::{
+    DeltaServingBudget, application_delta_serving_budget, development_delta_serving_budget,
+    serve_state_delta_query,
+};
 pub(in crate::consensus) use types::{ApplicationConfig, ConsensusApplication};
 
 #[cfg(test)]

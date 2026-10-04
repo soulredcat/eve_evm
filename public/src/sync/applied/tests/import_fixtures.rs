@@ -18,20 +18,20 @@ use eve_state::{
 use eve_storage::records::{OpaqueRecordIdentity, development_opaque_record_budget};
 use std::path::Path;
 
-pub(super) struct ImportChain {
-    pub(super) genesis: DevelopmentGenesis,
-    pub(super) commits: Vec<StateCommit>,
-    pub(super) inputs: Vec<AuthenticatedImportInput>,
-    pub(super) records: Vec<Vec<u8>>,
+pub(crate) struct ImportChain {
+    pub(crate) genesis: DevelopmentGenesis,
+    pub(crate) commits: Vec<StateCommit>,
+    pub(crate) inputs: Vec<AuthenticatedImportInput>,
+    pub(crate) records: Vec<Vec<u8>>,
 }
 
 /// Existing public test vector: native chain31337, nonce0, contract slot write.
-pub(super) fn signed_transaction() -> Bytes {
+pub(crate) fn signed_transaction() -> Bytes {
     "0xf866808477359400830186a0940000000000000000000000000000000000000042808082f4f5a02c1d1a7db8b28ed638c4c0a70b8789ae4fc8d41fbf881cca9ccb0a97f8f487aba00a5013ea38ccecec4dab4c2c82674109c7a303ad69772b56ef82a47eef05d4c6".parse().unwrap()
 }
 
 /// A canonical replay oracle creates the delta; import is tested without re-execution.
-pub(super) fn import_chain() -> ImportChain {
+pub(crate) fn import_chain() -> ImportChain {
     let budget = development_state_budget();
     let mut genesis = genesis();
     let sender = decode_signed_transaction(&signed_transaction(), 31_337, 131_072)
@@ -123,7 +123,7 @@ pub(super) fn import_chain() -> ImportChain {
     }
 }
 
-pub(super) fn import_config(path: &Path, chain: &ImportChain) -> AppliedConfig {
+pub(crate) fn import_config(path: &Path, chain: &ImportChain) -> AppliedConfig {
     let mut repository_budget = development_opaque_record_budget();
     repository_budget.maximum_open_files = 32;
     repository_budget.maximum_record_bytes = 65_536 + 88;

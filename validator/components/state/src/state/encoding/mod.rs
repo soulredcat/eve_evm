@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+mod commit_preflight;
 mod decode_state_journal;
 mod journal_decoding;
 pub use decode_state_journal::decode_state_journal;
@@ -49,3 +50,9 @@ pub use encode_state_commit::encode_state_commit;
 pub(crate) use encode_state_data_with_history::encode_state_data_with_history;
 pub use encode_state_version::encode_state_version;
 pub(crate) use encode_version::encode_version;
+
+pub use commit_preflight::{
+    StateCommitDecodeStats, StateCommitPreflight, decode_preflight_state_commit,
+    preflight_state_commit, required_state_commit_decode_reservation,
+    state_commit_preflight_budget, state_commit_preflight_bytes, state_commit_preflight_stats,
+};

@@ -37,3 +37,10 @@ Fixtures use disposable Git repositories and isolated Cargo target directories. 
 Source discovery includes tracked and new non-ignored paths and subtracts current Git deletions. Every compiled local module/target must be inventoried as a regular `.rs` source inside its owning package or role. Source edges cannot convert a test file into unchecked production behavior. Exact `cfg(test)` module boundaries retain test-only imports; conditional paths also check their ordinary fallback source. The reviewed generated `OUT_DIR` binding facade remains an exact digest-bound exception, with its handwritten generator checked normally.
 
 The role fixtures exercise source and dependency rules, not a production node runtime. Complete standalone public/validator distribution, copied-role build/run and T-Q04 runtime acceptance remain B6 work until implemented and exercised. These tests do not certify finality, post-quantum security, devnet readiness or throughput.
+
+Test groups may declare release = true for an explicitly optimized runtime profile.
+The default stays test. One argv builder supplies the same profile/features to
+ordinary and documentation discovery/execution; locked selection, complete inventory,
+serial execution and capture settings remain mandatory. Group evidence records the
+actual Cargo profile. Timed public persistence admission uses release with its
+unchanged queue-age limits; debug late-admission refusal is recorded separately.

@@ -34,6 +34,7 @@ pub(crate) fn create_rpc_module(context: Arc<RpcContext>) -> Result<RpcModule<Ar
         "eth_getProof",
         "eve_getFinalityProof",
         "eve_getNodeStatus",
+        "eve_getStateRoots",
     ] {
         module.register_async_method(method, move |params, context, _| async move {
             let params = if params.len_bytes() == 0 {

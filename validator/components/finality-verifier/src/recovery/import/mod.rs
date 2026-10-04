@@ -3,10 +3,12 @@
 // Use requires prior written permission from Redcat.
 
 //! Certified state import is distinct from independent canonical EVM replay.
+mod checkpoint;
 mod initialize_authenticated_import;
 mod logical_wire;
 mod prepare_authenticated_import;
 mod types;
+mod validate_authenticated_execution_context;
 mod validate_import_execution_context;
 mod validate_import_execution_history;
 mod validate_import_input_bounds;
@@ -33,4 +35,11 @@ pub use wire::{
     decode_authenticated_import_wire, encode_authenticated_import_wire, import_wire_budget,
     import_wire_bytes, import_wire_slices, import_wire_stats, measure_authenticated_import_wire,
     preflight_authenticated_import_wire,
+};
+
+pub use checkpoint::{
+    AuthenticatedCheckpoint, CheckpointError, CheckpointExecutionWitness, CheckpointLimits,
+    CheckpointSession, CheckpointWitness, begin_authenticated_checkpoint, checkpoint_anchor,
+    checkpoint_commit, finish_authenticated_checkpoint, into_imported_checkpoint_state,
+    required_checkpoint_reservation, verify_checkpoint_witness,
 };

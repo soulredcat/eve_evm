@@ -111,4 +111,8 @@ tests = [
     "development::engine::tests::provenance::native_digest_and_frozen_genesis_mismatches_reject_before_initialization",
     "development::engine::tests::provenance::recognized_home_rejects_symlinked_subdirectories_and_provenance_files_without_cleanup",
     "development::engine::tests::provenance::version_text_spoof_cannot_execute_without_the_verified_binary_digest",
+    "consensus::application::serving::tests::refusal::unsupported_malformed_fenced_and_tight_operator_limits_fail_without_writes",
+    "consensus::application::serving::tests::refusal::wrong_network_exact_parent_and_missing_height_have_stable_failure_categories",
+    "consensus::application::serving::tests::retained::cached_and_historical_queries_are_exact_idempotent_and_reconstruct_retained_transition",
+    "consensus::application::serving::tests::retained::nonzero_offset_returns_exact_remaining_requested_bytes_and_unchanged_identity",
 ]

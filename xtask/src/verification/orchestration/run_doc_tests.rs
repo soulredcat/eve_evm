@@ -19,12 +19,11 @@ pub(super) fn run_doc_tests(
     package: &str,
     required: &[String],
     features: &[String],
+    release: bool,
 ) -> Result<usize> {
     let feature_names = features.join(",");
-    let mut inventory = vec!["test", "--locked", "-p", package, "--doc"];
-    if !features.is_empty() {
-        inventory.extend(["--features", &feature_names]);
-    }
+    let mut inventory =
+        super::cargo_test_arguments::cargo_test_arguments(package, &feature_names, true, release);
     inventory.extend(["--", "--list"]);
     let listing = require_command_success(root, artifacts, report, env!("CARGO"), &inventory)?;
     if required.is_empty() {
@@ -35,10 +34,8 @@ pub(super) fn run_doc_tests(
         return Ok(0);
     }
     let tests = parse_test_inventory(&listing, required)?;
-    let mut execution = vec!["test", "--locked", "-p", package, "--doc"];
-    if !features.is_empty() {
-        execution.extend(["--features", &feature_names]);
-    }
+    let mut execution =
+        super::cargo_test_arguments::cargo_test_arguments(package, &feature_names, true, release);
     execution.extend(["--", "--test-threads=1", "--nocapture"]);
     let results = require_command_success(root, artifacts, report, env!("CARGO"), &execution)?;
     parse_test_results(&results, tests.len())

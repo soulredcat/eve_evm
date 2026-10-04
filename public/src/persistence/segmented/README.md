@@ -15,11 +15,11 @@ entry has zero capacity. Four parts, 8 MiB per part and 32 MiB total keep their 
 version 2 meanings; they do not rename version 1 batches or permit a multi-record DB
 transaction. The actual repository profile must have maximum_batch_records=1.
 
-Planning uses bounded fixed arrays. `reserve_segmented_batch` atomically acquires
+Planning uses bounded fixed arrays. `plan_segmented_layout` binds identity/length without a target state binding. `reserve_segmented_layout` acquires all capacity before candidate preparation; `bind_segmented_reservation` introduces the actual verified local target later. Its rejected result returns the original unbound reservation. No provisional target binding is serialized. Existing `reserve_segmented_batch` delegates to the same reservation operation and atomically acquires
 ALL part slots, exact encoded capacities and a distinct count/type-derived metadata
 lease before any output allocation. Allocation happens outside the accounting lock;
 unexpected Vec spare capacity rejects. Canonical writers fill the reserved buffers
-directly, without another complete output Vec. Cancellation releases unfinished
+directly, without another complete output Vec. Sealing verifies the whole body SHA identity before filling any buffer; a same-length substituted body refuses. Cancellation releases unfinished
 parts and metadata; immutable sealed clones share those same buffers and leases.
 Caller logical input allocation remains separately charged.
 

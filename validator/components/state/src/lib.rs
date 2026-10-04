@@ -7,6 +7,16 @@
 
 mod state;
 
+pub use state::deltas::{
+    MAXIMUM_STATE_DELTA_CHUNK_BYTES, MAXIMUM_STATE_DELTA_PAYLOAD_BYTES,
+    MAXIMUM_STATE_DELTA_REQUEST_BYTES, StateDeltaChunk, StateDeltaError, StateDeltaExecutionStats,
+    StateDeltaPayload, StateDeltaPayloadPreflight, StateDeltaPayloadStats, StateDeltaRequest,
+    decode_state_delta_chunk, decode_state_delta_payload, decode_state_delta_request,
+    encode_state_delta_chunk, encode_state_delta_payload, encode_state_delta_request,
+    hash_state_delta_bytes, measure_state_delta_execution_bytes, measure_state_delta_payload,
+    preflight_state_delta_payload, state_delta_payload_stats,
+};
+
 pub use alloy_consensus::Header;
 pub use alloy_primitives::{Address, B256, Bytes, U256};
 pub use eve_protocol_config::genesis::{
@@ -21,9 +31,11 @@ pub use state::commitments::{
     compute_commit_identity, compute_evm_root, compute_state_content_digest, compute_system_root,
 };
 pub use state::encoding::{
-    JournalDecodePreflight, decode_block_payload, decode_state_commit, decode_state_journal,
-    decode_state_version, decode_system_record, encode_block_payload, encode_state_commit,
-    encode_state_version, preflight_state_journal,
+    JournalDecodePreflight, StateCommitDecodeStats, StateCommitPreflight, decode_block_payload,
+    decode_preflight_state_commit, decode_state_commit, decode_state_journal, decode_state_version,
+    decode_system_record, encode_block_payload, encode_state_commit, encode_state_version,
+    preflight_state_commit, preflight_state_journal, required_state_commit_decode_reservation,
+    state_commit_preflight_budget, state_commit_preflight_bytes, state_commit_preflight_stats,
 };
 pub use state::genesis::{
     estimate_genesis_initialization_reservation, initialize_development_state,

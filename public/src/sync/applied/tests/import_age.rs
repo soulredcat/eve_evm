@@ -35,7 +35,11 @@ fn imported_candidate_aged_after_preparation_rejects_final_admission_and_release
         .unwrap()
         .reserved_estimated_bytes;
     let cursor = owner.admitted_cursor;
-    let mut buffer = reserve_recovery_payload(&owner.pool, chain.records[0].len()).unwrap();
+    let mut buffer = reserve_recovery_payload(
+        crate::sync::applied::admission::compact_pool(&owner).unwrap(),
+        chain.records[0].len(),
+    )
+    .unwrap();
     write_reserved_payload(&mut buffer, &chain.records[0]).unwrap();
     let payload = seal_recovery_payload(buffer).unwrap();
     let generation = prepare_charged_generation(
@@ -60,6 +64,7 @@ fn imported_candidate_aged_after_preparation_rejects_final_admission_and_release
         durable_cursor: owner.durable_cursor,
         admitted_cursor: next,
         storage_failed: false,
+        segmented_position: None,
     });
     thread::sleep(Duration::from_millis(5));
     assert!(matches!(
@@ -72,7 +77,12 @@ fn imported_candidate_aged_after_preparation_rejects_final_admission_and_release
     ));
     assert_eq!(owner.admitted_cursor, cursor);
     assert!(owner.pending.is_empty());
-    assert_eq!(observe_handoff(&owner.pool).unwrap().retained_bytes, 0);
+    assert_eq!(
+        observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap())
+            .unwrap()
+            .retained_bytes,
+        0
+    );
     assert_eq!(
         observe_estimated_working(&reader)
             .unwrap()

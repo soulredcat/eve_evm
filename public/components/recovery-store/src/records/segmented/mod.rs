@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-//! Pure bounded local segmented-record integrity. No finality, I/O or logical publication.
+//! Bounded segmented-record integrity and local recovery. No consensus finality.
 mod decoding;
 mod encoding;
 mod framing;
 mod hashing;
 mod preflight;
+pub mod recovery;
 mod types;
 mod validation;
 mod views;
@@ -17,7 +18,7 @@ pub use encoding::{
     encode_segmented_marker, encode_segmented_segment, write_segmented_marker,
     write_segmented_segment,
 };
-pub use hashing::{hash_segmented_chunk, hash_segmented_marker};
+pub use hashing::{hash_segmented_chunk, hash_segmented_logical_body, hash_segmented_marker};
 pub use preflight::preflight_segmented_record;
 pub use types::{
     SEGMENTED_MARKER_HEADER_BYTES, SEGMENTED_MARKER_OVERHEAD_BYTES, SEGMENTED_MAX_CHUNK_BYTES,

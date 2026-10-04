@@ -19,6 +19,11 @@ pub(in crate::sync::applied) struct EstimatedWorkingLease {
     pub(super) bytes: u64,
 }
 
+/// Sealed capacity lease, independent of execution/finality and retained until caller drop.
+pub struct AppliedWorkingReservation {
+    pub(super) _lease: EstimatedWorkingLease,
+}
+
 pub(in crate::sync::applied) struct EstimatedReplayCharge {
     pub(in crate::sync::applied) retained: usize,
     pub(in crate::sync::applied) total: usize,

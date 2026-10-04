@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 Redcat
+# SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
+# Use requires prior written permission from Redcat.
+
+[package]
+name = "eve-sync-client"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+license-file.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+hex.workspace = true
+prost.workspace = true
+eve-state = { path = "../../../validator/components/state" }
+eve-consensus-comet = { path = "../../../validator/components/consensus-comet" }
+eve-finality-verifier = { path = "../../../validator/components/finality-verifier" }
+
+[lints]
+workspace = true

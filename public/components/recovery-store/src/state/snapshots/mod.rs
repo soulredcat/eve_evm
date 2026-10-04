@@ -16,3 +16,6 @@ pub use transfer::{
     LocalSnapshotManifest, SnapshotCommitReference, activate_snapshot_namespace,
     export_state_snapshot,
 };
+
+mod snapshot_commit_encoded_length;
+pub use snapshot_commit_encoded_length::snapshot_commit_encoded_length;

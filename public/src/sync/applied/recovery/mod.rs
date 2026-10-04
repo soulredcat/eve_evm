@@ -3,6 +3,8 @@
 // Use requires prior written permission from Redcat.
 
 mod prepare_charged_generation;
+mod prepare_charged_import;
+pub(super) use prepare_charged_import::prepare_charged_import;
 mod prepare_empty_recovery;
 mod recover_applied_prefix;
 

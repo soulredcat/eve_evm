@@ -52,7 +52,7 @@ pub(in crate::consensus) fn dispatch_application_request(
             ResponseValue::FinalizeBlock(finalize_block(application, source, &input)?)
         }
         RequestValue::Commit(_) => ResponseValue::Commit(commit_application(application, peer)?),
-        auxiliary => dispatch_auxiliary_application_request(auxiliary)?,
+        auxiliary => dispatch_auxiliary_application_request(application, auxiliary)?,
     };
     Ok(Response { value: Some(value) })
 }

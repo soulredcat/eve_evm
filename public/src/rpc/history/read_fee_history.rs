@@ -28,7 +28,8 @@ pub(crate) fn read_fee_history(
     } else {
         Vec::new()
     };
-    let history = capture_history_snapshot(&context.reader, context.history_budget)
+    let (_, reader) = crate::rpc::durable_rpc_source(context)?;
+    let history = capture_history_snapshot(reader, context.history_budget)
         .map_err(|e| rpc_error(-32000, e.to_string()))?;
     let newest = resolve_height(&history, &params[1])?;
     if newest > history.version().height {

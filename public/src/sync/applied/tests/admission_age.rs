@@ -47,7 +47,11 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
     )
     .unwrap();
     let lease = reserve_estimated_working(&owner.reader.working, charge.total).unwrap();
-    let mut reservation = reserve_recovery_payload(&owner.pool, chain.records[0].len()).unwrap();
+    let mut reservation = reserve_recovery_payload(
+        crate::sync::applied::admission::compact_pool(&owner).unwrap(),
+        chain.records[0].len(),
+    )
+    .unwrap();
     write_reserved_payload(&mut reservation, &chain.records[0]).unwrap();
     let payload = seal_recovery_payload(reservation).unwrap();
     let AppliedState::EmptyReplay(parent) = &original.generation.state else {
@@ -81,6 +85,7 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
         durable_cursor: owner.durable_cursor,
         admitted_cursor: next,
         storage_failed: false,
+        segmented_position: None,
     });
     drop(transient);
     thread::sleep(Duration::from_millis(5));
@@ -92,7 +97,12 @@ fn queue_age_expiring_after_actual_preparation_rejects_final_admission_without_p
     ));
     assert_eq!(owner.admitted_cursor, cursor);
     assert!(owner.pending.is_empty());
-    assert_eq!(observe_handoff(&owner.pool).unwrap().retained_bytes, 0);
+    assert_eq!(
+        observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap())
+            .unwrap()
+            .retained_bytes,
+        0
+    );
     assert_eq!(
         observe_estimated_working(&reader)
             .unwrap()

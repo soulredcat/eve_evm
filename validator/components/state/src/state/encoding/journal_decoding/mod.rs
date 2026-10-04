@@ -16,6 +16,8 @@ mod types;
 pub(crate) use decode_borrowed_operation::decode_borrowed_operation;
 pub(crate) use materialize_operation::materialize_operation;
 pub use preflight_state_journal::preflight_state_journal;
+pub(crate) use scan_record_allocations::scan_record_allocations;
+pub(crate) use scan_version_allocations::scan_version_allocations;
 pub(crate) use take_borrowed_bytes::take_borrowed_bytes;
 pub(crate) use take_encoded_list::take_encoded_list;
 pub(crate) use types::BorrowedJournalOperation;

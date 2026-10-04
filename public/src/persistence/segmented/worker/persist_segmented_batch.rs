@@ -21,15 +21,15 @@ pub(super) fn persist_segmented_batch(
     let batch = &request.batch.0;
     let mut cursor = batch.expected;
     let mut database_sequence = 0;
-    for index in 0..=batch.plan.segment_count {
-        let (part, offset, planned) = if index < batch.plan.segment_count {
+    for index in 0..=batch.plan.layout.segment_count {
+        let (part, offset, planned) = if index < batch.plan.layout.segment_count {
             (
-                index / batch.plan.per_part,
-                index % batch.plan.per_part,
+                index / batch.plan.layout.per_part,
+                index % batch.plan.layout.per_part,
                 batch.references[index],
             )
         } else {
-            (batch.plan.part_count - 1, 0, batch.marker_cursor)
+            (batch.plan.layout.part_count - 1, 0, batch.marker_cursor)
         };
         let payload = &batch.parts[part]
             .as_ref()
@@ -62,7 +62,7 @@ pub(super) fn persist_segmented_batch(
         target_state_binding: batch.plan.marker.target_state_binding,
         marker_cursor: cursor,
         references: batch.references,
-        segment_count: batch.plan.segment_count,
+        segment_count: batch.plan.layout.segment_count,
         database_sequence,
     })
 }

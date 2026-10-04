@@ -27,7 +27,7 @@ pub(crate) fn run_estimation(
     let limits = SimulationLimits {
         maximum_gas: 30_000_000,
         maximum_calldata_bytes: 131_072,
-        maximum_memory_bytes: 32 * 1_048_576,
+        maximum_memory_bytes: context.simulation_memory_bytes,
         maximum_estimation_attempts: 32,
         maximum_access_list_entries: 256,
         maximum_access_list_storage_keys: 1024,

@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 mod derive_effective_storage_identity;
-mod initialize_charged_generation;
+pub(super) mod initialize_charged_generation;
 mod open_applied_state_service;
 mod open_applied_state_service_with_mode;
 mod validate_applied_configuration;

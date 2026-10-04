@@ -8,7 +8,8 @@ use crate::{
         worker::try_submit_record,
     },
     sync::applied::{
-        AppliedAdmission, AppliedError, AppliedOwner, AppliedPublication, types::PendingRecord,
+        AppliedAdmission, AppliedError, AppliedOwner, AppliedPublication,
+        types::{AppliedBackend, PendingPayload, PendingRecord},
     },
 };
 use eve_state::StateVersion;
@@ -25,7 +26,10 @@ pub(in crate::sync::applied) fn admit_prepared_publication(
     target_cursor: OpaqueRecordCursor,
     target: StateVersion,
 ) -> Result<AppliedAdmission, AppliedError> {
-    let worker = owner.worker.as_ref().ok_or(AppliedError::Closed)?;
+    let AppliedBackend::Compact { worker, pool } = &owner.backend else {
+        return Err(AppliedError::WrongMode);
+    };
+    let worker = worker.as_ref().ok_or(AppliedError::Closed)?;
     let mut current = owner
         .reader
         .publication
@@ -34,7 +38,7 @@ pub(in crate::sync::applied) fn admit_prepared_publication(
     if owner.pending.len() == owner.pending.capacity() {
         return Err(AppliedError::QueueLimit);
     }
-    let handoff = observe_handoff(&owner.pool).map_err(AppliedError::Handoff)?;
+    let handoff = observe_handoff(pool).map_err(AppliedError::Handoff)?;
     if handoff.oldest_age > Duration::from_millis(owner.config.public_budget.queue_age_ms) {
         return Err(AppliedError::QueueLimit);
     }
@@ -42,11 +46,10 @@ pub(in crate::sync::applied) fn admit_prepared_publication(
     let ticket = try_submit_record(worker, owner.admitted_cursor, payload.clone())
         .map_err(|rejected| AppliedError::Worker(rejected.error))?;
     owner.pending.push_back(PendingRecord {
-        ticket,
         parent: owner.admitted_cursor,
         target_cursor,
         target,
-        payload,
+        payload: PendingPayload::Compact { ticket, payload },
     });
     let applied = publication.markers.applied;
     let previous = std::mem::replace(&mut *current, publication);

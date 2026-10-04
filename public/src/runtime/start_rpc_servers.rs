@@ -2,16 +2,16 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-use super::DevelopmentPublicConfig;
-use crate::rpc::{RpcContext, create_rpc_module};
+use crate::rpc::{RpcContext, RpcListenerAddresses, create_rpc_module};
 use anyhow::Result;
 use jsonrpsee::core::id_providers::RandomStringIdProvider;
 use jsonrpsee::server::{BatchRequestConfig, ServerBuilder, ServerConfig, ServerHandle};
 use std::{net::SocketAddr, sync::Arc};
 pub(crate) async fn start_rpc_servers(
-    config: &DevelopmentPublicConfig,
+    config: impl Into<RpcListenerAddresses>,
     context: Arc<RpcContext>,
 ) -> Result<(ServerHandle, ServerHandle, SocketAddr, SocketAddr)> {
+    let config = config.into();
     let limits = || {
         ServerConfig::builder()
             .max_request_body_size(1_048_576)

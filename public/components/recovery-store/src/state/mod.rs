@@ -11,7 +11,9 @@ mod service;
 mod snapshots;
 mod types;
 
-pub use budget::{StateStorageBudget, development_state_storage_budget};
+pub use budget::{
+    StateStorageBudget, development_state_storage_budget, validate_state_storage_budget,
+};
 pub use history::{
     HistoryIndexStatus, HistoryReadBudget, HistorySnapshot, RetainedBlockProjection,
     TransactionLocation, capture_history_snapshot, ensure_history_index, lookup_execution_hash,
@@ -24,6 +26,7 @@ pub use service::{
 pub use snapshots::{
     LocalSnapshotManifest, SnapshotCommitReference, activate_snapshot_namespace,
     capture_state_snapshot, export_state_snapshot, read_snapshot_commit,
+    snapshot_commit_encoded_length,
 };
 pub use types::{
     CommitDisposition, DurableStateAck, ImmutableStateView, StateReader, StateRepository,

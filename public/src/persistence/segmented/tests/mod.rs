@@ -9,6 +9,7 @@ mod positions;
 mod reservations;
 mod startup_membership;
 mod tails;
+mod unbound_reservations;
 mod worker_lifetime;
 use super::types::WorkerState;
 use std::sync::{
@@ -22,7 +23,7 @@ pub(super) struct Pause {
     pub(super) resume: Receiver<()>,
     pub(super) panic: bool,
 }
-pub(super) fn pause(
+pub(crate) fn pause(
     worker: &super::SegmentedWorker,
     index: usize,
     panic: bool,

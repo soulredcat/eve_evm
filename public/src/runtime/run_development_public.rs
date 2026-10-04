@@ -27,7 +27,7 @@ pub async fn run_development_public(config: DevelopmentPublicConfig) -> Result<(
         eve_state::development_state_budget(),
         eve_node_policy::ZoneId(config.zone_id),
     );
-    read_state_service(&context.service)?;
+    read_state_service(crate::rpc::durable_rpc_source(&context)?.0)?;
     let (http, ws, http_address, ws_address) =
         start_rpc_servers(&config, Arc::clone(&context)).await?;
     let started = serde_json::to_string(&RuntimeStarted {

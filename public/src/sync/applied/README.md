@@ -9,6 +9,12 @@ uses validator-owned execution, state and finality contracts, without implementi
 consensus, granting master authority, or importing private master behavior. Complete
 B4 acceptance remains unfinished.
 
+The explicit [segmented V2 profile](segmented/README.md) now shares the same owner,
+reader, canonical imported-state preparation and durability pipeline. Compact v1
+limits and constructors remain intact. Its larger logical bodies, actual part
+leases and verified restart recovery have separate declared transport/namespace
+contracts; physical segment sequence is never a logical height.
+
 `AppliedMode::EmptyReplay` independently executes the existing empty-execution and
 empty-lookahead service slice. Borrowed canonical preflight rejects nonempty lists
 before decoded allocation. Canonical replay/execution retain their full transaction

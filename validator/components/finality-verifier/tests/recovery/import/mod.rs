@@ -13,3 +13,5 @@ mod resources;
 mod support;
 mod transitions;
 mod wire;
+
+mod checkpoint;

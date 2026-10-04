@@ -3,21 +3,29 @@
 // Use requires prior written permission from Redcat.
 
 use super::{MetadataLease, PARTS, PartLease, SEGMENTS};
-use eve_storage::records::segmented::{SegmentedCodecLimits, SegmentedMarkerMetadata};
+use eve_storage::records::segmented::{
+    SegmentedCodecLimits, SegmentedLogicalIdentity, SegmentedMarkerMetadata,
+};
 use eve_storage::records::{OpaqueRecordCursor, OpaqueRecordIdentity};
 use std::sync::Arc;
 
 #[derive(Clone, Copy)]
-pub struct SegmentedBatchPlan {
+pub struct SegmentedBatchLayout {
     pub(in crate::persistence::segmented) namespace: OpaqueRecordIdentity,
     pub(in crate::persistence::segmented) codec: SegmentedCodecLimits,
     pub(in crate::persistence::segmented) per_part: usize,
-    pub(in crate::persistence::segmented) marker: SegmentedMarkerMetadata,
+    pub(in crate::persistence::segmented) identity: SegmentedLogicalIdentity,
     pub(in crate::persistence::segmented) segment_count: usize,
     pub(in crate::persistence::segmented) part_count: usize,
     pub(in crate::persistence::segmented) segment_lengths: [usize; SEGMENTS],
     pub(in crate::persistence::segmented) part_lengths: [[usize; 2]; PARTS],
     pub(in crate::persistence::segmented) total_encoded: usize,
+}
+
+#[derive(Clone, Copy)]
+pub struct SegmentedBatchPlan {
+    pub(in crate::persistence::segmented) layout: SegmentedBatchLayout,
+    pub(in crate::persistence::segmented) marker: SegmentedMarkerMetadata,
 }
 
 pub(in crate::persistence::segmented) struct AllocatedPart {
@@ -29,6 +37,19 @@ pub struct SegmentedBatchReservation {
     pub(in crate::persistence::segmented) id: u64,
     pub(in crate::persistence::segmented) parts: [Option<AllocatedPart>; PARTS],
     pub(in crate::persistence::segmented) metadata: MetadataLease,
+}
+
+/// All capacity is held before a verified target binding is available.
+pub struct UnboundSegmentedReservation {
+    pub(in crate::persistence::segmented) layout: SegmentedBatchLayout,
+    pub(in crate::persistence::segmented) id: u64,
+    pub(in crate::persistence::segmented) parts: [Option<AllocatedPart>; PARTS],
+    pub(in crate::persistence::segmented) metadata: MetadataLease,
+}
+
+pub struct RejectedSegmentedReservation {
+    pub error: super::SegmentedError,
+    pub reservation: UnboundSegmentedReservation,
 }
 
 pub(in crate::persistence::segmented) struct SealedBatch {

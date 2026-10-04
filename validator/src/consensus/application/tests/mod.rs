@@ -4,7 +4,7 @@
 
 mod context;
 mod empty_history;
-mod fixture;
+pub(in crate::consensus::application) mod fixture;
 mod genesis;
 mod lifecycle;
 mod process_recovery;

@@ -155,4 +155,9 @@ tests = [
     "syntax::operation_counts::t_l02_associated_and_nested_operations_are_counted",
     "syntax::operation_counts::t_l02_comments_strings_and_foreign_declarations_are_not_operations",
     "syntax::operation_counts::t_l02_two_production_operations_fail_even_below_two_hundred_lines",
+    "arguments::feature_names_remain_borrowed_and_identical_across_every_profile",
+    "arguments::listing_and_execution_share_prefix_without_profile_specific_test_skipping",
+    "arguments::ordinary_and_doc_profiles_preserve_exact_mandatory_cargo_selection",
+    "manifests::manifest_default_profile_is_test_and_explicit_true_selects_release_for_both_suites",
+    "manifests::manifest_release_requires_a_typed_boolean_and_cannot_override_program_or_arguments",
 ]

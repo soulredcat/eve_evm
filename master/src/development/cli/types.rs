@@ -28,6 +28,11 @@ pub struct DevelopmentOptions {
 
 #[derive(Subcommand)]
 pub enum Command {
+    /// Independently verify and durably archive validator-finalized classical-development history.
+    FollowDev {
+        #[command(flatten)]
+        options: crate::sync::MasterFollowerOptions,
+    },
     /// Compose bounded public RPC and a local producer without validator finality.
     ServeDev {
         #[command(flatten)]

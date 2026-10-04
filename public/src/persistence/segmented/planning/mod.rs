@@ -3,4 +3,6 @@
 // Use requires prior written permission from Redcat.
 
 mod plan_segmented_batch;
+mod plan_segmented_layout;
 pub use plan_segmented_batch::plan_segmented_batch;
+pub use plan_segmented_layout::plan_segmented_layout;

@@ -7,10 +7,12 @@ resolver = "3"
 members = [
     "xtask",
     "public/components/recovery-store",
+    "public/components/sync-client",
     "validator/components/authentication",
     "validator/components/execution",
     "validator/components/consensus-comet",
     "validator/components/finality-verifier",
+    "validator/components/development-fixtures",
     "validator/components/protocol-config",
     "public/components/node-policy",
     "validator/components/state",
@@ -49,7 +51,7 @@ alloy-eips = { version = "=2.5.0", default-features = false, features = ["std", 
 alloy-rlp = { version = "=0.3.16", features = ["derive"] }
 alloy-trie = { version = "=0.9.8", features = ["ethereum"] }
 zeroize = "=1.8.2"
-rustix = { version = "=1.1.5", features = ["net", "process"] }
+rustix = { version = "=1.1.5", features = ["net", "process", "fs"] }
 base64 = "=0.22.1"
 k256 = { version = "=0.13.4", default-features = false, features = ["ecdsa", "std"] }
 prost = "=0.14.4"

@@ -8,6 +8,7 @@ pub(crate) struct RpcLeases {
     pub worker: OwnedSemaphorePermit,
     pub bytes: OwnedSemaphorePermit,
     pub signature: Option<OwnedSemaphorePermit>,
+    pub applied_history: Option<std::sync::Arc<crate::sync::applied::AppliedPublication>>,
 }
 pub(crate) struct SignatureLeases {
     pub active: OwnedSemaphorePermit,
