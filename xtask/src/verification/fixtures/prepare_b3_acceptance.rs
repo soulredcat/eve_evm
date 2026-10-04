@@ -29,6 +29,13 @@ pub fn prepare_b3_acceptance(
         env!("CARGO"),
         &["build", "--locked", "-p", "eve-validator"],
     )?;
+    require_command_success(
+        root,
+        artifacts,
+        report,
+        env!("CARGO"),
+        &["build", "--release", "--locked", "-p", "eve-public"],
+    )?;
     let configured = std::env::var_os("CARGO_TARGET_DIR")
         .map(PathBuf::from)
         .unwrap_or_else(|| root.join("target"));
@@ -38,6 +45,18 @@ pub fn prepare_b3_acceptance(
         root.join(configured)
     };
     let validator = target.join("debug/eve-validator");
+    let public_follower = target.join("release/eve-public");
+    ensure!(
+        public_follower.is_file(),
+        "actual public follower executable missing"
+    );
+    report.tool_environment.insert(
+        "EVE_PUBLIC_BINARY".into(),
+        public_follower
+            .to_str()
+            .context("UTF-8 public follower executable")?
+            .into(),
+    );
     let normal = artifacts.join("eve-validator-normal");
     std::fs::copy(&validator, &normal)?;
     report.tool_environment.insert(
@@ -126,6 +145,10 @@ pub fn prepare_b3_acceptance(
         evidence.insert(
             "b3_validator_normal_binary_sha256".into(),
             compute_artifact_digest(&normal)?.into(),
+        );
+        evidence.insert(
+            "public_follower_binary_sha256".into(),
+            compute_artifact_digest(&public_follower)?.into(),
         );
     }
     report.topology = "Single-host four independent classical EVE validator processes, distinct disposable signing keys/stores, pinned native engines, bounded owned peer proxies and real durable application execution; independent machine failure domains and PQ activation are not demonstrated".into();

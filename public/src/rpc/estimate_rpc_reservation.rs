@@ -26,7 +26,8 @@ pub(crate) fn estimate_rpc_reservation(
         | "eth_maxPriorityFeePerGas"
         | "web3_clientVersion"
         | "eve_getFinalityProof"
-        | "eve_getNodeStatus" => 4096,
+        | "eve_getNodeStatus"
+        | "eve_getStateRoots" => 4096,
         "eth_getCode" => 65_536,
         _ => 4 * 1_048_576,
     };

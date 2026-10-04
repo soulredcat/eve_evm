@@ -17,7 +17,7 @@ fn rejected_storage_acknowledgement_keeps_exact_charged_tail_through_shutdown() 
     let (mut owner, reader) = open_applied_state_service(config(&path, &chain), &chain.genesis)
         .ok()
         .unwrap();
-    let pool = Arc::clone(&owner.pool);
+    let pool = Arc::clone(crate::sync::applied::admission::compact_pool(&owner).unwrap());
     // Unit-only control-cursor corruption triggers an actual repository rejection.
     // This is neither a hardware fsync failure nor a production control surface.
     owner.admitted_cursor.content_hash[0] ^= 1;

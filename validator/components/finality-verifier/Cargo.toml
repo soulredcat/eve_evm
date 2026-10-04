@@ -20,6 +20,7 @@ eve-state = { path = "../state" }
 prost.workspace = true
 
 [dev-dependencies]
+eve-development-fixtures = { path = "../development-fixtures" }
 ed25519-dalek.workspace = true
 prost-types.workspace = true
 sha2.workspace = true

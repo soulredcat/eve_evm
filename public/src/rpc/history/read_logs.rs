@@ -15,7 +15,8 @@ use serde_json::Value;
 pub(crate) fn read_logs(context: &RpcContext, params: &[Value]) -> Result<Value, ErrorObjectOwned> {
     require_arity(params, 1, 1)?;
     let filter = decode_log_filter(&params[0])?;
-    let history = capture_history_snapshot(&context.reader, context.history_budget)
+    let (_, reader) = crate::rpc::durable_rpc_source(context)?;
+    let history = capture_history_snapshot(reader, context.history_budget)
         .map_err(|e| rpc_error(-32000, e.to_string()))?;
     let (from, to) = if let Some(hash) = filter.block_hash {
         let height = lookup_execution_hash(&history, hash)

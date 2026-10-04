@@ -8,6 +8,7 @@ mod forged_roots;
 mod height_binding;
 mod partition;
 mod proposal_revert;
+mod public_follower;
 mod quorum;
 mod rotation_history;
 mod rpc_load;

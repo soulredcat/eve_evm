@@ -4,7 +4,7 @@
 
 # B4 local implementation and verification
 
-B4 remains IN_PROGRESS. Its complete gate is NOT_IMPLEMENTED; no hosted B4,
+The latest [follower foundation evidence](follower-foundation/README.md) records actual local public CLI recovery, master archive and authenticated snapshot prerequisites. B4 remains IN_PROGRESS. Its complete gate is NOT_IMPLEMENTED; no hosted B4,
 master-offline recovery, default public capacity or full bulk acceptance is claimed.
 Local-first publication batches remain required. Accepted B3 main is `c41ba2f`.
 
@@ -100,11 +100,54 @@ reopen and fee equality. The pause is a functional fixture, not hardware stall o
 power-loss proof. Independent production review found no remaining blocker in
 mode, wire binding, estimate/lease ordering or failure retention. Build time is
 not throughput. Full source gates/checkpoint review remain separate obligations.
+## Segmented persistence foundation — 2026-10-04
+
+An explicit part-buffer policy v2 preserves numerical 8 MiB encoded parts,
+32 MiB queue bytes and four retained parts. It does not rename v1 batches.
+The derived classical logical bound is 21,025,569 bytes; six physical segments,
+three data parts and one marker part retain at most 21,027,288 encoded bytes.
+Physical opaque records keep their original 4,198,400-byte record/read ceiling.
+Every actual database transaction writes one physical record.
+
+Canonical segment records use 177-byte headers and 32-byte hashes. Marker size
+is 225 bytes plus 40 per reference, at most 465 bytes. Checksums/local anchors
+establish local integrity, never finality. A complete logical acknowledgement is
+emitted only after all actual segment syncs and the marker sync match the planned
+cursor chain. Physical sequence is distinct from execution height.
+
+Atomic part reservations include encoded capacities, count slots and metadata.
+Cancelled tickets, failed writes and worker panics retain full owned tails.
+A pool-owned worker lifetime lease fences duplicate scratch reservations across
+repository paths and remains active through retained tickets and detached threads.
+Startup validates actual marker membership; tighter segment and logical-lag
+limits reject before admission. No publication lock spans repository I/O.
+
+| Verified scope | Result |
+|---|---|
+| Node policy | Full 26 cases passed; ten new segmented cases rerun after lint correction |
+| Segment codec | 16 cases passed |
+| Segmented worker | 19 cases passed after startup, cap, lag and worker-fence repairs |
+| Finality verifier | 99 cases passed, including 14 logical V2 transport cases |
+| Strict four-package Clippy / release | Passed; local release build 21.12 seconds |
+
+All executed cases above have zero failures or ignored cases. Full logical V2
+transport keeps every original component/transaction/header/consensus bound;
+its larger envelope is explicit. Decoder input and budgets remain sealed together.
+The large transport fixture claims no certificate or execution validity.
+Privacy compilation now selects an actually compatible verifier/state rlib pair
+with a successful dependency probe before checking the required compiler error;
+an unrelated duplicate-crate error cannot satisfy a privacy test.
+
+At this historical checkpoint, these foundations were not yet connected to complete logical-prefix replay or public applied publication. Orphan reconciliation, authenticated reconstruction,
+snapshots, live follower entry points, peer-tail recovery and full B4 gates remain
+mandatory. Source/publication checks and a coherent local checkpoint follow these
+scoped results. Build timing is not throughput or physical fault evidence.
 ## Required continuation
 
-Implement fragmented large-record import and complete logical durable markers,
-authenticated snapshots, live public/master followers, retention and peer-tail
-master-offline recovery. Preserve all
+Finish authenticated snapshot transfer, resume and atomic activation, master-offline
+missing-tail recovery, retention/last-copy policy, independently observed readiness
+and resource/fault acceptance. The linked scoped follower foundation is implemented
+locally. Preserve all
 T-N01–T-N07, T-N09/T-N10, T-S04–T-S08 and T-G04/T-G06 gates. No valid maximum payload
 may be made to fit by silently raising limits or omitting data.
 

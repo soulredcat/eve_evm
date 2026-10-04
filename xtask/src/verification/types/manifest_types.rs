@@ -38,6 +38,8 @@ pub struct TestGroup {
     pub requirements: Vec<String>,
     pub tests: Vec<String>,
     #[serde(default)]
+    pub release: bool,
+    #[serde(default)]
     pub features: Vec<String>,
     #[serde(default)]
     pub doc_tests: Vec<String>,

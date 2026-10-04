@@ -4,7 +4,7 @@
 
 use crate::mempool::MempoolHandle;
 use eve_state::{StateBudget, StateCommit};
-use eve_storage::state::{HistoryReadBudget, StateReader, StateService};
+use eve_storage::state::HistoryReadBudget;
 use serde_json::Value;
 use std::{
     collections::BTreeMap,
@@ -21,10 +21,10 @@ pub(crate) struct RpcEvent {
 pub(crate) struct RpcContext {
     pub zone: eve_node_policy::ZoneId,
     pub producer_bytes: tokio::sync::OwnedSemaphorePermit,
-    pub service: StateService,
-    pub reader: StateReader,
+    pub source: super::source::RpcStateSource,
     pub pool: MempoolHandle,
     pub state_budget: StateBudget,
+    pub simulation_memory_bytes: u64,
     pub history_budget: HistoryReadBudget,
     pub active: Arc<Semaphore>,
     pub signatures: Arc<Semaphore>,

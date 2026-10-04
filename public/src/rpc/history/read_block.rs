@@ -41,7 +41,8 @@ pub(crate) fn read_block(
         }
         return Ok(value);
     }
-    let history = capture_history_snapshot(&context.reader, context.history_budget)
+    let (_, reader) = crate::rpc::durable_rpc_source(context)?;
+    let history = capture_history_snapshot(reader, context.history_budget)
         .map_err(|e| rpc_error(-32000, e.to_string()))?;
     let height = if by_hash {
         let hash = B256::from(parse_fixed::<32>(&params[0])?);

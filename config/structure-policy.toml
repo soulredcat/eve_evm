@@ -305,8 +305,8 @@ reason = "Exact reviewed upstream public vector or original legal notice; preser
 
 [[size_reviews]]
 path = "config/structure-policy.toml"
-lines = 358
-reason = "Decomposition reviewed through the B4 applied-state slice: exact upstream digests and adapter/generator registrations form one declarative policy contract. The new Drop adapter delegates one lease release. Keep auditable exact rows below 400; no glob, source exclusion or raised ceiling. Partition the schema if further growth requires it."
+lines = 393
+reason = "Decomposition reviewed through the B4 applied-state slice: exact upstream digests and adapter/generator registrations form one declarative policy contract. The applied and four segmented Drop adapters delegate named lease releases; one mempool Deref adapter delegates a borrowed commit getter, and one listener From adapter delegates an address projection. Keep auditable exact rows below 400; no glob, source exclusion or raised ceiling. Partition the schema if further growth requires it."
 reviewer = "integrator"
 
 [[adapters]]
@@ -355,4 +355,39 @@ reviewer = "integrator"
 path = "public/src/sync/applied/resources/drop_estimated_lease_adapter.rs"
 external_trait = "std::ops::Drop"
 reason = "Public-owned estimated working-memory lease delegates release to one operation; retained views preserve its charge until their last owner drops."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/persistence/segmented/pool/part_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/persistence/segmented/pool/metadata_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/persistence/segmented/worker/scratch_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates one named release operation for its public-owned segmented resource lease."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/persistence/segmented/pool/worker_lifetime_drop_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates release of the pool-owned single-worker lifetime lease after its last state owner drops."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/mempool/deref_mempool_head_adapter.rs"
+external_trait = "std::ops::Deref"
+reason = "Standard dereference only delegates to the named borrowed commit getter; an applied head retains its original charged publication across captures. No clone, policy or authority conversion is hidden."
+reviewer = "integrator"
+[[adapters]]
+path = "public/src/rpc/source/development_listener_adapter.rs"
+external_trait = "std::convert::From"
+reason = "Standard conversion only delegates to the named listener-address projection; runtime policy and server behavior remain in their named operations."
 reviewer = "integrator"

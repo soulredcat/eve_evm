@@ -4,5 +4,7 @@
 
 //! Public-owned bounded persistence handoff and worker orchestration.
 
+pub mod segmented;
+
 pub mod handoff;
 pub mod worker;

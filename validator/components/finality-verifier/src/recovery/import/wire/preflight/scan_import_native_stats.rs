@@ -14,7 +14,7 @@ use crate::recovery::{
     decoding::take_length_prefixed::take_length_prefixed,
 };
 
-pub(in crate::recovery::import::wire) fn scan_import_native_stats(
+pub(in crate::recovery::import) fn scan_import_native_stats(
     bytes: &[u8],
 ) -> Result<ImportNativeWireStats, ImportWireError> {
     scan_native_frame(bytes).map_err(ImportWireError::Recovery)?;

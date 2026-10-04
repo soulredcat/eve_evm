@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+use crate::sync::applied::AppliedPublication;
 use alloy_primitives::{Address, B256, Bytes};
 use eve_evm::{TransactionAdmission, ValidatedTransaction};
 use eve_state::StateCommit;
@@ -29,8 +30,15 @@ pub struct PoolEntry {
 }
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PoolError(pub String);
+/// Captured head ownership retains an applied generation's actual working lease.
+/// Borrowing its commit creates no new execution/finality authority.
+#[derive(Clone)]
+pub enum MempoolHead {
+    Local(Arc<StateCommit>),
+    Applied(Arc<AppliedPublication>),
+}
 pub(crate) struct PoolState {
-    pub head: Arc<StateCommit>,
+    pub head: Arc<MempoolHead>,
     pub limits: MempoolLimits,
     pub bytes: usize,
     pub entries: BTreeMap<Address, BTreeMap<u64, PoolEntry>>,
@@ -46,10 +54,10 @@ pub(crate) enum PoolCommand {
     Select(oneshot::Sender<Result<Vec<PoolEntry>, PoolError>>),
     PendingNonce(Address, oneshot::Sender<u64>),
     Find(B256, oneshot::Sender<Option<PoolEntry>>),
-    Committed(Arc<StateCommit>, oneshot::Sender<Result<(), PoolError>>),
+    Committed(Arc<MempoolHead>, oneshot::Sender<Result<(), PoolError>>),
     Evict(Instant, oneshot::Sender<usize>),
 }
-pub(crate) type PoolCapture = (Arc<StateCommit>, Result<Vec<PoolEntry>, PoolError>);
+pub(crate) type PoolCapture = (Arc<MempoolHead>, Result<Vec<PoolEntry>, PoolError>);
 #[derive(Clone)]
 pub struct MempoolHandle {
     pub(crate) commands: mpsc::Sender<PoolCommand>,

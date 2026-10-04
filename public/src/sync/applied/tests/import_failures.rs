@@ -45,7 +45,12 @@ fn failed_import_preflight_proof_and_parent_preserve_all_published_state_and_cha
                 .reserved_estimated_bytes,
             charged
         );
-        assert_eq!(observe_handoff(&owner.pool).unwrap().retained_bytes, 0);
+        assert_eq!(
+            observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap())
+                .unwrap()
+                .retained_bytes,
+            0
+        );
     }
     drop(finish_applied_state_service(owner));
 }
@@ -63,7 +68,9 @@ fn imported_queue_refusal_preserves_the_verified_parent_and_admitted_cursor() {
     )
     .ok()
     .unwrap();
-    let (entered, resume) = install_record_append_pause(owner.worker.as_ref().unwrap());
+    let (entered, resume) = install_record_append_pause(
+        crate::sync::applied::admission::compact_worker(&owner).unwrap(),
+    );
     let first = try_apply_recovery_bytes(&mut owner, &chain.records[0]).unwrap();
     entered.recv_timeout(Duration::from_secs(5)).unwrap();
     let before = capture_applied_state(&reader).unwrap();
@@ -89,7 +96,7 @@ fn failed_import_storage_keeps_exact_tail_and_its_charge_through_shutdown() {
     )
     .ok()
     .unwrap();
-    let pool = Arc::clone(&owner.pool);
+    let pool = Arc::clone(crate::sync::applied::admission::compact_pool(&owner).unwrap());
     // Unit-only control-cursor corruption; actual repository refusal, not hardware failure.
     owner.admitted_cursor.content_hash[0] ^= 1;
     try_apply_recovery_bytes(&mut owner, &chain.records[0]).unwrap();

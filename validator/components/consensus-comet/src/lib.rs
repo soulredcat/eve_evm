@@ -8,4 +8,5 @@
 //! This component does not implement a consensus protocol or execute proposals.
 
 pub mod consensus;
+pub mod rpc_decoding;
 pub mod wire;

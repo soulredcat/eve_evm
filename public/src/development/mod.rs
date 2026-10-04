@@ -11,3 +11,6 @@ mod read_development_spec;
 mod resolve_data_directory;
 pub(crate) use open_development_repository::open_development_repository;
 pub(crate) use produce_development_blocks::produce_development_blocks;
+
+pub(crate) use read_development_spec::read_development_spec;
+pub(crate) use resolve_data_directory::resolve_data_directory;

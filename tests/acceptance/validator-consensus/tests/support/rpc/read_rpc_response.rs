@@ -5,7 +5,7 @@
 use super::types::{MAXIMUM_RPC_BODY_BYTES, MAXIMUM_RPC_HEADER_BYTES};
 use anyhow::{Result, ensure};
 use std::{net::TcpStream, time::Instant};
-pub(super) fn read_rpc_response(stream: &mut TcpStream, deadline: Instant) -> Result<Vec<u8>> {
+pub(crate) fn read_rpc_response(stream: &mut TcpStream, deadline: Instant) -> Result<Vec<u8>> {
     let status = super::read_rpc_line::read_rpc_line(stream, deadline, 256)?;
     let mut words = status.split_ascii_whitespace();
     ensure!(

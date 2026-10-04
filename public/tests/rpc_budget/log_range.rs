@@ -13,10 +13,11 @@ use std::sync::Arc;
 #[tokio::test]
 async fn ta05_real_retained_history_accepts_1000_blocks_and_rejects_1001_block_log_scan() {
     let mut fixture = fixture(Bytes::new());
-    let mut parent = read_state_service(&fixture.context.service)
-        .unwrap()
-        .commit()
-        .clone();
+    let mut parent =
+        read_state_service(crate::rpc::durable_rpc_source(&fixture.context).unwrap().0)
+            .unwrap()
+            .commit()
+            .clone();
     for _ in 0..1001 {
         let input = ExecutionBlockInput {
             timestamp: parent.target.timestamp + 1,

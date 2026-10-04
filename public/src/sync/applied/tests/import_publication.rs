@@ -27,7 +27,9 @@ fn default_budget_imports_signed_nonempty_state_without_double_fees_during_pause
     let genesis = capture_applied_state(&reader).unwrap();
     assert_eq!(applied_mode(&genesis), AppliedMode::AuthenticatedImport);
     assert_eq!(applied_commit(&genesis), &chain.commits[0]);
-    let (entered, resume) = install_record_append_pause(owner.worker.as_ref().unwrap());
+    let (entered, resume) = install_record_append_pause(
+        crate::sync::applied::admission::compact_worker(&owner).unwrap(),
+    );
     try_apply_recovery_bytes(&mut owner, &chain.records[0]).unwrap();
     entered.recv_timeout(Duration::from_secs(5)).unwrap();
     let first = capture_applied_state(&reader).unwrap();

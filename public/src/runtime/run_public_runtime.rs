@@ -11,5 +11,6 @@ use clap::Parser;
 pub async fn run_public_runtime() -> Result<()> {
     match PublicCli::parse().command {
         PublicCommand::ServeDev(config) => run_development_public(config).await,
+        PublicCommand::FollowDev(config) => super::follower::run_development_follower(config).await,
     }
 }

@@ -13,10 +13,11 @@ async fn ta05_cancelled_real_evm_call_keeps_leases_until_blocking_execution_exit
     // JUMPDEST, PUSH1(0), JUMP is a real Shanghai gas-bounded busy loop.
     let fixture = fixture(Bytes::from_static(&[0x5b, 0x60, 0, 0x56]));
     let context = fixture.context;
-    let before = eve_storage::state::read_state_service(&context.service)
-        .unwrap()
-        .commit()
-        .clone();
+    let before =
+        eve_storage::state::read_state_service(crate::rpc::durable_rpc_source(&context).unwrap().0)
+            .unwrap()
+            .commit()
+            .clone();
     let baseline = context.bytes.available_permits();
     let shared = Arc::clone(&context);
     let params = vec![
@@ -58,9 +59,11 @@ async fn ta05_cancelled_real_evm_call_keeps_leases_until_blocking_execution_exit
     .await
     .expect("Gas-bounded blocking execution must eventually release every lease");
     assert_eq!(
-        *eve_storage::state::read_state_service(&context.service)
-            .unwrap()
-            .commit(),
+        *eve_storage::state::read_state_service(
+            crate::rpc::durable_rpc_source(&context).unwrap().0
+        )
+        .unwrap()
+        .commit(),
         before
     );
 }

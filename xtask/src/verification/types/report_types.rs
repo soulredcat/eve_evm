@@ -51,6 +51,7 @@ pub struct CommandEvidence {
 #[derive(Debug, Serialize)]
 pub struct GroupEvidence {
     pub package: String,
+    pub cargo_profile: String,
     pub requirements: Vec<String>,
     pub discovered: usize,
     pub passed: usize,

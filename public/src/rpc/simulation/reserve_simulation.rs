@@ -14,8 +14,19 @@ pub(crate) fn reserve_simulation(
 ) -> Result<(usize, OwnedSemaphorePermit), ErrorObjectOwned> {
     let reservation = estimate_clone_reservation(&state.state)
         .map_err(|e| rpc_error(-32000, format!("clone reservation: {e:?}")))?;
+    // Applied profiles include the VM arena and its possible copied RETURN/REVERT
+    // output before the RPC response limit is checked. Preserve the legacy profile.
+    let memory = usize::try_from(context.simulation_memory_bytes)
+        .map_err(|_| rpc_error(-32005, "simulation memory accounting overflow"))?;
+    let memory = if matches!(&context.source, crate::rpc::RpcStateSource::Applied { .. }) {
+        memory
+            .checked_mul(2)
+            .ok_or_else(|| rpc_error(-32005, "simulation output accounting overflow"))?
+    } else {
+        memory
+    };
     let charge = reservation
-        .checked_add(32 * 1_048_576)
+        .checked_add(memory)
         .and_then(|bytes| u32::try_from(bytes.div_ceil(1024)).ok())
         .ok_or_else(|| rpc_error(-32005, "simulation byte accounting overflow"))?;
     let permit = Arc::clone(&context.bytes)

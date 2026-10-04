@@ -8,6 +8,7 @@ use crate::{
     sync::applied::{
         AppliedError, AppliedOwner, AppliedPublication, capture_applied_state,
         resources::{estimate_pending_metadata, reserve_estimated_working},
+        types::PendingPayload,
     },
 };
 use eve_node_policy::PublicWatermarks;
@@ -40,6 +41,7 @@ pub fn poll_applied_durability(owner: &mut AppliedOwner) -> Result<PublicWaterma
         durable_cursor: owner.durable_cursor,
         admitted_cursor: owner.admitted_cursor,
         storage_failed: false,
+        segmented_position: current.segmented_position,
     });
     let fields = Arc::get_mut(&mut next).ok_or(AppliedError::PublicationUnavailable)?;
     // Lock before consuming acknowledgements: poison rejection cannot lose an unprocessed ticket.
@@ -51,27 +53,70 @@ pub fn poll_applied_durability(owner: &mut AppliedOwner) -> Result<PublicWaterma
     let mut markers = current.markers;
     let mut error = None;
     while let Some(pending) = owner.pending.front() {
-        let ack = match try_receive_record_ack(&pending.ticket) {
-            Ok(None) => break,
-            Ok(Some(ack)) => ack,
-            Err(worker_error) => {
-                error = Some(AppliedError::Worker(worker_error));
-                break;
+        let (cursor, sequence, segmented_anchor) = match &pending.payload {
+            PendingPayload::Compact { ticket, .. } => {
+                let ack = match try_receive_record_ack(ticket) {
+                    Ok(None) => break,
+                    Ok(Some(ack)) => ack,
+                    Err(worker_error) => {
+                        error = Some(AppliedError::Worker(worker_error));
+                        break;
+                    }
+                };
+                if let Err(failure) = validate_applied_acknowledgement(
+                    pending,
+                    ack,
+                    owner.durable_cursor,
+                    markers.durable_recovery.0,
+                    owner.database_sequence,
+                ) {
+                    error = Some(failure);
+                    break;
+                }
+                (ack.appended, ack.database_sequence, None)
+            }
+            PendingPayload::Segmented { ticket, .. } => {
+                let ack = match crate::persistence::segmented::try_receive_segmented_ack(ticket) {
+                    Ok(None) => break,
+                    Ok(Some(ack)) => ack,
+                    Err(worker_error) => {
+                        error = Some(AppliedError::Segmented(worker_error));
+                        break;
+                    }
+                };
+                if let Err(failure) =
+                    crate::sync::applied::segmented::validate_segmented_applied_ack(
+                        pending,
+                        ack,
+                        owner.durable_cursor,
+                        markers.durable_recovery.0,
+                        owner.database_sequence,
+                    )
+                {
+                    error = Some(failure);
+                    break;
+                }
+                let anchor = eve_storage::records::segmented::SegmentedRecoveryAnchor {
+                    height: ack.identity.target_height,
+                    cursor: ack.marker_cursor,
+                    state_binding: ack.target_state_binding,
+                };
+                (ack.marker_cursor, ack.database_sequence, Some(anchor))
             }
         };
-        if let Err(failure) = validate_applied_acknowledgement(
-            pending,
-            ack,
-            owner.durable_cursor,
-            markers.durable_recovery.0,
-            owner.database_sequence,
-        ) {
-            error = Some(failure);
-            break;
-        }
         markers.durable_recovery.0 = pending.target.height;
-        owner.durable_cursor = ack.appended;
-        owner.database_sequence = ack.database_sequence;
+        owner.durable_cursor = cursor;
+        owner.database_sequence = sequence;
+        if let (Some(position), Some(anchor)) = (&mut fields.segmented_position, segmented_anchor) {
+            position.durable = anchor;
+            position.last_acknowledged_physical = cursor;
+            if position
+                .missing_from
+                .is_some_and(|height| height <= anchor.height)
+            {
+                position.missing_from = None;
+            }
+        }
         if let Some(record) = owner.pending.pop_front() {
             retired.push_back(record);
         }

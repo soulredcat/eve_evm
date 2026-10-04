@@ -6,6 +6,7 @@ version = 1
 id = "B3"
 profile = "CLASSICAL_FOUR_VALIDATOR_BFT_DURABLE_SIGNER_NOT_PQ_OR_SECURED_TPS"
 groups = [
+    "config/gates/groups/development-fixtures.toml",
     "config/gates/groups/xtask.toml",
     "config/gates/groups/authentication.toml",
     "config/gates/groups/consensus.toml",

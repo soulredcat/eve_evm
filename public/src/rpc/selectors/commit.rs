@@ -7,6 +7,7 @@ use eve_state::StateCommit;
 impl SelectedState {
     pub(crate) fn commit(&self) -> &StateCommit {
         match self {
+            Self::Applied { publication } => crate::sync::applied::applied_commit(publication),
             Self::Current { view, .. } => view.commit(),
             Self::Owned { commit, .. } => commit,
         }

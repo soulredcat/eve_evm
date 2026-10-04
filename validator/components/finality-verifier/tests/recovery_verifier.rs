@@ -7,8 +7,6 @@ mod compiler;
 
 #[path = "recovery/codec_mutation.rs"]
 mod codec_mutation;
-#[path = "support/genesis.rs"]
-mod genesis;
 #[path = "support/native.rs"]
 mod native;
 #[path = "recovery/bounds/validate_recovery_envelope_bounds.rs"]

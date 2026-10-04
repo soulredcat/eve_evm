@@ -41,4 +41,5 @@ tests = [
     "support::rpc::tests::partial_http_progress_does_not_reset_absolute_read_deadline",
     "support::rpc::tests::real_http_content_length_and_chunked_return_only_rpc_result",
     "support::rpc::tests::untrusted_http_lengths_transfer_coding_truncation_and_rpc_errors_reject",
+    "cases::public_follower::t_n01_public_cli_follower_nonempty_bootstrap_and_graceful_restart_slice",
 ]

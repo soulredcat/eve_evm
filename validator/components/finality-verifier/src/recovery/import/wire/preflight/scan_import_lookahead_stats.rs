@@ -14,7 +14,7 @@ use crate::recovery::{
     decoding::{take_length_prefixed::take_length_prefixed, take_u32::take_u32},
 };
 
-pub(in crate::recovery::import::wire) fn scan_import_lookahead_stats(
+pub(in crate::recovery::import) fn scan_import_lookahead_stats(
     bytes: &[u8],
 ) -> Result<ImportLookaheadWireStats, ImportWireError> {
     scan_native_data_frame(bytes).map_err(ImportWireError::Recovery)?;

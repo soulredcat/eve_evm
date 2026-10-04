@@ -3,10 +3,13 @@
 // Use requires prior written permission from Redcat.
 
 use std::{
-    path::{Path, PathBuf},
+    path::PathBuf,
     process::Command,
     time::{SystemTime, UNIX_EPOCH},
 };
+
+#[path = "compiler_artifacts.rs"]
+mod compiler_artifacts;
 
 struct CompileDirectory(PathBuf);
 
@@ -14,26 +17,10 @@ impl Drop for CompileDirectory {
     fn drop(&mut self) {
         let _ = std::fs::remove_file(self.0.join("source.rs"));
         let _ = std::fs::remove_file(self.0.join("output.rmeta"));
+        let _ = std::fs::remove_file(self.0.join("dependency_probe.rs"));
+        let _ = std::fs::remove_file(self.0.join("dependency_probe.rmeta"));
         let _ = std::fs::remove_dir(&self.0);
     }
-}
-
-fn artifact(deps: &Path, library: &str) -> PathBuf {
-    let prefix = format!("lib{library}-");
-    std::fs::read_dir(deps)
-        .unwrap()
-        .map(|entry| entry.unwrap().path())
-        .filter(|path| {
-            path.file_name()
-                .unwrap()
-                .to_string_lossy()
-                .starts_with(&prefix)
-                && path
-                    .extension()
-                    .is_some_and(|extension| extension == "rlib")
-        })
-        .max_by_key(|path| path.metadata().unwrap().modified().unwrap())
-        .expect("current test build must produce the required dependency rlib")
 }
 
 /// Compile a downstream consumer; only the expected compiler error can pass.
@@ -52,6 +39,7 @@ pub fn must_reject(source: &str, expected_error: &str) {
     let directory = CompileDirectory(directory);
     std::fs::write(directory.0.join("source.rs"), source).unwrap();
     let compiler = std::env::var_os("RUSTC").unwrap_or_else(|| "rustc".into());
+    let (verifier, state) = compiler_artifacts::compatible_artifacts(deps, &compiler, &directory.0);
     let output = Command::new(compiler)
         .args([
             "--edition=2024",
@@ -64,15 +52,9 @@ pub fn must_reject(source: &str, expected_error: &str) {
         .arg("-L")
         .arg(format!("dependency={}", deps.display()))
         .arg("--extern")
-        .arg(format!(
-            "eve_finality_verifier={}",
-            artifact(deps, "eve_finality_verifier").display()
-        ))
+        .arg(format!("eve_finality_verifier={}", verifier.display()))
         .arg("--extern")
-        .arg(format!(
-            "eve_state={}",
-            artifact(deps, "eve_state").display()
-        ))
+        .arg(format!("eve_state={}", state.display()))
         .output()
         .expect("pinned Rust compiler must be available for boundary tests");
     let stderr = String::from_utf8(output.stderr).unwrap();

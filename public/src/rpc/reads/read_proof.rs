@@ -30,13 +30,7 @@ pub(crate) fn read_proof(
         .collect::<Result<Vec<_>, _>>()?;
     let selected = capture_selected_state(context, &params[2])?;
     let state = selected.commit();
-    let clone_bytes = eve_evm::estimate_clone_reservation(&state.state)
-        .map_err(|e| rpc_error(-32005, format!("proof clone reservation: {e:?}")))?;
-    let clone_charge = u32::try_from(clone_bytes.div_ceil(1024))
-        .map_err(|_| rpc_error(-32005, "proof clone accounting overflow"))?;
-    let _clone_lease = Arc::clone(&context.bytes)
-        .try_acquire_many_owned(clone_charge)
-        .map_err(|_| rpc_error(-32005, "proof clone capacity exceeded"))?;
+    let _clone_lease = super::reserve_proof_state_clone::reserve_proof_state_clone(context, state)?;
     let view = capture_state_view(
         state.state.clone(),
         state.target.clone(),
@@ -78,7 +72,18 @@ pub(crate) fn read_proof(
     value["eveStateRoot"] =
         serde_json::to_value(proof.state_root.0).map_err(|e| rpc_error(-32603, e.to_string()))?;
     value["eveHeight"] = quantity(proof.height);
-    value["eveVerificationMode"] = Value::String("LOCAL_DEV_UNAUTHENTICATED".into());
+    value["eveVerificationMode"] =
+        Value::String(crate::rpc::selectors::selected_verification_mode(&selected).into());
+    if let crate::rpc::selectors::SelectedState::Applied { publication } = &selected {
+        let markers = crate::sync::applied::applied_markers(publication);
+        value["eveAuthenticatedHeight"] =
+            if crate::sync::applied::applied_anchor(publication).is_some() {
+                quantity(markers.authenticated_state.0)
+            } else {
+                Value::Null
+            };
+        value["eveFinalizedHeight"] = quantity(markers.finalized.0);
+    }
     Ok(value)
 }
 use std::sync::Arc;

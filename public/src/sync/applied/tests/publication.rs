@@ -22,7 +22,9 @@ fn two_verified_applications_and_ram_capture_continue_before_first_append_resume
         .ok()
         .unwrap();
     let genesis = capture_applied_state(&reader).unwrap();
-    let (entered, resume) = install_record_append_pause(owner.worker.as_ref().unwrap());
+    let (entered, resume) = install_record_append_pause(
+        crate::sync::applied::admission::compact_worker(&owner).unwrap(),
+    );
     let first = try_apply_recovery_bytes(&mut owner, &chain.records[0]).unwrap();
     entered.recv_timeout(Duration::from_secs(5)).unwrap();
     let first_view = capture_applied_state(&reader).unwrap();
@@ -61,7 +63,8 @@ fn two_verified_applications_and_ram_capture_continue_before_first_append_resume
     assert_eq!(applied_commit(&first_view), &chain.commits[1]);
     assert_eq!(applied_commit(&view), &chain.commits[2]);
     assert_eq!(applied_anchor(&view).unwrap().execution_height(), 2);
-    let retained = observe_handoff(&owner.pool).unwrap();
+    let retained =
+        observe_handoff(crate::sync::applied::admission::compact_pool(&owner).unwrap()).unwrap();
     assert_eq!(retained.retained_batches, 2);
     let shutdown = finish_applied_state_service(owner);
     assert!(shutdown.acknowledgement_error.is_none());

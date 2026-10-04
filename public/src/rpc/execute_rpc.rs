@@ -18,7 +18,10 @@ pub(crate) async fn execute_rpc(
     method: &'static str,
     params: Vec<Value>,
 ) -> Result<Value, ErrorObjectOwned> {
-    if !context.healthy.load(Ordering::Acquire) {
+    if !context.healthy.load(Ordering::Acquire)
+        && !(method == "eve_getNodeStatus"
+            && matches!(&context.source, super::RpcStateSource::Applied { .. }))
+    {
         return Err(rpc_error(
             -32000,
             "NODE_FENCED: reconcile durable state before serving",
@@ -33,6 +36,12 @@ pub(crate) async fn execute_rpc(
     if method == "eth_getTransactionCount"
         && params.get(1).and_then(Value::as_str) == Some("pending")
     {
+        if matches!(&context.source, super::RpcStateSource::Applied { .. }) {
+            return Err(rpc_error(
+                -32001,
+                "NOT_READY: applied pending nonce overlay unavailable",
+            ));
+        }
         require_arity(&params, 2, 2)?;
         let address = Address::from(parse_fixed::<20>(&params[0])?);
         return context
@@ -65,15 +74,21 @@ pub(crate) async fn execute_rpc(
         .map_err(|_| rpc_error(-32005, "RPC worker capacity exceeded"))?;
     let mut reservation =
         super::estimate_rpc_reservation::estimate_rpc_reservation(method, &params)?;
-    if [
-        "eth_getBlockByNumber",
-        "eth_getBlockByHash",
-        "eth_getTransactionByHash",
-        "eth_getTransactionReceipt",
-        "eth_getLogs",
-        "eth_feeHistory",
-    ]
-    .contains(&method)
+    let applied_history = if super::history::is_history_rpc_method(method)
+        && matches!(&context.source, super::RpcStateSource::Applied { .. })
+    {
+        let publication = super::history::capture_applied_history(&context)?;
+        reservation = reservation
+            .checked_add(super::history::estimate_applied_history_reservation(
+                &publication,
+            )?)
+            .ok_or_else(|| rpc_error(-32005, "applied history reservation overflow"))?;
+        Some(publication)
+    } else {
+        None
+    };
+    if super::history::is_history_rpc_method(method)
+        && matches!(&context.source, super::RpcStateSource::Durable { .. })
     {
         reservation = reservation
             .checked_add(
@@ -114,6 +129,7 @@ pub(crate) async fn execute_rpc(
         worker,
         bytes,
         signature,
+        applied_history,
     };
     let task = tokio::task::spawn_blocking(move || {
         run_rpc_worker(context, method, params, leases, pending)

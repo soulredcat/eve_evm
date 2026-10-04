@@ -17,6 +17,7 @@ use eve_storage::state::{create_state_service, read_state_service, state_reader}
 pub fn run_cli() -> Result<()> {
     let arguments = Arguments::parse();
     match arguments.command {
+        Command::FollowDev { options } => crate::sync::run_master_follower_cli(options)?,
         Command::ServeDev { options, listeners } => {
             crate::development::rpc::serve_development_rpc::serve_development_rpc(
                 options, listeners,

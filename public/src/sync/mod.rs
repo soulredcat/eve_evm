@@ -4,3 +4,5 @@
 
 //! Public-owned authenticated recovery admission and RAM publication.
 pub mod applied;
+
+pub mod follower;

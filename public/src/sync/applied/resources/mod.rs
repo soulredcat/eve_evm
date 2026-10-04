@@ -11,7 +11,10 @@ mod estimated_clone_ceiling;
 mod estimated_repository_read_charge;
 mod observe_estimated_working;
 mod release_estimated_working;
+mod reserve_applied_working;
 mod reserve_estimated_working;
+pub use reserve_applied_working::reserve_applied_working;
+pub use types::AppliedWorkingReservation;
 mod split_estimated_working;
 mod types;
 

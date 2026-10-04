@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+use crate::consensus::application::{
+    ConsensusApplication, application_delta_serving_budget, serve_state_delta_query,
+};
 use anyhow::{Result, bail};
 use eve_consensus_comet::wire::tendermint::abci::{
     ResponseApplySnapshotChunk, ResponseEcho, ResponseExtendVote, ResponseFlush, ResponseInsertTx,
@@ -11,6 +14,7 @@ use eve_consensus_comet::wire::tendermint::abci::{
 };
 
 pub(super) fn dispatch_auxiliary_application_request(
+    application: &mut ConsensusApplication,
     request: RequestValue,
 ) -> Result<ResponseValue> {
     Ok(match request {
@@ -18,11 +22,18 @@ pub(super) fn dispatch_auxiliary_application_request(
             message: input.message,
         }),
         RequestValue::Flush(_) => ResponseValue::Flush(ResponseFlush {}),
-        RequestValue::Query(_) => ResponseValue::Query(ResponseQuery {
-            code: 1,
-            codespace: "EVE_QUERY_UNSUPPORTED".into(),
-            ..Default::default()
-        }),
+        RequestValue::Query(input) => {
+            ResponseValue::Query(if input.path.starts_with("/eve/recovery/") {
+                let budget = application_delta_serving_budget(application);
+                serve_state_delta_query(application, &input, budget)
+            } else {
+                ResponseQuery {
+                    code: 1,
+                    codespace: "EVE_QUERY_UNSUPPORTED".into(),
+                    ..Default::default()
+                }
+            })
+        }
         RequestValue::InsertTx(_) => ResponseValue::InsertTx(ResponseInsertTx { code: 1 }),
         RequestValue::ReapTxs(_) => ResponseValue::ReapTxs(ResponseReapTxs { txs: Vec::new() }),
         RequestValue::ListSnapshots(_) => ResponseValue::ListSnapshots(ResponseListSnapshots {

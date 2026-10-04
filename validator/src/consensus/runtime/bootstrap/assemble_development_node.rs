@@ -134,6 +134,10 @@ pub(in crate::consensus::runtime) fn assemble_development_node(
             expected_app_state: app_state,
             proposer_owners: owners,
             logical_budget: budget,
+            delta_serving_budget: crate::consensus::application::DeltaServingBudget {
+                maximum_working_bytes: config.recovery_query_working_bytes,
+                ..crate::consensus::application::development_delta_serving_budget()
+            },
             reserved_clone_bytes: 64 * 1_048_576,
             maximum_cached_candidates: 2,
             maximum_cached_bytes: 128 * 1_048_576,

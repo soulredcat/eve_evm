@@ -3,11 +3,8 @@
 // Use requires prior written permission from Redcat.
 
 use super::{resolve_height, types::SelectedState};
-use crate::rpc::{RpcContext, errors::rpc_error};
-use eve_storage::state::{
-    capture_history_snapshot, capture_state_snapshot, read_cached_state_service,
-    read_snapshot_commit, read_state_service,
-};
+use crate::rpc::{RpcContext, RpcStateSource, durable_rpc_source, errors::rpc_error};
+use eve_storage::state::{capture_history_snapshot, capture_state_snapshot, read_snapshot_commit};
 use jsonrpsee::types::ErrorObjectOwned;
 use serde_json::Value;
 use std::sync::Arc;
@@ -15,6 +12,11 @@ pub(crate) fn capture_selected_state(
     context: &RpcContext,
     selector: &Value,
 ) -> Result<SelectedState, ErrorObjectOwned> {
+    if matches!(&context.source, RpcStateSource::Applied { .. }) {
+        return super::capture_applied_selected_state::capture_applied_selected_state(
+            context, selector,
+        );
+    }
     if selector.as_str() == Some("pending") {
         let lease = Arc::clone(&context.bytes)
             .try_acquire_many_owned(128 * 1024)
@@ -25,22 +27,10 @@ pub(crate) fn capture_selected_state(
         });
     }
     if selector.as_str() == Some("latest") {
-        if let Some(view) = read_cached_state_service(&context.service)
-            .map_err(|e| rpc_error(-32000, e.to_string()))?
-        {
-            return Ok(SelectedState::Current { view, _lease: None });
-        }
-        let lease = Arc::clone(&context.bytes)
-            .try_acquire_many_owned(128 * 1024)
-            .map_err(|_| rpc_error(-32005, "state cache refresh capacity exceeded"))?;
-        let view =
-            read_state_service(&context.service).map_err(|e| rpc_error(-32000, e.to_string()))?;
-        return Ok(SelectedState::Current {
-            view,
-            _lease: Some(lease),
-        });
+        return super::capture_current_rpc_state(context);
     }
-    let history = capture_history_snapshot(&context.reader, context.history_budget)
+    let (_, reader) = durable_rpc_source(context)?;
+    let history = capture_history_snapshot(reader, context.history_budget)
         .map_err(|e| rpc_error(-32000, e.to_string()))?;
     let height = resolve_height(&history, selector)?;
     if height > history.version().height {
@@ -62,8 +52,7 @@ pub(crate) fn capture_selected_state(
     let lease = Arc::clone(&context.bytes)
         .try_acquire_many_owned(128 * 1024)
         .map_err(|_| rpc_error(-32005, "historical state load capacity exceeded"))?;
-    let snapshot =
-        capture_state_snapshot(&context.reader).map_err(|e| rpc_error(-32000, e.to_string()))?;
+    let snapshot = capture_state_snapshot(reader).map_err(|e| rpc_error(-32000, e.to_string()))?;
     let commit = Arc::new(
         read_snapshot_commit(&snapshot, height)
             .map_err(|e| rpc_error(-32000, e.to_string()))?

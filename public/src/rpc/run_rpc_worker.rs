@@ -18,6 +18,7 @@ pub(crate) fn run_rpc_worker(
     pending: Option<PoolEntry>,
 ) -> Result<Value, ErrorObjectOwned> {
     let _leases = (leases.active, leases.worker, leases.bytes, leases.signature);
+    let applied_history = leases.applied_history;
     let result = if let Some(entry) = pending {
         encode_transaction(
             &entry.raw,
@@ -26,6 +27,8 @@ pub(crate) fn run_rpc_worker(
             None,
         )
         .map_err(|e| rpc_error(-32000, e.to_string()))?
+    } else if let Some(publication) = &applied_history {
+        super::history::dispatch_applied_history(publication, method, &params)?
     } else {
         dispatch_rpc(&context, method, &params)?
     };

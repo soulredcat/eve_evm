@@ -14,8 +14,10 @@ pub use persistence::{
     StateAuthentication, evaluate_public_readiness, validate_watermarks,
 };
 pub use resources::{
-    BudgetError, PublicBudget, development_public_budget, validate_admission_reservation,
-    validate_public_budget,
+    BudgetError, PublicBudget, SEGMENTED_RECOVERY_POLICY_VERSION, SegmentedRecoveryBounds,
+    SegmentedRecoveryCapacity, SegmentedRecoveryPolicy, available_segmented_allowance,
+    development_public_budget, development_segmented_recovery_policy,
+    validate_admission_reservation, validate_public_budget, validate_segmented_recovery_policy,
 };
 pub use sources::{
     SourceEligibility, SourceObservation, SourcePurpose, SourceVerification, ZoneId,

@@ -2,6 +2,11 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
+mod opaque_record_bootstrap_cursor;
+mod opaque_record_identity;
+pub use opaque_record_bootstrap_cursor::opaque_record_bootstrap_cursor;
+pub use opaque_record_identity::opaque_record_identity;
+
 mod load_opaque_record;
 mod opaque_record_budget;
 mod opaque_record_cursor;

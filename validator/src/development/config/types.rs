@@ -31,4 +31,7 @@ pub struct DevelopmentValidatorConfig {
     pub persistent_peers: String,
     #[arg(long, default_value_t = 1)]
     pub zone_id: u16,
+    /// Independent CLASSICAL_DEV retained-query working estimate, not proposal RAM.
+    #[arg(long, default_value_t = 64 * 1_048_576)]
+    pub recovery_query_working_bytes: usize,
 }

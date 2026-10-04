@@ -9,7 +9,6 @@ use super::{
     history, reads, simulation,
 };
 use eve_protocol_config::headers::derive_next_base_fee;
-use eve_storage::state::read_state_service;
 use jsonrpsee::types::ErrorObjectOwned;
 use serde_json::Value;
 use std::sync::atomic::Ordering;
@@ -18,6 +17,12 @@ pub(crate) fn dispatch_rpc(
     method: &str,
     params: &[Value],
 ) -> Result<Value, ErrorObjectOwned> {
+    if matches!(&context.source, crate::rpc::RpcStateSource::Applied { .. })
+        && history::is_history_rpc_method(method)
+    {
+        let publication = history::capture_applied_history(context)?;
+        return history::dispatch_applied_history(&publication, method, params);
+    }
     match method {
         "eth_getBalance" => reads::read_balance(context, params),
         "eth_getCode" => reads::read_code(context, params),
@@ -36,15 +41,30 @@ pub(crate) fn dispatch_rpc(
             require_arity(params, 0, 0)?;
             reads::read_node_status(context)
         }
+        "eve_getStateRoots" => {
+            require_arity(params, 0, 0)?;
+            reads::read_state_roots(context)
+        }
         "eve_getFinalityProof" => Err(rpc_error(
             -32001,
-            "FINALITY_UNAVAILABLE: local development has no authenticated validator finality",
+            if matches!(&context.source, crate::rpc::RpcStateSource::Applied { .. }) {
+                "FINALITY_PROOF_UNAVAILABLE: certificate proof export is not integrated"
+            } else {
+                "FINALITY_UNAVAILABLE: local development has no authenticated validator finality"
+            },
         )),
         "web3_clientVersion" => {
             require_arity(params, 0, 0)?;
-            Ok(Value::String(
-                "EVE/development-0.1.0/Shanghai/LOCAL_DEV_UNAUTHENTICATED".into(),
-            ))
+            if matches!(&context.source, crate::rpc::RpcStateSource::Durable { .. }) {
+                return Ok(Value::String(
+                    "EVE/development-0.1.0/Shanghai/LOCAL_DEV_UNAUTHENTICATED".into(),
+                ));
+            }
+            let selected = crate::rpc::selectors::capture_current_rpc_state(context)?;
+            Ok(Value::String(format!(
+                "EVE/development-0.1.0/Shanghai/{}",
+                crate::rpc::selectors::selected_verification_mode(&selected)
+            )))
         }
         "net_listening" => {
             require_arity(params, 0, 0)?;
@@ -52,6 +72,12 @@ pub(crate) fn dispatch_rpc(
         }
         "eth_syncing" => {
             require_arity(params, 0, 0)?;
+            if matches!(&context.source, crate::rpc::RpcStateSource::Applied { .. }) {
+                return Err(rpc_error(
+                    -32001,
+                    "NOT_READY: independently verified head freshness unknown",
+                ));
+            }
             Ok(Value::Bool(false))
         }
         "net_version"
@@ -60,8 +86,7 @@ pub(crate) fn dispatch_rpc(
         | "eth_gasPrice"
         | "eth_maxPriorityFeePerGas" => {
             require_arity(params, 0, 0)?;
-            let head = read_state_service(&context.service)
-                .map_err(|e| rpc_error(-32000, e.to_string()))?;
+            let head = crate::rpc::selectors::capture_current_rpc_state(context)?;
             match method {
                 "net_version" => Ok(Value::String(
                     head.commit().target.identity.evm_chain_id.to_string(),

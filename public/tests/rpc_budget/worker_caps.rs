@@ -17,10 +17,11 @@ async fn ta05_exact_worker_and_active_caps_reject_and_release_without_state_chan
     assert_eq!(context.proofs.available_permits(), 2);
     assert_eq!(context.histories.available_permits(), 4);
     assert_eq!(context.subscriptions.available_permits(), 256);
-    let head = eve_storage::state::read_state_service(&context.service)
-        .unwrap()
-        .commit()
-        .clone();
+    let head =
+        eve_storage::state::read_state_service(crate::rpc::durable_rpc_source(&context).unwrap().0)
+            .unwrap()
+            .commit()
+            .clone();
     for (semaphore, permits, method, params) in [
         (Arc::clone(&context.active), 128, "eth_chainId", vec![]),
         (
@@ -55,9 +56,11 @@ async fn ta05_exact_worker_and_active_caps_reject_and_release_without_state_chan
         json!("0x7a69")
     );
     assert_eq!(
-        *eve_storage::state::read_state_service(&context.service)
-            .unwrap()
-            .commit(),
+        *eve_storage::state::read_state_service(
+            crate::rpc::durable_rpc_source(&context).unwrap().0
+        )
+        .unwrap()
+        .commit(),
         head
     );
 }

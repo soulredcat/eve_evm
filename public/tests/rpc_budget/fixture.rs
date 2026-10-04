@@ -101,7 +101,7 @@ pub(crate) fn fixture(code: Bytes) -> RpcFixture {
         budget.logical,
         eve_node_policy::ZoneId(1),
     );
-    read_state_service(&context.service).unwrap();
+    read_state_service(crate::rpc::durable_rpc_source(&context).unwrap().0).unwrap();
     RpcFixture {
         context,
         sender,

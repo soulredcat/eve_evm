@@ -6,6 +6,16 @@ version = 1
 package = "eve-node-policy"
 requirements = ["B0.2", "RP08-configuration-subset", "T-N09-registration", "T-N10-registration", "T-N11-registration", "T-N12-registration"]
 tests = [
+    "boundaries::exact_part_queue_count_and_marker_limits_pass_and_one_less_rejects",
+    "boundaries::single_required_nonempty_byte_and_exact_physical_record_limits_are_checked",
+    "boundaries::six_exact_data_segments_fit_and_the_next_byte_requires_forbidden_seventh",
+    "boundaries::stricter_operator_base_is_rejected_instead_of_automatically_enlarged",
+    "capacity::unused_base_allowance_supports_declared_scratch_without_new_memory_pools",
+    "capacity::v1_physical_batch_counter_is_not_an_alias_for_v2_retained_parts",
+    "capacity::v2_derives_three_data_parts_and_one_marker_without_changing_v1_caps",
+    "invalid_configuration::impossible_segment_transaction_age_and_lag_configs_are_rejected",
+    "invalid_configuration::overflow_in_retained_capacity_headers_and_auxiliary_charges_is_rejected",
+    "invalid_configuration::unsupported_versions_and_nonempty_required_limits_fail_closed",
     "freshness_and_verification_precede_speed_and_zone_never_grants_authority",
     "global_bulk_and_ordinary_reservations_bound_total_payload_ram",
     "rejects_wrong_anchor_incomplete_recovery_storage_failure_queue_and_unknown_freshness",

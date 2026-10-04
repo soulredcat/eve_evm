@@ -5,7 +5,7 @@
 use anyhow::{Result, ensure};
 use std::{io::Write, net::TcpStream, time::Instant};
 
-pub(super) fn write_rpc_bytes(
+pub(crate) fn write_rpc_bytes(
     stream: &mut TcpStream,
     deadline: Instant,
     bytes: &[u8],

@@ -34,5 +34,6 @@ pub(super) fn config(root: &Path) -> DevelopmentValidatorConfig {
         acceptance_fixture: None,
         persistent_peers: String::new(),
         zone_id: 1,
+        recovery_query_working_bytes: 64 * 1_048_576,
     }
 }
