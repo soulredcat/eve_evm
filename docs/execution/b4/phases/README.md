@@ -10,9 +10,9 @@ of completed records and draft PRs for unfinished B4 work. No B4 phase currently
 has complete revision-bound local and hosted acceptance; none is marked DONE.
 This document records progress, not permission to resume development.
 
-Current owner instruction on 2026-10-05 resumes collaboration with Claude.
-P1 is ACTIVE on the local integration candidate, with complete verifier selection
-and scoped checks underway. See [current P1 evidence](../phase1/README.md).
+The 2026-10-05 collaboration checkpoint has a complete local P1 PASS: 743 cases
+at clean ca32145. The owner requested pause after that gate. P1 still needs
+hosted acceptance and main integration. See [verified P1 evidence](../phase1/README.md).
 
 ## Review phases and integration order
 
@@ -22,7 +22,7 @@ The PRs are stacked so each dependent diff can be reviewed separately.
 
 | Phase | Draft PR / base | Frozen implementation boundary | Implemented source | Acceptance status |
 |---|---|---|---|---|
-| B4/P1 | [PR #6](https://github.com/soulredcat/eve_evm/pull/6), base main | 5713c18 | Locally anchored native/application history, compact replay, authenticated journal import and charged public RAM modes | Pending complete phase-local and hosted gate coverage |
+| B4/P1 | [PR #6](https://github.com/soulredcat/eve_evm/pull/6), base main | 5713c18 | Locally anchored native/application history, compact replay, authenticated journal import and charged public RAM modes | Complete local743 PASS at ca32145; hosted acceptance/main integration pending |
 | B4/P2 | [PR #7](https://github.com/soulredcat/eve_evm/pull/7), base P1 | 88e7c82 | Bounded segmented recovery/WAL markers, actual public following and protected master archive | Pending P1 and exact-revision runtime/gate verification |
 | B4/P3 | [PR #8](https://github.com/soulredcat/eve_evm/pull/8), base P2 | f10482e plus pause documentation | Resumable checkpoint bootstrap/reopen, real resource admission/pacing, retention/index pressure and broader recovery faults | Component checks pass; complete B4 gate failed before tests; hosted acceptance pending |
 
@@ -70,10 +70,11 @@ Earlier scoped packets are retained in phase source history and PR descriptions.
 
 ## What remains unfinished
 
-P1 needs a complete phase-local gate selecting its new verifier/download tests,
-all inherited core/security/role/structure/ownership cases, exact-revision
-verification and hosted acceptance. Compilation or an inherited green B3 job
-alone does not meet this boundary.
+P1 now has a complete local packet selecting its 85 verifier cases and all
+inherited core/security/role/structure/ownership cases. Hosted acceptance for the
+complete candidate and main integration remain pending. P1 has no download
+client package; that source appears in P2. A green 658-case repair job alone
+cannot certify the complete 743-case P1 boundary.
 
 P2 needs accepted P1, exact-phase public/master CLI catch-up and durable-prefix
 restart/guard fixtures, complete phase-local inventories, local verification and

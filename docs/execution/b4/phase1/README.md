@@ -2,68 +2,91 @@
 <!-- SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only -->
 <!-- Use requires prior written permission from Redcat. -->
 
-# B4 phase 1 collaboration and gate verification
+# B4 phase 1 collaboration and verified local gate
 
-Status on 2026-10-05: ACTIVE, acceptance pending. Codex's integration branch is
-codex/b4-work. It combines Claude's published P1 source a539d04 (including the
-four storage registrations in 7ee93f8) with the reviewed main documentation.
-Claude owns RPC submission changes and the original-versus-fixed node comparison.
-Codex owns complete gate selection, verification, review and final integration.
-No passing phase or complete B4 result is claimed from source review alone.
+Checkpoint on 2026-10-05: PAUSED_BY_OWNER after the complete local P1 gate passed.
+The owner requested stopping at this checkpoint. No P2/P3 development or automatic
+resumption is scheduled. P1 still needs hosted acceptance for its complete coverage
+and main integration before it is DONE.
 
-## Selected phase contract
+## Frozen local acceptance
 
-P1 contains finality verification, compact replay, journal import and charged
-public RAM modes. It has no sync-client or development-fixtures package.
-Its existing finality-verifier-b4.toml group now joins all retained B3 groups.
-The manifest declares 743 unit/integration cases before registered doc tests.
-The existing verify command is retained with an explicit phase profile:
+Command: cargo xtask verify --bulk B3. On this revision its explicit profile is
+CLASSICAL_DEV_B4_P1_AUTHENTICATED_STATE_RETAINING_COMPLETE_B3_NOT_PQ_OR_SECURED_TPS.
+It selects all retained B3 packets plus the existing 85-case finality verifier.
+This is the P1 packet; complete B4 closure remains in P3.
 
-    cargo xtask verify --bulk B3
+| Evidence | Verified result |
+|---|---|
+| Source revision | ca32145a08687687251cbe43f259e3e3687a46e8 |
+| Source before/after | 79e51467cbb59a46706cb72a29e47b0168d97bcb9639943cbc8b19d120118694, unchanged |
+| Working tree at gate start | Clean |
+| Complete local packet | PASS: 743 passed; zero failed/ignored/pending/errors |
+| Selected packages / recorded commands | 15 / 67 |
+| Elapsed time | 2,985.475 seconds, approximately 49.76 minutes |
+| Structure / ownership | 1,930 / 1,964 files checked; zero violations |
+| Tool/compiler identities, format and workspace strict lint | PASS |
+| Client lockfile installation and TypeScript compilation | PASS |
+| Normal/acceptance binaries and workspace release build | PASS |
 
-This is the complete P1 packet retaining B3, not full B4 acceptance. B4 remains
-NOT_IMPLEMENTED on this phase revision. P2 additionally selects its actual sync
-client and verifier inventories. P3 includes the complete B4 closure gate.
-Do not copy later-phase inventories into P1 or omit existing core/security,
-structure, ownership, role, tool/compiler, format, lint or release-build checks.
+Raw evidence is local only: local-tests/verify-198-1791168973478164228/report.json.
+A GitHub clone does not contain that report, generated keys, data or raw output.
+Later pause documentation does not rerun or extend this frozen runtime acceptance.
 
-## Executed checks and current failure
+| Selected package | Passed |
+|---|---:|
+| eve-crypto | 30 |
+| eve-consensus-comet | 59 |
+| eve-evm | 28 |
+| eve-finality-verifier | 85 |
+| eve-master / eve-node-policy / eve-protocol-config | 6 / 6 / 20 |
+| eve-public | 48 |
+| eve-serial-rpc-acceptance | 17 |
+| eve-state / eve-state-recovery-acceptance / eve-storage | 61 / 37 / 60 |
+| eve-validator-consensus-acceptance | 34 |
+| eve-validator with development-acceptance | 103 |
+| xtask | 149 |
 
-The integrator ran pinned Linux test listings with two build jobs. Exact selected
-inventories match: storage60, state61, public48, verifier85, validator103 with
-development-acceptance, and consensus acceptance34. These are inventory results,
-not execution passes. Format checking passed before the compile-fixture repair.
+## Claude repairs and integrator coverage
 
-Nine transaction decoder/admission/observation regressions passed in4.37 seconds.
-They retain code/hash/height/index checks, one-shot admission and late-result
-refusal. Per-request3-second/connect1-second limits remain unchanged; the helper
-now gives the other scenarios an explicit90-second submission-progress budget.
-It uses the existing maintained T-C07 path. Independent certificate/replay and
-scenario-specific consensus/signing assertions remain mandatory.
+The candidate preserves a normal main/Claude history merge. Claude commits
+7ee93f8 and a539d04 register four pre-existing storage prospective-cursor tests
+and use the maintained one-shot admission/exact-block observation path for
+submission scenarios. The integrator selects the omitted verifier group and
+repairs the downstream compile fixture's incompatible state feature identity.
+P1 has no sync-client package; later P2/P3 inventories are not copied into it.
 
-The first full verifier execution failed one compile-time privacy case. It
-expected E0502 (mutating bytes while their borrowed preflight remains live), but
-independently selected state rlibs had different feature identities and produced
-E0308 instead. The expected error and unrelated-error rejection remain mandatory.
-The fixture now infers its budget from the actual verifier API and avoids an
-unneeded independent state dependency. The exact E0502 regression passes and all
-85 verifier cases pass; strict verifier/submission lint passes. Expected-error
-and unrelated-error assertions are unchanged. Complete P1 acceptance is pending.
+The compile fixture still requires E0502 for mutating bytes while their borrowed
+preflight is used. Its budget is inferred from the actual verifier API rather
+than an independently selected incompatible eve_state artifact. Unexpected
+success and unrelated compiler errors remain failures; no production verifier
+logic, test identity or resource/security budget was changed for this repair.
 
-## Timing evidence and remaining work
+The consensus packet passes all 34 cases in 858.23 seconds. Actual T-C05, T-C06
+and T-C09 pass on this candidate, preserving malformed-proposal/nil-vote,
+durable-signature/once-only effects and H/H+1 binding assertions. Public48 passes
+in 312.48 seconds on the retained debug profile. No timed limit was raised.
 
-A commit-waiting RPC can exceed a short request deadline under scheduling or
-consensus delay. Equal3-second propose and request defaults alone do not prove
-the observed failure: startup waits height2 before scenario submission, and a
-complete rejected proposal need not consume the propose timeout. Claude's
-comparative node timings/traces must establish any more specific cause.
+Per-request three-second and connect one-second limits remain unchanged.
+Submission helpers now have an explicit 90-second progress budget for the other
+scenarios. Equal default propose/request timeouts alone do not prove failure
+causation: startup waits height two before submission, and a complete rejected
+proposal need not consume the propose timeout. Code/hash/height/index, exact
+transaction bytes, independent certificate/replay and late-result checks remain.
 
-The compile boundary repair and all 85 verifier cases pass; nine submission
-regressions and 149 tooling cases pass, with strict scoped lint. Mandatory
-structure and ownership checks have zero violations. These are component checks.
-Verify all selected inventories/fixtures,
-freeze a coherent revision, pass the complete local phase packet and hosted
-acceptance, then integrate P1. Apply the accepted changes to dependent phases
-normally without rewriting history. No P2/P3 source or accepted main runtime
-is changed by this local candidate. Root's raw output remains ignored under
-local-tests/b4-phase1-coordination; only reviewed English summaries are published.
+Claude's separately reported two-core comparison and PR #9 CI cover its 658-case
+packet. They are separate evidence and cannot replace the extra 85 verifier
+cases or hosted acceptance at this complete candidate revision.
+
+## Remaining acceptance and pause
+
+Publish the reviewed checkpoint to the P1 draft, require the complete 743-case
+hosted packet at the reviewed source, then integrate P1 into main only when the
+owner resumes. Propagate the accepted base normally into P2 and P3; do not rewrite
+published history. P3 includes full B4 closure; there is no fourth phase.
+All local task-owned gate/build/test/role actors have ended. Unrelated programs
+were preserved. No background watcher or automatic continuation is promised.
+
+This is CLASSICAL_DEV component/consensus evidence, not PQ security-profile,
+standalone role-copy distribution, independent-master replication, hardware
+power-loss, sustained throughput or mainnet acceptance. B4 is not DONE yet.
