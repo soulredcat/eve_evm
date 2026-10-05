@@ -72,7 +72,11 @@ The native result must match the block height, transaction count and index with
 explicit execution code zero. One existing 90-second action-progress budget starts
 before admission and continues through verified history/replay and H+3 progress;
 late success is rejected. Per-RPC three-second and connect one-second limits stay
-unchanged. Other scenarios retain their original bounded broadcast-commit path.
+unchanged. Every other scenario that submits a transaction uses the same one-shot
+admission and observation with its own 90-second budget starting before admission.
+A broadcast-commit request stays open across a failed three-second native proposal
+round and so could outlast the per-RPC limit; the committed-submission cases keep
+covering its shared code, hash and height decoders.
 Block discovery and native result fields do not replace certificates or replay.
 
 Native certificate verification uses the pinned canonical codec, RFC6962 hashes

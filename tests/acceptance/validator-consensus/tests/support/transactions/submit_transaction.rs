@@ -2,15 +2,21 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-use crate::support::{Cluster, rpc::rpc_json};
+use crate::support::Cluster;
 use alloy_primitives::Bytes;
 use anyhow::Result;
-use sha2::{Digest, Sha256};
+use std::time::{Duration, Instant};
+
+/// Submit once through native admission and observe the exact committed execution.
+///
+/// A commit-waiting RPC holds one request open across proposal rounds and can
+/// outlast the unchanged per-RPC limit on a loaded host. Admission and block
+/// observation keep every request short under one 90-second progress budget.
 pub(crate) fn submit_transaction(cluster: &Cluster, node: usize, bytes: &Bytes) -> Result<i64> {
-    let result = rpc_json(
-        cluster.nodes[node].rpc,
-        &format!("/broadcast_tx_commit?tx=0x{}", hex::encode(bytes)),
-    )?;
-    let expected_hash = Sha256::digest(bytes).into();
-    super::decode_committed_submission::decode_committed_submission(&result, &expected_hash)
+    super::submit_transaction_until::submit_transaction_until(
+        cluster,
+        node,
+        bytes,
+        Instant::now() + Duration::from_secs(90),
+    )
 }
