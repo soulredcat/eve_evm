@@ -10,6 +10,7 @@ members = [
     "validator/components/authentication",
     "validator/components/execution",
     "validator/components/consensus-comet",
+    "validator/components/finality-verifier",
     "validator/components/protocol-config",
     "public/components/node-policy",
     "validator/components/state",

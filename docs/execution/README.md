@@ -147,24 +147,16 @@ the repair SHA, and verify hosted CI. Report results separately by exact revisio
 See [development instructions](../development/README.md) for tooling and review.
 B4 foundations are developed separately; they do not close B3 or its prerequisites.
 
-## B4 partial local checkpoint
+## B4 local development
 
-Local-only commit `c6376c5cf5cd6534fa8fd572e291f1e9444c70ab` contains canonical
-validator-owned native history and EVE application-anchor components, plus
-public-owned bounded handoff and a storage-only record worker. It is not pushed
-or integrated; its source is not available from the main branch.
-
-Verified scoped evidence: 15 native signed-history tests, 11 EVE wrapper tests
-and 16 persistence tests pass. The wrapper fixtures execute actual empty Shanghai
-blocks and enforce private capability construction through downstream compiler
-tests. Format/strict scoped Clippy pass; structure checks 1,645 files and ownership
-checks 1,679 files with zero violations.
-
-Missing B4 work includes authenticated recovery envelopes, coherent applied RAM
-views/watermarks, real public/master followers, peer-tail/snapshot recovery and
-integrated resource/fault gates. T-N09/T-N10 and full B4 acceptance remain
-unfinished. An uncompiled RPC draft is preserved in ignored local-only storage.
-
+Local checkpoint `d9c0c0fe84b3bdb3eb98ad5ac8e660dd0d25e11d` implements compact
+replay and bounded empty-block public RAM application. It remains unpublished.
+The next locally verified foundation adds bounded journal decoding and distinct
+H/H+1-authenticated import and explicit public application modes. Live public/master
+follower entry points, large-record and peer recovery remain unfinished.
+See [B4 implementation and exact local checks](b4/README.md) for scope, counts,
+historical checkpoints, resource qualifications and required continuation.
+Full B4, T-N09/T-N10 and hosted acceptance remain unfinished.
 ## Remaining acceptance
 
 | Scope | Status |

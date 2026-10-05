@@ -4,8 +4,23 @@
 
 version = 1
 package = "eve-consensus-comet"
-requirements = ["B0.2","B0.3","SEC0-native-hybrid-incompatibility"]
+requirements = ["B0.2","B0.3","SEC0-native-hybrid-incompatibility","B4-native-history-slice"]
 tests = [
+    "genesis::local_genesis_roster_and_application_anchor_bind_the_first_native_header",
+    "genesis::locally_trusted_header_still_binds_its_full_block_identity_and_successor_set",
+    "genesis::activated_hybrid_history_cannot_be_initialized_with_classical_authority",
+    "continuity::missing_reordered_repeated_and_conflicting_heights_never_advance_history",
+    "continuity::parent_header_hash_and_part_set_identity_are_both_required",
+    "continuity::a_genesis_successor_with_a_non_nil_parent_is_rejected",
+    "continuity::nonincreasing_consensus_time_cannot_advance_history",
+    "continuity::target_part_set_cannot_be_substituted_for_the_certified_full_block_id",
+    "continuity::a_locally_trusted_maximum_height_cannot_wrap_into_a_successor",
+    "transitions::finalize_height_one_set_update_activates_at_header_height_three",
+    "transitions::a_peer_supplied_forged_current_roster_cannot_replace_genesis_trust",
+    "transitions::reordered_roster_or_unsigned_next_set_change_cannot_advance_history",
+    "data_and_quorum::authenticated_header_requires_its_exact_raw_transaction_data",
+    "data_and_quorum::a_quorum_signed_header_with_wrong_data_hash_is_still_rejected",
+    "data_and_quorum::exact_two_thirds_and_corrupt_signatures_do_not_create_verified_history",
     "accepts_ignored_local_artifacts_and_rejects_role_source_location",
     "activated_hybrid_requirement_fails_closed_for_native_engine",
     "actual_pinned_engine_lifecycle_and_next_height_commitment",

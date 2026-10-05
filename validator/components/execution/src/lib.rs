@@ -16,8 +16,8 @@ pub use alloy_eips::eip2930::{AccessList, AccessListItem};
 
 pub use state::{
     CompleteBlockOutcome, CompleteExecutionError, ExecutionBlockInput, PreparedStateBlock,
-    estimate_clone_reservation, execute_complete_state, execute_state_block, from_revm_state,
-    to_revm_state,
+    estimate_clone_reservation, estimate_clone_reservation_ceiling, execute_complete_state,
+    execute_state_block, from_revm_state, to_revm_state,
 };
 
 pub use execution::native::NATIVE_INTERFACE_INACTIVE_REVERT_DATA;

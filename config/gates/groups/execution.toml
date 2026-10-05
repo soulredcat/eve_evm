@@ -6,6 +6,9 @@ version = 1
 package = "eve-evm"
 requirements = ["B0.2", "B2", "T-E01", "T-E02", "T-E03", "T-E04", "T-E05", "T-E06-inactive-boundary"]
 tests = [
+    "exact_parent_counts_match_canonical_clone_ceiling",
+    "clone_ceiling_rejects_each_overflowing_resource_dimension",
+    "default_state_clone_ceiling_exceeds_default_public_working_pool",
     "accepted_typed_envelopes_preserve_pricing_and_access_list_gas",
     "admission_rejects_intrinsic_caps_code_and_upfront_balance_without_execution",
     "admission_uses_shanghai_intrinsic_upfront_and_state_nonce_metadata",

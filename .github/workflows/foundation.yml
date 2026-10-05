@@ -62,7 +62,7 @@ jobs:
             value=$(jq -er --arg key "$key" '.environment[$key]' "$receipt")
             printf '%s=%s\n' "$key" "$value" >> "$GITHUB_ENV"
           done
-      - name: Run complete EVE B3 retaining core foundations and ownership rules
+      - name: Run B4 phase 1 with complete B3 regressions and finality verifier
         shell: bash
         run: cargo xtask verify --bulk B3
 

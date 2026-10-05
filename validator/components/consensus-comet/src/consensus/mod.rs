@@ -7,4 +7,5 @@
 pub mod authentication;
 pub mod certificates;
 pub mod commitments;
+pub mod history;
 pub mod signing;

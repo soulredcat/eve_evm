@@ -4,11 +4,15 @@
 
 # B4 phased checkpoint
 
-Status on 2026-10-04: PAUSED_BY_OWNER. B3 remains the accepted runtime on main
+Checkpoint on 2026-10-04: PAUSED_BY_OWNER. B3 remains the accepted runtime on main
 at c41ba2f351f17ad349efccb1e447e49822480c99. The owner authorized publication
 of completed records and draft PRs for unfinished B4 work. No B4 phase currently
 has complete revision-bound local and hosted acceptance; none is marked DONE.
 This document records progress, not permission to resume development.
+
+Current owner instruction on 2026-10-05 resumes collaboration with Claude.
+P1 is ACTIVE on the local integration candidate, with complete verifier selection
+and scoped checks underway. See [current P1 evidence](../phase1/README.md).
 
 ## Review phases and integration order
 

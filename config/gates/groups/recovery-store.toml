@@ -6,6 +6,10 @@ version = 1
 package = "eve-storage"
 requirements = ["B0.2", "B0.3", "RP08-interface-subset", "B1-complete-local-state"]
 tests = [
+    "prospective_cursor_matches_independent_sha256_vector_without_advancing_store",
+    "prospective_record_chain_matches_synced_append_and_reopen",
+    "prospective_cursor_binds_full_namespace_parent_and_payload_without_parent_authority",
+    "prospective_cursor_checks_encoded_record_boundary_and_sequence_overflow",
     "opaque_complete_older_checkpoint_is_not_a_general_backup_rollback_detector",
     "opaque_content_binding_matches_independent_node_sha256_vectors_and_full_namespace",
     "opaque_database_owner_is_exclusive_across_actual_processes",

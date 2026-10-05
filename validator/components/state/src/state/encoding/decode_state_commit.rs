@@ -3,7 +3,7 @@
 // Use requires prior written permission from Redcat.
 
 use super::{
-    decode_block_payload::decode_block_payload,
+    decode_block_payload_from::decode_block_payload_from,
     decode_complete_state_data::decode_complete_state_data, decode_version::decode_version,
     take_bytes, take_list,
 };
@@ -31,7 +31,7 @@ pub fn decode_state_commit(bytes: &[u8], budget: &StateBudget) -> Result<StateCo
         parent,
         target: decode_version(&mut list)?,
         state: decode_complete_state_data(&mut list, budget)?,
-        block: decode_block_payload(&mut list, budget)?,
+        block: decode_block_payload_from(&mut list, budget)?,
     };
     if !remaining.is_empty() || !list.is_empty() {
         return Err(StateError::MalformedEncoding);

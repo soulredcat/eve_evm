@@ -305,8 +305,8 @@ reason = "Exact reviewed upstream public vector or original legal notice; preser
 
 [[size_reviews]]
 path = "config/structure-policy.toml"
-lines = 346
-reason = "Decomposition reviewed for B3: explicit per-file upstream digests and adapter/generator registrations form one declarative policy contract. Keep auditable exact rows below 400; no glob, source-code exclusion or raised ceiling is introduced. Partition the schema by policy responsibility if further growth requires it."
+lines = 358
+reason = "Decomposition reviewed through the B4 applied-state slice: exact upstream digests and adapter/generator registrations form one declarative policy contract. The new Drop adapter delegates one lease release. Keep auditable exact rows below 400; no glob, source exclusion or raised ceiling. Partition the schema if further growth requires it."
 reviewer = "integrator"
 
 [[adapters]]
@@ -340,7 +340,19 @@ reason = "The destructor delegates only to finish_application_listener for its l
 reviewer = "integrator"
 
 [[adapters]]
+path = "public/src/persistence/handoff/drop_reservation_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "The standard destructor delegates only to the named operation that releases its exact owned handoff reservation."
+reviewer = "integrator"
+
+[[adapters]]
 path = "validator/src/consensus/runtime/supervision/worker/drop.rs"
 external_trait = "std::ops::Drop"
 reason = "The destructor delegates only to handle_channel_worker_drop so an unexpected owned worker termination triggers bounded shutdown."
+reviewer = "integrator"
+
+[[adapters]]
+path = "public/src/sync/applied/resources/drop_estimated_lease_adapter.rs"
+external_trait = "std::ops::Drop"
+reason = "Public-owned estimated working-memory lease delegates release to one operation; retained views preserve its charge until their last owner drops."
 reviewer = "integrator"

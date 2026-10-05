@@ -10,6 +10,10 @@ use super::{
 use anyhow::Result;
 use serde_json::Value;
 
+/// Compose the shared admission and execution decoders over one combined response.
+///
+/// Scenarios submit through admission and observation; this keeps the shared
+/// code, hash and height validators covered against one canonical result shape.
 pub(super) fn decode_committed_submission(result: &Value, expected_hash: &[u8; 32]) -> Result<i64> {
     validate_submission_code(&result["check_tx"], SubmissionStage::CheckTx)?;
     validate_submission_code(&result["tx_result"], SubmissionStage::Execution)?;

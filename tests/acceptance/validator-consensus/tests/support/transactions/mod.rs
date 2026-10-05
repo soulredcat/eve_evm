@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: LicenseRef-Redcat-Permission-Only
 // Use requires prior written permission from Redcat.
 
-mod decode_committed_submission;
 mod decode_observed_height;
 mod ensure_submission_deadline;
 mod locate_submitted_transaction;
@@ -22,6 +21,8 @@ mod wait_for_submission_poll;
 pub(crate) use signed_transaction::signed_transaction;
 pub(crate) use submit_transaction::submit_transaction;
 pub(crate) use submit_transaction_until::submit_transaction_until;
+#[cfg(test)]
+mod decode_committed_submission;
 #[cfg(test)]
 mod observation_decoder_tests;
 #[cfg(test)]

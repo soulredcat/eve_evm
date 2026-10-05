@@ -72,7 +72,15 @@ The native result must match the block height, transaction count and index with
 explicit execution code zero. One existing 90-second action-progress budget starts
 before admission and continues through verified history/replay and H+3 progress;
 late success is rejected. Per-RPC three-second and connect one-second limits stay
-unchanged. Other scenarios retain their original bounded broadcast-commit path.
+unchanged. Every other scenario that submits a transaction uses the same one-shot
+admission and observation with its own 90-second budget starting before admission.
+The former helper had one three-second commit-waiting request; these scenarios
+now receive an explicit 90-second submission-progress budget. A commit-waiting
+RPC can exceed its request deadline under scheduling or consensus delay. Cluster
+startup waits for height two before submission, so equal default propose/RPC
+timeouts alone do not prove the observed failure cause. Comparative timing/native
+trace evidence is required. Committed-submission regressions retain shared
+code, hash and height decoder coverage.
 Block discovery and native result fields do not replace certificates or replay.
 
 Native certificate verification uses the pinned canonical codec, RFC6962 hashes

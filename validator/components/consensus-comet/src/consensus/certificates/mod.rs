@@ -22,7 +22,8 @@ pub use hash_consensus_header::hash_consensus_header;
 pub use hash_transaction_data::hash_transaction_data;
 pub use hash_validator_set::hash_validator_set;
 pub use types::{
-    CertificateError, ClassicalValidator, HistoricalValidatorSet, VerifiedClassicalCommit,
+    CertificateError, ClassicalValidator, HistoricalValidatorSet, MAX_DEVELOPMENT_VALIDATORS,
+    VerifiedClassicalCommit,
 };
 pub use validator_address::validator_address;
 pub use verify_commit_certificate::verify_commit_certificate;

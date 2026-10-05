@@ -4,7 +4,7 @@
 
 version = 1
 id = "B3"
-profile = "CLASSICAL_FOUR_VALIDATOR_BFT_DURABLE_SIGNER_NOT_PQ_OR_SECURED_TPS"
+profile = "CLASSICAL_DEV_B4_P1_AUTHENTICATED_STATE_RETAINING_COMPLETE_B3_NOT_PQ_OR_SECURED_TPS"
 groups = [
     "config/gates/groups/xtask.toml",
     "config/gates/groups/authentication.toml",
@@ -20,6 +20,7 @@ groups = [
     "config/gates/groups/serial-rpc-b2.toml",
     "config/gates/groups/validator-runtime-b3.toml",
     "config/gates/groups/validator-consensus-b3.toml",
+    "config/gates/groups/finality-verifier-b4.toml",
 ]
 required_inputs = [
     "Cargo.lock", "rust-toolchain.toml", "config/tool-pins.toml",

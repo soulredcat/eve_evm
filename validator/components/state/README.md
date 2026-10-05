@@ -177,3 +177,16 @@ canonical tx/receipt payload without reconstructing hot state. It does not estab
 content_digest, execution correctness or source finality. Repository history compares
 these normalized projections with retained canonical records. Full commit validation
 also checks complete roots/history/content, using the same retained-block operation.
+
+## B4 journal admission
+
+`preflight_state_journal` scans canonical borrowed bytes before owned decoding and
+reports operation-vector storage, copied payload counts and estimated codec scratch.
+`decode_state_journal` preserves ordered repeated writes and delete/recreate.
+Aggregate code/system decode ceilings are local policy, distinct from final-state
+cardinality. A same-budget encoder success is not a universal decoder guarantee.
+`estimate_journal_candidate_reservation` counts possible transient growth and
+checks parent identity before measurement. `apply_state_journal_reserved` checks
+the caller's logical charge before cloning, then delegates canonical application.
+The caller holds real leases for inputs, scratch, candidates and captured views;
+numeric parameters do not establish allocator/RSS or finality guarantees.
