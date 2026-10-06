@@ -4,10 +4,10 @@
 
 # B4 phase 1 collaboration and verified local gate
 
-Checkpoint on 2026-10-05: PAUSED_BY_OWNER after the complete local P1 gate passed.
-The owner requested stopping at this checkpoint. No P2/P3 development or automatic
-resumption is scheduled. P1 still needs hosted acceptance for its complete coverage
-and main integration before it is DONE.
+Status on 2026-10-06: P1 DONE for the declared classical development contract.
+The owner resumed after the local checkpoint. Complete local and hosted 743-case
+acceptance is verified, and exact hosted revision 2202dc2 is integrated into main
+by normal fast-forward. P2 follows; complete B4 closure remains in P3.
 
 ## Frozen local acceptance
 
@@ -78,14 +78,24 @@ Claude's separately reported two-core comparison and PR #9 CI cover its 658-case
 packet. They are separate evidence and cannot replace the extra 85 verifier
 cases or hosted acceptance at this complete candidate revision.
 
-## Remaining acceptance and pause
+## Hosted acceptance and main integration
 
-Publish the reviewed checkpoint to the P1 draft, require the complete 743-case
-hosted packet at the reviewed source, then integrate P1 into main only when the
-owner resumes. Propagate the accepted base normally into P2 and P3; do not rewrite
-published history. P3 includes full B4 closure; there is no fourth phase.
-All local task-owned gate/build/test/role actors have ended. Unrelated programs
-were preserved. No background watcher or automatic continuation is promised.
+[Hosted run 37261123941](https://github.com/soulredcat/eve_evm/actions/runs/37261123941)
+succeeds at exact 2202dc2d710f241ec2ae049e5d1a8a2d0755a83b and records PASS743.
+Job 111608388041 passes all required steps through workspace release build.
+The detailed hosted JSON is not uploaded; the maintained runner requires zero
+failures/ignored/pending and unchanged final source to emit PASS. The duplicate
+PR run 37261221907 is CANCELLED and provides no passing evidence.
+Independent source/log review confirms the two README files are the only changes
+from local ca32145 to hosted 2202dc2. This is documented source identity, not a
+separate downloaded hosted JSON assertion.
+Both main and the P1 branch were verified at exact 2202dc2 after normal atomic
+fast-forward. PR10 and Claude PR9 are observed MERGED; phase PR6 is observed CLOSED
+after source integration, not a separate GitHub merge commit.
+
+Propagate this accepted base normally into P2 and P3 without rewriting published
+history. P3 includes full B4 closure; there is no fourth phase. This acceptance
+update is documentation only and does not rerun or broaden the runtime packet.
 
 This is CLASSICAL_DEV component/consensus evidence, not PQ security-profile,
 standalone role-copy distribution, independent-master replication, hardware

@@ -4,15 +4,12 @@
 
 # B4 phased checkpoint
 
-Checkpoint on 2026-10-04: PAUSED_BY_OWNER. B3 remains the accepted runtime on main
-at c41ba2f351f17ad349efccb1e447e49822480c99. The owner authorized publication
-of completed records and draft PRs for unfinished B4 work. No B4 phase currently
-has complete revision-bound local and hosted acceptance; none is marked DONE.
-This document records progress, not permission to resume development.
-
-The 2026-10-05 collaboration checkpoint has a complete local P1 PASS: 743 cases
-at clean ca32145. The owner requested pause after that gate. P1 still needs
-hosted acceptance and main integration. See [verified P1 evidence](../phase1/README.md).
+Status on 2026-10-06: ACTIVE after owner resume. P1 is DONE for its classical
+development contract: local743 and hosted743 pass, exact accepted 2202dc2 is
+integrated into main. P2 is next; P3 contains complete B4 closure. B4 is not DONE.
+See [accepted P1 evidence](../phase1/README.md) for revisions, hosted run, cancelled
+duplicate and profile limits. Historical pause/checkpoint facts remain in source
+history; they do not override this resumed state.
 
 ## Review phases and integration order
 
@@ -22,7 +19,7 @@ The PRs are stacked so each dependent diff can be reviewed separately.
 
 | Phase | Draft PR / base | Frozen implementation boundary | Implemented source | Acceptance status |
 |---|---|---|---|---|
-| B4/P1 | [PR #6](https://github.com/soulredcat/eve_evm/pull/6), base main | 5713c18 | Locally anchored native/application history, compact replay, authenticated journal import and charged public RAM modes | Complete local743 PASS at ca32145; hosted acceptance/main integration pending |
+| B4/P1 | [PR #6](https://github.com/soulredcat/eve_evm/pull/6), source integrated; [PR #10](https://github.com/soulredcat/eve_evm/pull/10) merged | 2202dc2 | Locally anchored native/application history, compact replay, authenticated journal import and charged public RAM modes | DONE: local743/hosted743; exact2202dc2 integrated into main |
 | B4/P2 | [PR #7](https://github.com/soulredcat/eve_evm/pull/7), base P1 | 88e7c82 | Bounded segmented recovery/WAL markers, actual public following and protected master archive | Pending P1 and exact-revision runtime/gate verification |
 | B4/P3 | [PR #8](https://github.com/soulredcat/eve_evm/pull/8), base P2 | f10482e plus pause documentation | Resumable checkpoint bootstrap/reopen, real resource admission/pacing, retention/index pressure and broader recovery faults | Component checks pass; complete B4 gate failed before tests; hosted acceptance pending |
 
@@ -70,13 +67,12 @@ Earlier scoped packets are retained in phase source history and PR descriptions.
 
 ## What remains unfinished
 
-P1 now has a complete local packet selecting its 85 verifier cases and all
-inherited core/security/role/structure/ownership cases. Hosted acceptance for the
-complete candidate and main integration remain pending. P1 has no download
-client package; that source appears in P2. A green 658-case repair job alone
-cannot certify the complete 743-case P1 boundary.
+P1 is accepted with 85 verifier cases and all retained B3/core/security/role gates.
+Its complete 743-case local/hosted packet is integrated. P1 has no download client;
+that package appears in P2. Claude's 658-case repair result was not substituted
+for complete 743-case acceptance.
 
-P2 needs accepted P1, exact-phase public/master CLI catch-up and durable-prefix
+P2 has accepted P1 available and needs exact-phase public/master CLI catch-up and durable-prefix
 restart/guard fixtures, complete phase-local inventories, local verification and
 hosted acceptance. Later combined-candidate CLI results remain separately scoped.
 
